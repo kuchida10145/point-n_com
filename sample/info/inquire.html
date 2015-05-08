@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ポイント.com</title>
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width, maximum-scale=1.0">
+<!--フォントアイコンの設定-->
+<link rel="stylesheet" href="../css/fontello/css/fontello.css">
+<link rel="stylesheet" href="../css/fontello/css/animation.css">
+<!--[if IE 7]><link rel="stylesheet" href="/css/fontello/css/fontello-ie7.css"><![endif]-->
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+
+<link href="../css/base.css" rel="stylesheet" type="text/css" />
+<link href="../css/layout.css" rel="stylesheet" type="text/css" />
+<link href="../css/print.css" rel="stylesheet" type="text/css" media="print" />
+
+<!--[if lte IE 9]>
+<script src="/js/html5.js"></script>
+<script src="/js/css3-mediaqueries.js"></script>
+<![endif]-->
+
+
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/obj.js"></script>
+<script type="text/javascript" src="../js/font-size.js"></script>
+<script type="text/javascript" src="../js/smooth.pack.js"></script>
+<script type="text/javascript" src="../js/acc.js"></script>
+
+<!--スライドメニュー-->
+<script src="../js/sidr/jquery.sidr.min.js"></script>
+<link rel="stylesheet" href="../js/sidr/jquery.sidr.light.css">
+
+<!--datepicker -->
+<link href="../js/calendar/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<script src="../js/calendar/jquery-ui.min.js"></script>
+<script src="../js/calendar/jquery.ui.core.min.js"></script>
+<script src="../js/calendar/jquery.ui.datepicker.min.js"></script>
+<script src="../js/calendar/jquery.ui.datepicker-ja.min.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    $('#date_from').datepicker({
+        dateFormat: 'yy-mm-dd',//年月日の並びを変更
+    });
+	$('#date_return').datepicker({
+        dateFormat: 'yy-mm-dd',//年月日の並びを変更
+    });
+});
+</script>
+
+
+
+</head>
+<body id="register">
+<!--全体-->
+<div id="wrap">
+<a name="top" id="top"></a>
+
+
+<!--ヘッダ-->
+<div id="header" class="clearfix">
+<h1><a href="../index.html">ポイント.com</a></h1>
+
+
+<!--ヘッドメニュー-->
+<div id="headmenu">
+<ul>
+<li id="hm1"><a href="/sample/store/favorite.html" class="accordion_search"><span class="icon-star"></span>お気に入り</a></li>
+<li id="hm2"><a href="/sample/member/login.html" class="accordion_btn"><span class="icon-lock-filled"></span>ログイン</a></li>
+<li id="hm2"><a class="right-menu" href="#right-menu"><span class="icon-menu"></span>メニュー</a></li>
+</ul>
+<hr class="none" />
+</div>
+<!--/ヘッドメニュー-->
+
+</div>
+<!--ヘッダ--><!--メイン全体-->
+<div id="mainbodywrap">
+<!--ページメイン部分-->
+<div id="mainbody" class="clearfix">
+<div class="titlebox">
+<h2>お問い合わせ</h2>
+</div>
+<!--コンテンツ-->
+<div class="contents">
+
+<h3>都道府県</h3>
+<p>
+<select name="select" id="select">
+<option>選択してください</option>
+<option>北海道</option>
+<option>青森</option>
+<option>岩手</option>
+<option>宮城</option>
+<option>秋田</option>
+<option>山形</option>
+<option>福島</option>
+<option>茨城</option>
+<option>栃木</option>
+<option>群馬</option>
+<option>埼玉</option>
+<option>千葉</option>
+<option>東京</option>
+<option>神奈川</option>
+<option>新潟</option>
+<option>富山</option>
+<option>石川</option>
+<option>福井</option>
+<option>山梨</option>
+<option>長野</option>
+<option>岐阜</option>
+<option>静岡</option>
+<option>愛知</option>
+<option>三重</option>
+<option>滋賀</option>
+<option>京都</option>
+<option>大阪</option>
+<option>兵庫</option>
+<option>奈良</option>
+<option>和歌山</option>
+<option>鳥取</option>
+<option>島根</option>
+<option>岡山</option>
+<option>広島</option>
+<option>山口</option>
+<option>徳島</option>
+<option>香川</option>
+<option>愛媛</option>
+<option>高知</option>
+<option>福岡</option>
+<option>佐賀</option>
+<option>長崎</option>
+<option>熊本</option>
+<option>大分</option>
+<option>宮崎</option>
+<option>鹿児島</option>
+<option>沖縄</option>
+</select>
+</p>
+
+<h3>お問い合わせ内容</h3>
+<p><textarea name="textfield2" style="width:90%" cols="" rows="5"></textarea>
+</p>
+
+
+<p><a href="inquire_check.html" class="linkbtn block alncenter">確認画面へ</a></p>
+
+
+
+</div>
+<!--/コンテンツ-->
+
+<div id="footer">
+<address>
+Copyright 2015 POINT.COM All Rights Reserved
+</address>
+</div>
+
+</div>
+<!--/ページメイン部分-->
+</div>
+<!--/メイン全体-->
+
+
+</div>
+
+<!--/全体-->
+
+
+<div id="sidr-right">
+<!-- Your content -->
+<a class="right-menu sideclose" href="#right-menu">× 閉じる</a>
+
+<ul>
+<li><a href="../member/re_new_pw.html">パスワード変更</a></li>
+<li><a href="point_list.html">ポイント利用履歴</a></li>
+<li><a href="oshirase_list.html">POINT.COMからのお知らせ</a></li>
+<li><a href="site.html">本サイトとは</a></li>
+<li><a href="guide.html">利用ガイド</a></li>
+<li><a href="question.html">よくある質問</a></li>
+<li><a href="inquire.html">お問い合わせ</a></li>
+<li><a href="storeadmin.html">店舗運営の方へ</a></li>
+<li><a href="gaiyou.html">会社概要</a></li>
+<li><a href="kitei.html">ご利用規定</a></li>
+<li><a href="taikai.html">退会申請</a></li>
+</ul>
+
+</div>
+
+
+</body>
+</html>

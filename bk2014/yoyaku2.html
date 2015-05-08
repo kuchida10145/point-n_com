@@ -1,0 +1,264 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="content-script-type" content="text/javascript">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="css/common/general.css" type="text/css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/smartphone.js"></script>
+<title>予約確認画面</title>
+<style type="text/css">
+select {
+    padding: 5px 10px;
+    font-size: 1.2em;
+    // 背景色を黒に指定
+    background-color: #000;
+    // 文字色を白に指定
+    color: #fff;
+}
+
+input {
+    padding: 5px 10px;
+    font-size: 1.2em;
+    // 背景色を黒に指定
+    background-color: #000;
+    // 文字色を白に指定
+    color: #fff;
+    // submitボタンのを枠を非表示にする
+    border-style: none;
+}
+
+</style>
+</head>
+<body>
+<center>
+<h2 style="font-size: 18px"><font color="red"><img src="head.jpg" alt="" width="319" height="81" align="absmiddle"/></font></h2>
+</center>
+<table border="0" align="center" cellpadding="5" cellspacing="5" width="479">
+  <tbody>
+    <tr>
+      <td bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong><span style="font-size: 18px">現在の保持ポイント</span></strong></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFFFF" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong><span style="font-size: 20px">20,000ポイント</span></strong></td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; color: #10F9AD;"><strong><font color="red">今回の獲得</font></strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong><font color="red" style="font-size: 18px">15,000ポイント</font></strong></td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong><span style="font-size: 18px">店　　名</span></strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong><font color="red">メイドクラブ錦</font></strong></td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>来店人数</strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><label for="select2"></label>
+        <select name="select2" size="1" id="select2">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15～">15</option>
+      </select>
+      名</td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>利用日時</strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><label>
+									<select name="_予約日時（月）" size="1" onfocus="activefocus(this)" onblur="keepField(this.form.id),lostfocus(this)">
+										<option>----</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8" selected>8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+									</select>
+									月      </label>
+			<label>
+									<select name="_予約日時（日）" onblur="keepField(this.form.id),lostfocus(this)" onfocus="activefocus(this)">
+										<option>-----</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="15">15</option>
+										<option value="16">16</option>
+										<option value="17">17</option>
+										<option value="18">18</option>
+										<option value="19">19</option>
+										<option value="20">20</option>
+										<option value="21">21</option>
+										<option value="22">22</option>
+										<option value="23" selected>23</option>
+										<option value="24">24</option>
+										<option value="25">25</option>
+										<option value="26">26</option>
+										<option value="27">27</option>
+										<option value="28">28</option>
+										<option value="29">29</option>
+										<option value="30">30</option>
+										<option value="31">31</option>
+									</select> 日      </label>
+									<br />
+								 <select name="_予約日時（時）" onblur="keepField(this.form.id),lostfocus(this)" onfocus="activefocus(this)">
+								<option>----</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								 </select>
+							時
+							 <select name="_予約日時（分）" onblur="keepField(this.form.id),lostfocus(this)" onfocus="activefocus(this)">
+								<option>----</option>
+								<option value="00">00</option>
+								<option value="15">15</option>
+								<option value="30">30</option>
+								<option value="45">45</option>
+							 </select>
+	  分～</td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>利用コース</strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><label>
+        <select name="_ご利用コース" id="select">
+          <option selected="selected">コース選択</option>
+          <option>カラオケセット</option>
+          <option>屋外撮影会コース</option>
+          <option>大須観光ツアー</option>
+          <option>メイドさん体験</option>
+          <option>お試し30分</option>
+          <option>通常30分</option>
+          <option>通常45分</option>
+          <option>通常60分</option>
+          <option>通常90分</option>
+          <option>通常120分</option>
+          <option>通常150分</option>
+          <option>通常180分</option>
+          <option>通常210分</option>
+          <option>通常240分</option>
+          <option>通常270分</option>
+          <option>通常300分</option>
+          <option>通常360分</option>
+          <option>通常390分</option>
+          <option>通常420分</option>
+          <option>通常450分</option>
+          <option>通常480分</option>
+          <option>通常510分</option>
+          <option>通常540分</option>
+          <option>通常570分</option>
+          <option>通常600分</option>
+          <option>通常660分</option>
+          <option>通常690分</option>
+          <option>通常720分</option>
+          </select>
+      </label></td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>支払いに利用</strong><strong>するポイント</strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><p>
+        <select name="利用ポイント" id="select">
+          <option selected="selected">利用ポイントを選択</option>
+          <option>1000</option>
+          <option>2000</option>
+          <option>3000</option>
+          <option>4000</option>
+          <option>5000</option>
+          <option>6000</option>
+          <option>7000</option>
+          <option>8000</option>
+          <option>9000</option>
+          <option>10000</option>
+          <option>15000</option>
+          <option>20000</option>
+          <option>25000</option>
+          <option>30000</option>
+          <option>35000</option>
+          <option>40000</option>
+          <option>45000</option>
+          <option>50000</option>
+        </select>
+      </p></td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>支払合計</strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><input type="number" name="number2" id="number2">
+      円</td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif; font-size: 10px;">支払合計はコース料金からポイント利用分を引いた金額です。</td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>
+        <label for="textfield2">予約名(必須)</label>
+      </strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><input type="text" name="textfield" id="textfield">
+      様</td>
+    </tr>
+    <tr>
+      <td nowrap bgcolor="#CBF1E0" style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><strong>予約電話番号(必須) </strong></td>
+    </tr>
+    <tr>
+      <td style="font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif"><input type="text" name="textfield" id="textfield"></td>
+    </tr>
+    <tr>
+      <td style="font-size: 10px">説明書きを入れる予定ですが、テキストが未定</td>
+    </tr>
+  </tbody>
+</table>
+<center>
+  <span style="font-size: 20px; font-style: normal; font-weight: bold; text-align: center;">
+<input type="submit" name="確認の上送信" id="確認の上送信" title="確認の上送信" value="確認画面へ">
+<input type="reset" value="やり直す">
+</span>
+</center>
+</body>
+</html>
