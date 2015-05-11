@@ -11,11 +11,10 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-	
 		<div class="container-fluid-full">
 		<div class="row-fluid">
         <!-- start: Main Menu -->
-		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>	
+		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>
 		<!-- end: Main Menu -->
 			<noscript>
 				<div class="alert alert-block span10">
@@ -23,26 +22,21 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
 				<ul class="breadcrumb">
 					<li>
 						<i class="icon-home"></i>
-						<a href="index.php">Home</a> 
+						<a href="index.php">Home</a>
 						<i class="icon-angle-right"></i>
 					</li>
 					<li><a href="#"><?php echo $page_title;?></a></li>
 				</ul>
-
-				
-				<h1><?php echo $page_title;?></h1>           
- 
+				<h1><?php echo $page_title;?></h1>
 				<?php echo $system_message;?>
-				
 				<!-- 検索フォーム-->
-				<div class="row-fluid">	
+				<div class="row-fluid">
 					<div class="box span12">
 						<div class="box-header" data-original-title>
 							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
@@ -65,8 +59,7 @@
 					</div><!--/span-->
 				</div><!--/row-->
 				<!-- /検索フォーム -->
-	
-				<div class="row-fluid">	
+				<div class="row-fluid">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
 						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>アカウント一覧</h2>
@@ -86,7 +79,7 @@
 							<th>権限</th>
 							<th>&nbsp;</th>
 						</tr>
-						</thead>   
+						</thead>
 						<tbody>
 						<?php foreach($list as $accout_data):?>
 						<tr>
@@ -102,25 +95,16 @@
 						<?php endforeach;?>
 						</tbody>
 						</table>
-						
-						
 						<?php echo $pager_html;?>
 						<?php endif;?>
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-				
-				
-
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-			
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-		
-	
-	
 	<div class="clearfix"></div>
 	<footer>
 		<p>
@@ -130,11 +114,8 @@
 	<!-- start: JavaScript-->
 	<?php include_once dirname(__FILE__).'/../common/footer_javascript.php';?>
 	<!-- end: JavaScript-->
-	
-	
 	<!-- start:一覧画面共通処理 -->
 	<?php include_once dirname(__FILE__).'/../common/list_common.php';?>
-	<!-- end:一覧画面共通処理
-
+	<!-- end:一覧画面共通処理 -->
 </body>
 </html>
