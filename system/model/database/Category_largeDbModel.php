@@ -10,7 +10,10 @@ class Category_largeDbModel extends DbModel{
 		return array(
 			'category_large_id',
 			'category_large_name',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg'
 		);
 	}
 }

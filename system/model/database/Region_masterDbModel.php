@@ -11,7 +11,10 @@ class Region_masterDbModel extends DbModel{
 		return array(
 			'region_id',
 			'region_name',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg',
 		);
 	}
 }

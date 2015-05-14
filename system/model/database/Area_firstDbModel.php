@@ -12,7 +12,10 @@ class Area_firstDbModel extends DbModel{
 			'region_id',
 			'prefectures_id',
 			'area_first_name',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg',
 		);
 	}
 

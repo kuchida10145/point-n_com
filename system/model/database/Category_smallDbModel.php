@@ -11,7 +11,10 @@ class Category_smallDbModel extends DbModel{
 			'category_small_id',
 			'category_midium_id',
 			'category_small_name',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg'
 		);
 	}
 }

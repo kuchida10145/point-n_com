@@ -11,7 +11,7 @@ class Autologin_accountDbModel extends DbModel{
 			'login_key',
 			'account_id',
 			'limit_date',
-			'delete_flg'
+			'delete_flg',
 		);
 	}
 }

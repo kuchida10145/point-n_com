@@ -51,10 +51,10 @@ class StoreDbModel extends DbModel{
 			'representative_mei',
 			'representative_email',
 			'reserved_email',
+			'latest_login_date',
 			'regist_date',
 			'update_date',
-			'latest_login_date',
-			'delete_flg'
+			'delete_flg',
 
 
 		);

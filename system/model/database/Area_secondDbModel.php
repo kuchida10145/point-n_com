@@ -11,7 +11,10 @@ class Area_secondDbModel extends DbModel{
 			'area_first_id',
 			'area_second_name',
 			'delivery',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg',
 		);
 	}
 

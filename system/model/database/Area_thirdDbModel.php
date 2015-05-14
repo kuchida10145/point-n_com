@@ -10,7 +10,10 @@ class Area_thirdDbModel extends DbModel{
 			'area_third_id',
 			'area_second_id',
 			'area_third_name',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg',
 		);
 	}
 }

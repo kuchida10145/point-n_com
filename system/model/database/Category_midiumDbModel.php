@@ -13,7 +13,10 @@ class Category_midiumDbModel extends DbModel{
 			'region_id',
 			'category_midium_name',
 			'delivery',
-			'rank'
+			'rank',
+			'regist_date',
+			'update_date',
+			'delete_flg'
 		);
 	}
 }

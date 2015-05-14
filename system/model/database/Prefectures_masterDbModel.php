@@ -11,7 +11,11 @@ class Prefectures_masterDbModel extends DbModel{
 		return array(
 			'prefectures_id',
 			'region_id',
-			'prefectures_name'
+			'prefectures_name',
+			'prefectures_code',
+			'regist_date',
+			'update_date',
+			'delete_flg',
 		);
 	}
 }
