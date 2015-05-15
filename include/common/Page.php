@@ -7,7 +7,7 @@ include_once dirname(__FILE__).'/../../system/Management.php';
 
 abstract class Page{
 
-	/* @var Management */
+	/** @var Management */
 	protected $manager   = NULL;
 
 	/* デバイス pc,sp*/
@@ -31,8 +31,8 @@ abstract class Page{
 		$this->manager = Management::getInstance();
 		$this->manager->setHelper('data');
 		$this->manager->setHelper('validation');
-		$this->device = $this->manager->device->getDevice();
-
+		//$this->device = $this->manager->device->getDevice();
+		$this->device = 'sp';
 	}
 
 	/**
