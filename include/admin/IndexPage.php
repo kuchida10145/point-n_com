@@ -93,6 +93,7 @@ class IndexPage extends AdminPage{
 				//ログイン処理
 				if($res = $this->manager->db_manager->get('account')->login(getPost('login_id'),getPost('login_password'))){
 					$this->setAccount($res);
+					$this->setAutoLogin($res['account_id'],getPost('auto_login'));
 					redirect('index.php');
 					exit();
 				}
@@ -115,6 +116,8 @@ class IndexPage extends AdminPage{
 	 */
 	protected function logoutAction(){
 		$this->clearAccountSession();
+		$this->manager->setCore('cookie');
+		$this->manager->cookie->delete('autologin_store');
 		redirect('index.php');
 	}
 

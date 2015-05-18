@@ -92,6 +92,7 @@ class IndexPage extends MaintenancePage{
 				//ログイン処理
 				if($res = $this->manager->db_manager->get('store')->login(getPost('login_id'),getPost('login_password'))){
 					$this->setAccount($res);
+					$this->setAutoLogin($res['store_id'],getPost('auto_login'));
 					redirect('index.php');
 					exit();
 				}
@@ -114,6 +115,8 @@ class IndexPage extends MaintenancePage{
 	 */
 	protected function logoutAction(){
 		$this->clearAccountSession();
+		$this->manager->setCore('cookie');
+		$this->manager->cookie->delete('autologin_store');
 		redirect('index.php');
 	}
 
