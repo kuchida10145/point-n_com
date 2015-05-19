@@ -42,8 +42,9 @@
 <input type="text" name="password" style="width:95%;" />
 </p>
 <p class="alncenter">
-<input type="checkbox" name="checkbox" id="checkbox" />
-パスワードを保存する
+	<label>
+<input type="checkbox" type="checkbox" id="remember" value="1" name="auto_login" />
+パスワードを保存する</label>
 </p>
 </form>
 

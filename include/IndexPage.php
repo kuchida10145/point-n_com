@@ -53,6 +53,7 @@ class IndexPage extends Page{
 				//データの存在チェック＋ログイン処理
 				if($res = $this->manager->db_manager->get('user')->login($post['email'],$post['password'])){
 					$this->setAccount($res);
+					$this->setAutoLogin($res['user_id'],getPost('auto_login'));
 					redirect('/');
 				}
 			}
