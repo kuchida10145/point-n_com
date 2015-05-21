@@ -42,6 +42,34 @@ class ReservedDbModel extends DbModel{
 	 *
 	 *==========================================================================================*/
 
+	/**
+	 * ポイント取得合計
+	 * @param array $get
+	 * @return int
+	 */
+	public function adminGetPointCnt($get=array()){
+		$sql = $this->adminClaimSearchSqlBase($get);
+		$sql = str_replace("##field##",' sum(reserved.get_point) as get_point ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['get_point'];
+		}
+		return 0;
+	}
+	
+	/**
+	 * ポイント利用合計
+	 * @param array $get
+	 * @return int
+	 */
+	public function adminUsePointCnt($get=array()){
+		$sql = $this->adminClaimSearchSqlBase($get);
+		$sql = str_replace("##field##",' sum(reserved.use_point) as use_point ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['use_point'];
+		}
+		return 0;
+	}
+	
 
 	/**
 	 * 検索結果最大取得件数（管理者用）
@@ -146,6 +174,35 @@ class ReservedDbModel extends DbModel{
 	 *
 	 *==========================================================================================*/
 
+	/**
+	 * ポイント取得合計
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	public function maintenanceGetPointCnt($id,$get=array()){
+		$sql = $this->maintenanceClaimSearchSqlBase($id,$get);
+		$sql = str_replace("##field##",' sum(reserved.get_point) as get_point ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['get_point'];
+		}
+		return 0;
+	}
+	
+	/**
+	 * ポイント利用合計
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	public function maintenanceUsePointCnt($id,$get=array()){
+		$sql = $this->maintenanceClaimSearchSqlBase($id,$get);
+		$sql = str_replace("##field##",' sum(reserved.use_point) as use_point ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['use_point'];
+		}
+		return 0;
+	}
 
 	/**
 	 * 検索結果最大取得件数（店舗用）
@@ -172,8 +229,8 @@ class ReservedDbModel extends DbModel{
 	 * @return array:
 	 */
 	public function maintenanceClaimSearch($id,$get,$limit,$order){
-		$sql = $this->maintenanceClaimSearchSqlBase($get);
-		$sql = str_replace("##field##",$this->getFieldText(), $sql);
+		$sql = $this->maintenanceClaimSearchSqlBase($id,$get);
+		$sql = str_replace("##field##","reserved_id,use_date,store_name,reserved.user_id,user.email,reserved_name,course_name,coupon_name,get_point,use_point", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}
@@ -189,7 +246,7 @@ class ReservedDbModel extends DbModel{
 	protected function maintenanceClaimSearchSqlBase($id,$get){
 		//フィールドは各メソッド内で変換
 		$where = $this->maintenanceClaimSearchWhere($id,$get);
-		$sql = "SELECT ##field## FROM {$this->table} {$where}";
+		$sql = "SELECT ##field## FROM {$this->table},store,user  {$where}";
 		return $sql;
 	}
 
@@ -203,7 +260,7 @@ class ReservedDbModel extends DbModel{
 	protected function maintenanceClaimSearchWhere($id,$get){
 		$where = "";
 		
-		$wheres[] = " reserved.del_flg = 0 ";
+		$wheres[] = " reserved.delete_flg = 0 ";
 		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.store_id = store.store_id ";
 		$wheres[] = " reserved.status_id = 2 ";

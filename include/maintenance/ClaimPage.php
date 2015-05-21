@@ -3,9 +3,9 @@
  * 管理
  *
  */
-include_once dirname(__FILE__).'/../common/AdminPage.php';
+include_once dirname(__FILE__).'/../common/MaintenancePage.php';
 
-class ClaimPage extends AdminPage{
+class ClaimPage extends MaintenancePage{
 
 	protected $id = 0;/* ID */
 	protected $use_table   = 'claim';
@@ -13,12 +13,14 @@ class ClaimPage extends AdminPage{
 	protected $use_confirm = true;
 	protected $page_title = '請求管理';
 
-
+	
 	/**
 	 * 一覧ページ
 	 *
 	 */
 	protected function indexAction(){
+		$account = $this->getAccount();
+		$account_id = getParam($account,'store_id');
 		$pager_html = '';
 		$get        = $_GET;
 		$list       = array();
@@ -30,11 +32,11 @@ class ClaimPage extends AdminPage{
 		$limit = $this->manager->db_manager->get('reserved')->createLimit(getGet('page'),$this->page_cnt);
 
 		//最大件数取得
-		$max_cnt = $this->manager->db_manager->get('reserved')->adminClaimSearchMaxCnt($get);
+		$max_cnt = $this->manager->db_manager->get('reserved')->maintenanceClaimSearchMaxCnt($account_id,$get);
 
 		//リスト取得
 		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get('reserved')->adminClaimSearch($get,$limit,$this->order);
+			$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($account_id,$get,$limit,$this->order);
 		}
 
 
@@ -44,17 +46,16 @@ class ClaimPage extends AdminPage{
 
 		//タイトル
 		$get_param = $_GET;
+		$point     = 0;
 		if(getGet('coupon') == 1){
 			$this->page_type_text = 'クーポン発行';
 			unset($get_param['coupon']);
-			$point = $this->manager->db_manager->get('reserved')->adminGetPointCnt($get);
+			$point = $this->manager->db_manager->get('reserved')->maintenanceGetPointCnt($account_id,$get);
 		}
 		else{
 			$this->page_type_text = 'ポイント利用';
-			$point = $this->manager->db_manager->get('reserved')->adminUsePointCnt($get);
+			$point = $this->manager->db_manager->get('reserved')->maintenanceUsePointCnt($account_id,$get);
 		}
-		
-		
 
 		//ページャ生成
 		$pager_param['per_cnt'] = $this->page_cnt;
@@ -66,12 +67,14 @@ class ClaimPage extends AdminPage{
 		$data['list']           = $list;
 		$data['pager_html']     = $pager_html;
 		$data['page_title']     =$this->page_title;
+		$data['point']          = number_format($point);
 		$data['page_type_text'] =$this->page_type_text;
 		$data['system_message'] = $system_message;
-		$data['point']          = number_format($point);
 		$data['get_query'] = http_build_query($get_param);
 		$this->loadView('index', $data);
 	}
+	
+
 	
 	/**
 	 * ＤＢデータから一覧用データへ変換
@@ -90,7 +93,6 @@ class ClaimPage extends AdminPage{
 	}
 	
 	
-	
 	//入力画面は使わせない
 	public function editAction() {
 		$this->errorPage();
@@ -105,7 +107,7 @@ class ClaimPage extends AdminPage{
 	 * CSVダウンロード
 	 */
 	public function csvAction(){
-		$list    = $this->manager->db_manager->get('reserved')->adminClaimSearch($_GET,"",$this->order);
+		$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($_GET,"",$this->order);
 		
 		$fields = array(
 			'予約No.',

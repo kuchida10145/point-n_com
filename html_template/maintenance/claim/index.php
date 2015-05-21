@@ -47,26 +47,7 @@
 						</div>
 						<div class="box-content">
 							<form class="form-horizontal" method="get" action="">
-								<div class="control-group">
-									<label class="control-label" for="selectError3">業種</label>
-									<div class="controls">
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="1" type="checkbox" <?php echo _check_checked(1, getGet('type_of_industry_id'));?>></span> 店舗型風俗
-										</label>
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('type_of_industry_id'));?>></span> 無店舗型風俗
-										</label>
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホストその他
-										</label>
-									</div>
-								</div>
-								<div class="control-group">
-									<label class="control-label" for="typeahead">店舗名</label>
-									<div class="controls">
-										<input placeholder="" value="<?php echo escapeHtml(getGet('store_name'));?>" name="store_name" id="input" type="text">
-									</div>
-								</div>
+								
 								<div class="control-group">
 									<label class="control-label" for="date01">日付</label>
 									<div class="controls">

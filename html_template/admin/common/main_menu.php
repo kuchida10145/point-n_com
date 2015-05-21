@@ -8,7 +8,7 @@
 			<li><a href="news.php"><i class="icon-list-alt"></i><span class="hidden-tablet">今日のニュース管理</span></a></li>
 			<li><a href="notice.php"><i class="icon-bullhorn"></i><span class="hidden-tablet">お知らせ情報管理</span></a></li>
 			<li><a href="user.php"><i class="icon-user"></i><span class="hidden-tablet">ユーザー管理</span></a></li>
-			<li><a href="request_point.php"><i class="icon-edit"></i><span class="hidden-tablet">請求処理</span></a></li>
+			<li><a href="claim.php"><i class="icon-edit"></i><span class="hidden-tablet">請求処理</span></a></li>
             <li><a href="account.php"><i class="icon-user"></i><span class="hidden-tablet">アカウント管理</span></a></li>	
         </ul>
 	</div>
