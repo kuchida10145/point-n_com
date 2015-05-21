@@ -10,7 +10,7 @@
  *----------------------------------------------------------*/
 /**
  * アカウント（管理者）ステータス
- * 
+ *
  * @return array
  */
 function account_status(){
@@ -21,7 +21,7 @@ function account_status(){
 }
 /**
  * アカウント（管理者）ステータス ラベル
- * 
+ *
  * @return array
  */
 function account_status_label(){
@@ -34,7 +34,7 @@ function account_status_label(){
 
 /**
  * 会員ステータス
- * 
+ *
  * @return array
  */
 function user_status(){
@@ -46,7 +46,7 @@ function user_status(){
 }
 /**
  * 会員ステータス ラベル
- * 
+ *
  * @return array
  */
 function user_status_label(){
@@ -57,7 +57,30 @@ function user_status_label(){
 	);
 }
 
+/**
+ * コースステータス ラベル
+ *
+ * @return array
+ */
+function course_status_label(){
+	return array(
+			0=>'<span class="label label-large label-danger">無効</span>',
+			1=>'<span class="label label-large label-success">有効</span>',
+	);
+}
 
+/**
+ * ポイント種類
+ *
+ * @return array
+ */
+function point_kind(){
+	return array(
+			1=>'通常',
+			2=>'イベント',
+			3=>'特別',
+	);
+}
 
 
 /*-----------------------------------------------------------
