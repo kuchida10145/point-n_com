@@ -60,6 +60,18 @@ class StoreDbModel extends DbModel{
 		);
 	}
 	
+	/**
+	 * ログインIDに該当するデータを取得する
+	 *
+	 * @param string $login_id
+	 * @return array
+	 */
+	public function findByLoginId($login_id){
+		$field = $this->getFieldText();
+		$login_id = $this->escape_string($login_id);
+		$sql = "SELECT {$field} FROM {$this->table} WHERE login_id = '{$login_id}' LIMIT 0,1";
+		return $this->db->getData($sql);
+	}
 	
 	/**
 	 * ＩＤとパスワードが一致するデータを1件取得
