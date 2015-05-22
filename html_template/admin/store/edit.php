@@ -84,7 +84,7 @@
 									<label class="checkbox inline">
 										<div id="uniform-inlineCheckbox1" class="checker">
 											<span class="checked">
-												<input id="new_arrival" name="new_arrival" value="1" type="checkbox" <?php echo _check_checked(1, $post['new_arrival']);?>>
+												<input id="new_arrival" name="new_arrival" value="1" type="checkbox" <?php echo _check_checked(1, getParam($post,'new_arrival'));?>>
 											</span>
 										</div>
 										新着店舗にする
@@ -108,7 +108,8 @@
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
 								<div class="controls">
-									<input class="input-file uniform_on" id="fileInput" type="file">
+									<div id="photos"><?php echo create_image_uploaded(getParam($post,'photos'),'photos');?></div>
+					<?php echo getParam($error,'photos');?>
 								</div>
 							</div>
 							
@@ -528,5 +529,13 @@
 	<!-- start: JavaScript-->
 	<?php include_once dirname(__FILE__).'/../common/footer_javascript.php';?>
 	<!-- end: JavaScript-->
+	
+	<script>
+	$(function(){
+
+		$('#photos').imageUpload({url:'/admin/store.php?m=image_upload',name:'photos'});
+
+	});
+	</script>
 </body>
 </html>
