@@ -68,7 +68,7 @@ abstract class MaintenancePage extends AdminPage{
 		//ページャ生成
 		$pager_param['per_cnt'] = $this->page_cnt;
 		$pager_param['all_cnt'] = $max_cnt;
-		$this->manager->pager->setHtmlType( array() ,'ul');
+		$this->manager->pager->setHtmlType( array() ,'admin');
 		$this->manager->pager->initialize($pager_param);
 		$pager_html = $this->manager->pager->create();
 

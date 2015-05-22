@@ -11,44 +11,44 @@ class DbModel extends Base_DbModel{
 	/**
 	 * IDに該当するデータを取得
 	 * 削除フラグの関係でオーバーライド
-	 * 
+	 *
 	 * @param int $id
-	 * @return array 
+	 * @return array
 	 */
 	public function findById($id) {
 		$field = $this->getFieldText();
 		$sql = "SELECT {$field} FROM {$this->table} WHERE {$this->primary_key} = '{$id}' AND delete_flg = 0 LIMIT 0,1";
 		return $this->db->getData($sql);
 	}
-	
+
 	/**
-	 * IDに該当するデータを取得 
+	 * IDに該当するデータを取得
 	 * 削除フラグに関係なく取得できる
-	 * 
+	 *
 	 * @param type $id
-	 * @return array 
+	 * @return array
 	 */
 	public function findDataById($id){
 		parent::findById($id);
 	}
-	
-	
+
+
 	/**
 	 * IDに該当するデータを削除（削除フラグを立てる）
 	 * 削除フラグの関係でオーバーライド
-	 * 
+	 *
 	 * @param int $id
-	 * @return bool 
+	 * @return bool
 	 */
 	public function deleteById($id){
 		return $this->updateById($id, array('delete_flg'=>'1'));
 	}
-	
+
 	/**
 	 *  IDに該当するデータを削除（完全削除）
-	 * 
+	 *
 	 * @param int $id
-	 * @return bood 
+	 * @return bood
 	 */
 	public function deleteCompById($id){
 		return parent::deleteById($id);
@@ -89,7 +89,7 @@ class DbModel extends Base_DbModel{
 		$sql = $this->adminSearchSqlBase($get);
 		$sql = str_replace("##field##",$this->getFieldText(), $sql);
 		$sql = $sql." {$order} {$limit}";
-		
+
 		return $this->db->getAllData($sql);
 	}
 
@@ -115,8 +115,8 @@ class DbModel extends Base_DbModel{
 		return $where;
 	}
 
-	
-	
+
+
 	/*==========================================================================================
 	 * 店舗用共通処理
 	 *
@@ -148,7 +148,7 @@ class DbModel extends Base_DbModel{
 	 * @return array:
 	 */
 	public function maintenanceSearch($id,$get,$limit,$order){
-		$sql = $this->maintenanceSearchSqlBase($get);
+		$sql = $this->maintenanceSearchSqlBase($id,$get);
 		$sql = str_replace("##field##",$this->getFieldText(), $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
@@ -177,7 +177,7 @@ class DbModel extends Base_DbModel{
 	 * @return string
 	 */
 	protected function maintenanceSearchWhere($id,$get){
-		$where = " WHERE store_id = '{$id}' delete_flg = 0 ";
+		$where = " WHERE store_id = '{$id}' AND delete_flg = 0 ";
 		return $where;
 	}
 

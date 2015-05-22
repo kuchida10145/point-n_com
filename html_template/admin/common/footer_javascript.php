@@ -1,6 +1,6 @@
 
-		<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/jquery-migrate-1.0.0.min.js"></script>
+		
+		<script src="js/jquery-migrate-1.0.0.min.js"></script>
 	
 		<script src="js/jquery-ui-1.10.0.custom.min.js"></script>
 	
@@ -53,3 +53,7 @@
 		<script src="js/retina.js"></script>
 
 		<script src="js/custom.js"></script>
+		
+		<link rel="stylesheet" media="all" type="text/css" href="../maintenance/js/datepicker/jquery-ui-timepicker-addon.css" />
+<script src="../maintenance/js/datepicker/jquery-ui-timepicker-addon.js"></script>
+<script src="../maintenance/js/datepicker/ja.js"></script>

@@ -175,6 +175,31 @@ function area_first() {
 	return $list;
 }
 
+/**
+ * コースステータス ラベル
+ *
+ * @return array
+ */
+function course_status_label(){
+	return array(
+			0=>'<span class="label label-large label-danger">無効</span>',
+			1=>'<span class="label label-large label-success">有効</span>',
+	);
+}
+
+/**
+ * ポイント種類
+ *
+ * @return array
+ */
+function point_kind(){
+	return array(
+			1=>'通常',
+			2=>'イベント',
+			3=>'特別',
+	);
+}
+
 /*-----------------------------------------------------------
  * 権限関連
  *----------------------------------------------------------*/

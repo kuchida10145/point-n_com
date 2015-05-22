@@ -31,3 +31,4 @@
 <link rel="shortcut icon" href="img/favicon.ico">
 <!-- end: Favicon -->
 
+<script src="js/jquery-1.9.1.min.js"></script>

@@ -75,7 +75,7 @@
 							</div>
 							<div class="clearfix"></div>
 							
-							<label class="remember" for="remember"><input type="checkbox" id="remember" />
+							<label class="remember" for="remember"><input type="checkbox" id="remember" value="1" name="auto_login" />
 パスワードを保存する</label>
 
 							<div class="button-login">	

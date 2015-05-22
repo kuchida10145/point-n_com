@@ -2,9 +2,7 @@
 /**
  * コース情報
  */
-class CourceDbModel extends DbModel{
-
-	public $primary_key = 'id';
+class CourseDbModel extends DbModel{
 
 	public function getField(){
 		return array(

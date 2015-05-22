@@ -424,7 +424,7 @@ abstract class AdminPage extends Page{
 	 * @return bool
 	 */
 	protected function checkLogin(){
-
+		$this->autoLogin();
 		$account = $this->getAccount();
 		if(!$account){
 			return false;
