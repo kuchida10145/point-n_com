@@ -22,6 +22,20 @@ class StorePage extends AdminPage {
 	protected function dbToInputData($data) {
 		// パスワードデコード
 		$data['login_password'] = decodePassword($data['login_password']);
+		// 第1エリア(都道府県)
+		$data['area_first_prefectures_id'] = $data['area_first_id'];
+		// 郵便番号
+		$data['zip_code1'] = (strlen($data['zip_code']) > 0) ? substr($data['zip_code'], 0, 3) : "";
+		$data['zip_code2'] = (strlen($data['zip_code']) > 3) ? substr($data['zip_code'], 3)    : "";
+		// 電話番号
+		$telephone = explode("-", $data['telephone']);
+		$data['telephone1'] = isset($telephone[0]) ? $telephone[0] : "";
+		$data['telephone2'] = isset($telephone[1]) ? $telephone[1] : "";
+		$data['telephone3'] = isset($telephone[2]) ? $telephone[2] : "";
+		// メールアドレス
+		$data['representative_email_confirm'] = $data['representative_email'];
+		// 予約受信メールアドレス
+		$data['reserved_email_confirm'] = $data['reserved_email'];
 		return $data;
 	}
 	
@@ -55,9 +69,21 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function inseart_action($param) {
+		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
 		$param['login_password'] = encodePassword($param['login_password']);
+		// TODO: 第1エリア(都道府県)
+		// 郵便番号
+		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
+		unset($param['zip_code1']);
+		unset($param['zip_code2']);
+		// 電話番号
+		$param['telephone'] = $param['telephone1'] . "-" . $param['telephone2'] . "-" . $param['telephone3'];
+		unset($param['telephone1']);
+		unset($param['telephone2']);
+		unset($param['telephone3']);
+		
 		$param['regist_date']    = 'NOW()';
 		$param['update_date']    = 'NOW()';
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
@@ -70,12 +96,19 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function update_actoin($param){
+		// 新着店舗
+		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
 		if (getParam($param,'login_password') != '') {
 			$param['login_password'] = encodePassword($param['login_password']);
 		} else {
 			unset($param['login_password']);
 		}
+		// TODO: 第1エリア(都道府県)
+		// 郵便番号
+		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
+		// 電話番号
+		$param['telephone'] = $param['telephone1'] . "-" . $param['telephone2'] . "-" . $param['telephone3'];
 		return $this->manager->db_manager->get($this->use_table)->updateById($this->id, $param);
 	}
 	
