@@ -44,8 +44,8 @@
 					</div>
 					<div class="box-content">
 						<p>
-							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit'">新規登録(通常ポイント)</button>
-							<button class="btn btn-large btn-danger" onClick="location.href='?m=event'">新規登録(イベントポイント)</button>
+							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(通常ポイント)</button>
+							<button class="btn btn-large btn-danger" onClick="location.href='?m=edit&p=2'">新規登録(イベントポイント)</button>
 						</p>
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>
@@ -66,7 +66,7 @@
 							<td class="center"><?php echo $course_data['course_name'];?></td>
 							<td><?php echo getParam(point_kind(),$course_data['point_kind']);?></td>
 							<td class="center">
-								<a class="btn btn-info" href="?m=edit&id=<?php echo $course_data['account_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
+								<a class="btn btn-info" href="?m=edit&id=<?php echo $course_data['course_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $course_data['course_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
 							</td>
 						</tr>
