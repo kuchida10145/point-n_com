@@ -32,7 +32,7 @@ class ErrorMsgModel extends MsgModel
 			'maxlength'      => '%s字以内で入力してください',
 			'phonenumber'    => '半角、ハイフン「-」なしの10～11桁で入力してください',
 			'olddate'        => '過去の日時は設定できません',
-
+			'tel'            => '電話番号の形式が正しくありません',
 
 			//ここから下はサイト独自のチェック
 			'duplicate_id'   => '既に登録されています',
@@ -43,6 +43,7 @@ class ErrorMsgModel extends MsgModel
 			'password'       => '%s～%s文字の半角英数字で入力してください。',
 			'select_area'    => '選択されていません',
 			'strict_select'  => '不正なデータが選択されています',
+			'same_email'     => '同一のメールアドレスを入力してください',
 		);
 		$this->setMessages($message);
 	}
