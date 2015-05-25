@@ -10,7 +10,7 @@
  *----------------------------------------------------------*/
 /**
  * アカウント（管理者）ステータス
- * 
+ *
  * @return array
  */
 function account_status(){
@@ -21,7 +21,7 @@ function account_status(){
 }
 /**
  * アカウント（管理者）ステータス ラベル
- * 
+ *
  * @return array
  */
 function account_status_label(){
@@ -34,7 +34,7 @@ function account_status_label(){
 
 /**
  * 会員ステータス
- * 
+ *
  * @return array
  */
 function user_status(){
@@ -46,7 +46,7 @@ function user_status(){
 }
 /**
  * 会員ステータス ラベル
- * 
+ *
  * @return array
  */
 function user_status_label(){
@@ -59,7 +59,7 @@ function user_status_label(){
 
 /**
  * 店舗ステータス
- * 
+ *
  * @return array
  */
 function store_status() {
@@ -71,7 +71,7 @@ function store_status() {
 }
 /**
  * 店舗ステータス
- * 
+ *
  * @return array
  */
 function store_status_label() {
@@ -84,7 +84,7 @@ function store_status_label() {
 
 /**
  * 店舗新着
- * 
+ *
  * @return array
  */
 function store_new_arrival() {
@@ -96,7 +96,7 @@ function store_new_arrival() {
 
 /**
  * 店舗業種
- * 
+ *
  * @return array
  */
 function store_type_of_industry() {
@@ -109,7 +109,7 @@ function store_type_of_industry() {
 
 /**
  * 店舗業種からデリバリーかどうか判定する
- * 
+ *
  * @param number $store_type_of_industry
  * @return number
  */
@@ -117,13 +117,13 @@ function is_delivery($store_type_of_industry) {
 	if ($store_type_of_industry == 2) {
 		return 1;
 	}
-	
+
 	return 0;
 }
 
 /**
  * 大カテゴリー（ジャンルマスター）
- * 
+ *
  * @return array
  */
 function category_large() {
@@ -139,7 +139,7 @@ function category_large() {
 
 /**
  * 中カテゴリー
- * 
+ *
  * @param number $category_large_id
  * @param number $prefectures_id
  * @param number $delivery
@@ -156,7 +156,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 		return $list;
 	}
 	$region_id = $record['region_id'];
-	
+
 	$wheres = array();
 	$wheres[] = 'category_large_id = ' . $category_large_id;
 	$wheres[] = 'region_id = ' . $region_id;
@@ -174,7 +174,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 
 /**
  * 小カテゴリー
- * 
+ *
  * @param number $category_midium_id
  * @return array
  */
@@ -196,7 +196,7 @@ function category_small($category_midium_id) {
 
 /**
  * 地域マスター（エリアマスター）
- * 
+ *
  * @return array
  */
 function region_master() {
@@ -212,7 +212,7 @@ function region_master() {
 
 /**
  * 都道府県マスター
- * 
+ *
  * @return array
  */
 function prefectures_master() {
@@ -228,7 +228,7 @@ function prefectures_master() {
 
 /**
  * 第１エリアマスター
- * 
+ *
  * @param number $category_large_id
  * @param number $prefectures_id
  * @return array
@@ -242,7 +242,7 @@ function area_first($category_large_id, $prefectures_id) {
 	}
 	$region_id = $record['region_id'];
 	$prefectures_name = $record['prefectures_name'];
-	
+
 	$wheres = array();
 	$wheres[] = 'category_large_id = ' . $category_large_id;
 	$wheres[] = 'region_id = ' . $region_id;
@@ -257,7 +257,7 @@ function area_first($category_large_id, $prefectures_id) {
 
 /**
  * 第２エリアマスター
- * 
+ *
  * @param unknown $area_first_id
  * @param number $delivery
  * @return array
@@ -284,7 +284,7 @@ function area_second($area_first_id, $delivery = 0) {
 
 /**
  * 第２エリアマスター
- * 
+ *
  * @param number $category_large_id
  * @param number $prefectures_id
  * @param number $delivery
@@ -304,7 +304,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 	foreach ($area_first_list as $key => $value) {
 		$area_first_id[] = $key;
 	}
-	
+
 	$wheres = array();
 	$wheres[] = 'area_first_id IN (' . implode(",", $area_first_id) . ')';
 	$wheres[] = "delivery = '" . $delivery . "'";
@@ -321,7 +321,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 
 /**
  * 第３エリアマスター
- * 
+ *
  * @param number $area_second_id
  * @return array
  */
@@ -347,7 +347,7 @@ function non_select_item() {
 
 /**
  * 銀行口座種類
- * 
+ *
  * @return array
  */
 function bank_kind() {
@@ -355,6 +355,18 @@ function bank_kind() {
 		1=>"普通",
 		2=>"口座",
 		3=>"当座",
+	);
+}
+
+/**
+ * コースステータス
+ *
+ * @return array
+ */
+function course_status_id(){
+	return array(
+			1=>'有効にする',
+			0=>'有効にしない'
 	);
 }
 
