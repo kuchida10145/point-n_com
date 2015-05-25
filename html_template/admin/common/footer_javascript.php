@@ -59,3 +59,4 @@
 <script src="../maintenance/js/datepicker/ja.js"></script>
 <script src="../maintenance/js/jquery.form.js"></script>
 <script src="../maintenance/js/file.js"></script>
+<script src="../maintenance/js/category_area.js"></script>

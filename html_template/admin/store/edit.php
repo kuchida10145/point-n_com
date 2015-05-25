@@ -68,7 +68,7 @@
 							
 							<div class="control-group">
 								<label class="control-label" for="">入会日(登録日)</label>
-								<div class="controls">新規登録時に自動入力</div>
+								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error,'store_name'));?>">
@@ -179,7 +179,7 @@
 								<div class="controls">
 									<select id="category_midium_id" name="category_midium_id">
 										<option value="">選択してください</option>
-										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id')) as $val_key => $val_name):?>
+										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
@@ -571,12 +571,34 @@
 	$(function(){
 		
 		$('#photos').imageUpload({url:'/admin/store.php?m=image_upload',name:'photos'});
-		/*
 		$('#type_of_industry_id').change(function() {
-			alert("Changed! : " + $(this).val());
-			$('#bank_kind3').append("<option value=\"999\">追加してみた</option>");
+			$('#type_of_industry_id').changeUpperItem({
+				url:'/admin/store.php?m=change_upper_item',
+				name:'type_of_industry_id'});
 		});
-		//*/
+		$('#area_first_prefectures_id').change(function() {
+			$('#area_first_prefectures_id').changeUpperItem({
+				url:'/admin/store.php?m=change_upper_item',
+				name:'area_first_prefectures_id'});
+		});
+		$('#category_large_id').change(function() {
+			$('#category_large_id').changeUpperItem({
+				url:'/admin/store.php?m=change_upper_item',
+				name:'category_large_id'});
+		});
+		$('#category_midium_id').change(function() {
+			$('#category_midium_id').changeCategoryMidium({
+				url:'/admin/store.php?m=change_category_midium',
+				name:'category_midium_id',
+				selected:$(this).val()});
+		});
+		$('#area_second_id').change(function() {
+			$('#area_second_id').changeAreaSecond({
+				url:'/admin/store.php?m=change_area_second',
+				name:'area_second_id',
+				selected:$(this).val()});
+		});
+		
 	});
 	</script>
 </body>

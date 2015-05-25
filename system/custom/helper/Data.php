@@ -142,10 +142,14 @@ function category_large() {
  * 
  * @param number $category_large_id
  * @param number $prefectures_id
+ * @param number $delivery
  * @return array
  */
-function category_midium($category_large_id = 0, $prefectures_id = 0) {
+function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery = 0) {
 	$list = array();
+	if ($delivery === "") {
+		return $list;
+	}
 	$manager = Management::getInstance();
 	$record  = $manager->db_manager->get('prefectures_master')->findById($prefectures_id);
 	if ($record == null) {
@@ -156,11 +160,15 @@ function category_midium($category_large_id = 0, $prefectures_id = 0) {
 	$wheres = array();
 	$wheres[] = 'category_large_id = ' . $category_large_id;
 	$wheres[] = 'region_id = ' . $region_id;
+	$wheres[] = "delivery = '" . $delivery . "'";
 	$records = $manager->db_manager->get('category_midium')->adminSearch($wheres, "", " ORDER BY rank ASC ");
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_midium_id']] = $record['category_midium_name'];
 	}
+// 	if (count($list) == 0 && $category_large_id > 0) {
+// 		$list[0] = non_select_item();
+// 	}
 	return $list;
 }
 
@@ -179,6 +187,9 @@ function category_small($category_midium_id) {
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_small_id']] = $record['category_small_name'];
+	}
+	if (count($list) == 0 && ($category_midium_id === 0 || $category_midium_id > 0)) {
+		$list[0] = non_select_item();
 	}
 	return $list;
 }
@@ -253,6 +264,9 @@ function area_first($category_large_id, $prefectures_id) {
  */
 function area_second($area_first_id, $delivery = 0) {
 	$list = array();
+	if ($delivery === "") {
+		return $list;
+	}
 	$manager = Management::getInstance();
 	$wheres = array();
 	$wheres[] = 'area_first_id = ' . $area_first_id;
@@ -261,6 +275,9 @@ function area_second($area_first_id, $delivery = 0) {
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
+	}
+	if (count($list) == 0 && $area_first_id > 0) {
+		$list[0] = non_select_item();
 	}
 	return $list;
 }
@@ -275,6 +292,9 @@ function area_second($area_first_id, $delivery = 0) {
  */
 function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 0) {
 	$list = array();
+	if ($delivery === "") {
+		return $list;
+	}
 	$manager = Management::getInstance();
 	$area_first_list = area_first($category_large_id, $prefectures_id);
 	if (count($area_first_list) <= 0) {
@@ -292,6 +312,9 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
+	}
+	if (count($list) == 0 && $category_large_id > 0 && $prefectures_id > 0) {
+		$list[0] = non_select_item();
 	}
 	return $list;
 }
@@ -312,7 +335,14 @@ function area_third($area_second_id) {
 	foreach ($records as $record) {
 		$list[$record['area_third_id']] = $record['area_third_name'];
 	}
+	if (count($list) == 0 && $area_second_id > 0) {
+		$list[0] = non_select_item();
+	}
 	return $list;
+}
+
+function non_select_item() {
+	return '選択肢なし';
 }
 
 /**
