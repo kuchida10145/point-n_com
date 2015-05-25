@@ -52,24 +52,23 @@
 						<form class="form-horizontal" action="?m=confirm&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="confirm" name="m">
                             <div class="control-group">
-							  <label class="control-label" for="typeahead">ステータス</label>
+							  <label class="control-label" for="typeahead">クーポン名</label>
 								<div class="controls">
-									<?php echo getParam(course_status_id(),$post['status_id']);?>
+									<?php echo getParam($post,'coupon_name');?>
 								</div>
 							</div>
 
                             <div class="control-group">
-								<label class="control-label" for="typeahead">コース名</label>
+								<label class="control-label" for="typeahead">ポイント数</label>
 								<div class="controls">
-									<?php echo getParam($post,'course_name');?>
+									<?php echo getParam(point_data(),$post['point']);?>pt
 								</div>
 							</div>
 
                             <div class="control-group">
-								<label class="control-label" for="typeahead">時間・通常料金</label>
+								<label class="control-label" for="typeahead">発行するコース名</label>
 								<div class="controls">
-									<?php echo getParam($post,'minutes');?>分
-									<?php echo getParam($post,'price');?>円
+									<?php echo getParam(course_list(getParam($post,'store_id'), getParam($post,'p')),$post['course_id']);?>
 								</div>
 							</div>
 

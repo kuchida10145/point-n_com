@@ -1,26 +1,25 @@
 <?php
 /**
- * コース管理画面TOP
+ * クーポン管理画面TOP
  *
  */
 include_once dirname(__FILE__).'/../common/MaintenancePage.php';
 
-class CoursePage extends MaintenancePage{
+class CouponPage extends MaintenancePage{
 
 	protected $id = 0;/* ID */
-	protected $use_table   = 'course';
-	protected $session_key = 'course';
+	protected $use_table   = 'coupon';
+	protected $session_key = 'coupon';
 	protected $use_confirm = true;
-	protected $page_title = 'コース情報登録';
+	protected $page_title = 'クーポン情報登録';
 
 	/**
 	 * 入力チェック
 	 *
 	 */
 	protected function validation($param){
-		$this->manager->validation->setRule('course_name','required');
-		$this->manager->validation->setRule('minutes','required|numeric|digit|pnumeric|alphanumeric');
-		$this->manager->validation->setRule('price','required|numeric|digit|pnumeric|alphanumeric');
+		$this->manager->validation->setRule('coupon_name','required');
+		$this->manager->validation->setRule('course_id','required');
 		$this->manager->validation->setRule('use_condition','required');
 		return $this->manager->validation->run($param);
 	}
@@ -187,16 +186,18 @@ class CoursePage extends MaintenancePage{
 		$data = $this->getEditCommon();
 		//表示用データ
 		if($this->getFormSession('p') == '1') {
-			$data['page_title']     ='通常コース情報登録';
+			$data['page_title']     ='通常クーポン情報登録';
 		} else {
-			$data['page_title']     ='イベントコース情報登録';
+			$data['page_title']     ='イベントクーポン情報登録';
 		}
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
 		$data['system_message'] = $system_message;
 		$data['page_type_text'] =$this->page_type_text;
+		$account = $this->getAccount();
+		$data['store_id'] = $account['store_id'];
+		$data['p'] = $this->getFormSession('p');
 		$this->loadView('edit', $data);
-
 	}
 
 	/**

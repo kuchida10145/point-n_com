@@ -81,6 +81,7 @@ abstract class AdminPage extends Page{
 						if(getGet('id')!=''){
 							$this->setFormSession('id',getGet('id'));
 						}
+						$this->editDefaultParam();
 						redirect('?m=edit&tkn='.$this->token);
 					}
 
@@ -111,7 +112,12 @@ abstract class AdminPage extends Page{
 
 	}
 
-
+	/**
+	 * tkn生成時にデータをセッションに格納
+	 */
+	protected function editDefaultParam(){
+		return;
+	}
 
 	/**
 	 * 一覧ページ
@@ -243,9 +249,9 @@ abstract class AdminPage extends Page{
 		$this->loadView('edit', $data);
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * ＤＢに保存されているデータを一件取得する
 	 * @param int $id ＩＤ
@@ -454,7 +460,7 @@ abstract class AdminPage extends Page{
 		$this->loadView('token_error', array());
 	}
 
-	
+
 	/**
 	 * エラーメッセージのタグ設定
 	 *

@@ -53,36 +53,38 @@
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="edit" name="m">
-                            <div class="control-group <?php echo error_class(getParam($error,'status_id'));?>">
-								<label class="control-label" for="selectError3">ステータス <span class="label label-important">必須</span></label>
+							<div class="control-group <?php echo error_class(getParam($error,'coupon_name'));?>">
+								<label for="title" class="control-label">クーポン名 <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<select name="status_id">
-										<?php foreach(course_status_id() as $stat_id => $stat_name):?>
-										<option value="<?php echo $stat_id;?>" <?php echo _check_selected($stat_id,getParam($post,'status_id'));?>><?php echo $stat_name;?></option>
+									<input class="input-block-level" placeholder="" name="coupon_name" value="<?php echo getParam($post,'coupon_name');?>" type="text">
+									<?php echo getParam($error,'course_name');?>
+									<br>
+									店舗様側で管理しやすいクーポン名を入力してください。　例）通常コース60分のクーポン
+								</div>
+							</div>
+							<div class="control-group <?php echo error_class(getParam($error,'point'));?>">
+								<label class="control-label" for="selectError3">ポイント数 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<select name="point">
+										<?php foreach(point_data() as $point_num=>$point_val):?>
+											<option value="<?php echo $point_num;?>" <?php echo _check_selected($point_num, getParam($post,'point'));?>><?php echo $point_val;?></option>
 										<?php endforeach;?>
 									</select>
+									1pt=1円
 								</div>
 							</div>
 
-                            <div class="control-group <?php echo error_class(getParam($error,'course_name'));?>">
-								<label class="control-label" for="typeahead">コース名 <span class="label label-important">必須</span></label>
+							<div class="control-group">
+								<label class="control-label" for="selectError3">発行するコース <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<input class="input-block-level" placeholder="半角100文字以内/全角50文字以内" name="course_name" value="<?php echo getParam($post,'course_name');?>" type="text">
-									<?php echo getParam($error,'course_name');?>
-								</div>
-							</div>
-
-							<?php if(!empty(getParam($error,'minutes'))):?>
-                            <div class="control-group <?php echo error_class(getParam($error,'minutes'));?>">
-                            <?php else:?>
-                            <div class="control-group <?php echo error_class(getParam($error,'price'));?>">
-                            <?php endif;?>
-								<label class="control-label" for="typeahead">時間・通常料金 <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<input placeholder="" name="minutes" value="<?php echo getParam($post,'minutes');?>" style="width:70px;">分
-									<?php echo getParam($error,'minutes');?>
-									<input placeholder="" name="price" value="<?php echo getParam($post,'price');?>" style="width:100px;">円
-									<?php echo getParam($error,'price');?>
+									<select name="course_id">
+										<?php foreach(course_list($store_id, $p) as $cou_id=>$cou_name):?>
+											<option value="<?php echo $cou_id;?>" <?php echo _check_selected($cou_id,getParam($post,'course_id'));?>><?php echo $cou_name;?></option>
+										<?php endforeach;?>
+									</select>
+									<input type="hidden" value="<?php echo $store_id;?>" name="store_id">
+									<input type="hidden" value="<?php echo $p;?>" name="p">
+									<p>※開始日、終了日は指定できません。</p>
 								</div>
 							</div>
 
