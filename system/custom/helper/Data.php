@@ -369,7 +369,6 @@ function course_status_id(){
 			0=>'有効にしない'
 	);
 }
-
 /**
  * コースステータス ラベル
  *
@@ -379,6 +378,34 @@ function course_status_label(){
 	return array(
 			0=>'<span class="label label-large label-danger">無効</span>',
 			1=>'<span class="label label-large label-success">有効</span>',
+	);
+}
+/**
+ * コース一覧取得
+ * @param string $store_id
+ * @param string $point_kind
+ * @return array
+ */
+function course_list($store_id, $point_kind){
+	$manager = Management::getInstance();
+	$returnArray = array();
+	//コース一覧取得
+	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	foreach ($list as $key=>$val){
+		$returnArray[$val['course_id']] = $val['course_name'];
+	}
+	return $returnArray;
+}
+
+/**
+ * クーポンステータス ラベル
+ *
+ * @return array
+ */
+function coupon_status_label(){
+	return array(
+			0=>'<span class="label label-large label-danger">無効</span>',
+			1=>'<span class="label label-large label-success">有効中</span>',
 	);
 }
 
@@ -392,6 +419,44 @@ function point_kind(){
 			1=>'通常',
 			2=>'イベント',
 			3=>'特別',
+	);
+}
+/**
+ * ポイントデータ
+ *
+ * @return array
+ */
+function point_data() {
+	return array(
+			0=>'0',
+			1=>'100',
+			2=>'200',
+			3=>'300',
+			4=>'400',
+			5=>'500',
+			6=>'600',
+			7=>'700',
+			8=>'800',
+			9=>'900',
+			10=>'1000',
+			11=>'1500',
+			12=>'2000',
+			13=>'2500',
+			14=>'3000',
+			15=>'3500',
+			16=>'4000',
+			17=>'4500',
+			18=>'5000',
+			19=>'5500',
+			20=>'6000',
+			21=>'6500',
+			22=>'7000',
+			23=>'7500',
+			24=>'8000',
+			25=>'8500',
+			26=>'9000',
+			27=>'9500',
+			28=>'10000',
 	);
 }
 
