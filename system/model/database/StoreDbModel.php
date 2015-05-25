@@ -47,6 +47,7 @@ class StoreDbModel extends DbModel{
 			'url_official1',
 			'url_official2',
 			'url_official3',
+			'url_official4',
 			'representative_sei',
 			'representative_mei',
 			'representative_email',

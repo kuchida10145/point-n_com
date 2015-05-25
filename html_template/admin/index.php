@@ -50,6 +50,7 @@
 					<div class="clearfix"></div>
 				</div>
 
+				
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
@@ -68,5 +69,6 @@
 	<!-- start: JavaScript-->
 	<?php include_once dirname(__FILE__).'/common/footer_javascript.php';?>
 	<!-- end: JavaScript-->
+	
 </body>
 </html>

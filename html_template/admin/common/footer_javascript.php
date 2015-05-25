@@ -57,3 +57,6 @@
 		<link rel="stylesheet" media="all" type="text/css" href="../maintenance/js/datepicker/jquery-ui-timepicker-addon.css" />
 <script src="../maintenance/js/datepicker/jquery-ui-timepicker-addon.js"></script>
 <script src="../maintenance/js/datepicker/ja.js"></script>
+<script src="../maintenance/js/jquery.form.js"></script>
+<script src="../maintenance/js/file.js"></script>
+<script src="../maintenance/js/category_area.js"></script>

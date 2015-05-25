@@ -16,4 +16,18 @@ class Area_thirdDbModel extends DbModel{
 			'delete_flg',
 		);
 	}
+	
+	/**
+	 * WHERE句生成（管理者用）
+	 *
+	 * @param array $get
+	 * @return string
+	 */
+	protected function adminSearchWhere($get){
+		$where = parent::adminSearchWhere($get);
+		if ($get != null && is_array($get)) {
+			$where .= ' AND ' . implode(" AND ", $get);
+		}
+		return $where;
+	}
 }

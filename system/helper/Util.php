@@ -457,19 +457,28 @@ function encode_callback($matches) {
 
 
 /**
- *
+ * アップロードした画像を表示
  *
  */
-function create_image_uploaded($data,$name){
+function create_image_uploaded($data,$name,$type='edit'){
 
 	$html = '';
 	if(is_array($data)){
 		foreach($data as $img_key => $img_val){
-			$html.=_create_image_uploaded($name,$img_key,$img_val)."\r\n";
+			if($type == 'edit'){
+				$html.=_create_image_uploaded($name,$img_key,$img_val)."\r\n";
+			}else{
+				$html.=_create_image_display($name,$img_key,$img_val)."\r\n";
+			}
 		}
 	}
 	else if($data!=''){
-		$html.=_create_image_uploaded($name,"",$img_val)."\r\n";
+		$img_val = $data;
+		if($type == 'edit'){
+			$html.=_create_image_uploaded($name,"",$img_val)."\r\n";
+		}else{
+			$html.=_create_image_display($name,"",$img_val)."\r\n";
+		}
 	}
 
 	return $html;
@@ -480,11 +489,60 @@ function _create_image_uploaded($name,$img_key,$img_val){
 	$html = '<div class="img_capbox" id="imgup_capbox_'.$name.$img_key.'" style="margin-bottom:10px;">'."\r\n";
 	$html.= '<div class="img_thumnail">'."\r\n";
 	$html.= '<a href="javascript:void(0);" class="btn-delete" data-id="imgup_capbox_'.$name.$img_key.'"><!-- img_thumnail -->'."\r\n";
-	$html.= '<i class="fa fa-times"></i>'."\r\n";
+	$html.= '<i class="icon-remove"></i>'."\r\n";
 	$html.= '</a><!-- btn-delete -->'."\r\n";
-	$html.= '<input type="hidden" name="main_image['.$img_key.']" value="'.$img_val.'">'."\r\n";
-	$html.= '<img src="/sixpence_frame/files/images/'.$img_val.'">'."\r\n";
+	$html.= '<input type="hidden" name="'.$name.'['.$img_key.']" value="'.$img_val.'">'."\r\n";
+	$html.= '<img src="'.ROOT_URL.'files/images/'.$img_val.'">'."\r\n";
 	$html.= '</div><!-- img_thumnail -->'."\r\n";
 	$html.= '</div><!-- img_capbox -->'."\r\n";
+	return $html;
+}
+
+function _create_image_display($name,$img_key,$img_val){
+	$html = '<div class="img_capbox" id="imgup_capbox_'.$name.$img_key.'" style="margin-bottom:10px;">'."\r\n";
+	$html.= '<div class="img_thumnail">'."\r\n";
+	$html.= '<input type="hidden" name="main_image['.$img_key.']" value="'.$img_val.'">'."\r\n";
+	$html.= '<img src="'.ROOT_URL.'files/images/'.$img_val.'">'."\r\n";
+	$html.= '</div><!-- img_thumnail -->'."\r\n";
+	$html.= '</div><!-- img_capbox -->'."\r\n";
+	return $html;
+}
+
+
+/**
+ * アップロードしたファイルを表示
+ *
+ */
+function create_file_uploaded($data,$name,$type='edit'){
+
+	$html = '';
+	if($data!=''){
+		$img_val = $data;
+		if($type == 'edit'){
+			$html.=_create_file_uploaded($name,$img_val)."\r\n";
+		}else{
+			$html.=_create_file_display($name,$img_val)."\r\n";
+		}
+	}
+
+	return $html;
+}
+
+
+function _create_file_uploaded($name,$file_val){
+	$html = '<div class="file_capbox" id="fileup_capbox_'.$name.'" style="margin-bottom:5px;">'."\r\n";
+	$html.= '<a href="javascript:void(0);" class="btn-delete" data-id="fileup_capbox_'.$name.'"><!-- img_thumnail -->'."\r\n";
+	$html.= '<i class="fa fa-times"></i>'."\r\n";
+	$html.= '</a><!-- btn-delete -->'."\r\n";
+	$html.= '<input type="hidden" name="'.$name.'" value="'.$file_val.'">'."\r\n";
+	$html.= '<a href="'.ROOT_URL.'files/file/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
+	$html.= '</div><!-- file_capbox -->'."\r\n";
+	return $html;
+}
+
+function _create_file_display($name,$file_val){
+	$html = '<div class="file_capbox" id="fileup_capbox_'.$name.'" style="margin-bottom:5px;">'."\r\n";
+	$html.= '<a href="'.ROOT_URL.'files/file/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
+	$html.= '</div><!-- file_capbox -->'."\r\n";
 	return $html;
 }
