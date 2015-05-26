@@ -43,7 +43,7 @@ class User_hashDbModel extends DbModel{
 	 */
 	public function getSignupByUserId($user_id){
 		$field = $this->getFieldText();
-		$sql = "SELECT {$field} FROM signup WHERE user_id = '{$user_id}' AND hash_type = 1 ";
+		$sql = "SELECT {$field} FROM {$this->table} WHERE user_id = '{$user_id}' AND hash_type = 1 ";
 		return $this->db->getData($sql);
 	}
 

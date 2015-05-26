@@ -84,7 +84,7 @@ class Base_Mailer{
 		}
 
 		//ローカルはログ掃出し
-		if(HTTP_HOST == 'http://localhost/sixpence_frame'){
+		if(HTTP_HOST == 'http://point.lo'){
 			$log = "to:".$this->to."\r\n";
 			$log.= $this->body."\r\n\r\n-------------------\r\n\r\n";
 

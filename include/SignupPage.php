@@ -26,6 +26,7 @@ class SignupPage extends Page{
 	 *
 	 */
 	public function indexAction(){
+
 		$data = array();
 		$post = array();
 		$error = array();
@@ -34,7 +35,7 @@ class SignupPage extends Page{
 			//入力チェック
 			if($this->signupValidation($post)){
 				$ins_data['email'] = $post['email'];
-				$ins_data['user_status'] = USER_ST_REQ;
+				$ins_data['status_id'] = USER_ST_REQ;
 				if($user_id = $this->manager->db_manager->get('user')->insert($ins_data)){
 					$hash_data = $this->manager->db_manager->get('user_hash')->createSingup($user_id);
 
@@ -42,14 +43,14 @@ class SignupPage extends Page{
 					$mail_id = 1;
 					$mail = $this->manager->db_manager->get('automail')->findById($mail_id);
 					//メール用データ
-					$mail_data['signup_edit_url'] =HTTP_HOST."/signup/edit.html?keycode=".$hash_data['hash'];
+					$mail_data['signup_edit_url'] =HTTP_HOST."/signup/regist.php?keycode=".$hash_data['hash'];
 					$mail_data['signup_url']      =HTTP_HOST."/signup/";
 					$mail_data['email']           =$ins_data['email'];
 					$mail = create_mail_data($mail,$mail_data);
 					$mail['to'] = $ins_data['email'];
 					$this->manager->mailer->setMailData($mail);
 					$this->manager->mailer->sendMail();
-					redirect('send.html');
+					redirect( '/signup/send.php');
 				}
 			}
 			$error = $this->getValidationError();
@@ -79,15 +80,10 @@ class SignupPage extends Page{
 	 *
 	 */
 	public function registAction(){
+
 		$data = array();
 		$post = array();
 		$error = array();
-
-		
-		
-		$this->loadView('regist', array());
-		exit();
-
 
 		//トークンが設定されていない場合
 		if(getGet('tkn') == ''){
@@ -105,7 +101,7 @@ class SignupPage extends Page{
 
 			$this->token = $this->manager->token->createToken($this->session_key);
 
-			$this->setFormSession('user_id', $user['id']);
+			$this->setFormSession('user_id', $user['user_id']);
 
 			redirect('regist.php?tkn='.$this->token);
 			exit();
@@ -120,23 +116,29 @@ class SignupPage extends Page{
 		}
 
 		//状況が仮登録以外の場合
-		if($user['user_status'] != USER_ST_REQ){
+		if($user['status_id'] != USER_ST_REQ){
 			exit('既に登録済みです。');
 		}
 
 
 
 
-		if(getPost('m') == 'edit'){
+		if(getPost('m') == 'regist_confirm'){
 			$post = $_POST;
 			if($this->validation($post)){
 				$form_data = array(
-					'name'     => $post['name'],
-					'login_pw' => $post['login_pw'],
+					'nickname' => $post['nickname'],
+					'birth-year' => $post['birth-year'],
+					'birth-month' => $post['birth-month'],
+					'birth-day' => $post['birth-day'],
+					'birthday' => $post['birth-year'] . '-' . $post['birth-month'] . '-' . $post['birth-day'],
+					'gender' => $post['gender'],
+					'prefectures_id' => $post['prefectures_id'],
+					'password' => $post['password'],
 				);
 
 				$this->setFormSession('form', $form_data);
-				redirect('confirm.php?tkn='.$this->token);
+				redirect('regist_confirm.php?tkn='.$this->token);
 			}
 			$error = $this->getValidationError();
 		}
@@ -161,8 +163,8 @@ class SignupPage extends Page{
 		$data = array();
 		$this->token = getGet('tkn');
 
-		$this->loadView('regist_confirm', array());
-		exit();
+	//	$this->loadView('regist_confirm', array());
+//		exit();
 		
 		$user_id = $this->getFormSession('user_id');
 
@@ -171,10 +173,9 @@ class SignupPage extends Page{
 			exit();
 		}
 		//状況が仮登録以外の場合
-		if($user['user_status'] != USER_ST_REQ){
+		if($user['status_id'] != USER_ST_REQ){
 			exit('既に登録済みです。');
 		}
-
 
 
 		$form_data = $this->getFormSession('form');
@@ -184,13 +185,12 @@ class SignupPage extends Page{
 		}
 
 
-
 		//登録ボタンが押された場合
-		if(getPost('m') == 'confirm'){
+		if(getPost('m') == 'thanks'){
 
 			$upd_data = $form_data;
-			$upd_data['login_pw'] = encodePassword($upd_data['login_pw']);
-			$upd_data['user_status'] = USER_ST_ACT;
+			$upd_data['password'] = encodePassword($upd_data['password']);
+			$upd_data['status_id'] = USER_ST_ACT;
 
 			//更新
 			$this->manager->db_manager->get('user')->updateById($user_id,$upd_data);
@@ -206,7 +206,7 @@ class SignupPage extends Page{
 			$mail_id = 2;
 			$mail = $this->manager->db_manager->get('automail')->findById($mail_id);
 			//メール用データ
-			$mail_data['name'] =$form_data['name'];
+			$mail_data['nickname'] =$form_data['nickname'];
 			$mail = create_mail_data($mail,$mail_data);
 			$mail['to'] = $user['email'];
 			$this->manager->mailer->setMailData($mail);
@@ -248,6 +248,7 @@ class SignupPage extends Page{
 	 */
 	private function signupValidation($param){
 		$this->manager->validation->setRule('email','required|email|duplicate_email');
+		$this->manager->validation->setRule('contract','checked');
 		return $this->manager->validation->run($param);
 	}
 
@@ -258,10 +259,21 @@ class SignupPage extends Page{
 	 * @return boolean
 	 */
 	private function validation($param){
-		$this->manager->validation->setRule('name','required');
-		$this->manager->validation->setRule('login_pw','required|password:4:8');
+		
+		$param['birthday'] = '';
+		$this->manager->validation->setRule('nickname','required');
+		if ( $param['birth-year'] == '' || $param['birth-month'] == '' || $param['birth-day'] == '' ) {
+			$this->manager->validation->setRule('birthday','required');
+		} else {
+			$param['birthday'] = $param['birth-year'] . '-' . $param['birth-month'] . '-' .  $param['birth-day'];
+			$this->manager->validation->setRule('birthday','realdate');
+		}
+		$this->manager->validation->setRule('gender','selected');
+		$this->manager->validation->setRule('prefectures_id','selected');
+		$this->manager->validation->setRule('password','required|password:4:16');
 		return $this->manager->validation->run($param);
 	}
+
 }
 
 
@@ -280,7 +292,7 @@ function duplicate_email($key,$data){
 	if($res = $manager->db_manager->get('user')->findByEmail($email)){
 
 		//仮登録の場合はtrue
-		if($res['user_status'] == USER_ST_REQ){
+		if($res['status_id'] == USER_ST_REQ){
 			return true;
 		}
 		return false;

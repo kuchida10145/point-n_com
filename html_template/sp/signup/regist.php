@@ -21,51 +21,57 @@
 <!--ページメイン部分-->
 <div id="mainbody" class="clearfix">
 
-
-
 <div class="titlebox">
 <h2>ユーザー新規本登録</h2>
 </div>
 <!--コンテンツ-->
 <div class="contents">
-
 <p>すべての内容を入力してください。<br />
 一度入力された情報は変更できません。</p>
+<form method="post" action="" name="frm">
 <h3>ニックネーム(重複不可)</h3>
 <p>
-<input type="text" name="textfield" id="textfield" style="width:95%;" />
+<input type="text" name="nickname" id="nickname" style="width:95%;" value="<?php echo getParam($post, 'nickname');?>" />
+<?php echo getParam($error, 'nickname'); ?>
 </p>
 <h3>メールアドレス(半角)</h3>
-<p> ●●●@▲▲▲▲.jp</p>
+<p><?php echo getParam($user, 'email'); ?></p>
 <h3> 生年月日</h3>
+<input type="hidden" name="m" value="regist_confirm" />
 <p>
-<input name="textfield2" type="text" id="textfield2" size="4" />
+<input name="birth-year" type="number" id="birth-year" min="1900" max="2015" value="<?php echo getParam($post, 'birth-year');?>" />
 年
-<input name="textfield3" type="text" id="textfield3" size="2" /> 
+<input name="birth-month" type="number" id="birth-month" min="01" max="12" value="<?php echo getParam($post, 'birth-month');?>" /> 
 月
-<input name="textfield4" type="text" id="textfield4" size="2" />
-日</p>
+<input name="birth-day" type="number" id="birth-day" min="01" max="31" value="<?php echo getParam($post, 'birth-day');?>" />
+日
+<?php echo getParam($error, 'birthday'); ?>
+</p>
 <h3> 性別</h3>
 <p>
-<select name="select" id="select">
-<option>選択してください</option>
-<option>男性</option>
-<option>女性</option>
-</select>
+<?php foreach(user_gender() as $val_key => $val_name):?>
+	<input type="radio" value="<?php echo $val_key;?>" name="gender" id="<?php echo $val_key;?>" <?php echo _check_checked($val_key, getParam($post, 'gender'));?> />
+	<label for="<?php echo $val_key;?>"><?php echo $val_name;?></label>
+<?php endforeach;?>
+<?php echo getParam($error, 'gender'); ?>
 </p>
 <h3>都道府県</h3>
 <p>
-<select name="select2" id="select2">
-<option>選択してください</option>
-
+<select name="prefectures_id" id="prefectures_id">
+<option value="">選択してください</option>
+<?php foreach(prefectures_master() as $val_key => $val_name):?>
+	<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'prefectures_id'));?>><?php echo $val_name;?></option>
+<?php endforeach;?>
 </select>
+<?php echo getParam($error, 'prefectures_id'); ?>
 </p>
 <h3>パスワード(半角英数4～16文字)</h3>
 <p>
-<input type="text" name="textfield5" id="textfield5" style="width:95%;" />
+<input type="password" name="password" id="password" style="width:95%;"  value="<?php echo getParam($post, 'password');?>" />
+<?php echo getParam($error, 'password'); ?>
 </p>
-
-<p><a href="new_check.html" class="linkbtn block alncenter">確認画面へ</a></p>
+</form>
+<p><a href="javascript:void(0);" onclick="document.frm.submit();" class="linkbtn block alncenter">確認画面へ</a></p>
 
 </div>
 <!--/コンテンツ-->
