@@ -53,3 +53,8 @@
 		<script src="js/retina.js"></script>
 
 		<script src="js/custom.js"></script>
+<script src="../maintenance/js/datepicker/jquery-ui-timepicker-addon.js"></script>
+<script src="../maintenance/js/datepicker/ja.js"></script>
+<script src="../maintenance/js/jquery.form.js"></script>
+<script src="../maintenance/js/file.js"></script>
+<script src="../maintenance/js/category_area.js"></script>
