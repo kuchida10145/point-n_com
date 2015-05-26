@@ -189,6 +189,14 @@
 							</div>
 							
 							<div class="control-group">
+								<label class="control-label" for="typeahead">位置情報</label>
+								<div class="controls">
+									緯度<?php echo getParam($post, 'latitude');?>　
+									経度<?php echo getParam($post, 'longitude');?>
+								</div>
+							</div>
+							
+							<div class="control-group">
 								<label class="control-label" for="typeahead">郵便番号</label>
 								<div class="controls">
 									<?php echo getParam($post, 'zip_code1');?>
@@ -222,6 +230,13 @@
 								<label class="control-label" for="typeahead">営業時間</label>
 								<div class="controls">
 									<?php echo getParam($post, 'business_hours');?>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">休日</label>
+								<div class="controls">
+									<?php echo getParam($post, 'holiday');?>
 								</div>
 							</div>
 							

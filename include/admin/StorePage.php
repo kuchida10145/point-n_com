@@ -127,10 +127,10 @@ class StorePage extends AdminPage {
 		$this->manager->validation->setRule('address1',                  'required|maxlength:100');
 		// マンション/ビル名
 		$this->manager->validation->setRule('address2',                  'maxlength:100');
-		// TODO: 緯度(latitude)
-// 		$this->manager->validation->setRule('latitude',                  'required');
-		// TODO: 経度(longitude)
-// 		$this->manager->validation->setRule('longitude',                 'required');
+		// 緯度
+		$this->manager->validation->setRule('latitude',                  'pdecimal_zero|maxlength:50');
+		// 経度
+		$this->manager->validation->setRule('longitude',                 'pdecimal_zero|maxlength:50');
 		// 営業時間
 		$this->manager->validation->setRule('business_hours',            'required');
 		// 電話番号
@@ -139,20 +139,20 @@ class StorePage extends AdminPage {
 		$this->manager->validation->setRule('telephone3',                'required|numeric');
 		$param['telephone'] = $param['telephone1'] . "-" . $param['telephone2'] . "-" . $param['telephone3'];
 		$this->manager->validation->setRule('telephone',                 'tel');
-		// TODO: 休日(holiday)
-// 		$this->manager->validation->setRule('holiday',                   'required|maxlength:50');
-		// TODO: 公式サイト1(url_official1)
-// 		$this->manager->validation->setRule('url_official1',             'url|maxlength:256');
-		// TODO: 公式サイト2(url_official2)
-// 		$this->manager->validation->setRule('url_official2',             'url|maxlength:256');
-		// TODO: 公式サイト3(url_official3)
-// 		$this->manager->validation->setRule('url_official3',             'url|maxlength:256');
-		// TODO: 公式サイト4(url_official4)
-// 		$this->manager->validation->setRule('url_official4',             'url|maxlength:256');
-		// TODO: 外部サイト1(url_outside1)
-// 		$this->manager->validation->setRule('url_outside1',              'url|maxlength:256');
-		// TODO: 外部サイト2(url_outside2)
-// 		$this->manager->validation->setRule('url_outside2',              'url|maxlength:256');
+		// 休日
+		$this->manager->validation->setRule('holiday',                   'required|maxlength:50');
+		// 公式サイト1
+		$this->manager->validation->setRule('url_official1',             'maxlength:256');
+		// 公式サイト2
+		$this->manager->validation->setRule('url_official2',             'maxlength:256');
+		// 公式サイト3
+		$this->manager->validation->setRule('url_official3',             'maxlength:256');
+		// 公式サイト4
+		$this->manager->validation->setRule('url_official4',             'maxlength:256');
+		// 外部サイト1
+		$this->manager->validation->setRule('url_outside1',              'maxlength:256');
+		// 外部サイト2
+		$this->manager->validation->setRule('url_outside2',              'maxlength:256');
 		// 担当者姓
 		$this->manager->validation->setRule('representative_sei',        'required|maxlength:30');
 		// 担当者名
@@ -197,7 +197,7 @@ class StorePage extends AdminPage {
 			// 口座番号
 			$this->manager->validation->setRule('jpbank_account_number', 'required|numeric|maxlength:30');
 			// 口座名義人
-			$this->manager->validation->setRule('bank_account_holder', 'required|maxlength:50');
+			$this->manager->validation->setRule('jpbank_account_holder', 'required|maxlength:50');
 		}
 		
 		return $this->manager->validation->run($param);
@@ -217,6 +217,7 @@ class StorePage extends AdminPage {
 			$area_first_id = isset($area_second_data['area_first_id']) ? $area_second_data['area_first_id'] : 0;
 		} else {
 			// 第1エリアマスターテーブルからレコードを引き出す
+			// TODO: デリバリー条件を含めるように見直すこと
 			$prefectures_data = $this->manager->db_manager->get('prefectures_master')->findById($param['area_first_prefectures_id']);
 			$region_id = isset($prefectures_data['region_id']) ? $prefectures_data['region_id'] : 0;
 			$prefectures_name = isset($prefectures_data['prefectures_name']) ? $prefectures_data['prefectures_name'] : "";
@@ -563,4 +564,26 @@ function same_email($key, $data) {
 		return true;
 	}
 	return false;
+}
+
+/**
+ * 0以上の小数であるか確認する
+ * 
+ */
+function pdecimal_zero($key, $data) {
+	if (!isset($data[$key]) || $data[$key] == '') {
+		return true;
+	}
+	
+	// 数値チェック
+	if (!is_numeric($data[$key])) {
+		return false;
+	}
+
+	// 0以上の小数チェック
+	if (!preg_match("/^(([1-9]\d*|0)(\.\d+)|0)$/", $data[$key])) {
+		return false;
+	}
+
+	return true;
 }

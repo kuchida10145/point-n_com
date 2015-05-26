@@ -45,54 +45,69 @@
 							</div>
 						</div>
 					<div class="box-content">
-						<form class="form-horizontal" method="get">
-						<div class="control-group">
-							<label class="control-label" for="selectError3">WEBサービス</label>
-							<div class="controls">
-								<button class="btn btn-success">運営中</button>
-								<button class="btn btn-warning">準備中</button>
-								<button class="btn btn-danger">停止中</button><br>
-								※停止にした場合、Point.comのサイトから一時的に該当店舗は検索されなくなります。
+						<form class="form-horizontal" method="get" action="">
+							<div class="control-group">
+								<label class="control-label" for="selectError3">WEBサービス</label>
+								<div class="controls">
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('status_id'));?>></span><div class="btn btn-success">運営中</div>
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="1" type="checkbox" <?php echo _check_checked(1, getGet('status_id'));?>></span><div class="btn btn-warning">準備中</div>
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="9" type="checkbox" <?php echo _check_checked(9, getGet('status_id'));?>></span><div class="btn btn-danger">停止中</div>
+									</label>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<label for="" class="control-label">店舗名</label>
-							<div class="controls"><input placeholder="" id="" name="store_name" value="<?php echo getGet('store_name');?>" type="text"></div>
-						</div>
-						<div class="control-group">
-							<label for="" class="control-label">業種</label>
-							<div class="controls">
-								<label class="checkbox inline">
-									<div id="uniform-inlineCheckbox1" class="checker"><span class="checked"><input id="inlineCheckbox1" value="option1" type="checkbox"></span></div> 店舗型風俗
-								</label>
-								<label class="checkbox inline">
-									<div id="uniform-inlineCheckbox2" class="checker"><span class="checked"><input id="inlineCheckbox2" value="option2" type="checkbox"></span></div> 無店舗型風俗
-								</label>
-								<label class="checkbox inline">
-									<div id="uniform-inlineCheckbox3" class="checker"><span class="checked"><input id="inlineCheckbox3" value="option3" type="checkbox"></span></div> ホストその他
-								</label>
+							<div class="control-group">
+								<label for="" class="control-label">店舗名</label>
+								<div class="controls"><input placeholder="" id="" name="store_name" value="<?php echo getGet('store_name');?>" type="text"></div>
 							</div>
-						</div>
-						<div class="control-group">
-							<label for="" class="control-label">新着店舗</label>
-							<div class="controls">
-								<label class="checkbox inline">
-									<div id="uniform-inlineCheckbox1" class="checker"><span class="checked"><input id="inlineCheckbox1" value="option1" type="checkbox"></span></div> 新着店
-								</label>
+							<div class="control-group">
+								<label for="" class="control-label">業種</label>
+								<div class="controls">
+									<label class="checkbox inline">
+										<span class="checked"><input id="type_of_industry_id1" name="type_of_industry_id[]" value="1" type="checkbox" <?php echo _check_checked(1, getGet('type_of_industry_id'));?>></span> 店舗型風俗
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="type_of_industry_id2" name="type_of_industry_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('type_of_industry_id'));?>></span> 無店舗型風俗
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="type_of_industry_id3" name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホストその他
+									</label>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="date01">入会日</label>
-							<div class="controls">
-								<input type="text" class="input-xlarge datepicker" id="date01" value="02/16/12">
-								～
-								<input type="text" class="input-xlarge datepicker" id="date01" value="02/16/12">
+							<div class="control-group">
+								<label for="" class="control-label">新着店舗</label>
+								<div class="controls">
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="1" <?php echo _check_checked(1, getGet('new_arrival'));?>> 新着店のみ
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="0" <?php echo _check_checked(0, getGet('new_arrival'));?>> 既存店のみ
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="2" <?php echo _check_checked(2, getGet('new_arrival'));?>> すべて
+									</label>
+								</div>
 							</div>
-						</div> 
-						<div class="form-actions">
-							<button type="submit" class="btn btn-primary">検索</button>
-							<button type="reset" class="btn" onclick="location.href='store.php'">リセット</button>
-						</div>
+							<div class="control-group">
+								<label class="control-label" for="date01">入会日</label>
+								<div class="controls">
+									<input type="text" name="regist_start" class="input-xlarge" value="<?php echo escapeHtml(getGet('regist_start'));?>">
+									～
+									<input type="text" name="regist_end" class="input-xlarge" value="<?php echo escapeHtml(getGet('regist_end'));?>">
+									<script type="text/javascript">
+										$(function(){$("[name=regist_start]").datepicker({"dateFormat":"yy-mm-dd"});});
+										$(function(){$("[name=regist_end]").datepicker({"dateFormat":"yy-mm-dd"});});
+									</script>
+								</div>
+							</div> 
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary">検索</button>
+								<button type="button" class="btn" onclick="location.href='store.php'">リセット</button>
+							</div>
                         </form>
                     </div>
 					</div><!--/span-->

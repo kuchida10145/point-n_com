@@ -148,21 +148,6 @@
 								</div>
 							</div>
 							
-							<!-- 
-							<div class="control-group <?php echo error_class(getParam($error, 'region_master_id'));?>">
-								<label class="control-label" for="typeahead">エリアマスター <span class="label label-important">必須</span><br>(第1選択ボタン)　　</label>
-								<div class="controls">
-									<select id="region_master_id" name="region_master_id">
-										<option value="">選択してください</option>
-										<?php foreach(region_master() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'region_master_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'region_master_id');?>
-								</div>
-							</div>
-							-->
-							
 							<div class="control-group <?php echo error_class(getParam($error, 'area_first_prefectures_id'));?>">
 								<label class="control-label" for="typeahead">第1エリア(都道府県) <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -278,6 +263,16 @@
 								</div>
 							</div>
 							
+							<div class="control-group <?php echo error_class(getParam($error, 'latitude'));?> <?php echo error_class(getParam($error, 'longitude'));?>">
+								<label class="control-label" for="typeahead">位置情報 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									緯度<input placeholder="" id="latitude" name="latitude" type="text" value="<?php echo getParam($post, 'latitude');?>"> 
+									<?php echo getParam($error, 'latitude');?>
+									経度<input placeholder="" id="longitude" name="longitude" type="text" value="<?php echo getParam($post, 'longitude');?>">
+									<?php echo getParam($error, 'longitude');?>
+								</div>
+							</div>
+							
 							<div class="control-group <?php echo error_class(getParam($error, 'zip_code1'));?> <?php echo error_class(getParam($error, 'zip_code2'));?> <?php echo error_class(getParam($error, 'zip_code'));?>">
 								<label class="control-label" for="typeahead">郵便番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -324,6 +319,14 @@
 								<div class="controls">
 									<input placeholder="" id="business_hours" name="business_hours" type="text" class="input-block-level" value="<?php echo getParam($post, 'business_hours');?>">
 									<?php echo getParam($error, 'business_hours');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'holiday'));?>">
+								<label class="control-label" for="typeahead">休日 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input placeholder="" id="holiday" name="holiday" type="text" class="input-block-level" value="<?php echo getParam($post, 'holiday');?>">
+									<?php echo getParam($error, 'holiday');?>
 								</div>
 							</div>
 							
