@@ -26,7 +26,7 @@ class AutomailPage extends AdminPage{
 	 *
 	 */
 	protected function validation($param){
-		$this->manager->validation->setRule('title'       ,'required');
+		$this->manager->validation->setRule('name'       ,'required');
 		$this->manager->validation->setRule('body'        ,'required');
 		$this->manager->validation->setRule('from_mail'   ,'required|email');
 		$this->manager->validation->setRule('from_name'   ,'required');
