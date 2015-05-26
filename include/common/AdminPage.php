@@ -286,6 +286,18 @@ abstract class AdminPage extends Page{
 		}
 		return $data;
 	}
+	
+	
+	/**
+	 * 入力用データからＤＢデータへ変換
+	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
+	 *
+	 * @param array $data 変換元データ
+	 * @return array 変換後データ
+	 */
+	protected function inputToDbData($data){
+		return $data;
+	}
 
 
 	/**
@@ -295,6 +307,7 @@ abstract class AdminPage extends Page{
 	protected function getDefaultEditData(){
 		return array();
 	}
+	
 
 
 	/**

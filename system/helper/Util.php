@@ -491,7 +491,11 @@ function _create_image_uploaded($name,$img_key,$img_val){
 	$html.= '<a href="javascript:void(0);" class="btn-delete" data-id="imgup_capbox_'.$name.$img_key.'"><!-- img_thumnail -->'."\r\n";
 	$html.= '<i class="icon-remove"></i>'."\r\n";
 	$html.= '</a><!-- btn-delete -->'."\r\n";
-	$html.= '<input type="hidden" name="'.$name.'['.$img_key.']" value="'.$img_val.'">'."\r\n";
+	if($img_key == ''){
+		$html.= '<input type="hidden" name="'.$name.'" value="'.$img_val.'">'."\r\n";
+	}else{
+		$html.= '<input type="hidden" name="'.$name.'['.$img_key.']" value="'.$img_val.'">'."\r\n";
+	}
 	$html.= '<img src="'.ROOT_URL.'files/images/'.$img_val.'">'."\r\n";
 	$html.= '</div><!-- img_thumnail -->'."\r\n";
 	$html.= '</div><!-- img_capbox -->'."\r\n";
@@ -501,7 +505,7 @@ function _create_image_uploaded($name,$img_key,$img_val){
 function _create_image_display($name,$img_key,$img_val){
 	$html = '<div class="img_capbox" id="imgup_capbox_'.$name.$img_key.'" style="margin-bottom:10px;">'."\r\n";
 	$html.= '<div class="img_thumnail">'."\r\n";
-	$html.= '<input type="hidden" name="main_image['.$img_key.']" value="'.$img_val.'">'."\r\n";
+	//$html.= '<input type="hidden" name="main_image['.$img_key.']" value="'.$img_val.'">'."\r\n";
 	$html.= '<img src="'.ROOT_URL.'files/images/'.$img_val.'">'."\r\n";
 	$html.= '</div><!-- img_thumnail -->'."\r\n";
 	$html.= '</div><!-- img_capbox -->'."\r\n";

@@ -246,6 +246,8 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function inseart_action($param) {
+		//DB用データに変換
+		$param = $this->inputToDbData($param);
 		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
@@ -302,6 +304,10 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function update_actoin($param){
+		//DB用データに変換
+		$param = $this->inputToDbData($param);
+		
+		
 		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
@@ -374,6 +380,19 @@ class StorePage extends AdminPage {
 		
 		return $id;
 	}
+	
+	/**
+	 * 入力用データからＤＢデータへ変換
+	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
+	 *
+	 * @param array $data 変換元データ
+	 * @return array 変換後データ
+	 */
+	protected function inputToDbData($data){
+		return $data;
+	}
+	
+	
 	
 	
 	/**
