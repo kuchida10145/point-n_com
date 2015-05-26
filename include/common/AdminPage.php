@@ -383,6 +383,7 @@ abstract class AdminPage extends Page{
 	 * @return mixed
 	 */
 	protected function inseart_action($param){
+		$param = $this->inputToDbData($param);
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
 
 	}
@@ -395,6 +396,7 @@ abstract class AdminPage extends Page{
 	 * @return mixed
 	 */
 	protected function update_actoin($param){
+		$param = $this->inputToDbData($param);
 		return $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
 	}
 

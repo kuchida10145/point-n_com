@@ -120,6 +120,7 @@ abstract class MaintenancePage extends AdminPage{
 	protected function inseart_action($param){
 		$account = $this->getAccount();
 		$param['store_id'] = $account['store_id'];
+		$param = $this->inputToDbData($param);
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
 
 	}
@@ -134,6 +135,7 @@ abstract class MaintenancePage extends AdminPage{
 	protected function update_actoin($param){
 		$account = $this->getAccount();
 		$param['store_id'] = $account['store_id'];
+		$param = $this->inputToDbData($param);
 		return $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
 	}
 }
