@@ -55,9 +55,7 @@
 							<div class="control-group">
 								<label class="control-label" for="selectError3">WEBサービス</label>
 								<div class="controls">
-									<button class="btn btn-success">運営中</button>
-									<button class="btn btn-warning">準備中</button>
-									<button class="btn btn-danger">停止中</button>
+									<?php echo getParam(store_status_label(), getParam($post, 'status_id'));?>
 								</div>
 							</div>
 							
@@ -68,7 +66,7 @@
 							
 							<div class="control-group">
 								<label for="" class="control-label">入会日(登録日)</label>
-								<div class="controls">新規登録時に自動入力</div>
+								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
 							</div>
 							
 							<div class="control-group">
@@ -88,7 +86,7 @@
 							
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
-								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'photos'), 'photos', 'display');?></div>
+								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 							</div>
 							
 							<div class="control-group">
@@ -152,32 +150,32 @@
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">
 									<div class="masonry-gallery">
-										<div id="image-1" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo1.jpg)" title="Sample Image 1" href="img/gallery/photo1.jpg"><img class="grayscale" src="img/gallery/photo1.jpg" alt="Sample Image 1"></a>
+										<div id="image1" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image1'), 'image1', 'display');?>
 										</div>
-										<div id="image-2" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo2.jpg)" title="Sample Image 2" href="img/gallery/photo2.jpg"><img class="grayscale" src="img/gallery/photo2.jpg" alt="Sample Image 2"></a>
+										<div id="image2" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image2'), 'image2', 'display');?>
 										</div>
-										<div id="image-3" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo3.jpg)" title="Sample Image 3" href="img/gallery/photo3.jpg"><img class="grayscale" src="img/gallery/photo3.jpg" alt="Sample Image 3"></a>
+										<div id="image3" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image3'), 'image3', 'display');?>
 										</div>
-										<div id="image-4" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo4.jpg)" title="Sample Image 4" href="img/gallery/photo4.jpg"><img class="grayscale" src="img/gallery/photo4.jpg" alt="Sample Image 4"></a>
+										<div id="image4" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image4'), 'image4', 'display');?>
 										</div>
-										<div id="image-5" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo5.jpg)" title="Sample Image 5" href="img/gallery/photo5.jpg"><img class="grayscale" src="img/gallery/photo5.jpg" alt="Sample Image 5"></a>
+										<div id="image5" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image5'), 'image5', 'display');?>
 										</div>
-										<div id="image-6" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo6.jpg)" title="Sample Image 6" href="img/gallery/photo6.jpg"><img class="grayscale" src="img/gallery/photo6.jpg" alt="Sample Image 6"></a>
+										<div id="image6" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image6'), 'image6', 'display');?>
 										</div>
-										<div id="image-7" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo7.jpg)" title="Sample Image 7" href="img/gallery/photo7.jpg"><img class="grayscale" src="img/gallery/photo7.jpg" alt="Sample Image 7"></a>
+										<div id="image7" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image7'), 'image7', 'display');?>
 										</div>
-										<div id="image-8" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo8.jpg)" title="Sample Image 8" href="img/gallery/photo8.jpg"><img class="grayscale" src="img/gallery/photo8.jpg" alt="Sample Image 8"></a>
+										<div id="image8" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image8'), 'image8', 'display');?>
 										</div>
-										<div id="image-9" class="masonry-thumb">
-											<a style="background:url(img/gallery/photo9.jpg)" title="Sample Image 9" href="img/gallery/photo9.jpg"><img class="grayscale" src="img/gallery/photo9.jpg" alt="Sample Image 9"></a>
+										<div id="image9" class="masonry-thumb">
+											<?php echo create_image_uploaded(getParam($post, 'image9'), 'image9', 'display');?>
 										</div>
 									</div>
 								</div>

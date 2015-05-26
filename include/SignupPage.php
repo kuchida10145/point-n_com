@@ -1,9 +1,9 @@
 <?php
 /**
- * TOP
+ * 会員情報登録
  *
  */
-include_once dirname(__FILE__).'/Page.php';
+include_once dirname(__FILE__).'/common/Page.php';
 
 class SignupPage extends Page{
 
@@ -12,12 +12,12 @@ class SignupPage extends Page{
 
 
 	protected $view = array(
-			'index'    =>'signup/index',
-			'send'     =>'signup/send',
-			'edit'     =>'signup/edit',
-			'confirm'  =>'signup/confirm',
-			'thanks'   =>'signup/thanks',
-			'timeout'  =>'signup/timeout',
+			'index'           =>'signup/index',
+			'send'            =>'signup/send',
+			'regist'          =>'signup/regist',
+			'regist_confirm'  =>'signup/regist_confirm',
+			'thanks'          =>'signup/thanks',
+			'timeout'         =>'signup/timeout',
 	);
 
 
@@ -78,11 +78,15 @@ class SignupPage extends Page{
 	 * 会員情報入力
 	 *
 	 */
-	public function editAction(){
+	public function registAction(){
 		$data = array();
 		$post = array();
 		$error = array();
 
+		
+		
+		$this->loadView('regist', array());
+		exit();
 
 
 		//トークンが設定されていない場合
@@ -103,7 +107,7 @@ class SignupPage extends Page{
 
 			$this->setFormSession('user_id', $user['id']);
 
-			redirect('edit.html?tkn='.$this->token);
+			redirect('regist.php?tkn='.$this->token);
 			exit();
 		}
 
@@ -132,7 +136,7 @@ class SignupPage extends Page{
 				);
 
 				$this->setFormSession('form', $form_data);
-				redirect('confirm.html?tkn='.$this->token);
+				redirect('confirm.php?tkn='.$this->token);
 			}
 			$error = $this->getValidationError();
 		}
@@ -145,7 +149,7 @@ class SignupPage extends Page{
 		$data['user'] = $user;
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
-		$this->loadView('edit', $data);
+		$this->loadView('regist', $data);
 	}
 
 
@@ -153,11 +157,13 @@ class SignupPage extends Page{
 	 * 会員情報確認
 	 *
 	 */
-	public function confirmAction(){
+	public function regist_confirmAction(){
 		$data = array();
 		$this->token = getGet('tkn');
 
-
+		$this->loadView('regist_confirm', array());
+		exit();
+		
 		$user_id = $this->getFormSession('user_id');
 
 		if($user_id == '' || !($user = $this->manager->db_manager->get('user')->findById($user_id))){
@@ -205,13 +211,13 @@ class SignupPage extends Page{
 			$mail['to'] = $user['email'];
 			$this->manager->mailer->setMailData($mail);
 			$this->manager->mailer->sendMail();
-			redirect('thanks.html');
+			redirect('thanks.php');
 		}
 
 		$data['post']  = escapeHtml($form_data);
 		$data['email'] = $user['email'];
 
-		$this->loadView('confirm', $data);
+		$this->loadView('regist_confirm', $data);
 	}
 
 

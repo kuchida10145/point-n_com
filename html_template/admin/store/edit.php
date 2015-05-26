@@ -52,14 +52,29 @@
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="edit" name="m">
+							<?php if (getParam($post, 'regist_date') != "") : ?>
+							<div class="control-group <?php echo error_class(getParam($error,'status_id'));?>">
+								<label class="control-label" for="">WEBサービス</label>
+								<div class="controls">
+									<label class="radio">
+										<input type="radio" name="status_id" value="2" <?php echo _check_checked(2, getParam($post, 'status_id'));?>><div class="btn btn-success">運営中</div>
+									</label>
+									<label class="radio">
+										<input type="radio" name="status_id" value="1" <?php echo _check_checked(1, getParam($post, 'status_id'));?>><div class="btn btn-warning">準備中</div>
+									</label>
+									<label class="radio">
+										<input type="radio" name="status_id" value="9" <?php echo _check_checked(9, getParam($post, 'status_id'));?>><div class="btn btn-danger">停止中</div>
+									</label>
+								</div>
+							</div>
+							<?php else : ?>
 							<div class="control-group">
 								<label class="control-label" for="">WEBサービス</label>
 								<div class="controls">
-									<button class="btn btn-success">運営中</button>
-									<button class="btn btn-warning">準備中</button>
-									<button class="btn btn-danger">停止中</button>
+									<span class="label label-large label-warning">準備中</span>
 								</div>
 							</div>
+							<?php endif; ?>
 							
 						<div class="box-header" data-original-title="">
 							アカウント管理
@@ -99,13 +114,13 @@
 									</select>
 									<?php echo getParam($error, 'type_of_industry_id');?>
 								</div>
-						    </div>
-						    
-							<div class="control-group">
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
 								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<div id="photos"><?php echo create_image_uploaded(getParam($post,'photos'),'photos');?></div>
-									<?php echo getParam($error,'photos');?>
+									<div id="license"><?php echo create_image_uploaded(getParam($post,'license'),'license');?></div>
+									<?php echo getParam($error,'license');?>
 								</div>
 							</div>
 							
@@ -234,15 +249,24 @@
 							<div class="control-group">
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file">
-									<input class="input-file uniform_on" id="fileInput" type="file"> 
+									<div id="image1"><?php echo create_image_uploaded(getParam($post,'image1'),'image1');?></div>
+									<?php echo getParam($error,'image1');?>
+									<div id="image2"><?php echo create_image_uploaded(getParam($post,'image2'),'image2');?></div>
+									<?php echo getParam($error,'image2');?>
+									<div id="image3"><?php echo create_image_uploaded(getParam($post,'image3'),'image3');?></div>
+									<?php echo getParam($error,'image3');?>
+									<div id="image4"><?php echo create_image_uploaded(getParam($post,'image4'),'image4');?></div>
+									<?php echo getParam($error,'image4');?>
+									<div id="image5"><?php echo create_image_uploaded(getParam($post,'image5'),'image5');?></div>
+									<?php echo getParam($error,'image5');?>
+									<div id="image6"><?php echo create_image_uploaded(getParam($post,'image6'),'image6');?></div>
+									<?php echo getParam($error,'image6');?>
+									<div id="image7"><?php echo create_image_uploaded(getParam($post,'image7'),'image7');?></div>
+									<?php echo getParam($error,'image7');?>
+									<div id="image8"><?php echo create_image_uploaded(getParam($post,'image8'),'image8');?></div>
+									<?php echo getParam($error,'image8');?>
+									<div id="image9"><?php echo create_image_uploaded(getParam($post,'image9'),'image9');?></div>
+									<?php echo getParam($error,'image9');?>
 								</div>
 							</div>
 							
@@ -250,19 +274,20 @@
 								<label class="control-label" for="textarea2">お店からのお知らせ</label>
 								<div class="controls">
 									<textarea class="cleditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
+									<?php echo getParam($error, 'introduction');?>
 								</div>
-								<?php echo getParam($error, 'introduction');?>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'zip_code1'));?> <?php echo error_class(getParam($error, 'zip_code2'));?>">
+							<div class="control-group <?php echo error_class(getParam($error, 'zip_code1'));?> <?php echo error_class(getParam($error, 'zip_code2'));?> <?php echo error_class(getParam($error, 'zip_code'));?>">
 								<label class="control-label" for="typeahead">郵便番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="zip_code1" name="zip_code1" type="text" value="<?php echo getParam($post, 'zip_code1');?>"> 
+									<?php echo getParam($error, 'zip_code1');?>
 									-
 									<input placeholder="" id="zip_code2" name="zip_code2" type="text" value="<?php echo getParam($post, 'zip_code2');?>">
+									<?php echo getParam($error, 'zip_code2');?>
+									<?php echo getParam($error, 'zip_code');?>
 								</div>
-								<?php echo getParam($error, 'zip_code1');?>
-								<?php echo getParam($error, 'zip_code2');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'prefectures_id'));?>">
@@ -274,95 +299,96 @@
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'prefectures_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
+									<?php echo getParam($error, 'prefectures_id');?>
 								</div>
-								<?php echo getParam($error, 'prefectures_id');?>
 							</div>  
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'address1'));?>">
 								<label class="control-label" for="typeahead">市町村番地 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="address1" name="address1" type="text" class="input-block-level" value="<?php echo getParam($post, 'address1');?>">
+									<?php echo getParam($error, 'address1');?>
 								</div>
-								<?php echo getParam($error, 'address1');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'address2'));?>">
 								<label class="control-label" for="typeahead">マンション/ビル名</label>
 								<div class="controls">
 									<input placeholder="" id="address2" name="address2" type="text" class="input-block-level" value="<?php echo getParam($post, 'address2');?>">
+									<?php echo getParam($error, 'address2');?>
 								</div>
-								<?php echo getParam($error, 'address2');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'business_hours'));?>">
 								<label class="control-label" for="typeahead">営業時間 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="business_hours" name="business_hours" type="text" class="input-block-level" value="<?php echo getParam($post, 'business_hours');?>">
+									<?php echo getParam($error, 'business_hours');?>
 								</div>
-								<?php echo getParam($error, 'business_hours');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'telephone1'));?> <?php echo error_class(getParam($error, 'telephone2'));?> <?php echo error_class(getParam($error, 'telephone3'));?>">
 								<label class="control-label" for="typeahead">電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="telephone1" name="telephone1" type="text" value="<?php echo getParam($post, 'telephone1');?>">
+									<?php echo getParam($error, 'telephone1');?>
 									-
 									<input placeholder="" id="telephone2" name="telephone2" type="text" value="<?php echo getParam($post, 'telephone2');?>">
+									<?php echo getParam($error, 'telephone2');?>
 									-
 									<input placeholder="" id="telephone3" name="telephone3" type="text" value="<?php echo getParam($post, 'telephone3');?>">
+									<?php echo getParam($error, 'telephone3');?>
+									<?php echo getParam($error, 'telephone');?>
 								</div>
-								<?php echo getParam($error, 'telephone1');?>
-								<?php echo getParam($error, 'telephone2');?>
-								<?php echo getParam($error, 'telephone3');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official1'));?>">
 								<label class="control-label" for="typeahead">公式サイト1</label>
 								<div class="controls">
 									<input placeholder="" id="url_official1" name="url_official1" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_official1');?>">
+									<?php echo getParam($error, 'url_official1');?>
 								</div>
-								<?php echo getParam($error, 'url_official1');?>
 							</div>   
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official2'));?>">
 								<label class="control-label" for="typeahead">公式サイト2</label>
 								<div class="controls">
 									<input placeholder="" id="url_official2" name="url_official2" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_official2');?>">
+									<?php echo getParam($error, 'url_official2');?>
 								</div>
-								<?php echo getParam($error, 'url_official2');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official3'));?>">
 								<label class="control-label" for="typeahead">公式サイト3</label>
 								<div class="controls">
 									<input placeholder="" id="url_official3" name="url_official3" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_official3');?>">
+									<?php echo getParam($error, 'url_official3');?>
 								</div>
-								<?php echo getParam($error, 'url_official3');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official4'));?>">
 								<label class="control-label" for="typeahead">公式サイト4</label>
 								<div class="controls">
 									<input placeholder="" id="url_official4" name="url_official4" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_official4');?>">
+									<?php echo getParam($error, 'url_official4');?>
 								</div>
-								<?php echo getParam($error, 'url_official4');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_outside1'));?>">
 								<label class="control-label" for="typeahead">外部サイト1</label>
 								<div class="controls">
 									<input placeholder="" id="url_outside1" name="url_outside1" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside1');?>">
+									<?php echo getParam($error, 'url_outside1');?>
 								</div>
-								<?php echo getParam($error, 'url_outside1');?>
-							</div>   
+							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_outside2'));?>">
 								<label class="control-label" for="typeahead">外部サイト2</label>
 								<div class="controls">
 									<input placeholder="" id="url_outside2" name="url_outside2" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside2');?>">
+									<?php echo getParam($error, 'url_outside2');?>
 								</div>
-								<?php echo getParam($error, 'url_outside2');?>
-							</div>   
+							</div>
 							
 						<div class="box-header" data-original-title="">
 							その他
@@ -373,32 +399,34 @@
 								<label class="control-label" for="typeahead">担当者名 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									姓<input placeholder="" id="representative_sei" name="representative_sei" type="text" value="<?php echo getParam($post, 'representative_sei');?>">
+									<?php echo getParam($error, 'representative_sei');?>
 									名<input placeholder="" id="representative_mei" name="representative_mei" type="text" value="<?php echo getParam($post, 'representative_mei');?>">
+									<?php echo getParam($error, 'representative_mei');?>
 								</div>
-								<?php echo getParam($error, 'representative_sei');?>
-								<?php echo getParam($error, 'representative_mei');?>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'representative_email'));?>">
+							<div class="control-group <?php echo error_class(getParam($error, 'representative_email'));?> <?php echo error_class(getParam($error, 'representative_email_confirm'));?> <?php echo error_class(getParam($error, 'representative_email_both'));?>">
 								<label class="control-label" for="typeahead">メールアドレス <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="representative_email" name="representative_email" type="text" class="input-block-level" value="<?php echo getParam($post, 'representative_email');?>"><br>
+									<?php echo getParam($error, 'representative_email');?>
 									確認のためもう一度入力してください。<br>
 									<input placeholder="" id="representative_email_confirm" name="representative_email_confirm" type="text" class="input-block-level" value="<?php echo getParam($post, 'representative_email_confirm');?>">
+									<?php echo getParam($error, 'representative_email_confirm');?>
+									<?php echo getParam($error, 'representative_email_both');?>
 								</div>
-								<?php echo getParam($error, 'representative_email');?>
-								<?php echo getParam($error, 'representative_email_confirm');?>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'reserved_email'));?> <?php echo error_class(getParam($error, 'reserved_email_confirm'));?>">
+							<div class="control-group <?php echo error_class(getParam($error, 'reserved_email'));?> <?php echo error_class(getParam($error, 'reserved_email_confirm'));?> <?php echo error_class(getParam($error, 'reserved_email_both'));?>">
 								<label class="control-label" for="typeahead">予約受信メールアドレス <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="reserved_email" name="reserved_email" type="text" class="input-block-level" value="<?php echo getParam($post, 'reserved_email');?>"><br>
+									<?php echo getParam($error, 'reserved_email');?>
 									確認のためもう一度入力してください。<br>
 									<input placeholder="" id="reserved_email_confirm" name="reserved_email_confirm" type="text" class="input-block-level" value="<?php echo getParam($post, 'reserved_email_confirm');?>">
+									<?php echo getParam($error, 'reserved_email_confirm');?>
+									<?php echo getParam($error, 'reserved_email_both');?>
 								</div>
-								<?php echo getParam($error, 'reserved_email');?>
-								<?php echo getParam($error, 'reserved_email_confirm');?>
 							</div>
 							
 							<div class="control-group">
@@ -410,8 +438,8 @@
 								<label class="control-label" for="typeahead">銀行名 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="bank_name1" name="bank_name1" type="text" class="input-block-level" value="<?php echo getParam($post, 'bank_name1');?>">
+									<?php echo getParam($error, 'bank_name1');?>
 								</div>
-								<?php echo getParam($error, 'bank_name1');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind1'));?> <?php echo error_class(getParam($error, 'bank_account_number1'));?>">
@@ -423,31 +451,31 @@
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'bank_kind1'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
+									<?php echo getParam($error, 'bank_kind1');?>
 									<input placeholder="" id="bank_account_number1" name="bank_account_number1" type="text" value="<?php echo getParam($post, 'bank_account_number1');?>">
+									<?php echo getParam($error, 'bank_account_number1');?>
 								</div>
-								<?php echo getParam($error, 'bank_kind1');?>
-								<?php echo getParam($error, 'bank_account_number1');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder1'));?>">
 								<label class="control-label" for="typeahead">口座名義人 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="bank_account_holder1" name="bank_account_holder1" type="text" value="<?php echo getParam($post, 'bank_account_holder1');?>">
+									<?php echo getParam($error, 'bank_account_holder1');?>
 								</div>
-								<?php echo getParam($error, 'bank_account_holder1');?>
-							</div> 
+							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>銀行2</strong></label>
 								<div class="controls"></div>
-							</div>      
+							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_name2'));?>">
 								<label class="control-label" for="typeahead">銀行名</label>
 								<div class="controls">
 									<input placeholder="" id="bank_name2" name="bank_name2" type="text" class="input-block-level" value="<?php echo getParam($post, 'bank_name2');?>">
+									<?php echo getParam($error, 'bank_name2');?>
 								</div>
-								<?php echo getParam($error, 'bank_name2');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind2'));?>">
@@ -460,30 +488,30 @@
 										<?php endforeach;?>
 									</select>
 									<input placeholder="" id="bank_account_number2" name="bank_account_number2" type="text" value="<?php echo getParam($post, 'bank_account_number2');?>">
+									<?php echo getParam($error, 'bank_kind2');?>
+									<?php echo getParam($error, 'bank_account_number2');?>
 								</div>
-								<?php echo getParam($error, 'bank_kind2');?>
-								<?php echo getParam($error, 'bank_account_number2');?>
-							</div>  
+							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder2'));?>">
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
 									<input placeholder="" id="bank_account_holder2" name="bank_account_holder2" type="text" value="<?php echo getParam($post, 'bank_account_holder2');?>">
+									<?php echo getParam($error, 'bank_account_holder2');?>
 								</div>
-								<?php echo getParam($error, 'bank_account_holder2');?>
-							</div> 
+							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>銀行3</strong></label>
 								<div class="controls"></div>
-							</div>      
+							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_name3'));?>">
 								<label class="control-label" for="typeahead">銀行名</label>
 								<div class="controls">
 									<input placeholder="" id="bank_name3" name="bank_name3" type="text" class="input-block-level" value="<?php echo getParam($post, 'bank_name3');?>">
+									<?php echo getParam($error, 'bank_name3');?>
 								</div>
-								<?php echo getParam($error, 'bank_name3');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind3'));?>">
@@ -495,50 +523,50 @@
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'bank_kind3'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
+									<?php echo getParam($error, 'bank_kind3');?>
 									<input placeholder="" id="bank_account_number3" name="bank_account_number3" type="text" value="<?php echo getParam($post, 'bank_account_number3');?>">
+									<?php echo getParam($error, 'bank_account_number3');?>
 								</div>
-								<?php echo getParam($error, 'bank_kind3');?>
-								<?php echo getParam($error, 'bank_account_number3');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder3'));?>">
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
 									<input placeholder="" id="bank_account_holder3" name="bank_account_holder3" type="text" value="<?php echo getParam($post, 'bank_account_holder3');?>">
+									<?php echo getParam($error, 'bank_account_holder3');?>
 								</div>
-								<?php echo getParam($error, 'bank_account_holder3');?>
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>ゆうちょ銀行</strong></label>
 								<div class="controls"></div>
-							</div>      
+							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'jpbank_symbol1'));?> <?php echo error_class(getParam($error, 'jpbank_symbol2'));?>">
 								<label class="control-label" for="typeahead">記号</label>
 								<div class="controls">
 									<input placeholder="" id="jpbank_symbol1" name="jpbank_symbol1" type="text" value="<?php echo getParam($post, 'jpbank_symbol1');?>">
+									<?php echo getParam($error, 'jpbank_symbol1');?>
 									-
 									<input placeholder="" id="jpbank_symbol2" name="jpbank_symbol2" type="text" value="<?php echo getParam($post, 'jpbank_symbol2');?>">
+									<?php echo getParam($error, 'jpbank_symbol2');?>
 								</div>
-								<?php echo getParam($error, 'jpbank_symbol1');?>
-								<?php echo getParam($error, 'jpbank_symbol2');?>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'jpbank_account_number'));?>">
 								<label class="control-label" for="typeahead">番号</label>
 								<div class="controls">
 									<input placeholder="" id="jpbank_account_number" name="jpbank_account_number" type="text" value="<?php echo getParam($post, 'jpbank_account_number');?>">
+									<?php echo getParam($error, 'jpbank_account_number');?>
 								</div>
-								<?php echo getParam($error, 'jpbank_account_number');?>
 							</div>
 							
 							<div class="control-group" <?php echo error_class(getParam($error, 'jpbank_account_holder'));?>>
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
 									<input placeholder="" id="jpbank_account_holder" name="jpbank_account_holder" type="text" value="<?php echo getParam($post, 'jpbank_account_holder');?>">
+									<?php echo getParam($error, 'jpbank_account_holder');?>
 								</div>
-								<?php echo getParam($error, 'jpbank_account_holder');?>
 							</div>
 							
 							<div class="form-actions">
@@ -570,7 +598,7 @@
 	<script>
 	$(function(){
 		
-		$('#photos').imageUpload({url:'/admin/store.php?m=image_upload',name:'photos'});
+		$('#license').imageUpload({url:'/admin/store.php?m=image_upload',name:'license'});
 		$('#type_of_industry_id').change(function() {
 			$('#type_of_industry_id').changeUpperItem({
 				url:'/admin/store.php?m=change_upper_item',
@@ -598,6 +626,15 @@
 				name:'area_second_id',
 				selected:$(this).val()});
 		});
+		$('#image1').imageUpload({url:'/admin/store.php?m=image_upload',name:'image1'});
+		$('#image2').imageUpload({url:'/admin/store.php?m=image_upload',name:'image2'});
+		$('#image3').imageUpload({url:'/admin/store.php?m=image_upload',name:'image3'});
+		$('#image4').imageUpload({url:'/admin/store.php?m=image_upload',name:'image4'});
+		$('#image5').imageUpload({url:'/admin/store.php?m=image_upload',name:'image5'});
+		$('#image6').imageUpload({url:'/admin/store.php?m=image_upload',name:'image6'});
+		$('#image7').imageUpload({url:'/admin/store.php?m=image_upload',name:'image7'});
+		$('#image8').imageUpload({url:'/admin/store.php?m=image_upload',name:'image8'});
+		$('#image9').imageUpload({url:'/admin/store.php?m=image_upload',name:'image9'});
 		
 	});
 	</script>

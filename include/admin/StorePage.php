@@ -92,7 +92,8 @@ class StorePage extends AdminPage {
 		$this->manager->validation->setRule('store_name',          'required|maxlength:50');
 		// 業種
 		$this->manager->validation->setRule('type_of_industry_id', 'required');
-		// TODO: 許可証の表示
+		// 許可証の表示
+		$this->manager->validation->setRule('license',             'required');
 		// ユーザー名
 		$this->manager->validation->setRule('account_name',        'required|maxlength:50');
 		// ログインID
@@ -104,32 +105,100 @@ class StorePage extends AdminPage {
 			$this->manager->validation->setRule('login_password',  'password:4:8');
 		}
 		// 第1エリア
-		$this->manager->validation->setRule('area_first_prefectures_id', 'required');
+		$this->manager->validation->setRule('area_first_prefectures_id', 'selected');
 		// ジャンルマスター
-		$this->manager->validation->setRule('category_large_id', 'required');
+		$this->manager->validation->setRule('category_large_id',         'selected');
 		// 中カテゴリー
-		$this->manager->validation->setRule('category_midium_id', 'required');
+		$this->manager->validation->setRule('category_midium_id',        'selected');
 		// 小カテゴリー
-		$this->manager->validation->setRule('category_small_id', 'required');
+		$this->manager->validation->setRule('category_small_id',         'selected');
 		// 第2エリア
-		$this->manager->validation->setRule('area_second_id', 'required');
+		$this->manager->validation->setRule('area_second_id',            'selected');
 		// 第3エリア
-		$this->manager->validation->setRule('area_third_id', 'required');
-		// TODO: 郵便番号(zip_code1, zip_code2)
-		// TODO: 都道府県(prefectures_id)
-		// TODO: 市町村番地(address1)
-		// TODO: マンション/ビル名(address2)
+		$this->manager->validation->setRule('area_third_id',             'selected');
+		// 郵便番号
+		$this->manager->validation->setRule('zip_code1',                 'required|numeric');
+		$this->manager->validation->setRule('zip_code2',                 'required|numeric');
+		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
+		$this->manager->validation->setRule('zip_code',                  'postcode');
+		// 都道府県
+		$this->manager->validation->setRule('prefectures_id',            'selected');
+		// 市町村番地
+		$this->manager->validation->setRule('address1',                  'required|maxlength:100');
+		// マンション/ビル名
+		$this->manager->validation->setRule('address2',                  'maxlength:100');
 		// TODO: 緯度(latitude)
+// 		$this->manager->validation->setRule('latitude',                  'required');
 		// TODO: 経度(longitude)
-		// TODO: 営業時間(business_hours)
-		// TODO: 電話番号(telephone1, telephone2, telephone3)
+// 		$this->manager->validation->setRule('longitude',                 'required');
+		// 営業時間
+		$this->manager->validation->setRule('business_hours',            'required');
+		// 電話番号
+		$this->manager->validation->setRule('telephone1',                'required|numeric');
+		$this->manager->validation->setRule('telephone2',                'required|numeric');
+		$this->manager->validation->setRule('telephone3',                'required|numeric');
+		$param['telephone'] = $param['telephone1'] . "-" . $param['telephone2'] . "-" . $param['telephone3'];
+		$this->manager->validation->setRule('telephone',                 'tel');
 		// TODO: 休日(holiday)
-		// TODO: 担当者姓(representative_sei)
-		// TODO: 担当者名(representative_mei)
-		// TODO: メールアドレス(representative_email)
-		// TODO: 予約受信メールアドレス(reserved_email)
-		// TODO: 銀行
-		// TODO: ゆうちょ銀行
+// 		$this->manager->validation->setRule('holiday',                   'required|maxlength:50');
+		// TODO: 公式サイト1(url_official1)
+// 		$this->manager->validation->setRule('url_official1',             'url|maxlength:256');
+		// TODO: 公式サイト2(url_official2)
+// 		$this->manager->validation->setRule('url_official2',             'url|maxlength:256');
+		// TODO: 公式サイト3(url_official3)
+// 		$this->manager->validation->setRule('url_official3',             'url|maxlength:256');
+		// TODO: 公式サイト4(url_official4)
+// 		$this->manager->validation->setRule('url_official4',             'url|maxlength:256');
+		// TODO: 外部サイト1(url_outside1)
+// 		$this->manager->validation->setRule('url_outside1',              'url|maxlength:256');
+		// TODO: 外部サイト2(url_outside2)
+// 		$this->manager->validation->setRule('url_outside2',              'url|maxlength:256');
+		// 担当者姓
+		$this->manager->validation->setRule('representative_sei',        'required|maxlength:30');
+		// 担当者名
+		$this->manager->validation->setRule('representative_mei',        'required|maxlength:30');
+		// メールアドレス
+		$this->manager->validation->setRule('representative_email',      'required|email|maxlength:256');
+		// 確認用メールアドレス
+		$this->manager->validation->setRule('representative_email_confirm', 'required|email|maxlength:256');
+		// 入力メールアドレスの同値チェック
+		if ($param['representative_email'] != "" && $param['representative_email_confirm'] != "") {
+			$param['representative_email_both'] = $param['representative_email'] . ',' . $param['representative_email_confirm'];
+			$this->manager->validation->setRule('representative_email_both', 'same_email');
+		}
+		// 予約受信メールアドレス
+		$this->manager->validation->setRule('reserved_email',            'required|email|maxlength:256');
+		// 確認用予約受信メールアドレス
+		$this->manager->validation->setRule('reserved_email_confirm',    'required|email|maxlength:256');
+		// 入力予約受信メールアドレスの同値チェック
+		if ($param['reserved_email'] != "" && $param['reserved_email_confirm'] != "") {
+			$param['reserved_email_both'] = $param['reserved_email'] . ',' . $param['reserved_email_confirm'];
+			$this->manager->validation->setRule('reserved_email_both',       'same_email');
+		}
+		// 銀行
+		for ($i = 1; $i <= 3; $i++) {
+			if ($i == 1 || ($param['bank_name'.$i] != "" || $param['bank_kind'.$i] != "" || $param['bank_account_number'.$i] != "" || $param['bank_account_holder'.$i] != "")) {
+				// 銀行名
+				$this->manager->validation->setRule('bank_name'.$i,           'required|maxlength:50');
+				// 口座種類
+				$this->manager->validation->setRule('bank_kind'.$i,           'selected');
+				// 口座番号
+				$this->manager->validation->setRule('bank_account_number'.$i, 'required|numeric|maxlength:30');
+				// 口座名義人
+				$this->manager->validation->setRule('bank_account_holder'.$i, 'required|maxlength:50');
+			}
+		}
+		// ゆうちょ銀行
+		if ($param['jpbank_symbol1'] != "" || $param['jpbank_symbol2'] != "" || $param['jpbank_account_number'] != "" || $param['jpbank_account_holder'] != "") {
+			// 記号１
+			$this->manager->validation->setRule('jpbank_symbol1', 'required|alphanumeric|maxlength:20');
+			// 記号２
+			$this->manager->validation->setRule('jpbank_symbol2', 'required|alphanumeric|maxlength:20');
+			// 口座番号
+			$this->manager->validation->setRule('jpbank_account_number', 'required|numeric|maxlength:30');
+			// 口座名義人
+			$this->manager->validation->setRule('bank_account_holder', 'required|maxlength:50');
+		}
 		
 		return $this->manager->validation->run($param);
 	}
@@ -177,6 +246,8 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function inseart_action($param) {
+		//DB用データに変換
+		$param = $this->inputToDbData($param);
 		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
@@ -233,6 +304,10 @@ class StorePage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function update_actoin($param){
+		//DB用データに変換
+		$param = $this->inputToDbData($param);
+		
+		
 		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
@@ -305,6 +380,19 @@ class StorePage extends AdminPage {
 		
 		return $id;
 	}
+	
+	/**
+	 * 入力用データからＤＢデータへ変換
+	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
+	 *
+	 * @param array $data 変換元データ
+	 * @return array 変換後データ
+	 */
+	protected function inputToDbData($data){
+		return $data;
+	}
+	
+	
 	
 	
 	/**
@@ -460,4 +548,19 @@ function duplicate_id($key, $data) {
 	}
 
 	return true;
+}
+
+/**
+ * 同一メールアドレスチェック
+ * 
+ */
+function same_email($key, $data) {
+	$emails = explode(',', $data[$key]);
+	if (count($emails) != 2) {
+		return false;
+	}
+	if ($emails[0] === $emails[1]) {
+		return true;
+	}
+	return false;
 }
