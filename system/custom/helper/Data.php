@@ -40,8 +40,8 @@ function account_status_label(){
 function user_status(){
 	return array(
 		1=>'仮登録',
-		2=>'可能',
-		9=>'不可'
+		2=>'有効',
+		9=>'無効'
 	);
 }
 /**
@@ -52,8 +52,20 @@ function user_status(){
 function user_status_label(){
 	return array(
 		1=>'<span class="label label-large label-danger">仮登録</span>',
-		2=>'<span class="label label-large label-success">可能</span>',
-		9=>'<span class="label label-large label-warning">不可</span>',
+		2=>'<span class="label label-large label-success">有効</span>',
+		9=>'<span class="label label-large label-warning">無効</span>',
+	);
+}
+
+/**
+ * 会員性別
+ *
+ * @return array
+ */
+function user_gender() {
+	return array(
+		1=>'男性',
+		2=>'女性',
 	);
 }
 

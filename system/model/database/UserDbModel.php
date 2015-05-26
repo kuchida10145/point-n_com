@@ -24,8 +24,6 @@ class UserDbModel extends DbModel{
 		);
 	}
 	
-	
-	
 	/**
 	 * メールアドレスとパスワードに該当するデータを1件取得する
 	 * 
@@ -46,5 +44,59 @@ class UserDbModel extends DbModel{
 	}
 
 
+	/**
+	 * メールアドレスに該当するデータを1件取得する
+	 * 
+	 * @param string $email メールアドレス
+	 * @return array
+	 */
+	public function findByEmail($email){
+		$email = $this->escape_string($email);
+		$field = $this->getFieldText();
+		$sql = "SELECT {$field} FROM {$this->table} WHERE delete_flg = 0 AND email = '{$email}' LIMIT 0,1 ";
+		if($res = $this->db->getData($sql)){
+			return $res;
+		}
+		return NULL;
+	}
 
+	/*==========================================================================================
+	 * 管理者用共通処理
+	 *
+	 *==========================================================================================*/
+	/**
+	 * WHERE句生成（管理者用）
+	 *
+	 * @param array $get
+	 * @return string
+	 */
+	/*
+	protected function adminSearchWhere($get){
+		
+//var_dump($get);
+
+		$wheres = array();
+		$wheres[] = " delete_flg = 0 ";
+		
+		//ステータスが設定されている場合
+		foreach ( user_status_label() as $val_key => $val_name ) {
+			
+			//var_dump(getParam( $get, $val_name ) );
+			//if ( getParam( $get, $val_name ) )
+		}
+		if(getParam($get,'account_name') != '' && getParam($get,'account_name')){
+			$name = $this->escape_string(getParam($get,'account_name'));
+			$wheres[] = " account_name LIKE '%{$name}%' ";
+		}
+
+		//名前が設定されている場合
+		if(getParam($get,'account_name') != '' && getParam($get,'account_name')){
+			$name = $this->escape_string(getParam($get,'account_name'));
+			$wheres[] = " account_name LIKE '%{$name}%' ";
+		}
+		
+		$where = " WHERE ".implode(' AND ',$wheres);
+		
+		return $where;
+	}*/
 }
