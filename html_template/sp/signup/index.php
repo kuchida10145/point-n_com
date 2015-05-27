@@ -32,12 +32,12 @@
 <form method="post" action="" name="frm">
 <input type="hidden" name="m" value="signup" />
 <p>
-<input type="text" name="email" id="email" style="width:95%;" />
+<input type="text" name="email" id="email" style="width:95%;" value="<?php echo getParam($post, 'email');?>" />
 <?php echo getParam($error, 'email'); ?>
 </p>
 
 <p class="alncenter">
-<input type="checkbox" name="contract" id="contract" />
+<input type="checkbox" name="contract" id="contract"<?php echo getParam($post, 'contract') != '' ? ' checked' : ''; ?> />
 <label for="contract">ユーザー利用規約に同意</label>
 <?php echo getParam($error, 'contract'); ?>
 </p>
