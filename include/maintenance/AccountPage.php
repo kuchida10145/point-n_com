@@ -13,10 +13,49 @@ class AccountPage extends MaintenancePage {
 	protected $use_confirm = true;
 	protected $page_title = 'アカウント管理';
 	
-	// 一覧画面は使用不可
-// 	protected function indexAction() {
-// 		$this->errorPage();
-// 	}
+	protected function indexAction() {
+		$data = array();
+		$post = array();
+		$error = array();
+		$account =$this->getAccount();
+		$system_message = $this->getSystemMessage();
+		$this->unsetSystemMessage();
+		
+		if($account == NULL){
+			redirect('login.html');
+		}
+		
+		if(getPost('m') == 'account'){
+			$post = $_POST;
+			if($this->validation($post)){
+				
+				$upd_data['teacher_name'] = $post['teacher_name'];
+				if($post['login_pw']){
+					$upd_data = encodePassword($post['login_pw']);
+				}
+				
+				$this->manager->db_manager->get($this->use_table)->updateById($account['id'],$upd_data);
+				$account = $this->manager->db_manager->get($this->use_table)->findById($account['id']);
+				$this->setAccount($account);
+				$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
+				
+				redirect('account.php');
+			}
+			$system_message = $this->manager->message->get('system')->getMessage('edit_error');
+			$error = $this->getValidationError();
+		}
+		else{
+			$post = $this->manager->db_manager->get($this->use_table)->findById($account['store_id']);
+		}
+		
+		$data['login_id'] = $account['login_id'];
+		$data['post'] = escapeHtml($post);
+		$data['error'] = $error;
+		$data['page_title'] = $this->page_title;
+		$data['page_type_text'] = '';
+		$data['system_message'] = $system_message;
+		$this->loadView('edit', $data);
+	}
 	
 	/**
 	 * ＤＢデータから入力用データへ変換
