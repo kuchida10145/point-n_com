@@ -261,7 +261,7 @@ class SignupPage extends Page{
 	private function validation($param){
 		
 		$param['birthday'] = '';
-		$this->manager->validation->setRule('nickname','required');
+		$this->manager->validation->setRule('nickname','required|duplicate_user_nickname');
 		if ( $param['birth-year'] == '' || $param['birth-month'] == '' || $param['birth-day'] == '' ) {
 			$this->manager->validation->setRule('birthday','required');
 		} else {
@@ -298,5 +298,28 @@ function duplicate_email($key,$data){
 		return false;
 	}
 
+	return true;
+}
+
+/**
+ * ユーザーニックネーム重複チェック
+ *
+ */
+function duplicate_user_nickname( $key, $data ) {
+	
+	if(!isset($data[$key]) || $data[$key] == ''){
+		return true;
+	}
+	$nickname =$data[$key];
+	$manager = Management::getInstance();
+	//ニックネームが存在する場合
+	if($res = $manager->db_manager->get('user')->findByNickname($nickname)){
+
+		//仮登録の場合はtrue
+		if($res['status_id'] == USER_ST_REQ){
+			return true;
+		}
+		return false;
+	}
 	return true;
 }
