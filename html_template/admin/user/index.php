@@ -35,7 +35,7 @@
 				<h1><?php echo $page_title; ?></h1>
 				<?php echo $system_message;?>
 				<!-- 検索フォーム-->
-				<div class="row-fluid" style="display:none;">
+				<div class="row-fluid">
 					<div class="box span12">
 						<div class="box-header" data-original-title>
 							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
