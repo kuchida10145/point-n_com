@@ -64,4 +64,15 @@ class Autologin_accountDbModel extends DbModel{
 		$sql = "SELECT {$field} FROM {$this->table} WHERE autologin_account_id = '{$id}' AND login_key = '{$login_key}' AND limit_date > '{$limit_date}' LIMIT 0,1";
 		return $this->db->getData($sql);
 	}
+	
+	
+	/**
+	 * データ削除
+	 * 
+	 * @param int $id 管理者ID
+	 * @return arrray or bool
+	 */
+	public function deleteAutoLogin($id){
+		return $this->delete(" account_id = '{$id}' LIMIT 1 ");
+	}
 }

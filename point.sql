@@ -1112,7 +1112,8 @@ CREATE TABLE IF NOT EXISTS `automail` (
 
 INSERT INTO `automail` (`automail_id`, `name`, `subject`, `from_name`, `from_mail`, `return_path`, `body`, `regist_date`, `update_date`, `delete_flg`) VALUES
 (1, '仮登録用メール', '【point.com】仮登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', 'ようこそ　point.com　へ\r\n\r\nメールアドレス ##email## を確認しました。\r\n会員登録を完了するには下記のＵＲＬにアクセスしてください。\r\n\r\n##signup_edit_url##\r\n\r\nこのURLの有効期限は24時間です。\r\n有効期限を過ぎた場合はお手数ですが、下記のＵＲＬからもう一度仮登録の手続きをお願いします。\r\n\r\n##signup_url##', '2015-05-27 00:00:00', '2015-05-26 18:08:34', 0),
-(2, '登録完了メール', '【point.com】会員登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##name##様\r\n\r\n会員登録を完了いたしました。', '2015-05-27 00:00:00', '2015-05-29 00:00:00', 0);
+(2, '登録完了メール', '【point.com】会員登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##name##様\r\n\r\n会員登録を完了いたしました。', '2015-05-27 00:00:00', '2015-05-29 00:00:00', 0),
+(3, '退会完了メール', '【point.com】退会手続きが完了しました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '退会手続きが完了しました。', '2015-05-27 16:33:42', '2015-05-27 16:34:02', 0);
 
 -- --------------------------------------------------------
 
