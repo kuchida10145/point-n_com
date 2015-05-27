@@ -37,6 +37,7 @@ class ErrorMsgModel extends MsgModel
 			//ここから下はサイト独自のチェック
 			'duplicate_id'   => '既に登録されています',
 			'duplicate_user_email'   => '既に登録されています',
+			'duplicate_user_nickname'   => '既に登録されています',
 			'duplicate_email'=> '既に登録されています',
 			'lessthan'       => '範囲の設定が正しくありません',
 			'is_password'    => 'パスワードが一致しません',

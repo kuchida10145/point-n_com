@@ -60,6 +60,23 @@ class UserDbModel extends DbModel{
 		return NULL;
 	}
 
+	/**
+	 * ニックネームに該当するデータを1件取得する
+	 * 
+	 * @param string $nickname ニックネーム
+	 * @return array
+	 */
+	public function findByNickname($nickname){
+		$nickname = $this->escape_string($nickname);
+		$field = $this->getFieldText();
+		$sql = "SELECT {$field} FROM {$this->table} WHERE delete_flg = 0 AND nickname = '{$nickname}' LIMIT 0,1 ";
+		if($res = $this->db->getData($sql)){
+			return $res;
+		}
+		return NULL;
+	}
+
+
 	/*==========================================================================================
 	 * 管理者用共通処理
 	 *
