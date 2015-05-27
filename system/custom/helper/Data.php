@@ -178,9 +178,6 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 	foreach ($records as $record) {
 		$list[$record['category_midium_id']] = $record['category_midium_name'];
 	}
-// 	if (count($list) == 0 && $category_large_id > 0) {
-// 		$list[0] = non_select_item();
-// 	}
 	return $list;
 }
 
@@ -254,7 +251,8 @@ function area_first($category_large_id, $prefectures_id) {
 	}
 	$region_id = $record['region_id'];
 	$prefectures_name = $record['prefectures_name'];
-
+	
+	// TODO: デリバリー条件を含めるように見直すこと
 	$wheres = array();
 	$wheres[] = 'category_large_id = ' . $category_large_id;
 	$wheres[] = 'region_id = ' . $region_id;

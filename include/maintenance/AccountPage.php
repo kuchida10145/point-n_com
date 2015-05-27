@@ -1,17 +1,22 @@
 <?php
 /**
- * 店舗情報管理
+ * アカウント管理
  *
  */
-include_once dirname(__FILE__).'/../common/AdminPage.php';
+include_once dirname(__FILE__).'/../common/MaintenancePage.php';
 
-class StorePage extends AdminPage {
+class AccountPage extends MaintenancePage {
 	
 	protected $id = 0;/* ID */
 	protected $use_table   = 'store';
 	protected $session_key = 'store';
 	protected $use_confirm = true;
-	protected $page_title = '店舗情報管理';
+	protected $page_title = 'アカウント管理';
+	
+	// 一覧画面は使用不可
+// 	protected function indexAction() {
+// 		$this->errorPage();
+// 	}
 	
 	/**
 	 * ＤＢデータから入力用データへ変換
@@ -89,11 +94,11 @@ class StorePage extends AdminPage {
 		}
 		
 		// 店舗名
-		$this->manager->validation->setRule('store_name',          'required|maxlength:50');
+// 		$this->manager->validation->setRule('store_name',          'required|maxlength:50');
 		// 業種
-		$this->manager->validation->setRule('type_of_industry_id', 'required');
+// 		$this->manager->validation->setRule('type_of_industry_id', 'required');
 		// 許可証の表示
-		$this->manager->validation->setRule('license',             'required');
+// 		$this->manager->validation->setRule('license',             'required');
 		// ユーザー名
 		$this->manager->validation->setRule('account_name',        'required|maxlength:50');
 		// ログインID
@@ -241,64 +246,6 @@ class StorePage extends AdminPage {
 	}
 	
 	/**
-	 * 新規登録処理
-	 * 
-	 * @param array $param 更新用パラメータ
-	 * @return mixed
-	 */
-	protected function inseart_action($param) {
-		//DB用データに変換
-		$param = $this->inputToDbData($param);
-		// 新着店舗
-		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
-		// パスワード暗号化
-		$param['login_password'] = encodePassword($param['login_password']);
-		// 第1エリア(都道府県)
-		$param['area_first_id'] = $this->derive_area_first_id($param);
-		// 郵便番号
-		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
-		unset($param['zip_code1']);
-		unset($param['zip_code2']);
-		// 電話番号
-		$param['telephone'] = $param['telephone1'] . "-" . $param['telephone2'] . "-" . $param['telephone3'];
-		unset($param['telephone1']);
-		unset($param['telephone2']);
-		unset($param['telephone3']);
-		
-		$id = $this->manager->db_manager->get($this->use_table)->insert($param);
-		if ($id === false) {
-			return false;
-		}
-		
-		// 銀行
-		for ($i = 1; $i <= 3; $i++) {
-			if ($param['bank_account_holder' . $i] == "") {
-				continue;
-			}
-			$bank_param = array();
-			$bank_param['store_id'] = $id;
-			$bank_param['bank_name'] = $param['bank_name' . $i];
-			$bank_param['bank_kind'] = $param['bank_kind' . $i];
-			$bank_param['bank_account_number'] = $param['bank_account_number' . $i];
-			$bank_param['bank_account_holder'] = $param['bank_account_holder' . $i];
-			$this->manager->db_manager->get('bank_account')->insert($bank_param);
-		}
-		
-		// ゆうちょ銀行
-		if ($param['jpbank_account_holder'] != "") {
-			$jpbank_param = array();
-			$jpbank_param['store_id'] = $id;
-			$jpbank_param['jpbank_symbol1'] = $param['jpbank_symbol1'];
-			$jpbank_param['jpbank_symbol2'] = $param['jpbank_symbol2'];
-			$jpbank_param['jpbank_account_number'] = $param['jpbank_account_number'];
-			$jpbank_param['jpbank_account_holder'] = $param['jpbank_account_holder'];
-			$this->manager->db_manager->get('jpbank_account')->insert($jpbank_param);
-		}
-		
-		return $id;
-	}
-	
-	/**
 	 * 更新処理
 	 * 
 	 * @param array $param 更新用パラメータ
@@ -308,9 +255,6 @@ class StorePage extends AdminPage {
 		//DB用データに変換
 		$param = $this->inputToDbData($param);
 		
-		
-		// 新着店舗
-		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
 		if (getParam($param,'login_password') != '') {
 			$param['login_password'] = encodePassword($param['login_password']);

@@ -83,16 +83,80 @@ class StoreDbModel extends DbModel{
 	 */
 	public function login($login_id,$login_pw){
 		$login_pw = encodePassword($login_pw);
-
 		$login_id = $this->escape_string($login_id);
-
 		$field = $this->getFieldText();
-
 		$sql = "SELECT {$field} FROM {$this->table} WHERE login_id = '{$login_id}' AND login_password = '{$login_pw}' AND delete_flg = 0";
-
-
 		return $this->db->getData($sql);
-
-
+	}
+	
+	/*==========================================================================================
+	 * 管理者用共通処理
+	 *
+	 *==========================================================================================*/
+	/**
+	 * WHERE句生成（管理者用）
+	 *
+	 * @param array $get
+	 * @return string
+	 */
+	protected function adminSearchWhere($get) {
+		$wheres = array();
+		$wheres[] = " delete_flg = 0 ";
+		
+		// WEBサービスが設定されている場合
+		if (is_array(getParam($get, 'status_id'))) {
+			$status_ids = array();
+			foreach (getParam($get, 'status_id') as $val) {
+				if (!is_digit($val)) { continue; }
+				$status_ids[] = $val;
+			}
+			if (count($status_ids) > 0) {
+				$wheres[] = " status_id IN(" . implode(',', $status_ids) . ") ";
+			}
+		}
+		
+		// 店舗名が設定されている場合
+		if (getParam($get, 'store_name') != '' && is_string(getParam($get,'store_name'))) {
+			$store_name = $this->escape_string(getParam($get, 'store_name'));
+			$wheres[] = " store_name LIKE '%{$store_name}%' ";
+		}
+		
+		// 業種が設定されている場合
+		if (is_array(getParam($get,'type_of_industry_id'))) {
+			$type_of_industry_ids = array();
+			foreach (getParam($get,'type_of_industry_id') as $val) {
+				if (!is_digit($val)) { continue; }
+				$type_of_industry_ids[] = $val;
+			}
+			if (count($type_of_industry_ids) > 0) {
+				$wheres[] = " type_of_industry_id IN(" . implode(',', $type_of_industry_ids) . ") ";
+			}
+		}
+		
+		// 新着店舗が設定されている場合
+		if (getParam($get, 'new_arrival') != "" && is_digit(getParam($get, 'new_arrival'))) {
+			$new_arrival = $this->escape_string(getParam($get, 'new_arrival'));
+			if ($new_arrival != 2) {
+				$wheres[] = " new_arrival = {$new_arrival} ";
+			} else {
+				$wheres[] = " new_arrival IN (0, 1) ";
+			}
+		}
+		
+		// 入会日の開始が設定されている場合
+		if (getParam($get, 'regist_start') != ''  && is_string(getParam($get, 'regist_start'))) {
+			$regist_start = $this->escape_string(getParam($get, 'regist_start'));
+			$wheres[] = " regist_date >= '{$regist_start}' ";
+		}
+		
+		// 入会日の終了が設定されている場合
+		if (getParam($get, 'regist_end') != ''  && is_string(getParam($get,'regist_end'))) {
+			$regist_end = $this->escape_string(getParam($get, 'regist_end'));
+			$wheres[] = " regist_date <= '{$regist_end} 23:59:59' ";
+		}
+		
+		$where = " WHERE ".implode(' AND ',$wheres);
+		
+		return $where;
 	}
 }

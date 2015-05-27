@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -10,11 +11,11 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-	
+
 		<div class="container-fluid-full">
 		<div class="row-fluid">
         <!-- start: Main Menu -->
-		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>	
+		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>
 		<!-- end: Main Menu -->
 			<noscript>
 				<div class="alert alert-block span10">
@@ -22,24 +23,22 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
+
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
 				<ul class="breadcrumb">
 					<li>
 						<i class="icon-home"></i>
-						<a href="index.php">Home</a> 
+						<a href="index.php">Home</a>
 						<i class="icon-angle-right"></i>
 					</li>
-					<li><a href="account.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
+					<li><a href="course.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
 					<li><a href="#"><?php echo $page_type_text;?></a></li>
-					
-					
 				</ul>
-				
+
 				<h1><?php echo $page_title;?></h1>
-				
+
 				<div class="row-fluid">
 					<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -48,22 +47,11 @@
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 						</div>
 					</div>
-						
+
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=confirm&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="confirm" name="m">
-							<div class="control-group">
-								<label class="control-label" for="selectError3">WEBサービス</label>
-								<div class="controls">
-									<?php echo getParam(store_status_label(), getParam($post, 'status_id'));?>
-								</div>
-							</div>
-							
-						<div class="box-header" data-original-title="">
-							アカウント管理
-						</div>
-						<br>
-							
+
 							<div class="control-group">
 								<label for="" class="control-label">入会日(登録日)</label>
 								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
@@ -429,15 +417,15 @@
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-				
+
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-			
+
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-		
-		
+
+
 	<div class="clearfix"></div>
 	<footer>
 		<p>

@@ -45,6 +45,7 @@ class ErrorMsgModel extends MsgModel
 			'select_area'    => '選択されていません',
 			'strict_select'  => '不正なデータが選択されています',
 			'same_email'     => '同一のメールアドレスを入力してください',
+			'pdecimal_zero'  => '0以上の小数で入力してください',
 		);
 		$this->setMessages($message);
 	}

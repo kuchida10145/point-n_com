@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -10,11 +11,11 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-	
+
 		<div class="container-fluid-full">
 		<div class="row-fluid">
-		<!-- start: Main Menu -->
-		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>	
+        <!-- start: Main Menu -->
+		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>
 		<!-- end: Main Menu -->
 			<noscript>
 				<div class="alert alert-block span10">
@@ -22,24 +23,24 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
+
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
 				<ul class="breadcrumb">
 					<li>
 						<i class="icon-home"></i>
-						<a href="index.php">Home</a> 
+						<a href="index.php">Home</a>
 						<i class="icon-angle-right"></i>
 					</li>
-					<li><a href="account.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
+					<li><a href="course.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
 					<li><a href="#"><?php echo $page_type_text;?></a></li>
 				</ul>
-				
+
 				<h1><?php echo $page_title;?></h1>
-				
+
 				<?php echo $system_message;?>
-				
+
 				<div class="row-fluid">
 					<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -48,80 +49,29 @@
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 						</div>
 					</div>
-					
+
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="edit" name="m">
-							<?php if (getParam($post, 'regist_date') != "") : ?>
-							<div class="control-group <?php echo error_class(getParam($error,'status_id'));?>">
-								<label class="control-label" for="">WEBサービス</label>
-								<div class="controls">
-									<label class="radio">
-										<input type="radio" name="status_id" value="2" <?php echo _check_checked(2, getParam($post, 'status_id'));?>><div class="btn btn-success">運営中</div>
-									</label>
-									<label class="radio">
-										<input type="radio" name="status_id" value="1" <?php echo _check_checked(1, getParam($post, 'status_id'));?>><div class="btn btn-warning">準備中</div>
-									</label>
-									<label class="radio">
-										<input type="radio" name="status_id" value="9" <?php echo _check_checked(9, getParam($post, 'status_id'));?>><div class="btn btn-danger">停止中</div>
-									</label>
-								</div>
-							</div>
-							<?php else : ?>
-							<div class="control-group">
-								<label class="control-label" for="">WEBサービス</label>
-								<div class="controls">
-									<span class="label label-large label-warning">準備中</span>
-								</div>
-							</div>
-							<?php endif; ?>
-							
-						<div class="box-header" data-original-title="">
-							アカウント管理
-						</div>
-						<br>
-							
+							<input type="hidden" value="getParam($post, 'license')" name="license">
 							<div class="control-group">
 								<label class="control-label" for="">入会日(登録日)</label>
 								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error,'store_name'));?>">
-								<label class="control-label" for="typeahead">店舗名 <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<input placeholder="" id="store_name" name="store_name" value="<?php echo getParam($post, 'store_name');?>" type="text" class="input-block-level">
-									<?php echo getParam($error, 'store_name');?>
-									<br>
-									<label class="checkbox inline">
-										<div id="uniform-inlineCheckbox1" class="checker">
-											<span class="checked">
-												<input id="new_arrival" name="new_arrival" value="1" type="checkbox" <?php echo _check_checked(1, getParam($post, 'new_arrival'));?>>
-											</span>
-										</div>
-										新着店舗にする
-									</label>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">店舗名</label>
+								<div class="controls"><?php echo getParam($post,'store_name');?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'type_of_industry_id'));?>">
-								<label class="control-label" for="selectError3">業種 <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="type_of_industry_id" name="type_of_industry_id">
-										<option value="">選択してください</option>
-										<?php foreach(store_type_of_industry() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'type_of_industry_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'type_of_industry_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="selectError3">業種</label>
+								<div class="controls"><?php echo getParam(store_type_of_industry(), getParam($post, 'type_of_industry_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
-								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<div id="license"><?php echo create_image_uploaded(getParam($post,'license'),'license');?></div>
-									<?php echo getParam($error,'license');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="fileInput">許可証の表示</label>
+								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'account_name'));?>">
@@ -574,20 +524,21 @@
 							
 							<div class="form-actions">
 								<button class="btn btn-primary" type="submit">確認画面へ</button>
-								<button type="button" onclick="location.href='store.php'" class="btn">戻る</button>
+								<button type="button" onclick="location.href='index.php'" class="btn">戻る</button>
 							</div>
 						</form>
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-				
+
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-			
+
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-		
+
+
 	<div class="clearfix"></div>
 	<footer>
 		<p>
@@ -601,43 +552,43 @@
 	<script>
 	$(function(){
 		
-		$('#license').imageUpload({url:'/admin/store.php?m=image_upload',name:'license'});
+		$('#license').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'license'});
 		$('#type_of_industry_id').change(function() {
 			$('#type_of_industry_id').changeUpperItem({
-				url:'/admin/store.php?m=change_upper_item',
+				url:'/maintenance/account.php.php?m=change_upper_item',
 				name:'type_of_industry_id'});
 		});
 		$('#area_first_prefectures_id').change(function() {
 			$('#area_first_prefectures_id').changeUpperItem({
-				url:'/admin/store.php?m=change_upper_item',
+				url:'/maintenance/account.php?m=change_upper_item',
 				name:'area_first_prefectures_id'});
 		});
 		$('#category_large_id').change(function() {
 			$('#category_large_id').changeUpperItem({
-				url:'/admin/store.php?m=change_upper_item',
+				url:'/maintenance/account.php?m=change_upper_item',
 				name:'category_large_id'});
 		});
 		$('#category_midium_id').change(function() {
 			$('#category_midium_id').changeCategoryMidium({
-				url:'/admin/store.php?m=change_category_midium',
+				url:'/maintenance/account.php?m=change_category_midium',
 				name:'category_midium_id',
 				selected:$(this).val()});
 		});
 		$('#area_second_id').change(function() {
 			$('#area_second_id').changeAreaSecond({
-				url:'/admin/store.php?m=change_area_second',
+				url:'/maintenance/account.php?m=change_area_second',
 				name:'area_second_id',
 				selected:$(this).val()});
 		});
-		$('#image1').imageUpload({url:'/admin/store.php?m=image_upload',name:'image1'});
-		$('#image2').imageUpload({url:'/admin/store.php?m=image_upload',name:'image2'});
-		$('#image3').imageUpload({url:'/admin/store.php?m=image_upload',name:'image3'});
-		$('#image4').imageUpload({url:'/admin/store.php?m=image_upload',name:'image4'});
-		$('#image5').imageUpload({url:'/admin/store.php?m=image_upload',name:'image5'});
-		$('#image6').imageUpload({url:'/admin/store.php?m=image_upload',name:'image6'});
-		$('#image7').imageUpload({url:'/admin/store.php?m=image_upload',name:'image7'});
-		$('#image8').imageUpload({url:'/admin/store.php?m=image_upload',name:'image8'});
-		$('#image9').imageUpload({url:'/admin/store.php?m=image_upload',name:'image9'});
+		$('#image1').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image1'});
+		$('#image2').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image2'});
+		$('#image3').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image3'});
+		$('#image4').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image4'});
+		$('#image5').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image5'});
+		$('#image6').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image6'});
+		$('#image7').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image7'});
+		$('#image8').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image8'});
+		$('#image9').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image9'});
 		
 	});
 	</script>
