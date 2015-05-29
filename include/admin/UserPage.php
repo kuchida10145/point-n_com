@@ -38,16 +38,16 @@ class UserPage extends AdminPage {
 		}
 
 		$this->manager->validation->setRule('email','required|email|duplicate_user_email');
-		$this->manager->validation->setRule('nickname','required');
+		$this->manager->validation->setRule('nickname','required|duplicate_user_nickname');
 		$this->manager->validation->setRule('birthday','required');
 		$this->manager->validation->setRule('gender','required');
 		$this->manager->validation->setRule('prefectures_id','required');
 		$this->manager->validation->setRule('status_id','required');
 
 		if($this->id == ''){
-			$this->manager->validation->setRule('password','required|password:4:8');
+			$this->manager->validation->setRule('password','required|password:4:16');
 		}else{
-			$this->manager->validation->setRule('password','password:4:8');
+			$this->manager->validation->setRule('password','password:4:16');
 		}
 		return $this->manager->validation->run($param);
 	}
@@ -134,7 +134,7 @@ function duplicate_user_email($key,$data){
 	}
 	$email =$data[$key];
 	$manager = Management::getInstance();
-	//ＩＤが存在する場合
+	//メールが存在する場合
 	if($res = $manager->db_manager->get('user')->findByEmail($email)){
 
 		//自分自身だった場合
@@ -144,5 +144,28 @@ function duplicate_user_email($key,$data){
 		return false;
 	}
 
+	return true;
+}
+
+/**
+ * ユーザーニックネーム重複チェック
+ *
+ */
+function duplicate_user_nickname( $key, $data ) {
+	
+	if(!isset($data[$key]) || $data[$key] == ''){
+		return true;
+	}
+	$nickname =$data[$key];
+	$manager = Management::getInstance();
+	//ニックネームが存在する場合
+	if($res = $manager->db_manager->get('user')->findByNickname($nickname)){
+
+		//自分自身だった場合
+		if($res['user_id'] == getParam($data,'user_id')){
+			return true;
+		}
+		return false;
+	}
 	return true;
 }

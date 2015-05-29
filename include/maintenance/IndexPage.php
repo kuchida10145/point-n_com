@@ -114,9 +114,11 @@ class IndexPage extends MaintenancePage{
 	 *
 	 */
 	protected function logoutAction(){
+		$account = $this->getAccount();
 		$this->clearAccountSession();
 		$this->manager->setCore('cookie');
-		$this->manager->cookie->delete('autologin_store');
+		//クッキー削除
+		$this->unsetAutoLogin($account['store_id']);
 		redirect('index.php');
 	}
 

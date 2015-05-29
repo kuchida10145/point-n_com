@@ -52,6 +52,16 @@ class Autologin_userDbModel extends DbModel{
 		return false;
 	}
 	
+	/**
+	 * データ削除
+	 * 
+	 * @param int $user_id 会員ID
+	 * @return arrray or bool
+	 */
+	public function deleteAutoLogin($id){
+		return $this->delete(" user_id = '{$id}' LIMIT 1 ");
+	}
+	
 	
 	/**
 	 * IDとチェックコードに該当する有効期限内のデータを取得

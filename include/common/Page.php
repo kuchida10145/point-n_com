@@ -350,4 +350,41 @@ abstract class Page{
 		return true;
 	}
 
+	
+	/**
+	 * 自動ログイン削除
+	 * 
+	 * @param int $id 主キー
+	 * @return boolean
+	 */
+	protected function unsetAutoLogin($id){
+		
+		
+		switch($this->account_type){
+			case 'user':
+				$account_table = 'user';
+				break ;
+			case 'admin':
+				$account_table = 'account';
+				break ;
+			case 'maintenance':
+				$account_table = 'store';
+				break ;
+		}
+		
+		
+		//クッキー処理
+		$this->manager->setCore('cookie');
+		
+		//自動ログイン用テーブル
+		$auto_table = "autologin_{$account_table}";
+		
+		
+		//自動ログイン削除
+		$this->manager->db_manager->get($auto_table)->deleteAutoLogin($id);
+		
+		//クッキーを削除
+		$this->manager->cookie->delete($auto_table);
+		return true;
+	}
 }

@@ -64,4 +64,13 @@ class Autologin_storeDbModel extends DbModel{
 		return $this->db->getData($sql);
 	}
 	
+	/**
+	 * データ削除
+	 * 
+	 * @param int $id 店舗ID
+	 * @return arrray or bool
+	 */
+	public function deleteAutoLogin($id){
+		return $this->delete(" store_id = '{$id}' LIMIT 1 ");
+	}
 }

@@ -39,7 +39,7 @@
 </p>
 <h4>パスワード</h4>
 <p>
-<input type="text" name="password" style="width:95%;" />
+	<input type="password" name="password" style="width:95%;" />
 </p>
 <p class="alncenter">
 	<label>
