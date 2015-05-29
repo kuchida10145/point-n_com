@@ -30,12 +30,14 @@ class CourseDbModel extends DbModel{
 	 */
 	public function courseList($store_id,$point_kind){
 		$store_id = $this->escape_string($store_id);
-		$point_kind = $this->escape_string($point_kind);
-
 		$field = $this->getFieldText();
 
-		$sql = "SELECT {$field} FROM course WHERE store_id = '{$store_id}' AND point_kind = '{$point_kind}'  AND delete_flg = 0";
-
+		if($point_kind == NULL) {
+			$sql = "SELECT {$field} FROM course WHERE store_id = '{$store_id}' AND delete_flg = 0";
+		} else {
+			$point_kind = $this->escape_string($point_kind);
+			$sql = "SELECT {$field} FROM course WHERE store_id = '{$store_id}' AND point_kind = '{$point_kind}'  AND delete_flg = 0";
+		}
 		return $this->db->getAllData($sql);
 	}
 

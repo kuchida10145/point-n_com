@@ -49,9 +49,10 @@
 						<div class="control-group">
 							<label class="control-label" for="selectError3">クーポン種類</label>
 							<div class="controls">
-								<select id="selectError3">
-									<option>通常</option>
-									<option>イベント</option>
+								<select name="point_kind">
+									<?php foreach(point_kind() as $poi_id => $poi_name):?>
+										<option value="<?php echo $poi_id;?>" <?php echo _check_selected($poi_id,getGet('point'));?>><?php echo $poi_name;?></option>
+									<?php endforeach;?>
 								</select>
 							</div>
 						</div>
@@ -61,7 +62,7 @@
 						</div>
 						<div class="form-actions">
 							<button type="submit" class="btn btn-primary">検索</button>
-							<button type="reset" class="btn" onclick="location.href='account.php'">リセット</button>
+							<button type="reset" class="btn" onclick="location.href='?m=index'">リセット</button>
 						</div>
                         </form>
                     </div>
@@ -78,7 +79,7 @@
 							</div>
 						</div>
 						<div class="box-content">
-							<form class="form-horizontal">
+							<form class="form-horizontal" method="get">
 	           					<div class="alert alert-block">
 									<button type="button" class="close" data-dismiss="alert">×</button>
 									<p>一度に発行できるクーポンは、通常、イベントそれぞれひとつになります。<br>
@@ -87,21 +88,25 @@
                             	<div class="control-group">
 									<label class="control-label" for="selectError3">通常クーポン</label>
 									<div class="controls">
-										<select id="selectError3">
-											<option>コース名</option>
-											<option>コース名</option>
+										<select id="normal_course" name="normal_course">
+											<option value="">選択してください。</option>
+											<?php foreach(course_list($account_id,"1") as $cor_num=>$cor_val):?>
+												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
+											<?php endforeach;?>
 										</select>
-										<button class="btn btn-small btn-success">有効にする</button>
+										<button type="submit" class="btn btn-small btn-success">有効にする</button>
 									</div>
 							  	</div>
                             	<div class="control-group">
 									<label class="control-label" for="selectError3">イベントクーポン</label>
 									<div class="controls">
-									<select id="selectError3">
-										<option>コース名</option>
-										<option>コース名</option>
+									<select id="event_course" name="event_course">
+										<option value="">選択してください。</option>
+										<?php foreach(course_list($account_id,"2") as $cor_num=>$cor_val):?>
+												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
+										<?php endforeach;?>
 									</select>
-									<button class="btn btn-small btn-success">有効にする</button></div>
+									<button type="submit" class="btn btn-small btn-success">有効にする</button></div>
 								</div>
 							</form>
 						</div>
@@ -139,7 +144,7 @@
 							<td class="center"><?php echo getParam(coupon_status_label(),$coupon_data['status_id']);?></td>
 							<td><?php echo getParam(point_kind(),$coupon_data['point_kind']);?></td>
 							<td class="center"><?php echo $coupon_data['coupon_name'];?></td>
-							<td class="center"><?php echo $coupon_data['point'];?></td>
+							<td class="center"><?php echo getParam(point_data(),$coupon_data['point']);?>pt</td>
 							<td class="center">
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $coupon_data['coupon_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $coupon_data['coupon_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
