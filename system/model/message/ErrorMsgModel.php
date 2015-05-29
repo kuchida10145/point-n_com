@@ -39,6 +39,8 @@ class ErrorMsgModel extends MsgModel
 			'duplicate_user_email'   => '既に登録されています',
 			'duplicate_user_nickname'   => '既に登録されています',
 			'duplicate_email'=> '既に登録されています',
+			'wrongPassword'  => 'パスワードが正しくありません',
+			'notSamePassword'  => 'パスワードが一致しません',
 			'lessthan'       => '範囲の設定が正しくありません',
 			'is_password'    => 'パスワードが一致しません',
 			'pw_conf'        => 'パスワードが一致しません',
@@ -46,7 +48,7 @@ class ErrorMsgModel extends MsgModel
 			'select_area'    => '選択されていません',
 			'strict_select'  => '不正なデータが選択されています',
 			'same_email'     => '同一のメールアドレスを入力してください',
-			'pdecimal_zero'  => '0以上の小数で入力してください',
+			'pdecimal_zero'  => '0以上の小数で入力してください', 
 		);
 		$this->setMessages($message);
 	}

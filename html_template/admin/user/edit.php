@@ -124,7 +124,7 @@
 							<div class="control-group <?php echo error_class(getParam($error, 'password'));?>">
 								<label class="control-label" for="password">パスワード <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<input placeholder="4～8文字の半角英数字" id="password" name="password" type="password" class="" value="<?php echo getParam($post, 'password');?>">
+									<input placeholder="4～16文字の半角英数字" id="password" name="password" type="password" class="" value="<?php echo getParam($post, 'password');?>">
 									<?php echo getParam($error, 'password');?>
 								</div>
 							</div>

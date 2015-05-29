@@ -45,9 +45,9 @@ class UserPage extends AdminPage {
 		$this->manager->validation->setRule('status_id','required');
 
 		if($this->id == ''){
-			$this->manager->validation->setRule('password','required|password:4:8');
+			$this->manager->validation->setRule('password','required|password:4:16');
 		}else{
-			$this->manager->validation->setRule('password','password:4:8');
+			$this->manager->validation->setRule('password','password:4:16');
 		}
 		return $this->manager->validation->run($param);
 	}
