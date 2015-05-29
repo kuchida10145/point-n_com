@@ -5,7 +5,7 @@
 class ReservedDbModel extends DbModel{
 
 
-	
+
 	public function getField(){
 		return array(
 			'reserved_id',
@@ -33,10 +33,10 @@ class ReservedDbModel extends DbModel{
 
 		);
 	}
-	
-	
-	
-	
+
+
+
+
 	/*==========================================================================================
 	 * 管理者用請求処理
 	 *
@@ -55,7 +55,7 @@ class ReservedDbModel extends DbModel{
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * ポイント利用合計
 	 * @param array $get
@@ -69,7 +69,7 @@ class ReservedDbModel extends DbModel{
 		}
 		return 0;
 	}
-	
+
 
 	/**
 	 * 検索結果最大取得件数（管理者用）
@@ -105,7 +105,7 @@ class ReservedDbModel extends DbModel{
 		//フィールドは各メソッド内で変換
 		$where = $this->adminClaimSearchWhere($get);
 		$sql = "SELECT ##field## FROM {$this->table},store,user {$where}";
-		
+
 		return $sql;
 	}
 
@@ -122,7 +122,7 @@ class ReservedDbModel extends DbModel{
 		$wheres[] = " reserved.store_id = store.store_id ";
 		$wheres[] = " user.user_id = reserved.user_id ";
 		$wheres[] = " reserved.status_id = 2 ";
-		
+
 		//店舗名
 		if(getParam($get,'store_name') != ''  && is_string(getParam($get,'store_name'))){
 			$store_name = $this->escape_string(getParam($get, 'store_name'));
@@ -133,14 +133,14 @@ class ReservedDbModel extends DbModel{
 			$use_start = $this->escape_string(getParam($get,'use_start'));
 			$wheres[] = " reserved.use_date > '{$use_start}' ";
 		}
-		
+
 		//利用終了日
 		if(getParam($get,'use_end') != ''  && is_string(getParam($get,'use_end'))){
 			$use_end = $this->escape_string(getParam($get,'use_end'));
 			$wheres[] = " reserved.use_date < '{$use_end}' ";
 		}
-		
-		
+
+
 		//業種
 		if(is_array(getParam($get,'type_of_industry_id'))){
 			$type_of_industry_ids = array();
@@ -152,7 +152,7 @@ class ReservedDbModel extends DbModel{
 				$wheres[] = " store.type_of_industry_id IN(".implode(',',$type_of_industry_ids).") ";
 			}
 		}
-		
+
 		//クーポン発行
 		if(getParam($get,'coupon') == '1'){
 			$wheres[] = " reserved.coupon_id != 0 AND reserved.get_point > 0 ";
@@ -161,14 +161,14 @@ class ReservedDbModel extends DbModel{
 		else{
 			$wheres[] = " reserved.use_point > 0 ";
 		}
-		
+
 		$where = " WHERE ".implode(' AND ',$wheres);
-		
+
 		return $where;
 	}
 
-	
-	
+
+
 	/*==========================================================================================
 	 * 店舗用共通処理
 	 *
@@ -188,7 +188,7 @@ class ReservedDbModel extends DbModel{
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * ポイント利用合計
 	 * @param int $id 店舗ＩＤ
@@ -259,24 +259,24 @@ class ReservedDbModel extends DbModel{
 	 */
 	protected function maintenanceClaimSearchWhere($id,$get){
 		$where = "";
-		
+
 		$wheres[] = " reserved.delete_flg = 0 ";
 		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.store_id = store.store_id ";
 		$wheres[] = " reserved.status_id = 2 ";
-		
+
 		//利用開始日
 		if(getParam($get,'use_start') != ''  && is_string(getParam($get,'use_start'))){
 			$use_start = $this->escape_string(getParam($get,'use_start'));
 			$wheres[] = " reserved.use_date >= '{$use_start}' ";
 		}
-		
+
 		//利用終了日
 		if(getParam($get,'use_end') != ''  && is_string(getParam($get,'use_end'))){
 			$use_end = $this->escape_string(getParam($get,'use_end'));
 			$wheres[] = " reserved.use_date <= '{$use_end}' ";
 		}
-		
+
 		//クーポン発行
 		if(getParam($get,'coupon') == '1'){
 			$wheres[] = " reserved.coupon_id != 0 AND reserved.get_point > 0 ";
@@ -285,8 +285,113 @@ class ReservedDbModel extends DbModel{
 		else{
 			$wheres[] = " reserved.use_point > 0 ";
 		}
-		
+
 		$where = " WHERE ".implode(' AND ',$wheres);
 		return $where;
+	}
+
+	//予約管理用
+	/**
+	 * 検索結果最大取得件数（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	public function maintenanceReserveSearchMaxCnt($id,$get=array()){
+		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
+		$sql = str_replace("##field##",' count('.$this->primary_key.') as cnt ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['cnt'];
+		}
+		return 0;
+	}
+
+
+	/**
+	 * 検索結果一覧（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	public function maintenanceRserveSearch($id,$get,$limit,$order){
+		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
+		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,coupon_name,get_point,use_point", $sql);
+		$sql = $sql." {$order} {$limit}";
+		return $this->db->getAllData($sql);
+	}
+
+	/**
+	 * ベースSELECT分（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	protected function maintenanceReserveSearchSqlBase($id,$get){
+		//フィールドは各メソッド内で変換
+		$where = $this->maintenanceReserveSearchWhere($id,$get);
+		$sql = "SELECT ##field## FROM {$this->table},user  {$where}";
+		return $sql;
+	}
+
+
+	/**
+	 * WHERE句生成（店舗用）
+	 * @param int $id user_id
+	 * @param array $get
+	 * @return string
+	 */
+	protected function maintenanceReserveSearchWhere($id,$get){
+		$where = "";
+
+		$wheres[] = " reserved.delete_flg = 0 ";
+		$wheres[] = " reserved.user_id = '{$id}' ";
+		$wheres[] = " reserved.user_id = user.user_id ";
+
+		//予約ステータス
+		if(getParam($get,'status_id') != ''  && is_string(getParam($get,'status_id'))){
+			$status_id = $this->escape_string(getParam($get,'status_id'));
+			$wheres[] = " reserved.status_id = '{$status_id}' ";
+		} else {
+			$wheres[] = " reserved.status_id <> 0 ";
+		}
+
+		//利用開始日
+		if(getParam($get,'date_start') != ''  && is_string(getParam($get,'date_start'))){
+			$date_start = $this->escape_string(getParam($get,'date_start'));
+			$wheres[] = " reserved.use_date >= '{$date_start}' ";
+		}
+
+		//利用終了日
+		if(getParam($get,'date_end') != ''  && is_string(getParam($get,'date_end'))){
+			$date_end = $this->escape_string(getParam($get,'date_end'));
+			$wheres[] = " reserved.use_date <= '{$date_end}' ";
+		}
+
+		//ポイントコード
+		if(getParam($get,'point_code') != ''  && is_string(getParam($get,'point_code'))){
+			$point_code = $this->escape_string(getParam($get,'point_code'));
+			$wheres[] = " reserved.point_code = '{$point_code}' ";
+		}
+
+		$where = " WHERE ".implode(' AND ',$wheres);
+		return $where;
+	}
+
+	/**
+	 * 予約ステータス更新
+	 *
+	 *  @param string $reserved_id
+	 *  @return Bool 結果
+	 */
+	public function updateStatusid($reserved_id) {
+		$where = " reserved_id = {$reserved_id} ";
+		$param = array(
+				'status_id'=>'2',
+		);
+		return $this->update($param,$where);
 	}
 }

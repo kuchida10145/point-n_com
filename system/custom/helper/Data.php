@@ -251,7 +251,7 @@ function area_first($category_large_id, $prefectures_id) {
 	}
 	$region_id = $record['region_id'];
 	$prefectures_name = $record['prefectures_name'];
-	
+
 	// TODO: デリバリー条件を含めるように見直すこと
 	$wheres = array();
 	$wheres[] = 'category_large_id = ' . $category_large_id;
@@ -396,7 +396,7 @@ function course_status_label(){
  * @param string $point_kind
  * @return array
  */
-function course_list($store_id, $point_kind){
+function course_list($store_id, $point_kind=NULL){
 	$manager = Management::getInstance();
 	$returnArray = array();
 	//コース一覧取得
@@ -406,6 +406,23 @@ function course_list($store_id, $point_kind){
 	}
 	return $returnArray;
 }
+/**
+ * コース金額取得
+ * @param string $store_id
+ * @param string $point_kind
+ * @return array
+ */
+function course_price($store_id, $point_kind=NULL){
+	$manager = Management::getInstance();
+	$returnArray = array();
+	//コース一覧取得
+	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	foreach ($list as $key=>$val){
+		$returnArray[$val['course_id']] = $val['price'];
+	}
+	return $returnArray;
+}
+
 
 /**
  * クーポンステータス ラベル
@@ -428,7 +445,6 @@ function point_kind(){
 	return array(
 			1=>'通常',
 			2=>'イベント',
-			3=>'特別',
 	);
 }
 /**
@@ -468,6 +484,57 @@ function point_data() {
 			27=>'9500',
 			28=>'10000',
 	);
+}
+/**
+ * 利用ポイントデータ
+ *
+ * @return array
+ */
+function use_point_data() {
+	return array(
+			0=>'選択してください',
+			1=>'0',
+			2=>'1,000',
+			3=>'2,000',
+			4=>'3,000',
+			5=>'4,000',
+			6=>'5,000',
+			7=>'6,000',
+			8=>'7,000',
+			9=>'8,000',
+			10=>'9,000',
+			11=>'10,000',
+			12=>'11,000',
+			13=>'12,000',
+			14=>'13,000',
+			15=>'14,000',
+			16=>'15,000',
+			17=>'16,000',
+			18=>'17,000',
+			19=>'18,000',
+			20=>'19,000',
+			21=>'20,000',
+			22=>'25,000',
+			23=>'30,000',
+			24=>'50,000',
+	);
+}
+
+/**
+ * 予約用プルダウン作成
+ *
+ * 来客人数、利用時間（時）、利用時間（分）
+ *
+ * @return array
+ */
+function reservation_list($max_count) {
+	$returnArray = array();
+
+	for($i=0; $i<=$max_count; $i++) {
+		$returnArray[$i] = $i;
+	}
+
+	return $returnArray;
 }
 
 /*-----------------------------------------------------------
