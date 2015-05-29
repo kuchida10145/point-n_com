@@ -1112,8 +1112,14 @@ CREATE TABLE IF NOT EXISTS `automail` (
 
 INSERT INTO `automail` (`automail_id`, `name`, `subject`, `from_name`, `from_mail`, `return_path`, `body`, `regist_date`, `update_date`, `delete_flg`) VALUES
 (1, '仮登録用メール', '【point.com】仮登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', 'ようこそ　point.com　へ\r\n\r\nメールアドレス ##email## を確認しました。\r\n会員登録を完了するには下記のＵＲＬにアクセスしてください。\r\n\r\n##signup_edit_url##\r\n\r\nこのURLの有効期限は24時間です。\r\n有効期限を過ぎた場合はお手数ですが、下記のＵＲＬからもう一度仮登録の手続きをお願いします。\r\n\r\n##signup_url##', '2015-05-27 00:00:00', '2015-05-26 18:08:34', 0),
-(2, '登録完了メール', '【point.com】会員登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##name##様\r\n\r\n会員登録を完了いたしました。', '2015-05-27 00:00:00', '2015-05-29 00:00:00', 0),
-(3, '退会完了メール', '【point.com】退会手続きが完了しました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '退会手続きが完了しました。', '2015-05-27 16:33:42', '2015-05-27 16:34:02', 0);
+(2, '登録完了メール', '【point.com】会員登録を行いました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##nickname##様\r\n\r\n会員登録を完了いたしました。', '2015-05-27 00:00:00', '2015-05-29 12:52:04', 0),
+(3, '退会完了メール', '【point.com】退会手続きが完了しました。', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '退会手続きが完了しました。', '2015-05-27 16:33:42', '2015-05-27 16:34:02', 0),
+(4, '予約完了メール（会員に送信用）', '【point.com】予約を承りました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##nickname##様\r\n\r\n予約を受け付けました', '2015-05-29 12:52:02', '2015-05-29 12:52:02', 0),
+(5, '予約完了メール（店舗に送信用）', '【point.com】予約を承りました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##store_name##様\r\n\r\n予約を受け付けました', '2015-05-29 12:52:48', '2015-05-29 12:52:48', 0),
+(6, 'パスワードリマインダー用', '【point.com】パスワードの変更申請を承りました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', '##nickname##様\r\n\r\nパスワードの変更申請を承りました。\r\n\r\n２４時間以内に下記のURLにアクセスして新しいパスワードを設定してください。\r\n##renew_url##\r\n', '2015-05-29 12:54:21', '2015-05-29 12:54:21', 0),
+(7, 'パスワード変更完了（通常の変更・パスワードリマインダー共通）', '【point.com】お客様のパスワードを変更いたしました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', 'お客様のパスワードを変更いたしました。', '2015-05-29 12:57:06', '2015-05-29 13:00:51', 0),
+(8, 'お問い合わせ受付（運営者）', '【point.com】お問い合わせを承りました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', 'お客様より下記の内容にてお問い合わせを承りました。\r\n\r\n■都道府県\r\n##pref##\r\n\r\n■お問い合わせ内容\r\n##detail##\r\n', '2015-05-29 12:58:54', '2015-05-29 12:58:54', 0),
+(9, 'お問い合わせ受付（会員・利用者）', '【point.com】お問い合わせを承りました', 'point.com', 'takahashi@6web.co.jp', 'takahashi@6web.co.jp', 'お客様より下記の内容にてお問い合わせを承りました。\r\n\r\n■都道府県\r\n##pref##\r\n\r\n■お問い合わせ内容\r\n##detail##\r\n', '2015-05-29 12:59:18', '2015-05-29 13:01:05', 0);
 
 -- --------------------------------------------------------
 
