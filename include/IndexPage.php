@@ -12,7 +12,8 @@ class IndexPage extends Page{
 
 	protected $view = array(
 			'index' =>'index',
-			'login' =>'login'
+			'login' =>'login',
+			'logout' =>'mypage/logout',
 	);
 
 
@@ -41,10 +42,12 @@ class IndexPage extends Page{
 		$error = array();
 		
 		
+		
+		
 		//既にログイン済みの場合
-		//if($this->getAccount()){
-		//	redirect('/');
-		//}
+		if($this->getAccount()){
+			redirect('/');
+		}
 		
 		if(getPost('m') == 'login'){
 			$post= $_POST;
@@ -67,6 +70,27 @@ class IndexPage extends Page{
 		$data['system_message'] = $system_message;
 		$data['post'] = escapeHtml($post);
 		$this->loadView('login', $data);
+	}
+	
+	
+	/**
+	 * ログアウト画面
+	 * 
+	 */
+	public function logoutAction(){
+		$system_message = '';
+		
+		//ログインしていない場合
+		if(!($account = $this->getAccount())){
+			redirect('/login.php');
+		}
+		
+		//ログアウト処理
+		$this->unsetAutoLogin($account['user_id']);
+		$this->clearAccountSession();
+		
+		
+		$this->loadView('logout', array());
 	}
 
 	
