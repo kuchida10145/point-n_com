@@ -3,7 +3,7 @@
  * お問い合わせ
  *
  */
-include_once dirname(__FILE__).'/Page.php';
+include_once dirname(__FILE__).'/common/Page.php';
 
 class ContactPage extends Page{
 
@@ -44,16 +44,12 @@ class ContactPage extends Page{
 			$post = $_POST;
 			if($this->validation($post)){
 				$form_data = array(
-					'title'     => getPost('title'),
-					'name'      => getPost('name'),
-					'tel'       => getPost('tel'),
-					'email'     => getPost('email'),
-					'category'  => getPost('category'),
-					'body'      => getPost('body'),
+					'pref'    => getPost('pref'),
+					'detail'  => getPost('detail'),
 				);
 
 				$this->setFormSession('form', $form_data);
-				redirect('confirm.html?tkn='.$this->token);
+				redirect('confirm.php?tkn='.$this->token);
 			}
 			$error = $this->getValidationError();
 		}
@@ -89,23 +85,12 @@ class ContactPage extends Page{
 			//フォームセッション削除
 			$this->unsetFormSession('form');
 
-
+			$form_data['pref'] = getParam(prefectures_master(),$form_data['pref']);
 			$mail_data = $form_data;
-			$mail_data['category'] = getParam(contact_category(),$form_data['category']);
-
-			//送信完了メール（ユーザ側）
-			if($form_data['email'] != ''){
-				$mail_id = 3;
-				$mail = $this->manager->db_manager->get('automail')->findById($mail_id);
-				//メール用データ
-				$mail = create_mail_data($mail,$mail_data);
-				$mail['to'] = $form_data['email'];
-				$this->manager->mailer->setMailData($mail);
-				$this->manager->mailer->sendMail();
-			}
-
+			
+			
 			//管理者へメール
-			$mail_id = 4;
+			$mail_id = 8;
 			$mail = $this->manager->db_manager->get('automail')->findById($mail_id);
 			//メール用データ
 			$mail = create_mail_data($mail,$mail_data);
@@ -113,12 +98,13 @@ class ContactPage extends Page{
 			$this->manager->mailer->setMailData($mail);
 			$this->manager->mailer->sendMail();
 
-			redirect('thanks.html');
+			
+			redirect('thanks.php');
 		}
 
 		$form_data = escapeHtml($form_data);
-		$form_data['category'] = getParam(contact_category(),$form_data['category']);
-		$form_data['body']     = str_replace("\r\n",'<br />',$form_data['body']);
+		$form_data['pref'] = getParam(prefectures_master(),$form_data['pref']);
+		$form_data['detail']     = str_replace("\r\n",'<br />',$form_data['detail']);
 
 		//表示データ
 		$data['post']  = $form_data;
@@ -142,10 +128,8 @@ class ContactPage extends Page{
 	 * @return boolean
 	 */
 	private function validation($param){
-		$this->manager->validation->setRule('name' ,'required');
-		$this->manager->validation->setRule('email','required|email');
-		$this->manager->validation->setRule('category','required');
-		$this->manager->validation->setRule('body','required');
+		$this->manager->validation->setRule('pref' ,'selected');
+		$this->manager->validation->setRule('detail','required');
 		return $this->manager->validation->run($param);
 	}
 }
