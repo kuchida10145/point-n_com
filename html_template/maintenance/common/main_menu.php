@@ -8,7 +8,7 @@
 		<li><a href="reserve.php"><i class="icon-tags"></i><span class="hidden-tablet">予約管理</span></a></li>
 		<li><a href="sp_coupon_edit.php"><i class="icon-bookmark"></i><span class="hidden-tablet">特別ポイント管理</span></a>
 		<li><a href="claim.php"><i class="icon-edit"></i><span class="hidden-tablet">請求処理</span></a></li>
-		<li><a href="account.php"><i class="icon-user"></i><span class="hidden-tablet">アカウント管理</span></a></li>	
+		<li><a href="account.php"><i class="icon-user"></i><span class="hidden-tablet">アカウント設定</span></a></li>	
 	</ul>
 	</div>
 </div>

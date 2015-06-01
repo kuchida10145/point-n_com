@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -11,10 +10,10 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-
+		
 		<div class="container-fluid-full">
 		<div class="row-fluid">
-        <!-- start: Main Menu -->
+		<!-- start: Main Menu -->
 		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>
 		<!-- end: Main Menu -->
 			<noscript>
@@ -23,7 +22,7 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-
+			
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
@@ -36,11 +35,11 @@
 					<li><a href="course.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
 					<li><a href="#"><?php echo $page_type_text;?></a></li>
 				</ul>
-
+				
 				<h1><?php echo $page_title;?></h1>
-
+				
 				<?php echo $system_message;?>
-
+				
 				<div class="row-fluid">
 					<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -49,10 +48,10 @@
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 						</div>
 					</div>
-
+					
 					<div class="box-content">
-						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
-							<input type="hidden" value="edit" name="m">
+						<form class="form-horizontal" action="" method="post">
+							<input type="hidden" value="account" name="m">
 							<input type="hidden" value="getParam($post, 'license')" name="license">
 							<div class="control-group">
 								<label class="control-label" for="">入会日(登録日)</label>
@@ -98,82 +97,34 @@
 								</div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'area_first_prefectures_id'));?>">
-								<label class="control-label" for="typeahead">第1エリア(都道府県) <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="area_first_prefectures_id" name="area_first_prefectures_id">
-										<option value="">選択してください</option>
-										<?php foreach(prefectures_master() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_first_prefectures_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'area_first_prefectures_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">第1エリア(都道府県)</label>
+								<div class="controls"><?php echo getParam(prefectures_master(), getParam($post, 'area_first_prefectures_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'category_large_id'));?>">
-								<label class="control-label" for="typeahead">ジャンルマスター <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="category_large_id" name="category_large_id">
-										<option value="">選択してください</option>
-										<?php foreach(category_large() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_large_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'category_large_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">ジャンルマスター</label>
+								<div class="controls"><?php echo getParam(category_large(), getParam($post, 'category_large_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'category_midium_id'));?>">
-								<label class="control-label" for="typeahead">中カテゴリー <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="category_midium_id" name="category_midium_id">
-										<option value="">選択してください</option>
-										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'category_midium_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">中カテゴリー</label>
+								<div class="controls"><?php echo getParam(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'category_midium_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'category_small_id'));?>">
-								<label class="control-label" for="typeahead">小カテゴリー <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="category_small_id" name="category_small_id">
-										<option value="">選択してください</option>
-										<?php foreach(category_small(getParam($post, 'category_midium_id')) as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_small_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'category_small_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">小カテゴリー</label>
+								<div class="controls"><?php echo getParam(category_small(getParam($post, 'category_midium_id')), getParam($post, 'category_small_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'area_second_id'));?>">
-								<label class="control-label" for="typeahead">第2エリア <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="area_second_id" name="area_second_id">
-										<option value="">選択してください</option>
-										<?php foreach(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_second_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'area_second_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">第2エリア</label>
+								<div class="controls"><?php echo getParam(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'area_second_id'));?></div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'area_third_id'));?>">
-								<label class="control-label" for="typeahead">第3エリア <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select id="area_third_id" name="area_third_id">
-										<option value="">選択してください</option>
-										<?php foreach(area_third(getParam($post, 'area_second_id')) as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_third_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-									<?php echo getParam($error, 'area_third_id');?>
-								</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">第3エリア</label>
+								<div class="controls"><?php echo getParam(area_third(getParam($post, 'area_second_id')), getParam($post, 'area_third_id'));?></div>
 							</div>
 							
 						<div class="box-header" data-original-title="">
@@ -523,22 +474,21 @@
 							</div>
 							
 							<div class="form-actions">
-								<button class="btn btn-primary" type="submit">確認画面へ</button>
+								<button class="btn btn-primary" type="submit">保存</button>
 								<button type="button" onclick="location.href='index.php'" class="btn">戻る</button>
 							</div>
 						</form>
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-
+			
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-
+		
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-
-
+	
 	<div class="clearfix"></div>
 	<footer>
 		<p>
@@ -552,34 +502,6 @@
 	<script>
 	$(function(){
 		
-		$('#license').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'license'});
-		$('#type_of_industry_id').change(function() {
-			$('#type_of_industry_id').changeUpperItem({
-				url:'/maintenance/account.php.php?m=change_upper_item',
-				name:'type_of_industry_id'});
-		});
-		$('#area_first_prefectures_id').change(function() {
-			$('#area_first_prefectures_id').changeUpperItem({
-				url:'/maintenance/account.php?m=change_upper_item',
-				name:'area_first_prefectures_id'});
-		});
-		$('#category_large_id').change(function() {
-			$('#category_large_id').changeUpperItem({
-				url:'/maintenance/account.php?m=change_upper_item',
-				name:'category_large_id'});
-		});
-		$('#category_midium_id').change(function() {
-			$('#category_midium_id').changeCategoryMidium({
-				url:'/maintenance/account.php?m=change_category_midium',
-				name:'category_midium_id',
-				selected:$(this).val()});
-		});
-		$('#area_second_id').change(function() {
-			$('#area_second_id').changeAreaSecond({
-				url:'/maintenance/account.php?m=change_area_second',
-				name:'area_second_id',
-				selected:$(this).val()});
-		});
 		$('#image1').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image1'});
 		$('#image2').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image2'});
 		$('#image3').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image3'});
