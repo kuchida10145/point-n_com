@@ -122,7 +122,7 @@
 					</div>
 					<div class="box-content">
 						<p>
-							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(通常ポイントクープン)</button>
+							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(通常ポイントクーポン)</button>
 							<button class="btn btn-large btn-danger" onClick="location.href='?m=edit&p=2'">新規登録(イベントポイントクーポン)</button>
 						</p>
 						<?php if(!$list):?>

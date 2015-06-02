@@ -90,9 +90,18 @@ class ReservePage extends MaintenancePage{
 		$this->unsetSystemMessage();
 		$dbFlg = true;
 
-		// 受理ボタン
 		if(getParam($get,'update') != ''  && is_string(getParam($get,'update'))){
-			$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'));
+			// 取消ボタン
+			if(getParam($get,'sp') != ''  && is_string(getParam($get,'sp'))){
+				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'), RESERVE_ST_INV);
+			}
+			// 受理ボタン
+			else {
+				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'), RESERVE_ST_FIN);
+				if($dbFlg !== false){
+					$dbFlg = $this->user_update_actoin($get);
+				}
+			}
 		}
 
 		if(!$dbFlg){
@@ -144,5 +153,18 @@ class ReservePage extends MaintenancePage{
 		$account_id = getParam($account,'store_id');
 		$data['account_id'] = $account_id;
 		return $data;
+	}
+
+	/**
+	 * 更新処理
+	 *
+	 * @param array $param 更新用パラメータ
+	 * @return mixed
+	 */
+	protected function user_update_actoin($param){
+		$res = $this->manager->db_manager->get('user')->findByNickname($param['name']);
+		$user_id = $res['user_id'];
+		$param['point'] = $res['point'] + $param['get_p'] - $param['use_p'];				// 保持ポイント計算
+		return $this->manager->db_manager->get('user')->updateById($user_id,$param);
 	}
 }
