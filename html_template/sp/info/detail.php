@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $news_data['title'];?>｜ポイント.com</title>
+<title><?php echo $info_data['title'];?>｜ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
@@ -22,8 +22,8 @@
 <div id="mainbody" class="clearfix">
 <!--コンテンツ-->
 <div class="contents">
-	<h2>今日のニュース</h2>
-	<h3><?php echo $news_data['title'];?></h3>
+	<h2>POINT.COMからのお知らせ</h2>
+	<h3><?php echo $info_data['title'];?></h3>
 	
 	<?php if($images):?>
 	<!-- start:スライド写真-->
@@ -37,8 +37,8 @@
 	<!-- end:スライド写真 -->
 	<?php endif;?>
 	
-	<p><?php echo $news_data['body'];?></p>
-	<p><a href="/news/" class="linkbtn block alncenter">一覧へ戻る</a></p>
+	<p><?php echo $info_data['body'];?></p>
+	<p><a href="/info/" class="linkbtn block alncenter">一覧へ戻る</a></p>
 
 </div>
 <!--/コンテンツ-->

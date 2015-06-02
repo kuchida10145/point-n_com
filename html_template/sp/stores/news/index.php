@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>今日のニュース｜ポイント.com</title>
+<title>店舗からのニュース｜ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
-<?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
+<?php include_once dirname(__FILE__).'/../../common/header_meta.php';?>
 </head>
 <body id="register">
 <!--全体-->
@@ -14,7 +14,7 @@
 
 
 <!--ヘッダ-->
-<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
+<?php include_once dirname(__FILE__).'/../../common/header_contents.php';?>
 <!--ヘッダ-->
 <!--メイン全体-->
 <div id="mainbodywrap">
@@ -23,17 +23,17 @@
 
 <!--コンテンツ-->
 <div class="contents">
-	<h2>今日のニュース</h2>
-	<?php if(!$news_list):?>
+	<h2>店舗からのニュース</h2>
+	<?php if(!$notice_list):?>
 	<p>現在お知らせはありません</p>
 	<?php else:?>
 	<div class="shoplist">
-		<?php foreach($news_list as $news_data):?>
+		<?php foreach($notice_list as $notice_data):?>
 		<!--1件-->
 		<dl class="clearfix">
-			<dt><a href="detail.php?id=<?php echo $news_data['news_id'];?>"><img src="<?php echo $news_data['image1'];?>" alt="<?php echo $news_data['title'];?>" /></a></dt>
-			<dd> <?php echo date('Y/m/d',strtotime($news_data['display_date']));?><br />
-			<a href="detail.php?id=<?php echo $news_data['news_id'];?>"><?php echo $news_data['title'];?></a></dd>
+			<dt><a href="news_detail.php?id=<?php echo $notice_data['notice_id'];?>"><img src="<?php echo $notice_data['image1'];?>" alt="<?php echo $notice_data['title'];?>" /></a></dt>
+			<dd> <?php echo date('Y/m/d',strtotime($notice_data['display_date']));?><br />
+			<a href="news_detail.php?id=<?php echo $notice_data['notice_id'];?>"><?php echo $notice_data['title'];?></a></dd>
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
@@ -61,7 +61,7 @@ Copyright 2015 POINT.COM All Rights Reserved
 <!--/全体-->
 
 <!--スライド-->
-<?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
+<?php include_once dirname(__FILE__).'/../../common/slide_contents.php';?>
 <!-- /スライド-->
 <script type="text/javascript">
 
@@ -77,7 +77,7 @@ $(function() {
             //page++;
 			$.ajax({
 				type: "GET",
-				url: "/news/?m=next&next="+page_cnt,
+				url: "/stores/news.php?m=next&next="+page_cnt+"&sid=<?php echo getGet('sid');?>",
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){
@@ -86,14 +86,14 @@ $(function() {
 					var html = "";
 					for(var i = 0; i < res.pages.length; i++){
 						var page = res.pages[i];
-						var news_id = page.news_id;
+						var notice_id = page.notice_id;
 						var image1  = page.image1;
 						var title  = page.title;
 						var display_date  = page.display_date;
 						html+='<dl class="clearfix">';
-						html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
+						html+='	<dt><a href="news_detail.php?id='+notice_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
 						html+='	<dd> '+display_date+'<br />';
-						html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
+						html+='	<a href="news_detail.php?id='+notice_id+'">'+title+'</a></dd>';
 						html+='</dl>';
 					}
 					

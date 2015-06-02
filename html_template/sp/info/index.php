@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>今日のニュース｜ポイント.com</title>
+<title>POINT.COMからのお知らせ｜ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
@@ -23,17 +23,17 @@
 
 <!--コンテンツ-->
 <div class="contents">
-	<h2>今日のニュース</h2>
-	<?php if(!$news_list):?>
+	<h2>POINT.COMからのお知らせ</h2>
+	<?php if(!$info_list):?>
 	<p>現在お知らせはありません</p>
 	<?php else:?>
 	<div class="shoplist">
-		<?php foreach($news_list as $news_data):?>
+		<?php foreach($info_list as $info_data):?>
 		<!--1件-->
 		<dl class="clearfix">
-			<dt><a href="detail.php?id=<?php echo $news_data['news_id'];?>"><img src="<?php echo $news_data['image1'];?>" alt="<?php echo $news_data['title'];?>" /></a></dt>
-			<dd> <?php echo date('Y/m/d',strtotime($news_data['display_date']));?><br />
-			<a href="detail.php?id=<?php echo $news_data['news_id'];?>"><?php echo $news_data['title'];?></a></dd>
+			<dt><a href="detail.php?id=<?php echo $info_data['notice_id'];?>"><img src="<?php echo $info_data['image1'];?>" alt="<?php echo $info_data['title'];?>" /></a></dt>
+			<dd> <?php echo date('Y/m/d',strtotime($info_data['display_date']));?><br />
+			<a href="detail.php?id=<?php echo $info_data['notice_id'];?>"><?php echo $info_data['title'];?></a></dd>
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
