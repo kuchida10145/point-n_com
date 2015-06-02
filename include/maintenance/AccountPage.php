@@ -29,10 +29,6 @@ class AccountPage extends MaintenancePage {
 		$this->id = $account['store_id'];
 		if (getPost('m') == 'account') {
 			$post = $_POST;
-// 			echo "<pre>" . "\n";
-// 			var_dump($post);
-// 			echo "</pre>" . "\n";
-// 			exit;
 			if ($this->validation($post)) {
 				// 更新対象の項目
 				$update_fields = array(

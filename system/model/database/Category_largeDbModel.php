@@ -16,4 +16,13 @@ class Category_largeDbModel extends DbModel{
 			'delete_flg'
 		);
 	}
+	
+	/**
+	 * 大カテゴリーリストを取得する
+	 * 
+	 * @return array
+	 */
+	public function categoryList() {
+		return $this->adminSearch("", "", " ORDER BY rank ASC ");
+	}
 }

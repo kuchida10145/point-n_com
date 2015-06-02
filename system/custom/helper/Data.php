@@ -141,7 +141,7 @@ function is_delivery($store_type_of_industry) {
 function category_large() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('category_large')->adminSearch("", "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_large')->categoryList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_large_id']] = $record['category_large_name'];
@@ -169,11 +169,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 	}
 	$region_id = $record['region_id'];
 
-	$wheres = array();
-	$wheres[] = 'category_large_id = ' . $category_large_id;
-	$wheres[] = 'region_id = ' . $region_id;
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('category_midium')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_midium_id']] = $record['category_midium_name'];
@@ -190,9 +186,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 function category_small($category_midium_id) {
 	$list = array();
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'category_midium_id = ' . $category_midium_id;
-	$records = $manager->db_manager->get('category_small')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_small')->categoryList($category_midium_id);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_small_id']] = $record['category_small_name'];
@@ -211,7 +205,7 @@ function category_small($category_midium_id) {
 function region_master() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('region_master')->adminSearch("", "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('region_master')->regionList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['region_id']] = $record['region_name'];
@@ -227,7 +221,7 @@ function region_master() {
 function prefectures_master() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('prefectures_master')->adminSearch("", "", " ORDER BY prefectures_id ASC ");
+	$records = $manager->db_manager->get('prefectures_master')->prefecturesList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['prefectures_id']] = $record['prefectures_name'];
@@ -240,9 +234,10 @@ function prefectures_master() {
  *
  * @param number $category_large_id
  * @param number $prefectures_id
+ * @param number $delivery
  * @return array
  */
-function area_first($category_large_id, $prefectures_id) {
+function area_first($category_large_id, $prefectures_id, $delivery) {
 	$list = array();
 	$manager = Management::getInstance();
 	$record  = $manager->db_manager->get('prefectures_master')->findById($prefectures_id);
@@ -252,12 +247,8 @@ function area_first($category_large_id, $prefectures_id) {
 	$region_id = $record['region_id'];
 	$prefectures_name = $record['prefectures_name'];
 
-	// TODO: デリバリー条件を含めるように見直すこと
-	$wheres = array();
-	$wheres[] = 'category_large_id = ' . $category_large_id;
-	$wheres[] = 'region_id = ' . $region_id;
-	$wheres[] = "(prefectures_id = " . $prefectures_id . " OR area_first_name = '" . $prefectures_name . "')";
-	$records = $manager->db_manager->get('area_first')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_first')->searchForCategoryLargeId(
+			$category_large_id, $region_id, $delivery, $prefectures_id, $prefectures_name);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_first_id']] = $record['area_first_name'];
@@ -278,10 +269,7 @@ function area_second($area_first_id, $delivery = 0) {
 		return $list;
 	}
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'area_first_id = ' . $area_first_id;
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('area_second')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_second')->areaList($area_first_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
@@ -306,7 +294,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 		return $list;
 	}
 	$manager = Management::getInstance();
-	$area_first_list = area_first($category_large_id, $prefectures_id);
+	$area_first_list = area_first($category_large_id, $prefectures_id, $delivery);
 	if (count($area_first_list) <= 0) {
 		return $list;
 	}
@@ -314,11 +302,8 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 	foreach ($area_first_list as $key => $value) {
 		$area_first_id[] = $key;
 	}
-
-	$wheres = array();
-	$wheres[] = 'area_first_id IN (' . implode(",", $area_first_id) . ')';
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('area_second')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	
+	$records = $manager->db_manager->get('area_second')->areaList($area_first_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
@@ -338,9 +323,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 function area_third($area_second_id) {
 	$list = array();
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'area_second_id = ' . $area_second_id;
-	$records = $manager->db_manager->get('area_third')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_third')->areaList($area_second_id);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_third_id']] = $record['area_third_name'];

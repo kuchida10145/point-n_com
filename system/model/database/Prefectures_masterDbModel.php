@@ -20,6 +20,27 @@ class Prefectures_masterDbModel extends DbModel{
 	}
 	
 	/**
+	 * 都道府県リストを取得する
+	 * 
+	 * @return array
+	 */
+	public function prefecturesList() {
+		return $this->adminSearch("", "", " ORDER BY prefectures_id ASC ");
+	}
+	
+	/**
+	 * 都道府県名をキーとしてレコードを取得する
+	 * 
+	 * @param string $prefectures_name 都道府県名
+	 * @return array
+	 */
+	public function searchForPrefecturesName($prefectures_name) {
+		$wheres = array();
+		$wheres[] = "prefectures_name = '" . $prefectures_name . "'";
+		return $this->manager->adminSearch($wheres, "", " ORDER BY prefectures_id ASC ");
+	}
+	
+	/**
 	 * WHERE句生成（管理者用）
 	 *
 	 * @param array $get

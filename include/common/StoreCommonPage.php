@@ -44,10 +44,7 @@ class StoreCommonPage {
 			if ($area_first_data['prefectures_id'] > 0) {
 				$prefectures_id = $area_first_data['prefectures_id'];
 			} else {
-				// TODO: DBアクセッサ見直し
-				$wheres = array();
-				$wheres[] = "prefectures_name = '" . $area_first_data['area_first_name'] . "'";
-				$records = $this->manager->db_manager->get('prefectures_master')->adminSearch($wheres, "", " ORDER BY prefectures_id ASC ");
+				$records = $this->manager->db_manager->get('prefectures_master')->searchForPrefecturesName($area_first_data['area_first_name']);
 				$prefectures_id = isset($records[0]['prefectures_id']) ? $records[0]['prefectures_id'] : "";
 			}
 			$data['area_first_prefectures_id'] = $prefectures_id;
@@ -65,11 +62,7 @@ class StoreCommonPage {
 		// 予約受信メールアドレス
 		$data['reserved_email_confirm'] = $data['reserved_email'];
 		// 銀行
-		// TODO: DBアクセッサ見直し
-		$where  = ' store_id = ' . $primary_key . ' ';
-		$where .= ' AND delete_flg = 0 ';
-		$order = 'bank_account_id ASC';
-		$bank_data = $this->manager->db_manager->get('bank_account')->search($where, '', $order);
+		$bank_data = $this->manager->db_manager->get('bank_account')->searchForStoreId($primary_key);
 		$bank_data = ($bank_data != null) ? $bank_data : array();
 		for ($i = 1; $i <= 3; $i++) {
 			if (!isset($bank_data[$i-1]['bank_account_id'])) {
@@ -81,11 +74,7 @@ class StoreCommonPage {
 			$data['bank_account_holder' . $i] = $bank_data[$i-1]['bank_account_holder'];
 		}
 		// ゆうちょ銀行
-		// TODO: DBアクセッサ見直し
-		$where  = ' store_id = ' . $primary_key . ' ';
-		$where .= ' AND delete_flg = 0 ';
-		$order = 'bank_account_id ASC';
-		$bank_data = $this->manager->db_manager->get('jpbank_account')->search($where, '', $order);
+		$bank_data = $this->manager->db_manager->get('jpbank_account')->searchForStoreId($primary_key);
 		$bank_data = ($bank_data != null) ? $bank_data : array();
 		if (isset($bank_data[0]['bank_account_id'])) {
 			$data['jpbank_symbol1'] = $bank_data[0]['jpbank_symbol1'];
@@ -233,20 +222,14 @@ class StoreCommonPage {
 			$area_first_id = isset($area_second_data['area_first_id']) ? $area_second_data['area_first_id'] : 0;
 		} else {
 			// 第1エリアマスターテーブルからレコードを引き出す
-			// TODO: デリバリー条件を含めるように見直すこと
 			$prefectures_data = $this->manager->db_manager->get('prefectures_master')->findById($param['area_first_prefectures_id']);
 			$region_id = isset($prefectures_data['region_id']) ? $prefectures_data['region_id'] : 0;
 			$prefectures_name = isset($prefectures_data['prefectures_name']) ? $prefectures_data['prefectures_name'] : "";
 			$prefectures_id = $param['area_first_prefectures_id'];
 			$category_large_id = $param['category_large_id'];
 			$is_delivery = is_delivery($param['type_of_industry_id']);
-			// TODO: DBアクセッサ見直し
-			$wheres = array();
-			$wheres[] = 'category_large_id = ' . $category_large_id;
-			$wheres[] = 'region_id = ' . $region_id;
-//			$wheres[] = "delivery = '" . $is_delivery . "'";
-			$wheres[] = "(prefectures_id = " . $prefectures_id . " OR area_first_name = '" . $prefectures_name . "')";
-			$records = $this->manager->db_manager->get('area_first')->adminSearch($wheres, "", " ORDER BY area_first_id ASC ");
+			$records = $this->manager->db_manager->get('area_first')->searchForCategoryLargeId(
+					$category_large_id, $region_id, $is_delivery, $prefectures_id, $prefectures_name);
 			$records = ($records != null) ? $records : array();
 			if (count($records) == 1) {
 				$area_first_id = $records[0]['area_first_id'];
@@ -287,11 +270,7 @@ class StoreCommonPage {
 		}
 		
 		// 銀行
-		// TODO: DBアクセッサ見直し
-		$where  = ' store_id = ' . $primary_key . ' ';
-		$where .= ' AND delete_flg = 0 ';
-		$order = 'bank_account_id ASC';
-		$bank_data = $this->manager->db_manager->get('bank_account')->search($where, '', $order);
+		$bank_data = $this->manager->db_manager->get('bank_account')->searchForStoreId($primary_key);
 		for ($i = 1; $i <= 3; $i++) {
 			$bank_param = array();
 			if ($param['bank_account_holder' . $i] == "") {
@@ -314,11 +293,7 @@ class StoreCommonPage {
 		}
 		
 		// ゆうちょ銀行
-		// TODO: DBアクセッサ見直し
-		$where  = ' store_id = ' . $primary_key . ' ';
-		$where .= ' AND delete_flg = 0 ';
-		$order = 'bank_account_id ASC';
-		$bank_data = $this->manager->db_manager->get('jpbank_account')->search($where, '', $order);
+		$bank_data = $this->manager->db_manager->get('jpbank_account')->searchForStoreId($primary_key);
 		if ($param['jpbank_account_holder'] != "") {
 			$jpbank_param = array();
 			$jpbank_param['store_id'] = $id;

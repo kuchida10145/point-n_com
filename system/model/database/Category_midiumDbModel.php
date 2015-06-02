@@ -21,6 +21,22 @@ class Category_midiumDbModel extends DbModel{
 	}
 	
 	/**
+	 * 中カテゴリーリストを取得する
+	 * 
+	 * @param string $category_large_id 大カテゴリーID
+	 * @param string $region_id 地域ID
+	 * @param string $delivery デリバリー
+	 * @return array
+	 */
+	public function categoryList($category_large_id, $region_id, $delivery) {
+		$wheres = array();
+		$wheres[] = 'category_large_id = ' . $category_large_id;
+		$wheres[] = 'region_id = ' . $region_id;
+		$wheres[] = "delivery = '" . $delivery . "'";
+		return $this->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	}
+	
+	/**
 	 * WHERE句生成（管理者用）
 	 *
 	 * @param array $get

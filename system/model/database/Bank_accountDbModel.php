@@ -21,6 +21,19 @@ class Bank_accountDbModel extends DbModel{
 	}
 	
 	/**
+	 * 店舗IDをキーとしてレコードを取得する
+	 * 
+	 * @param string $store_id 店舗ID
+	 * @return array
+	 */
+	public function searchForStoreId($store_id) {
+		$where  = ' store_id = ' . $store_id . ' ';
+		$where .= ' AND delete_flg = 0 ';
+		$order = 'bank_account_id ASC';
+		return $this->search($where, '', $order);
+	}
+	
+	/**
 	 * WHERE句生成（管理者用）
 	 *
 	 * @param array $get

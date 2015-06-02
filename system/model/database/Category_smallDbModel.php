@@ -19,6 +19,18 @@ class Category_smallDbModel extends DbModel{
 	}
 	
 	/**
+	 * 小カテゴリーリストを取得する
+	 * 
+	 * @param string $category_midium_id 中カテゴリーID
+	 * @return array
+	 */
+	public function categoryList($category_midium_id) {
+		$wheres = array();
+		$wheres[] = 'category_midium_id = ' . $category_midium_id;
+		return $this->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	}
+	
+	/**
 	 * WHERE句生成（管理者用）
 	 *
 	 * @param array $get
