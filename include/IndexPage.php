@@ -22,11 +22,9 @@ class IndexPage extends Page{
 	 *
 	 */
 	public function indexAction(){
-		if(!$informations = $this->manager->db_manager->get('information')->getTopInformation()){
-			$informations = array();
-		}
+		
 		$data = array();
-		$data['informations'] = escapeHtml($informations);
+		
 		$this->loadView('index', $data);
 	}
 	

@@ -3,7 +3,7 @@
  * TOP
  *
  */
-include_once dirname(__FILE__).'/Page.php';
+include_once dirname(__FILE__).'/common/Page.php';
 
 class StaticPage extends Page{
 
@@ -11,11 +11,12 @@ class StaticPage extends Page{
 
 
 	protected $view = array(
-			'qa' =>'qa',
-			'intro' =>'intro',
-			'course' =>'course',
-			'access' =>'access',
-			'sub' =>'sub',
+			'about' =>'about',
+			'guid' =>'guid',
+			'question'=>'question',
+			'storeadmin'=>'storeadmin',
+			'gaiyou'=>'gaiyou',
+			'kitei'=>'kitei',
 	);
 
 
