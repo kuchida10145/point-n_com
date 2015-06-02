@@ -290,7 +290,9 @@ class ReservedDbModel extends DbModel{
 		return $where;
 	}
 
-	//予約管理用
+	//------------------------
+	//　予約管理用
+	//------------------------
 	/**
 	 * 検索結果最大取得件数（店舗用）
 	 * @param int $id 店舗ＩＤ
@@ -348,8 +350,9 @@ class ReservedDbModel extends DbModel{
 		$where = "";
 
 		$wheres[] = " reserved.delete_flg = 0 ";
-		$wheres[] = " reserved.user_id = '{$id}' ";
+		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.user_id = user.user_id ";
+		$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') ";
 
 		//予約ステータス
 		if(getParam($get,'status_id') != ''  && is_string(getParam($get,'status_id'))){
@@ -387,11 +390,177 @@ class ReservedDbModel extends DbModel{
 	 *  @param string $reserved_id
 	 *  @return Bool 結果
 	 */
-	public function updateStatusid($reserved_id) {
+	public function updateStatusid($reserved_id, $status_id) {
 		$where = " reserved_id = {$reserved_id} ";
 		$param = array(
-				'status_id'=>'2',
+				'status_id'=>$status_id,
 		);
 		return $this->update($param,$where);
+	}
+
+	//------------------------
+	//　特別ポイント用(index)
+	//------------------------
+	/**
+	 * 検索結果最大取得件数（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	 public function specialPointSearchMaxCnt($id,$get=array()){
+		 $sql = $this->specialPointSearchSqlBase($id,$get);
+		 $sql = str_replace("##field##",' count('.$this->primary_key.') as cnt ', $sql);
+		 if($res = $this->db->getData($sql)){
+		 	return $res['cnt'];
+		 }
+		return 0;
+	}
+
+
+	/**
+	* 検索結果一覧（店舗用）
+	* @param int $id 店舗ＩＤ
+	* @param array $get
+	* @param string $limit リミット句
+	* @param order $order オーダー句
+	* @return array:
+	*/
+	public function specialPointSearch($id,$get,$limit,$order){
+		$sql = $this->specialPointSearchSqlBase($id,$get);
+		$sql = str_replace("##field##","reserved_date,reserved.user_id,user.nickname,get_point", $sql);
+		$sql = $sql." {$order} {$limit}";
+		return $this->db->getAllData($sql);
+	}
+
+	/**
+	* ベースSELECT分（店舗用）
+	* @param int $id 店舗ＩＤ
+	* @param array $get
+	* @param string $limit リミット句
+	* @param order $order オーダー句
+	* @return array:
+	*/
+	protected function specialPointSearchSqlBase($id,$get){
+		//フィールドは各メソッド内で変換
+		$where = $this->specialPointSearchWhere($id,$get);
+		$sql = "SELECT ##field## FROM {$this->table},user  {$where}";
+		return $sql;
+	}
+
+	/**
+	* WHERE句生成（店舗用）
+	* @param int $id user_id
+	* @param array $get
+	* @return string
+	*/
+	protected function specialPointSearchWhere($id,$get){
+		$where = "";
+
+		$wheres[] = " reserved.delete_flg = 0 ";
+		$wheres[] = " user.delete_flg = 0 ";
+		$wheres[] = " reserved.store_id = '{$id}' ";
+		$wheres[] = " reserved.user_id = user.user_id ";
+		$wheres[] = " reserved.status_id = '".RESERVE_ST_SP."'";
+
+		//利用開始日
+		if(getParam($get,'date_start') != ''  && is_string(getParam($get,'date_start'))){
+			$date_start = $this->escape_string(getParam($get,'date_start'));
+			$wheres[] = " reserved.use_date >= '{$date_start}' ";
+		}
+
+		//利用終了日
+		if(getParam($get,'date_end') != ''  && is_string(getParam($get,'date_end'))){
+			$date_end = $this->escape_string(getParam($get,'date_end'));
+			$wheres[] = " reserved.use_date <= '{$date_end}' ";
+		}
+
+		//ポイントコード
+		if(getParam($get,'user_id') != ''  && is_string(getParam($get,'user_id'))){
+			$user_id = $this->escape_string(getParam($get,'user_id'));
+			$wheres[] = " reserved.user_id = '{$user_id}' ";
+		}
+
+		$where = " WHERE ".implode(' AND ',$wheres);
+		return $where;
+	}
+
+	//------------------------
+	//　特別ポイント用(searh)
+	//------------------------
+	/**
+	 * 検索結果最大取得件数（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	public function specialPointSelectSearchMaxCnt($id,$get=array()){
+		$sql = $this->specialPointSelectSearchSqlBase($id,$get);
+		$sql = str_replace("##field##",' count('.$this->primary_key.') as cnt ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['cnt'];
+		}
+		return 0;
+	}
+
+	/**
+	 * 検索結果一覧（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	public function specialPointSelectSearch($id,$get,$limit,$order){
+		$sql = $this->specialPointSelectSearchSqlBase($id,$get);
+		$sql = str_replace("##field##","reserved.user_id,user.nickname", $sql);
+		$sql = $sql." {$order} {$limit}";
+		return $this->db->getAllData($sql);
+	}
+
+	/**
+	 * ベースSELECT分（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	protected function specialPointSelectSearchSqlBase($id,$get){
+		//フィールドは各メソッド内で変換
+		$where = $this->specialPointSelectSearchWhere($id,$get);
+		$sql = "SELECT ##field## FROM {$this->table},user  {$where}";
+		return $sql;
+	}
+
+	/**
+	 * WHERE句生成（店舗用）
+	 * @param int $id user_id
+	 * @param array $get
+	 * @return string
+	 */
+	protected function specialPointSelectSearchWhere($id,$get){
+		$where = "";
+
+		$wheres[] = " reserved.delete_flg = 0 ";
+		$wheres[] = " user.delete_flg = 0 ";
+		$wheres[] = " reserved.store_id = '{$id}' ";
+		$wheres[] = " reserved.user_id = user.user_id ";
+
+		//会員ID
+		if(getParam($get,'user_id') != ''  && is_string(getParam($get,'user_id'))){
+			$user_id = $this->escape_string(getParam($get,'user_id'));
+			$wheres[] = " reserved.user_id = '{$user_id}' ";
+		}
+
+		//ニックネーム
+		if(getParam($get,'nickname') != ''  && is_string(getParam($get,'nickname'))){
+			$nickname = $this->escape_string(getParam($get,'nickname'));
+			$wheres[] = " user.nickname LIKE '%{$nickname}%' ";
+		}
+
+		$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') GROUP BY user.user_id";
+
+		$where = " WHERE ".implode(' AND ',$wheres);
+		return $where;
 	}
 }
