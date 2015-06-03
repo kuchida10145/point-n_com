@@ -70,6 +70,11 @@
 							</div>
 							
 							<div class="control-group">
+								<label class="control-label" for="">店ID</label>
+								<div class="controls"><?php echo getParam($post, 'store_hex_id', '新規登録時に自動入力');?></div>
+							</div>
+							
+							<div class="control-group">
 								<label for="" class="control-label">店舗名</label>
 								<div class="controls">
 									<?php echo getParam($post,'store_name');?>

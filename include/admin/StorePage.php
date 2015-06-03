@@ -83,6 +83,11 @@ class StorePage extends AdminPage {
 			return false;
 		}
 		
+		// 店ID
+		$update_param = array();
+		$update_param['store_hex_id']  = sprintf("%04X", $id);
+		$this->manager->db_manager->get($this->use_table)->updateById($id, $update_param);
+		
 		// 銀行
 		for ($i = 1; $i <= 3; $i++) {
 			if ($param['bank_account_holder' . $i] == "") {

@@ -56,21 +56,31 @@
 							<div class="control-group">
 								<label class="control-label" for="">入会日(登録日)</label>
 								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
+								<input type="hidden" id="regist_date" name="regist_date" value="<?php echo getParam($post, 'regist_date', '');?>">
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="">店ID</label>
+								<div class="controls"><?php echo getParam($post, 'store_hex_id', '新規登録時に自動入力');?></div>
+								<input type="hidden" id="store_hex_id" name="store_hex_id" value="<?php echo getParam($post, 'store_hex_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">店舗名</label>
 								<div class="controls"><?php echo getParam($post,'store_name');?></div>
+								<input type="hidden" id="store_name" name="store_name" value="<?php echo getParam($post, 'store_name', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="selectError3">業種</label>
 								<div class="controls"><?php echo getParam(store_type_of_industry(), getParam($post, 'type_of_industry_id'));?></div>
+								<input type="hidden" id="type_of_industry_id" name="type_of_industry_id" value="<?php echo getParam($post, 'type_of_industry_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
 								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
+								<input type="hidden" id="license" name="license" value="<?php echo getParam($post, 'license', '');?>">
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'account_name'));?>">
@@ -100,31 +110,37 @@
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第1エリア(都道府県)</label>
 								<div class="controls"><?php echo getParam(prefectures_master(), getParam($post, 'area_first_prefectures_id'));?></div>
+								<input type="hidden" id="area_first_prefectures_id" name="area_first_prefectures_id" value="<?php echo getParam($post, 'area_first_prefectures_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">ジャンルマスター</label>
 								<div class="controls"><?php echo getParam(category_large(), getParam($post, 'category_large_id'));?></div>
+								<input type="hidden" id="category_large_id" name="category_large_id" value="<?php echo getParam($post, 'category_large_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">中カテゴリー</label>
 								<div class="controls"><?php echo getParam(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'category_midium_id'));?></div>
+								<input type="hidden" id="category_midium_id" name="category_midium_id" value="<?php echo getParam($post, 'category_midium_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">小カテゴリー</label>
 								<div class="controls"><?php echo getParam(category_small(getParam($post, 'category_midium_id')), getParam($post, 'category_small_id'));?></div>
+								<input type="hidden" id="category_small_id" name="category_small_id" value="<?php echo getParam($post, 'category_small_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第2エリア</label>
 								<div class="controls"><?php echo getParam(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'area_second_id'));?></div>
+								<input type="hidden" id="area_second_id" name="area_second_id" value="<?php echo getParam($post, 'area_second_id', '');?>">
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第3エリア</label>
 								<div class="controls"><?php echo getParam(area_third(getParam($post, 'area_second_id')), getParam($post, 'area_third_id'));?></div>
+								<input type="hidden" id="area_third_id" name="area_third_id" value="<?php echo getParam($post, 'area_third_id', '');?>">
 							</div>
 							
 						<div class="box-header" data-original-title="">

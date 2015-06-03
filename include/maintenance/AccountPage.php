@@ -60,9 +60,8 @@ class AccountPage extends MaintenancePage {
 			$error = $this->getValidationError();
 		} else {
 			$post = $this->manager->db_manager->get($this->use_table)->findById($account['store_id']);
+			$post = $this->dbToInputData($post);
 		}
-		
-		$post = $this->dbToInputData($post);
 		
 		$data['login_id'] = $account['login_id'];
 		$data['post'] = escapeHtml($post);
