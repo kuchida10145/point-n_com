@@ -302,7 +302,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 	foreach ($area_first_list as $key => $value) {
 		$area_first_id[] = $key;
 	}
-	
+
 	$records = $manager->db_manager->get('area_second')->areaList($area_first_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
@@ -404,6 +404,29 @@ function course_price($store_id, $point_kind=NULL){
 		$returnArray[$val['course_id']] = $val['price'];
 	}
 	return $returnArray;
+}
+
+/**
+ * 今日のニュースステータス ラベル
+ *
+ * @return array
+ */
+function news_status_label(){
+	return array(
+			1=>'<span class="label label-large label-success">公開</span>',
+			2=>'<span class="label label-large label-warning">非公開</span>',
+	);
+}
+/**
+ * 今日のニュースステータス
+ *
+ * @return array
+ */
+function news_status_kind(){
+	return array(
+			1=>'公開',
+			2=>'非公開',
+	);
 }
 
 
