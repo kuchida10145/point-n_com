@@ -7,16 +7,16 @@ include_once dirname(__FILE__) . '/../common/AdminPage.php';
 include_once(dirname(__FILE__) . '/../common/StoreCommonPage.php');
 
 class StorePage extends AdminPage {
-	
+
 	protected $id = 0;/* ID */
 	protected $use_table   = 'store';
 	protected $session_key = 'store';
 	protected $use_confirm = true;
 	protected $page_title = '店舗情報管理';
-	
+
 	/**
 	 * ＤＢデータから入力用データへ変換
-	 * 
+	 *
 	 * @param array $data 変換元データ
 	 * @return array 変換後データ
 	 */
@@ -24,10 +24,10 @@ class StorePage extends AdminPage {
 		$store_common = new StoreCommonPage($this->manager);
 		return $store_common->dbToInputData($data, $this->id);
 	}
-	
+
 	/**
 	 * 入力チェック
-	 * 
+	 *
 	 */
 	protected function validation($param) {
 		// 更新の場合はＩＤを設定
@@ -36,14 +36,14 @@ class StorePage extends AdminPage {
 			$param['store_id'] = $this->id;
 			$isUpdate = true;
 		}
-		
+
 		$store_common = new StoreCommonPage($this->manager);
 		return $store_common->validation($param, $isUpdate, true);
 	}
-	
+
 	/**
 	 * 第1エリアマスターの第1エリアIDを導出する
-	 * 
+	 *
 	 * @param array $param パラメータ
 	 * @return number
 	 */
@@ -51,17 +51,17 @@ class StorePage extends AdminPage {
 		$store_common = new StoreCommonPage($this->manager);
 		return $store_common->derive_area_first_id($param);
 	}
-	
+
 	/**
 	 * 新規登録処理
-	 * 
+	 *
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
 	protected function inseart_action($param) {
 		// DB用データに変換
 		$param = $this->inputToDbData($param);
-		
+
 		// 新着店舗
 		$param['new_arrival'] = isset($param['new_arrival']) ? $param['new_arrival'] : 0;
 		// パスワード暗号化
@@ -77,7 +77,7 @@ class StorePage extends AdminPage {
 		unset($param['telephone1']);
 		unset($param['telephone2']);
 		unset($param['telephone3']);
-		
+
 		$id = $this->manager->db_manager->get($this->use_table)->insert($param);
 		if ($id === false) {
 			return false;
@@ -101,7 +101,7 @@ class StorePage extends AdminPage {
 			$bank_param['bank_account_holder'] = $param['bank_account_holder' . $i];
 			$this->manager->db_manager->get('bank_account')->insert($bank_param);
 		}
-		
+
 		// ゆうちょ銀行
 		if ($param['jpbank_account_holder'] != "") {
 			$jpbank_param = array();
@@ -112,24 +112,24 @@ class StorePage extends AdminPage {
 			$jpbank_param['jpbank_account_holder'] = $param['jpbank_account_holder'];
 			$this->manager->db_manager->get('jpbank_account')->insert($jpbank_param);
 		}
-		
+
 		return $id;
 	}
-	
+
 	/**
 	 * 更新処理
-	 * 
+	 *
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
 	protected function update_actoin($param){
 		// DB用データに変換
 		$param = $this->inputToDbData($param);
-		
+
 		$store_common = new StoreCommonPage($this->manager);
 		return $store_common->update_action($param, $this->id, $this->use_table);
 	}
-	
+
 	/**
 	 * 入力用データからＤＢデータへ変換
 	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
@@ -140,7 +140,7 @@ class StorePage extends AdminPage {
 	protected function inputToDbData($data){
 		return $data;
 	}
-	
+
 	/**
 	 * 画像アップロード（AJAX)
 	 */
@@ -148,7 +148,7 @@ class StorePage extends AdminPage {
 		$store_common = new StoreCommonPage($this->manager);
 		$store_common->image_uploadAction();
 	}
-	
+
 	/**
 	 * 上位項目選択時のリスト取得（AJAX）
 	 * - 業種
@@ -157,7 +157,7 @@ class StorePage extends AdminPage {
 	 */
 	protected function change_upper_itemAction(){
 		$result['result'] = 'result';
-		
+
 		// 中カテゴリー
 		$result['category_midium'] = array();
 		// 小カテゴリー
@@ -166,7 +166,7 @@ class StorePage extends AdminPage {
 		$result['area_second'] = array();
 		// 第３エリア
 		$result['area_third'] = array();
-		
+
 		$type_of_industry_id = $_POST['type_of_industry_id'];
 		$category_large_id   = $_POST['category_large_id'];
 		$prefectures_id      = $_POST['prefectures_id'];
@@ -193,33 +193,33 @@ class StorePage extends AdminPage {
 				$result['area_third'] = array(0=>non_select_item());
 			}
 		}
-		
+
 		echo json_encode($result);
 		exit();
 	}
-	
+
 	/**
 	 * 中カテゴリー選択時のリスト取得（AJAX)
 	 */
 	protected function change_category_midiumAction(){
 		$result['result'] = 'result';
-		
+
 		// 小カテゴリー
 		$result['category_small'] = category_small($_POST['selected']);
-		
+
 		echo json_encode($result);
 		exit();
 	}
-	
+
 	/**
 	 * 第２エリア選択時のリスト取得（AJAX)
 	 */
 	protected function change_area_secondAction(){
 		$result['result'] = 'result';
-		
+
 		// 第３エリア
 		$result['area_third'] = area_third($_POST['selected']);
-		
+
 		echo json_encode($result);
 		exit();
 	}

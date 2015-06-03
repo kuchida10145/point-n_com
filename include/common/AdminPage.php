@@ -51,7 +51,6 @@ abstract class AdminPage extends Page{
 		$method = getGet('m','index').'Action';
 		$this->setView();
 
-
 		//ログインチェック
 		if($this->checkLogin() == false){
 			//すべてのセッションを削除
@@ -346,6 +345,7 @@ abstract class AdminPage extends Page{
 		$data['post']  = escapeHtml($post);
 		$data['page_title']     =$this->page_title;
 		$data['page_type_text'] =$this->page_type_text;
+
 		$this->loadView('confirm', $data);
 	}
 
