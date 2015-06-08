@@ -28,12 +28,14 @@ class Category_midiumDbModel extends DbModel{
 	 * @param string $delivery デリバリー
 	 * @return array
 	 */
-	public function categoryList($category_large_id, $region_id, $delivery) {
+	public function categoryList($category_large_id, $region_id, $delivery = null) {
 		$wheres = array();
 		$wheres[] = 'category_large_id = ' . $category_large_id;
 		$wheres[] = 'region_id = ' . $region_id;
-		$wheres[] = "delivery = '" . $delivery . "'";
-		return $this->adminSearch($wheres, "", " ORDER BY rank ASC ");
+		if ($delivery != null) {
+			$wheres[] = "delivery = '" . $delivery . "'";
+		}
+		return $this->adminSearch($wheres, "", " ORDER BY rank ASC, category_midium_id ASC ");
 	}
 	
 	/**

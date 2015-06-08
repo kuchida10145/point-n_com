@@ -178,6 +178,25 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 }
 
 /**
+ * 中カテゴリー（カスタマー用）
+ * 
+ * @param number $category_large_id
+ * @param number $region_id
+ * @param number $delivery
+ * @return array
+ */
+function category_midium_for_customer($category_large_id, $region_id, $delivery = null) {
+	$list = array();
+	$manager = Management::getInstance();
+	$records = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, $delivery);
+	$records = ($records != null) ? $records : array();
+	foreach ($records as $record) {
+		$list[$record['category_midium_id']] = $record['category_midium_name'];
+	}
+	return $list;
+}
+
+/**
  * 小カテゴリー
  *
  * @param number $category_midium_id
@@ -193,6 +212,23 @@ function category_small($category_midium_id) {
 	}
 	if (count($list) == 0 && ($category_midium_id === 0 || $category_midium_id > 0)) {
 		$list[0] = non_select_item();
+	}
+	return $list;
+}
+
+/**
+ * 小カテゴリー（カスタマー用）
+ * 
+ * @param number $category_midium_id
+ * @return array
+ */
+function category_small_for_customer($category_midium_id) {
+	$list = array();
+	$manager = Management::getInstance();
+	$records = $manager->db_manager->get('category_small')->categoryList($category_midium_id);
+	$records = ($records != null) ? $records : array();
+	foreach ($records as $record) {
+		$list[$record['category_small_id']] = $record['category_small_name'];
 	}
 	return $list;
 }
