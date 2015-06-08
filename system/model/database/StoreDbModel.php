@@ -9,6 +9,7 @@ class StoreDbModel extends DbModel{
 	public function getField(){
 		return array(
 			'store_id',
+			'store_hex_id',
 			'status_id',
 			'store_name',
 			'new_arrival',

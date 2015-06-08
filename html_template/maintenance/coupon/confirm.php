@@ -68,7 +68,7 @@
                             <div class="control-group">
 								<label class="control-label" for="typeahead">発行するコース名</label>
 								<div class="controls">
-									<?php echo getParam(course_list(getParam($post,'store_id'), getParam($post,'p')),$post['course_id']);?>
+									<?php echo getParam(course_list($post['store_id'], $post['p']),$post['course_id']);?>
 								</div>
 							</div>
 

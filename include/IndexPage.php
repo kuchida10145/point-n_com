@@ -21,16 +21,48 @@ class IndexPage extends Page{
 	 * TOPページ
 	 *
 	 */
-	public function indexAction(){
-		if(!$informations = $this->manager->db_manager->get('information')->getTopInformation()){
-			$informations = array();
+	public function indexAction() {
+		$post = array();
+		$error = array();
+		$this->token = getGet('tkn');
+		
+		// トークンが設定されていない場合
+		if ($this->token == '') {
+			$this->token = $this->manager->token->createToken($this->session_key);
+			redirect('?tkn=' . $this->token);
+			exit();
 		}
-		$data = array();
-		$data['informations'] = escapeHtml($informations);
+		
+		$get_data = array('tkn' => $this->token);
+		if (getPost('m') == 'search_select') {
+			$post = $_POST;
+			// 入力チェック
+			if ($this->selectValidation($post)) {
+				$get_data['category_large_id'] = getPost('category_large_id');
+				$get_data['region_id'] = getPost('region_id');
+				$get_param = createLinkParam($get_data);
+				redirect('/stores/genre.php' . $get_param);
+			}
+			$error = $this->getValidationError();
+		} else {
+			$post = $get_data;
+			$post['category_large_id'] = getGet('category_large_id');
+			$post['region_id']         = getGet('region_id');
+		}
+		
+		$data['post'] = escapeHtml($post);
+		$data['error'] = $error;
 		$this->loadView('index', $data);
 	}
 	
-	
+	/**
+	 * TOPページ用バリデーション
+	 */
+	private function selectValidation($param) {
+		$this->manager->validation->setRule('category_large_id', 'selected');
+		$this->manager->validation->setRule('region_id',         'selected');
+		return $this->manager->validation->run($param);
+	}
 	
 	/**
 	 * ログイン画面

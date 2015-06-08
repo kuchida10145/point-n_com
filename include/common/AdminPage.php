@@ -51,7 +51,6 @@ abstract class AdminPage extends Page{
 		$method = getGet('m','index').'Action';
 		$this->setView();
 
-
 		//ログインチェック
 		if($this->checkLogin() == false){
 			//すべてのセッションを削除
@@ -150,6 +149,7 @@ abstract class AdminPage extends Page{
 		//システムメッセージ
 
 		//ページャ生成
+		$data = $this->getIndexCommon();
 		$pager_param['per_cnt'] = $this->page_cnt;
 		$pager_param['all_cnt'] = $max_cnt;
 		$this->manager->pager->setHtmlType( array() ,'admin');
@@ -286,8 +286,8 @@ abstract class AdminPage extends Page{
 		}
 		return $data;
 	}
-	
-	
+
+
 	/**
 	 * 入力用データからＤＢデータへ変換
 	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
@@ -307,7 +307,7 @@ abstract class AdminPage extends Page{
 	protected function getDefaultEditData(){
 		return array();
 	}
-	
+
 
 
 	/**
@@ -345,6 +345,7 @@ abstract class AdminPage extends Page{
 		$data['post']  = escapeHtml($post);
 		$data['page_title']     =$this->page_title;
 		$data['page_type_text'] =$this->page_type_text;
+
 		$this->loadView('confirm', $data);
 	}
 
@@ -413,6 +414,15 @@ abstract class AdminPage extends Page{
 		exit();
 	}
 
+	/**
+	 * 一覧画面の共通データを取得
+	 *
+	 * @param array $data 格納用変数
+	 * @return array
+	 */
+	protected function getIndexCommon($data = array()){
+		return $data;
+	}
 
 	/**
 	 * 入力画面の共通データを取得

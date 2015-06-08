@@ -114,6 +114,81 @@ class CouponPage extends MaintenancePage{
 	}
 
 	/**
+	 * 一覧ページ
+	 *
+	 */
+	protected function indexAction(){
+		$account = $this->getAccount();
+		$account_id = getParam($account,'store_id');
+		$pager_html = '';
+		$get        = $_GET;
+		$list       = array();
+		$system_message = $this->getSystemMessage();
+		$this->unsetSystemMessage();
+		$dbFlg = true;
+
+		// 通常コース有効処理
+		if(!empty($get['normal_course'])){
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_course'],"1");
+		}
+		// イベントコース有効処理
+		if(!empty($get['event_course'])){
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_course'],"2");
+		}
+
+		if(!$dbFlg){
+			redirect('index.php');
+		}
+
+		//limit句生成
+		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
+
+		//最大件数取得
+		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceSearchMaxCnt($account_id,$get);
+
+		//リスト取得
+		if($max_cnt > 0){
+			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceSearch($account_id,$get,$limit,$this->order);
+		}
+
+
+		//リストを出力用のデータに変換
+		$list = $this->dbToListData($list);
+
+
+		//システムメッセージ
+
+		//ページャ生成
+		$data = $this->getIndexCommon();
+		$pager_param['per_cnt'] = $this->page_cnt;
+		$pager_param['all_cnt'] = $max_cnt;
+		$this->manager->pager->setHtmlType( array() ,'admin');
+		$this->manager->pager->initialize($pager_param);
+		$pager_html = $this->manager->pager->create();
+
+		$data['list']           = $list;
+		$data['pager_html']     = $pager_html;
+		$data['page_title']     =$this->page_title;
+
+		$data['page_type_text'] =$this->page_type_text;
+		$data['system_message'] = $system_message;
+		$this->loadView('index', $data);
+	}
+
+	/**
+	 * 一覧画面の共通データを取得
+	 *
+	 * @param array $data 格納用変数
+	 * @return array
+	 */
+	protected function getIndexCommon($data = array()){
+		$account = $this->getAccount();
+		$account_id = getParam($account,'store_id');
+		$data['account_id'] = $account_id;
+		return $data;
+	}
+
+	/**
 	 * 入力画面
 	 *
 	 */
@@ -211,6 +286,5 @@ class CouponPage extends MaintenancePage{
 		$param['store_id'] = $account['store_id'];
 		$param['point_kind'] = $this->getFormSession('p');
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
-
 	}
 }

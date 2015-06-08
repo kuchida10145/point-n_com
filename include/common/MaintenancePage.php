@@ -9,7 +9,7 @@ include_once dirname(__FILE__).'/AdminPage.php';
 abstract class MaintenancePage extends AdminPage{
 
 
-	
+
 	protected $page_cnt = 20;//一ページに表示するデータ数
 	protected $account = NULL;
 	protected $account_type = 'maintenance';
@@ -66,6 +66,7 @@ abstract class MaintenancePage extends AdminPage{
 		//システムメッセージ
 
 		//ページャ生成
+		$data = $this->getIndexCommon();
 		$pager_param['per_cnt'] = $this->page_cnt;
 		$pager_param['all_cnt'] = $max_cnt;
 		$this->manager->pager->setHtmlType( array() ,'admin');
@@ -75,13 +76,13 @@ abstract class MaintenancePage extends AdminPage{
 		$data['list']           = $list;
 		$data['pager_html']     = $pager_html;
 		$data['page_title']     =$this->page_title;
-		
+
 		$data['page_type_text'] =$this->page_type_text;
 		$data['system_message'] = $system_message;
 		$this->loadView('index', $data);
 	}
-	
-	
+
+
 	/**
 	 * ＤＢに保存されているデータを一件取得する
 	 * @param int $id ＩＤ

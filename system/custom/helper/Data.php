@@ -141,7 +141,7 @@ function is_delivery($store_type_of_industry) {
 function category_large() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('category_large')->adminSearch("", "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_large')->categoryList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_large_id']] = $record['category_large_name'];
@@ -169,11 +169,26 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 	}
 	$region_id = $record['region_id'];
 
-	$wheres = array();
-	$wheres[] = 'category_large_id = ' . $category_large_id;
-	$wheres[] = 'region_id = ' . $region_id;
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('category_midium')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, $delivery);
+	$records = ($records != null) ? $records : array();
+	foreach ($records as $record) {
+		$list[$record['category_midium_id']] = $record['category_midium_name'];
+	}
+	return $list;
+}
+
+/**
+ * 中カテゴリー（カスタマー用）
+ * 
+ * @param number $category_large_id
+ * @param number $region_id
+ * @param number $delivery
+ * @return array
+ */
+function category_midium_for_customer($category_large_id, $region_id, $delivery = null) {
+	$list = array();
+	$manager = Management::getInstance();
+	$records = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_midium_id']] = $record['category_midium_name'];
@@ -190,15 +205,30 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 function category_small($category_midium_id) {
 	$list = array();
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'category_midium_id = ' . $category_midium_id;
-	$records = $manager->db_manager->get('category_small')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('category_small')->categoryList($category_midium_id);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_small_id']] = $record['category_small_name'];
 	}
 	if (count($list) == 0 && ($category_midium_id === 0 || $category_midium_id > 0)) {
 		$list[0] = non_select_item();
+	}
+	return $list;
+}
+
+/**
+ * 小カテゴリー（カスタマー用）
+ * 
+ * @param number $category_midium_id
+ * @return array
+ */
+function category_small_for_customer($category_midium_id) {
+	$list = array();
+	$manager = Management::getInstance();
+	$records = $manager->db_manager->get('category_small')->categoryList($category_midium_id);
+	$records = ($records != null) ? $records : array();
+	foreach ($records as $record) {
+		$list[$record['category_small_id']] = $record['category_small_name'];
 	}
 	return $list;
 }
@@ -211,7 +241,7 @@ function category_small($category_midium_id) {
 function region_master() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('region_master')->adminSearch("", "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('region_master')->regionList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['region_id']] = $record['region_name'];
@@ -227,7 +257,7 @@ function region_master() {
 function prefectures_master() {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('prefectures_master')->adminSearch("", "", " ORDER BY prefectures_id ASC ");
+	$records = $manager->db_manager->get('prefectures_master')->prefecturesList();
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['prefectures_id']] = $record['prefectures_name'];
@@ -240,9 +270,10 @@ function prefectures_master() {
  *
  * @param number $category_large_id
  * @param number $prefectures_id
+ * @param number $delivery
  * @return array
  */
-function area_first($category_large_id, $prefectures_id) {
+function area_first($category_large_id, $prefectures_id, $delivery) {
 	$list = array();
 	$manager = Management::getInstance();
 	$record  = $manager->db_manager->get('prefectures_master')->findById($prefectures_id);
@@ -251,13 +282,9 @@ function area_first($category_large_id, $prefectures_id) {
 	}
 	$region_id = $record['region_id'];
 	$prefectures_name = $record['prefectures_name'];
-	
-	// TODO: デリバリー条件を含めるように見直すこと
-	$wheres = array();
-	$wheres[] = 'category_large_id = ' . $category_large_id;
-	$wheres[] = 'region_id = ' . $region_id;
-	$wheres[] = "(prefectures_id = " . $prefectures_id . " OR area_first_name = '" . $prefectures_name . "')";
-	$records = $manager->db_manager->get('area_first')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+
+	$records = $manager->db_manager->get('area_first')->searchForCategoryLargeId(
+			$category_large_id, $region_id, $delivery, $prefectures_id, $prefectures_name);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_first_id']] = $record['area_first_name'];
@@ -278,10 +305,7 @@ function area_second($area_first_id, $delivery = 0) {
 		return $list;
 	}
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'area_first_id = ' . $area_first_id;
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('area_second')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_second')->areaList($area_first_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
@@ -306,7 +330,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 		return $list;
 	}
 	$manager = Management::getInstance();
-	$area_first_list = area_first($category_large_id, $prefectures_id);
+	$area_first_list = area_first($category_large_id, $prefectures_id, $delivery);
 	if (count($area_first_list) <= 0) {
 		return $list;
 	}
@@ -315,10 +339,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 		$area_first_id[] = $key;
 	}
 
-	$wheres = array();
-	$wheres[] = 'area_first_id IN (' . implode(",", $area_first_id) . ')';
-	$wheres[] = "delivery = '" . $delivery . "'";
-	$records = $manager->db_manager->get('area_second')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_second')->areaList($area_first_id, $delivery);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_second_id']] = $record['area_second_name'];
@@ -338,9 +359,7 @@ function area_second_to_extend($category_large_id, $prefectures_id, $delivery = 
 function area_third($area_second_id) {
 	$list = array();
 	$manager = Management::getInstance();
-	$wheres = array();
-	$wheres[] = 'area_second_id = ' . $area_second_id;
-	$records = $manager->db_manager->get('area_third')->adminSearch($wheres, "", " ORDER BY rank ASC ");
+	$records = $manager->db_manager->get('area_third')->areaList($area_second_id);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['area_third_id']] = $record['area_third_name'];
@@ -396,7 +415,7 @@ function course_status_label(){
  * @param string $point_kind
  * @return array
  */
-function course_list($store_id, $point_kind){
+function course_list($store_id, $point_kind=NULL){
 	$manager = Management::getInstance();
 	$returnArray = array();
 	//コース一覧取得
@@ -406,6 +425,46 @@ function course_list($store_id, $point_kind){
 	}
 	return $returnArray;
 }
+/**
+ * コース金額取得
+ * @param string $store_id
+ * @param string $point_kind
+ * @return array
+ */
+function course_price($store_id, $point_kind=NULL){
+	$manager = Management::getInstance();
+	$returnArray = array();
+	//コース一覧取得
+	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	foreach ($list as $key=>$val){
+		$returnArray[$val['course_id']] = $val['price'];
+	}
+	return $returnArray;
+}
+
+/**
+ * 今日のニュースステータス ラベル
+ *
+ * @return array
+ */
+function news_status_label(){
+	return array(
+			1=>'<span class="label label-large label-success">公開</span>',
+			2=>'<span class="label label-large label-warning">非公開</span>',
+	);
+}
+/**
+ * 今日のニュースステータス
+ *
+ * @return array
+ */
+function news_status_kind(){
+	return array(
+			1=>'公開',
+			2=>'非公開',
+	);
+}
+
 
 /**
  * クーポンステータス ラベル
@@ -428,7 +487,6 @@ function point_kind(){
 	return array(
 			1=>'通常',
 			2=>'イベント',
-			3=>'特別',
 	);
 }
 /**
@@ -468,6 +526,77 @@ function point_data() {
 			27=>'9500',
 			28=>'10000',
 	);
+}
+/**
+ * 利用ポイントデータ
+ *
+ * @return array
+ */
+function use_point_data() {
+	return array(
+			0=>'選択してください',
+			1=>'0',
+			2=>'1,000',
+			3=>'2,000',
+			4=>'3,000',
+			5=>'4,000',
+			6=>'5,000',
+			7=>'6,000',
+			8=>'7,000',
+			9=>'8,000',
+			10=>'9,000',
+			11=>'10,000',
+			12=>'11,000',
+			13=>'12,000',
+			14=>'13,000',
+			15=>'14,000',
+			16=>'15,000',
+			17=>'16,000',
+			18=>'17,000',
+			19=>'18,000',
+			20=>'19,000',
+			21=>'20,000',
+			22=>'25,000',
+			23=>'30,000',
+			24=>'50,000',
+	);
+}
+/**
+ * 特別ポイントデータ
+ *
+ * @return array
+ */
+function specialPoint_data() {
+	return array(
+			0=>'選択してください',
+			1=>'100',
+			2=>'200',
+			3=>'300',
+			4=>'400',
+			5=>'500',
+			6=>'600',
+			7=>'700',
+			8=>'800',
+			9=>'900',
+			10=>'1000',
+	);
+}
+
+/**
+ * 予約用プルダウン作成
+ *
+ * 来客人数、利用時間（時）、利用時間（分）
+ *
+ * @return array
+ */
+function reservation_list($max_count) {
+	$returnArray = array();
+
+	for($i=0; $i<=$max_count; $i++) {
+		$returnArray[$i] = $i;
+	}
+
+	return $returnArray;
 }
 
 /*-----------------------------------------------------------

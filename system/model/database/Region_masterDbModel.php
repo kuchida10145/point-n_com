@@ -17,4 +17,13 @@ class Region_masterDbModel extends DbModel{
 			'delete_flg',
 		);
 	}
+	
+	/**
+	 * 地域リストを取得する
+	 * 
+	 * @return array
+	 */
+	public function regionList() {
+		return $this->adminSearch("", "", " ORDER BY rank ASC ");
+	}
 }

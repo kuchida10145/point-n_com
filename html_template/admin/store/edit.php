@@ -84,6 +84,13 @@
 							<div class="control-group">
 								<label class="control-label" for="">入会日(登録日)</label>
 								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
+								<input type="hidden" id="regist_date" name="regist_date" value="<?php echo getParam($post, 'regist_date', '');?>">
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="">店ID</label>
+								<div class="controls"><?php echo getParam($post, 'store_hex_id', '新規登録時に自動入力');?></div>
+								<input type="hidden" id="store_hex_id" name="store_hex_id" value="<?php echo getParam($post, 'store_hex_id', '');?>">
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error,'store_name'));?>">

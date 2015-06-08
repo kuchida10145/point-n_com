@@ -166,6 +166,15 @@ abstract class Page{
 		return NULL;
 	}
 
+	/**
+	 * DBアカウント情報を確認
+	 *
+	 * @return array $account
+	 */
+	protected function checkDBAccount(){
+		return true;
+	}
+
 
 	/**
 	 * アカウントのすべてのセッションデータを削除
@@ -232,11 +241,11 @@ abstract class Page{
 
 		return $this->token;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * 自動ログイン処理
 	 * @return boolean
@@ -245,7 +254,7 @@ abstract class Page{
 		if($account = $this->getAccount()){
 			return true;
 		}
-		
+
 		switch($this->account_type){
 			case 'user':
 				$account_table = 'user';
@@ -261,7 +270,7 @@ abstract class Page{
 		$auto_table = "autologin_{$account_table}";
 		//プライマリーキー取得
 		$primary_key = $primary_key = $this->manager->db_manager->get($account_table)->primary_key;
-		
+
 		//クッキー処理
 		$this->manager->setCore('cookie');
 		$cookie = $this->manager->cookie->get($auto_table);
@@ -269,49 +278,49 @@ abstract class Page{
 			return false;
 		}
 		$cookies = explode(':',$cookie);
-		
+
 		//自動ログインテーブル検索
 		if(!($auto_res = $this->manager->db_manager->get($auto_table)->chek_data($cookies[0],$cookies[1]))){
 			//クッキー削除
 			$this->manager->cookie->delete($auto_table);
 			return false;
 		}
-		
+
 		//対象のアカウントテーブル検索
 		if(!($account_res = $this->manager->db_manager->get($account_table)->findById($auto_res[$primary_key]))){
 			return false;
 		}
-		
-		
+
+
 		//セッションに保存
 		$this->setAccount($account_res);
-		
+
 		//自動ログイン更新
 		if(!($new_auto = $this->manager->db_manager->get($auto_table)->updateById($auto_res[$auto_table."_id"],array()))){
 			return false;
 		}
-		
+
 		//クッキーに保存
 		$new_cookie = $new_auto[$auto_table."_id"].":".$new_auto['login_key'];
 		$this->manager->cookie->set($auto_table,$new_cookie);
-		
+
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * 自動ログイン設定
-	 * 
+	 *
 	 * @param int $id 主キー
 	 * @param int $auto_flg 自動ログインフラグ 0:しない 1:する
 	 * @return boolean
 	 */
 	protected function setAutoLogin($id,$auto_flg){
-		
+
 		if($auto_flg != 1){
 			return true;
 		}
-		
+
 		switch($this->account_type){
 			case 'user':
 				$account_table = 'user';
@@ -327,14 +336,14 @@ abstract class Page{
 		$auto_table = "autologin_{$account_table}";
 		//プライマリーキー取得
 		$primary_key = $primary_key = $this->manager->db_manager->get($account_table)->primary_key;
-		
+
 		//クッキー処理
 		$this->manager->setCore('cookie');
-		
-		
+
+
 		//自動ログイン挿入
 		$new_auto = $this->manager->db_manager->get($auto_table)->insert(array($primary_key=>$id));
-		
+
 		//クッキーに保存
 		$new_cookie = $new_auto[$auto_table."_id"].":".$new_auto['login_key'];
 		$this->manager->cookie->set($auto_table,$new_cookie);

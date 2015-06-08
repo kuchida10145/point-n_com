@@ -98,7 +98,7 @@ $(function(){
 
 		/* 初期ボタンテキスト */
 		var btn_txt = '追加';
-		
+
 		/*既に登録されている写真を取得*/
 		var photos_html = $(this).html();
 		$(this).html("");
@@ -107,7 +107,7 @@ $(function(){
 
 		$(this).append('<div id="'+result_name+'"></div>');
 		$(this).append(form);
-		
+
 		//どかしたHTMLを再入力
 		$('#'+result_name).html(photos_html);
 
@@ -184,11 +184,11 @@ $(function(){
 		var options = {
 			url:'',			//処理するPHPプログラムURL
 			name:'',		//結果を出力するタグのＩＤ(#はいらない
-			
+
 
 			//送信成功時の処理
 			success:function(responseText,statusText,xhr,$form){
-				
+
 				//alert(responseText);
 				//結果がテキスト形式で来るので、jsonのオブジェクトに変換
 				var  res = $.parseJSON(responseText);
@@ -246,7 +246,7 @@ $(function(){
 
 		/* 初期ボタンテキスト */
 		var btn_txt = '追加';
-		
+
 		/*既に登録されている写真を取得*/
 		var photos_html = $(this).html();
 		$(this).html("");
@@ -255,7 +255,7 @@ $(function(){
 
 		$(this).append('<div id="'+result_name+'"></div>');
 		$(this).append(form);
-		
+
 		//どかしたHTMLを再入力
 		$('#'+result_name).html(photos_html);
 
@@ -279,7 +279,7 @@ $(function(){
 		function create_file_box(file_name,file_url){
 			var file_box = 'fileup_capbox_'+name;
 
-		
+
 
 			var block_html = '';
 			block_html = '<div class="file_capbox" id="'+file_box+'" style="margin-bottom:10px;">';

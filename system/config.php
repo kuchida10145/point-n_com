@@ -65,7 +65,20 @@ define('USER_ST_REQ' ,1);//仮登録
 define('USER_ST_ACT' ,2);//有効
 define('USER_ST_STOP',9);//停止
 
+/*----------------------------
+ * 予約ステータス
+*----------------------------*/
+define('RESERVE_ST_INV' ,0);//無効
+define('RESERVE_ST_YET' ,1);//未処理
+define('RESERVE_ST_FIN' ,2);//処理完了
+define('RESERVE_ST_SP'  ,9);//特別ポイント
+
 //暗号化キー
 define('PW_KEY',md5('point'));
 
-
+/*----------------------------
+ * 予約情報
+*----------------------------*/
+define('MAX_PERSON' ,50);//最大来客人数
+define('MAX_USE_TIME' ,23);//最大利用時間
+define('MAX_USE_MIN',59);//最大利用分

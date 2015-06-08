@@ -23,10 +23,10 @@ class UserDbModel extends DbModel{
 			'delete_flg'
 		);
 	}
-	
+
 	/**
 	 * メールアドレスとパスワードに該当するデータを1件取得する
-	 * 
+	 *
 	 * @param string $email メールアドレス
 	 * @param string $login_pw パスワード
 	 * @return array
@@ -46,7 +46,7 @@ class UserDbModel extends DbModel{
 
 	/**
 	 * メールアドレスに該当するデータを1件取得する
-	 * 
+	 *
 	 * @param string $email メールアドレス
 	 * @return array
 	 */
@@ -62,7 +62,7 @@ class UserDbModel extends DbModel{
 
 	/**
 	 * ニックネームに該当するデータを1件取得する
-	 * 
+	 *
 	 * @param string $nickname ニックネーム
 	 * @return array
 	 */
@@ -84,7 +84,7 @@ class UserDbModel extends DbModel{
 	 * @return string
 	 */
 	protected function adminSearchWhere($get){
-		
+
 		$where 			= ' delete_flg = 0 ';
 		$status_ids = '';
 		$nickname 	= getParam( $get, 'nickname' );
@@ -94,10 +94,10 @@ class UserDbModel extends DbModel{
 		//ステータスが設定されている場合
 		$i = 0;
 		foreach ( user_status_label() as $val_key => $val_name ) {
-			
+
 			$status_search = getParam( $get, $val_key );
 			if ( 'true' == $status_search ) {
-				if ( $i > 0 ) { 
+				if ( $i > 0 ) {
 					$status_ids .= ',';
 				}
 				$status_ids .= $val_key;
@@ -133,7 +133,7 @@ class UserDbModel extends DbModel{
 
 	/**
 	 * 日付の指定フォーマットと存在を確認する
-	 * 
+	 *
 	 * @param string $date
 	 * @return boolean
 	 */
