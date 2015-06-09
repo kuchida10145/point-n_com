@@ -6,6 +6,19 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/../../common/header_meta.php';?>
+<!--カルーセル設定-->
+<link rel="stylesheet" href="/js/slick/slick.css">
+<script src="/js/slick/slick.js"></script>
+<script>
+ $(function() {
+    $('.photoslide').slick({
+dots: true,
+  infinite: false,
+  speed: 300 
+    });
+  });
+ 
+</script>
 </head>
 <body id="register">
 <!--全体-->

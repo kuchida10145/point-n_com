@@ -35,7 +35,7 @@ class NewsDbModel extends DbModel{
 		$sql.= "delete_flg = 0 AND ";
 		$sql.= "public = 1 AND ";
 		$sql.= "public_start_date < NOW() AND ";
-		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL) ";
+		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL OR public_end_date = '0000-00-00 00:00:00') ";
 		$sql.= " ORDER BY public_start_date DESC ";
 		$sql.= "LIMIT {$start_page},{$get_page}";
 		return $this->db->getAllData($sql);
@@ -61,7 +61,7 @@ class NewsDbModel extends DbModel{
 		$sql.= "delete_flg = 0 AND ";
 		$sql.= "public = 1 AND ";
 		$sql.= "public_start_date < NOW() AND ";
-		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL) ";
+		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL OR public_end_date = '0000-00-00 00:00:00') ";
 		return $this->db->getData($sql);
 	}
 
