@@ -62,11 +62,11 @@ class PasswordReminderPage extends Page {
 				$hash 		 = $this->manager->db_manager->get('user_hash')->reminderHash($userId);
 
 				//メール用のデータを準備
-				$mailContent['password_reminder_edit_url'] = HTTP_HOST . '/remind/edit.php?keycode=' . $hash['hash'];
-				$mailContent['password_reminder_url'] 		 = HTTP_HOST . '/remind/';
+				$mailContent['nickname']  = $userInfos['nickname'];
+				$mailContent['renew_url'] = HTTP_HOST . '/remind/edit.php?keycode=' . $hash['hash'];
 
 				//メールテンプレート取得
-				$mailTemplateId = 8;
+				$mailTemplateId = 6;
 				$mailTemplate 	= $this->manager->db_manager->get('automail')->findById($mailTemplateId);
 
 				//メール内容の準備
@@ -188,11 +188,8 @@ class PasswordReminderPage extends Page {
 								$this->manager->db_manager->get('user')->updateById( $user['user_id'], $upd_data );
 
 								//パスワード変更完了メール
-								//メール用のデータを準備
-								$mailContent['nickname'] = $user['nickname'];
-
 								//メールテンプレート取得
-								$mailTemplateId = 9;
+								$mailTemplateId = 7;
 								$mailTemplate 	= $this->manager->db_manager->get('automail')->findById($mailTemplateId);
 
 								//メール内容の準備
