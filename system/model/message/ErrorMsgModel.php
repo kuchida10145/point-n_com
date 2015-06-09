@@ -35,12 +35,13 @@ class ErrorMsgModel extends MsgModel
 			'tel'            => '電話番号の形式が正しくありません',
 
 			//ここから下はサイト独自のチェック
-			'duplicate_id'   => '既に登録されています',
-			'duplicate_user_email'   => '既に登録されています',
-			'duplicate_user_nickname'   => '既に登録されています',
-			'duplicate_email'=> '既に登録されています',
+			'duplicate_user_nickname' => '既に登録されています',
+			'duplicate_user_email' 		=> '既に登録されています',
+			'duplicate_email'			=> '既に登録されています',
+			'unvalid_user_email'	=> 'このメールアドレスで登録しているユーザーは見つかりませんでした',
+			'duplicate_id' 	 => '既に登録されています',
 			'wrongPassword'  => 'パスワードが正しくありません',
-			'notSamePassword'  => 'パスワードが一致しません',
+			'notSamePassword'=> 'パスワードが一致しません',
 			'lessthan'       => '範囲の設定が正しくありません',
 			'is_password'    => 'パスワードが一致しません',
 			'pw_conf'        => 'パスワードが一致しません',

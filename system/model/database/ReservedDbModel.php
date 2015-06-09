@@ -614,4 +614,76 @@ class ReservedDbModel extends DbModel{
 		$where = " WHERE ".implode(' AND ',$wheres);
 		return $where;
 	}
+
+	/*==========================================================================================
+	 *　フロント用共通処理
+	 *
+	 *==========================================================================================*/
+	//------------------------
+	//　ポイント履歴一覧表示用
+	//------------------------
+	/**
+	 * 検索結果最大取得件数
+	 * @param int $id ユーザＩＤ
+	 * @param array $get
+	 * @return int
+	 */
+	public function pointHistorySelectSearchMaxCnt($id,$get=array()){
+		$sql = $this->pointHistorySelectSearchSqlBase($id,$get);
+		$sql = str_replace("##field##",' count('.$this->primary_key.') as cnt ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['cnt'];
+		}
+		return 0;
+	}
+
+	/**
+	 * 検索結果一覧
+	 * @param int $id ユーザＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	public function pointHistorySelectSearch($id,$get,$limit,$order){
+		$sql = $this->pointHistorySelectSearchSqlBase($id,$get);
+		$sql = str_replace("##field##","reserved.reserved_date,store.store_name,reserved.use_point,reserved.get_point", $sql);
+		$sql = $sql." {$order} {$limit}";
+		return $this->db->getAllData($sql);
+	}
+
+	/**
+	 * ベースSELECT分
+	 * @param int $id ユーザＩＤ
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	protected function pointHistorySelectSearchSqlBase($id,$get){
+		//フィールドは各メソッド内で変換
+		$where = $this->pointHistorySelectSearchWhere($id,$get);
+		$sql = "SELECT ##field## FROM {$this->table},store  {$where}";
+		return $sql;
+	}
+
+	/**
+	 * WHERE句生成
+	 * @param int $id user_id
+	 * @param array $get
+	 * @return string
+	 */
+	protected function pointHistorySelectSearchWhere($id,$get){
+		$where = "";
+
+		$wheres[] = " reserved.delete_flg = 0 ";
+		$wheres[] = " store.delete_flg = 0 ";
+		$wheres[] = " reserved.user_id = '{$id}' ";
+		$wheres[] = " reserved.store_id = store.store_id";
+		$wheres[] = " reserved.reserved_date >= (NOW() - INTERVAL 1 YEAR) ORDER BY reserved.reserved_date DESC ";
+
+		$where = " WHERE ".implode(' AND ',$wheres);
+		return $where;
+	}
+
 }
