@@ -1,6 +1,6 @@
 <?php
 /**
- * 店舗検索：検索ジャンル
+ * 店舗検索：検索エリア
  *
  */
 include_once(dirname(__FILE__) . '/../common/Page.php');
@@ -18,7 +18,7 @@ class Store_areaPage extends Page{
 	);
 	
 	/**
-	 * 検索ジャンル
+	 * 検索エリア
 	 *
 	 */
 	public function indexAction(){
@@ -36,6 +36,10 @@ class Store_areaPage extends Page{
 		$get_data = array('tkn' => $this->token);
 		if (getPost('m') == 'search_select') {
 			$post = $_POST;
+// echo '<pre>' . "\n";
+// var_dump($post);
+// echo '</pre>' . "\n";
+// exit;
 			// 入力チェック
 			if ($this->selectValidation($post)) {
 				$get_data['category_large_id'] = getPost('category_large_id');
@@ -53,6 +57,9 @@ class Store_areaPage extends Page{
 			$post['category_midium_id'] = getGet('category_midium_id');
 			$post['category_small_ids'] = explode(",", getGet('category_small_ids'));
 		}
+		
+		$areas = $this->manager->db_manager->get('store')->searchCountByCategory($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids']);
+		$areas = ($areas != null) ? $areas : array();
 		
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
@@ -74,6 +81,7 @@ class Store_areaPage extends Page{
 			}
 		}
 		$data['condition_category_small_names'] = $small_names;
+		$data['areas'] = $areas;
 		$this->loadView('index', $data);
 	}
 

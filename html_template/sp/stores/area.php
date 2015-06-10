@@ -115,20 +115,60 @@
 <h2 style="margin:-10px -10px 0 -10px;">エリアを探す</h2>
 
 <div class="arealist">
+<?php if (count($areas) > 0) : ?>
 <dl>
-<dt>
-<label for="a"><input type="checkbox" name="a" value="" id="a" />
-愛知県</label></dt>
-<dd>
-<label for="a2" class="citytitle"><input type="checkbox" name="a2" value="" id="a2" />
-名古屋市</label>
-
-<label for="a3"><input type="checkbox" name="a3" value="" id="a3" />
-名古屋駅(20)</label>
-
-<label for="a4"><input type="checkbox" name="a4" value="" id="a4" />
-納屋橋(20)</label></dd>
+<?php 
+	$area_first_id = "";
+	$area_second_id = "";
+	$area_third_id = "";
+	$is_first = true;
+	foreach ($areas as $area) {
+		// 第１エリア
+		if ($area_first_id != $area['area_first_id']) {
+			$area_first_id = $area['area_first_id'];
+			if ($is_first) {
+				$is_first = false;
+				echo '</dd>' . "\n";
+			}
+			$area_first_value = $area_first_id;
+			echo '<dt>';
+			echo '<label for="a' . $area_first_id . '">';
+// 			echo '<input type="checkbox" name="a' . $area_first_id . '" value="' . $area_first_id . '" id="a' . $area_first_id. '" />';
+			echo '<input type="checkbox" name="area_first[]" value="' . $area_first_value . '" id="a' . $area_first_id. '" />';
+			echo $area['area_first_name'];
+			echo '</label>';
+			echo '</dt>' . "\n";
+			echo '<dd>' . "\n";
+		}
+		// 第２エリア
+		if ($area_second_id != $area['area_second_id']) {
+			$area_second_id = $area['area_second_id'];
+			$area_second_name = ($area_second_id != 0) ? $area['area_second_name'] : '−';
+			$area_second_value = $area_first_id . '-' . $area_second_id;
+			echo '<label for="a' . $area_second_id . '" class="citytitle">';
+// 			echo '<input type="checkbox" name="a' . $area_second_id . '" value="' . $area_second_id . '" id="a' . $area_second_id . '" />';
+			echo '<input type="checkbox" name="area_second[]" value="' . $area_second_value . '" id="a' . $area_second_id . '" />';
+			echo $area_second_name;
+			echo '</label>' . "\n";
+		}
+		// 第３エリア
+		if ($area_third_id != $area['area_third_id']) {
+			$area_third_id = $area['area_third_id'];
+			$area_third_name = ($area['area_third_id'] != 0) ? $area['area_third_name'] : '−';
+			$area_third_value = $area_first_id . '-' . $area_second_id . '-' . $area_third_id;
+			echo '<label for="a' . $area_third_id . '">';
+// 			echo '<input type="checkbox" name="a' . $area_third_id . '" value="' . $area_third_id . '" id="a' . $area_third_id . '"/>';
+			echo '<input type="checkbox" name="area_third[]" value="' . $area_third_value . '" id="a' . $area_third_id . '"/>';
+			echo $area_third_name . '(' . $area['cnt'] . ')';
+			echo '</label>' . "\n";
+		}
+	}
+?>
+</dd>
 </dl>
+<?php else : ?>
+<label>見つかりませんでした</label>
+<?php endif; ?>
 </div>
 
 </div>
