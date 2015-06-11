@@ -160,4 +160,94 @@ class StoreDbModel extends DbModel{
 		
 		return $where;
 	}
+
+
+	/*==========================================================================================
+	 * フロント：お近くのお店検索
+	 *
+	 *==========================================================================================*/
+	/**
+	 * 経度と緯度で決まる中心点によって半径○○キロにある店舗を出す
+	 * 
+	 * @param double $latitude 経度
+	 * @param double $longitude 緯度
+	 * @param int $radius 検索半径（単位＝キロメートル）
+	 * @param int $offset クエリーのoffset
+	 * @param int $nbResult クエリー結果数（-1の場合全結果取得）
+	 * 
+	 * @link https://developers.google.com/maps/articles/phpsqlsearch_v3 クエリー参考 
+	 * 
+	 * @return array,NULL 実行結果
+	 */
+	public function findShopsNearby( $latitude, $longitude, $radius, $offset = -1, $nbResult = -1 ) {
+
+		$field 		 = $this->getFieldText();
+		$latitude  = $latitude;
+		$longitude = $longitude;
+		$radius 	 = $radius;
+		$offset 	 = $offset;
+		$nbResult  = $nbResult;
+
+		$query = "SELECT {$field}, ( 6371 * acos( cos( radians({$latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians({$longitude}) ) + sin( radians({$latitude}) ) * sin( radians( latitude ) ) ) ) AS distance";
+		$query .= " FROM {$this->table} HAVING distance < {$radius} AND status_id = 2 ORDER BY distance";
+		
+		//結果数を限定する
+		if ( $offset > -1 && $nbResult > -1 ) {
+			$query .= " LIMIT {$offset}, {$nbResult}";
+		}
+
+		$query .= ";";
+
+		return $this->db->getAllData($query);
+	}
+
+
+	/*==========================================================================================
+	 * フロント：お近くのお店検索結果一覧
+	 *
+	 *==========================================================================================*/
+	/**
+	 * IDsによって検索結果一覧に表示する店舗の情報を出す
+	 * 
+	 * @param array $ids 店舗のID 
+	 * 
+	 * @return array,NULL 実行結果
+	 */
+	public function findShopDataById( $ids ) {
+
+		if ( !is_array( $ids ) || empty( $ids ) ) {
+			$result = NULL;
+		} else {
+
+			$result = array();
+
+			$query 	= 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.image1';
+			$query .= ', region.region_name';
+			$query .= ', category.category_small_name';
+			$query .= ', c1.point normal_point, c1.status_id normal_point_status';
+			$query .= ', c2.point event_point, c2.status_id event_point_status';
+			$query .= ', notice.title';
+			$query .= ' FROM `store`';
+			$query .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
+			$query .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
+			$query .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
+			$query .= ' LEFT JOIN `coupon` AS c1 ON store.store_id = c1.store_id AND c1.status_id = 1 AND c1.point_kind = 1';
+			$query .= ' LEFT JOIN `coupon` AS c2 ON store.store_id = c2.store_id AND c2.status_id = 1 AND c2.point_kind = 2';
+			$query .= ' LEFT JOIN `notice` ON store.store_id = notice.store_id AND notice.public = 1';
+			$query .= ' WHERE store.store_id = %d';
+			$query .= ' ORDER BY c1.coupon_id DESC, c2.coupon_id DESC, notice.notice_id DESC LIMIT 0,1;';
+
+			foreach ( $ids as $id ) {
+
+				$req = sprintf( $query, $id );
+
+				$res = $this->db->getData($req);
+
+				if ( NULL != $res ) {
+					$result[] = $res;
+				}
+			}
+		}
+		return $result;
+	}	
 }
