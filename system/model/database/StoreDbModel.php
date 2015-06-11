@@ -132,6 +132,67 @@ class StoreDbModel extends DbModel{
 		return $this->db->getAllData($sql);
 	}
 	
+	/**
+	 * エリアIDをキーとして店舗一覧用の情報を取得する
+	 * 
+	 * @param number $category_large_id
+	 * @param number $category_midium_id
+	 * @param string $category_small_ids
+	 * @param array $area_key_ids
+	 * @return array
+	 */
+	public function shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids) {
+		if (!is_array($area_key_ids)) {
+			return null;
+		}
+		
+		$wheres_or = array();
+		foreach ($area_key_ids as $key => $value) {
+			$area_ids = explode("-", $value);
+			if (!is_array($area_ids) || count($area_ids) < 3) {
+				continue;
+			}
+			$where  = "(   store.area_first_id  = {$area_ids[0]} ";
+			$where .= "AND store.area_second_id = {$area_ids[1]} ";
+			$where .= "AND store.area_third_id  = {$area_ids[2]} ) ";
+			$wheres_or[] = $where;
+		}
+		$wheres = array();
+		$wheres[] = "(" . implode(" OR ", $wheres_or) . ")";
+		$wheres[] = "store.category_large_id = {$category_large_id}";
+		$wheres[] = "store.category_midium_id = {$category_midium_id}";
+		$wheres[] = "store.category_small_id IN ({$category_small_ids})";
+		$wheres[] = "store.status_id = 2";
+		$wheres[] = "store.delete_flg = 0";
+		$where = implode(" AND ", $wheres);
+		$sql  = $this->shopListSqlBase();
+		$sql .= " WHERE {$where} ";
+		$sql .= " ORDER BY c1.coupon_id DESC, c2.coupon_id DESC, notice.notice_id DESC ";
+		return $this->db->getAllData($sql);
+	}
+	
+	/**
+	 * 店舗一覧取得用のベースSQL
+	 * 
+	 * @return string
+	 */
+	protected function shopListSqlBase() {
+		$sql  = 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.image1';
+		$sql .= ', region.region_name';
+		$sql .= ', category.category_small_name';
+		$sql .= ', c1.point normal_point, c1.status_id normal_point_status';
+		$sql .= ', c2.point event_point, c2.status_id event_point_status';
+		$sql .= ', notice.title';
+		$sql .= ' FROM `store`';
+		$sql .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
+		$sql .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
+		$sql .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
+		$sql .= ' LEFT JOIN `coupon` AS c1 ON store.store_id = c1.store_id AND c1.status_id = 1 AND c1.point_kind = 1';
+		$sql .= ' LEFT JOIN `coupon` AS c2 ON store.store_id = c2.store_id AND c2.status_id = 1 AND c2.point_kind = 2';
+		$sql .= ' LEFT JOIN `notice` ON store.store_id = notice.store_id AND notice.public = 1';
+		return $sql;
+	}
+	
 	/*==========================================================================================
 	 * 管理者用共通処理
 	 *
@@ -262,20 +323,8 @@ class StoreDbModel extends DbModel{
 		} else {
 
 			$result = array();
-
-			$query 	= 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.image1';
-			$query .= ', region.region_name';
-			$query .= ', category.category_small_name';
-			$query .= ', c1.point normal_point, c1.status_id normal_point_status';
-			$query .= ', c2.point event_point, c2.status_id event_point_status';
-			$query .= ', notice.title';
-			$query .= ' FROM `store`';
-			$query .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
-			$query .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
-			$query .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
-			$query .= ' LEFT JOIN `coupon` AS c1 ON store.store_id = c1.store_id AND c1.status_id = 1 AND c1.point_kind = 1';
-			$query .= ' LEFT JOIN `coupon` AS c2 ON store.store_id = c2.store_id AND c2.status_id = 1 AND c2.point_kind = 2';
-			$query .= ' LEFT JOIN `notice` ON store.store_id = notice.store_id AND notice.public = 1';
+			
+			$query  = $this->shopListSqlBase();
 			$query .= ' WHERE store.store_id = %d';
 			$query .= ' ORDER BY c1.coupon_id DESC, c2.coupon_id DESC, notice.notice_id DESC LIMIT 0,1;';
 

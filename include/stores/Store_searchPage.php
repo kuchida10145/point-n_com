@@ -58,8 +58,8 @@ class Store_searchPage extends Page{
 		$post['area_key_ids']       = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
 		
 		// 該当する条件の店舗を取得する
-		$shops = $this->manager->db_manager->get('store');
-		$shops = (is_array($shops)) ? $shops : array();
+		$shops = $this->manager->db_manager->get('store')->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $post['area_key_ids']);
+		$shops = ($shops != null) ? $shops : array();
 		
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
@@ -100,7 +100,7 @@ class Store_searchPage extends Page{
 		}
 		$data['area_key_names'] = $area_key_names;
 		$data['area_names']     = $small_names;
-		$data['shops']          = $shops;
+		$data['list']           = $shops;
 		$this->loadView('index', $data);
 	}
 

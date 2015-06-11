@@ -58,7 +58,7 @@
 </ul>
 </div>
 
-<h2>店舗一覧</h2>
+<h2>店舗一覧　<?php echo $storeStart; ?>件～<?php echo $storeEnd; ?>件（全<?php echo $storesTotal; ?>件）</h2>
 
 <div class="searchsetting clearfix">
 <dl>
@@ -78,7 +78,48 @@
 </div>
 
 <div class="shoplist">
+<?php if (isset($list) && !empty($list)) : ?>
+	<?php foreach($list as $data) : ?>
+		<dl class="clearfix">
+			<a href="<?php echo HTTP_HOST; ?>/stores/detail.php?id=<?php echo $data['store_id']; ?>"></a>
+			<dt>
+				<?php if ( '' != getParam($data,'image1') ) : ?>
+					<img src="../../../files/images/<?php echo getParam($data,'image1');?>" alt="" />
+				<?php endif; ?>
+			</dt>
+			<dd>
+				<strong>
+					<?php echo getParam($data,'store_name');?>
+				</strong><br />
+				<?php echo getParam($data,'category_small_name');?>/<?php echo getParam($data,'region_name');?>
+
+				<?php if(getParam($data,'normal_point_status') == '1'):?>
+					<strong class="pointtag">
+						ポイント
+					</strong>
+					<strong class="clrred">
+						<?php echo number_format(getParam($data,'normal_point'));?>PT
+					</strong>
+				<?php endif;?>
+
+				<?php if(getParam($data,'event_point_status') == '1'):?>
+					<strong class="eventtag">
+						イベント
+					</strong>
+					<strong class="clrgreen">
+						<?php echo number_format(getParam($data,'event_point'));?>PT
+					</strong>
+				<?php endif;?>
+
+				<?php echo getParam($data,'title');?><br />
+				住所：<?php echo getParam($data,'address1');?><?php echo getParam($data,'address2');?><br />
+			</dd>
+		</dl>
+	<?php endforeach;?>
+	<?php echo $pager_html; ?>
+<?php else : ?>
 該当する店舗が見つかりませんでした
+<?php endif;?>
 </div>
 
 </div>
