@@ -1,6 +1,6 @@
 <?php
 /**
- * 店舗検索：検索ジャンル
+ * 店舗検索：検索結果
  *
  */
 include_once(dirname(__FILE__) . '/../common/Page.php');
@@ -18,7 +18,7 @@ class Store_searchPage extends Page{
 	);
 	
 	/**
-	 * 検索ジャンル
+	 * 検索結果
 	 *
 	 */
 	public function indexAction(){
@@ -34,25 +34,73 @@ class Store_searchPage extends Page{
 		}
 		
 		$get_data = array('tkn' => $this->token);
-/*
 		if (getPost('m') == 'search_select') {
 			$post = $_POST;
-			// 入力チェック
-			if ($this->selectValidation($post)) {
-				$get_data['category_large_id'] = getPost('category_large_id');
-				$get_data['region_id'] = getPost('region_id');
-				$get_param = createLinkParam($get_data);
-				redirect('/stores/search.php' . $get_param);
-			}
-			$error = $this->getValidationError();
+// 			// 入力チェック
+// 			if ($this->selectValidation($post)) {
+// 				$get_data['category_large_id'] = getPost('category_large_id');
+// 				$get_data['region_id'] = getPost('region_id');
+// 				$get_param = createLinkParam($get_data);
+// 				redirect('/stores/search.php' . $get_param);
+// 			}
+// 			$error = $this->getValidationError();
 		} else {
 			$post = $get_data;
-			$post['category_large_id'] = getGet('category_large_id');
-			$post['region_id']         = getGet('region_id');
+			$post['category_large_id']  = getGet('category_large_id');
+			$post['region_id']          = getGet('region_id');
+			$post['category_midium_id'] = getGet('category_midium_id');
+			$post['category_small_ids'] = getGet('category_small_ids');
+			$post['area_key_ids']       = getGet('area_key_ids');
 		}
-//*/
+		
+		$category_small_ids = (is_array($post['category_small_ids'])) ? $post['category_small_ids'] : explode(",", $post['category_small_ids']);
+		$post['category_small_ids'] = implode(",", $category_small_ids);
+		$post['area_key_ids']       = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
+		
+		// 該当する条件の店舗を取得する
+		$shops = $this->manager->db_manager->get('store');
+		$shops = (is_array($shops)) ? $shops : array();
+		
+		$get_data['category_large_id']  = $post['category_large_id'];
+		$get_data['region_id']          = $post['region_id'];
+		$get_data['category_midium_id'] = $post['category_midium_id'];
+		$get_data['category_small_ids'] = $post['category_small_ids'];
+		$get_data['area_key_ids']       = implode(",", $post['area_key_ids']);
+		$get_param = createLinkParam($get_data);
+		
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
+		$data['action_link'] = $get_param;
+		$data['condition_category_large_name']  = getParam(category_large(), $post['category_large_id']);
+		$data['condition_redion_name']          = getParam(region_master(), $post['region_id']);
+		$data['condition_category_midium_name'] = getParam(category_midium_for_customer($post['category_large_id'], $post['region_id']), $post['category_midium_id']);
+		$small_names = array();
+		foreach ($category_small_ids as $key => $small_id) {
+			$record = $this->manager->db_manager->get('category_small')->findById($small_id);
+			if ($record != null) {
+				$small_names[] = $record['category_small_name'];
+			}
+		}
+		$data['condition_category_small_names'] = $small_names;
+		$area_key_names = array();
+		foreach ($post['area_key_ids'] as $key => $area_key_id) {
+			// 第３階層から第１階層の順で有効なエリア名を取得する
+			$pieces = explode("-", $area_key_id);
+			$area_first_id  = (isset($pieces[0])) ? $pieces[0] : "0";
+			$area_second_id = (isset($pieces[1])) ? $pieces[1] : "0";
+			$area_third_id  = (isset($pieces[2])) ? $pieces[2] : "0";
+			$area123name = $this->manager->db_manager->get('area_third')->area123name($area_first_id, $area_second_id, $area_third_id);
+			if (isset($area123name['area_third_name']) && $area123name['area_third_name'] != "") {
+				$area_key_names[] = $area123name['area_third_name'];
+			} else if (isset($area123name['area_second_name']) && $area123name['area_second_name'] != "") {
+				$area_key_names[] = $area123name['area_second_name'];
+			} else if (isset($area123name['area_first_name']) && $area123name['area_first_name'] != "") {
+				$area_key_names[] = $area123name['area_first_name'];
+			}
+		}
+		$data['area_key_names'] = $area_key_names;
+		$data['area_names']     = $small_names;
+		$data['shops']          = $shops;
 		$this->loadView('index', $data);
 	}
 

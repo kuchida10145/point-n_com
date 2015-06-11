@@ -52,10 +52,11 @@ class ReservedDbModel extends DbModel{
 		
 		$sql = "SELECT store_name,reserved_id,use_date FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
 		$sql.= " user_id = {$user_id} AND "; 
-		$sql.= " reserved.status_id=1 AND  ";
-		$sql.= " use_date <= '{$today}' ";
-		
-		return $this->getAllData($sql);
+		$sql.= " reserved.status_id=1";
+		//$sql.= " reserved.status_id=1 AND  ";
+		//$sql.= " use_date <= '{$today}' ";
+		//print $sql;
+		return $this->db->getAllData($sql);
 	}
 	
 	/**
@@ -75,15 +76,15 @@ class ReservedDbModel extends DbModel{
 		}
 		$fields[] ='store.store_name';
 		
-		$field = $implode(',',$fields);
+		$field = implode(',',$fields);
 		
 		$sql = "SELECT {$field} FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
-		$sql.= " reserved.reserved_id = {$reserve_id} ";
+		$sql.= " reserved.reserved_id = {$reserve_id} AND ";
 		$sql.= " reserved.user_id = {$user_id} AND "; 
-		$sql.= " reserved.status_id=1 AND  ";
-		$sql.= " reserved.use_date <= '{$today}' ";
-		
-		return $this->getData($sql);
+		$sql.= " reserved.status_id=1 ";
+		//$sql.= " reserved.status_id=1 AND  ";
+		//$sql.= " reserved.use_date <= '{$today}' ";
+		return $this->db->getData($sql);
 	}
 
 

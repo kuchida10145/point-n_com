@@ -5,68 +5,23 @@
 <title>ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
-
-<meta name="viewport" content="width=device-width, maximum-scale=1.0">
-<!--フォントアイコンの設定-->
-<link rel="stylesheet" href="../css/fontello/css/fontello.css">
-<link rel="stylesheet" href="../css/fontello/css/animation.css">
-<!--[if IE 7]><link rel="stylesheet" href="/css/fontello/css/fontello-ie7.css"><![endif]-->
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
-
-<link href="../css/base.css" rel="stylesheet" type="text/css" />
-<link href="../css/layout.css" rel="stylesheet" type="text/css" />
-<link href="../css/print.css" rel="stylesheet" type="text/css" media="print" />
-
-<!--[if lte IE 9]>
-<script src="/js/html5.js"></script>
-<script src="/js/css3-mediaqueries.js"></script>
-<![endif]-->
-
-
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/obj.js"></script>
-<script type="text/javascript" src="../js/font-size.js"></script>
-<script type="text/javascript" src="../js/smooth.pack.js"></script>
-<script type="text/javascript" src="../js/acc.js"></script>
-
-<!--スライドメニュー-->
-<script src="../js/sidr/jquery.sidr.min.js"></script>
-<link rel="stylesheet" href="../js/sidr/jquery.sidr.light.css">
-
-
-
+<?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
 </head>
 <body id="gps">
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
 
-
 <!--ヘッダ-->
-<div id="header" class="clearfix">
-<h1><a href="../index.html">ポイント.com</a></h1>
-
-
-<!--ヘッドメニュー-->
-<div id="headmenu">
-<ul>
-<li id="hm1"><a href="/sample/store/favorite.html" class="accordion_search"><span class="icon-star"></span>お気に入り</a></li>
-<li id="hm2"><a href="/sample/member/login.html" class="accordion_btn"><span class="icon-lock-filled"></span>ログイン</a></li>
-<li id="hm2"><a class="right-menu" href="#right-menu"><span class="icon-menu"></span>メニュー</a></li>
-</ul>
-<hr class="none" />
-</div>
-<!--/ヘッドメニュー-->
-
-</div>
+<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 <!--ヘッダ-->
 
-<div id="headmenberinfo" class="clearfix">
-<p>会員No.1234567 ニックネーム会員さん</p>
-<ul>
-<li>ポイント数 <strong>10,000PT</strong></li>
-</ul>
-</div>
+<div id="headsearch">
+<form action="" name="" method="get">
+<input type="hidden" name="m" value="search_keyword"/>
+<input name="keyword" placeholder="店舗名検索" type="text"> 
+<a href="#">検索</a>
+</form>
 
 </div>
 
@@ -77,46 +32,54 @@
 <div id="mainbody" class="clearfix">
 <!--コンテンツ-->
 <div class="contents">
-
-<h2>店舗からのニュース</h2>
-<div class="shoplist">
-<!--1件-->
-<dl class="clearfix">
-<dt><a href="store_detail.html"><img src="../img/sample01.jpg" alt="タイトル" /></a></dt>
-<dd> 2015/2/10<br />
-<a href="store_detail.html">ニュースのタイトルが入ります。ニュースのタイトルが入ります。</a></dd>
+<div class="selectedterms">
+<dl>
+<dt>選んだ条件</dt>
+<dd><a href="#" class="block alncenter">条件変更</a></dd>
+<dd><?php echo $condition_category_large_name; ?></dd>
+<dd><?php echo $condition_redion_name; ?></dd>
+<dd><?php echo $condition_category_midium_name; ?></dd>
+<?php foreach ($condition_category_small_names as $small_name) : ?>
+<dd><?php echo $small_name; ?></dd>
+<?php endforeach; ?>
+<?php foreach ($area_key_names as $area_name) : ?>
+<dd><?php echo $area_name; ?></dd>
+<?php endforeach; ?>
 </dl>
-<!--/1件-->
-<!--1件-->
-<dl class="clearfix">
-<dt><a href="store_detail.html"><img src="../img/sample01.jpg" alt="タイトル" /></a></dt>
-<dd> 2015/2/10<br />
-<a href="store_detail.html">ニュースのタイトルが入ります。ニュースのタイトルが入ります。</a></dd>
-</dl>
-<!--/1件-->
-<!--1件-->
-<dl class="clearfix">
-<dt><a href="store_detail.html"><img src="../img/sample01.jpg" alt="タイトル" /></a></dt>
-<dd> 2015/2/10<br />
-<a href="store_detail.html">ニュースのタイトルが入ります。ニュースのタイトルが入ります。</a></dd>
-</dl>
-<!--/1件-->
-<!--1件-->
-<dl class="clearfix">
-<dt><a href="store_detail.html"><img src="../img/sample01.jpg" alt="タイトル" /></a></dt>
-<dd> 2015/2/10<br />
-<a href="store_detail.html">ニュースのタイトルが入ります。ニュースのタイトルが入ります。</a></dd>
-</dl>
-<!--/1件-->
-<!--1件-->
-<dl class="clearfix">
-<dt><a href="store_detail.html"><img src="../img/sample01.jpg" alt="タイトル" /></a></dt>
-<dd> 2015/2/10<br />
-<a href="store_detail.html">ニュースのタイトルが入ります。ニュースのタイトルが入ります。</a></dd>
-</dl>
-<!--/1件-->
 </div>
 
+<h2><a href="/news/index.php" class="newslistbtn">一覧をみる</a>今日のニュース</h2>
+<div class="newslist">
+<ul>
+<li>
+<a href="/news/detail.php?id=">2015/1/1　16:15<br />お宝ザクザク！無料で遊べちゃう！</a>
+</li>
+<li></li>
+</ul>
+</div>
+
+<h2>店舗一覧</h2>
+
+<div class="searchsetting clearfix">
+<dl>
+<dd>
+並べ替え：
+<select>
+<option>通常ポイントが高い順</option>
+<option>イベントポイントが高い順</option>
+<option>通常ポイント総額料金が高い順</option>
+<option>通常ポイント総額料金が低い順</option>
+<option>イベントポイント総額料金が高い順</option>
+<option>イベントポイント総額料金が低い順</option>
+<option>新着店舗</option>
+</select>
+</dd>
+</dl>
+</div>
+
+<div class="shoplist">
+該当する店舗が見つかりませんでした
+</div>
 
 </div>
 <!--/コンテンツ-->
@@ -132,32 +95,13 @@ Copyright 2015 POINT.COM All Rights Reserved
 </div>
 <!--/メイン全体-->
 
-
 </div>
 
 <!--/全体-->
 
-
-<div id="sidr-right">
-<!-- Your content -->
-<a class="right-menu sideclose" href="#right-menu">× 閉じる</a>
-
-<ul>
-<li><a href="../member/re_new_pw.html">パスワード変更</a></li>
-<li><a href="../info/point_list.html">ポイント利用履歴</a></li>
-<li><a href="../info/oshirase_list.html">POINT.COMからのお知らせ</a></li>
-<li><a href="../info/site.html">本サイトとは</a></li>
-<li><a href="../info/guide.html">利用ガイド</a></li>
-<li><a href="../info/question.html">よくある質問</a></li>
-<li><a href="../info/inquire.html">お問い合わせ</a></li>
-<li><a href="../info/storeadmin.html">店舗運営の方へ</a></li>
-<li><a href="../info/gaiyou.html">会社概要</a></li>
-<li><a href="../info/kitei.html">ご利用規定</a></li>
-<li><a href="../info/taikai.html">退会申請</a></li>
-</ul>
-
-</div>
-
+<!--スライド-->
+<?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
+<!--/スライド-->
 
 </body>
 </html>

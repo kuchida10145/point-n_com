@@ -133,7 +133,7 @@ class CouponPage extends MaintenancePage{
 		}
 		// イベントコース有効処理
 		if(!empty($get['event_course'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_course'],"2");
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['event_course'],"2");
 		}
 
 		if(!$dbFlg){

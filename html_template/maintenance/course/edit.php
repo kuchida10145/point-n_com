@@ -72,7 +72,7 @@
 								</div>
 							</div>
 
-							<?php if(!empty(getParam($error,'minutes'))):?>
+							<?php if(getParam($error,'minutes')!=''):?>
                             <div class="control-group <?php echo error_class(getParam($error,'minutes'));?>">
                             <?php else:?>
                             <div class="control-group <?php echo error_class(getParam($error,'price'));?>">

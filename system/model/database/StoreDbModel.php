@@ -90,6 +90,48 @@ class StoreDbModel extends DbModel{
 		return $this->db->getData($sql);
 	}
 	
+	/**
+	 * 指定カテゴリーに属するデータを取得する
+	 * 
+	 * @param number $category_large_id
+	 * @param number $category_midium_id
+	 * @param number $category_small_ids
+	 * @return array
+	 */
+	public function searchCountByCategory($category_large_id, $category_midium_id, $category_small_ids) {
+		$category_large_id = $this->escape_string($category_large_id);
+		$category_midium_id = $this->escape_string($category_midium_id);
+		if (is_array($category_small_ids)) {
+			foreach ($category_small_ids as $key => $value) {
+				$category_small_ids[$key] = $this->escape_string($value);
+			}
+			$category_small_ids = implode(',', $category_small_ids);
+		} else {
+			$category_small_ids = $this->escape_string($category_small_ids);
+		}
+		$category_midium_id = ($category_midium_id == "") ? "0" : $category_midium_id;
+		$category_small_ids = ($category_small_ids == "") ? "0" : $category_small_ids;
+		
+		$sql  = " SELECT ";
+		$sql .= "   t2.area_first_name, t3.area_second_name, t4.area_third_name, t1.area_first_id, t1.area_second_id, t1.area_third_id, count(t1.category_small_id) as cnt ";
+		$sql .= " FROM ";
+		$sql .= "     {$this->table} as t1 ";
+		$sql .= "   LEFT JOIN area_first  as t2 ON t1.area_first_id  = t2.area_first_id ";
+		$sql .= "   LEFT JOIN area_second as t3 ON t1.area_second_id = t3.area_second_id ";
+		$sql .= "   LEFT JOIN area_third  as t4 ON t1.area_third_id  = t4.area_third_id ";
+		$sql .= " WHERE ";
+		$sql .= "       t1.category_large_id = {$category_large_id} ";
+		$sql .= "   AND t1.category_midium_id = {$category_midium_id} ";
+		$sql .= "   AND t1.category_small_id IN ({$category_small_ids}) ";
+		$sql .= "   AND t1.status_id = 2 ";
+		$sql .= "   AND t1.delete_flg = 0 ";
+		$sql .= " GROUP BY ";
+		$sql .= "   t1.area_first_id, t1.area_second_id, t1.area_third_id ";
+		$sql .= " ORDER BY ";
+		$sql .= "   t1.area_first_id ASC, t1.area_second_id ASC, t1.area_third_id ASC ";
+		return $this->db->getAllData($sql);
+	}
+	
 	/*==========================================================================================
 	 * 管理者用共通処理
 	 *

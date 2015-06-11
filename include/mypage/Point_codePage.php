@@ -10,7 +10,8 @@ class Point_codePage extends Page {
 	
 	protected $view = array(
 			'index' => 'mypage/point_code/index',
-			'thanks' => 'mypage/point_code/thanks',
+			'detail' => 'mypage/point_code/detail',
+			'none' => 'mypage/point_code/none',
 	);
 
 
@@ -30,11 +31,11 @@ class Point_codePage extends Page {
 		}
 
 		//コード一覧取得
-		$point_codes = $this->manager->db_manager->get('reserved')->getMyPointCodeList($account['user_id']);
+		$point_codes = $this->manager->db_manager->get('reserved')->getMyPointCodeList($user['user_id']);
 		
 		//1件の場合は、詳細画面にリダイレクト
 		if(count($point_codes) == 1){
-			redirect('/mypage/point_code/detail.php?id='.$point_codes[0]['reserved_id']);
+			//redirect('/mypage/point_code/detail.php?id='.$point_codes[0]['reserved_id']);
 		}
 		
 		
@@ -66,9 +67,19 @@ class Point_codePage extends Page {
 		}
 
 		//コード1件取得
-		$point_codes = $this->manager->db_manager->get('reserved')->getMyPointCode($account['user_id'],$reserve_id);
+		if(!$point_code = $this->manager->db_manager->get('reserved')->getMyPointCode($user['user_id'],$reserve_id)){
+			$this->loadView('none', array());
+		}
+		
+		
+		$point_code['reserved_date'] = date('Y年m月d日 H:i',strtotime($point_code['reserved_date']));
+		$point_code['use_date']      = date('Y年m月d日',strtotime($point_code['use_date']));
+		$point_code['use_time']      = date('H時i分',strtotime($point_code['use_date']));
+		
+		
 		
 		$data['point_code'] = escapeHtml($point_code);
-		$this->loadView('index', $data);
+		$data['point_code_array'] = str_split($point_code['point_code']);
+		$this->loadView('detail', $data);
 	}
 }
