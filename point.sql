@@ -2269,7 +2269,7 @@ CREATE TABLE IF NOT EXISTS `store` (
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`store_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='店舗情報' AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='店舗情報' AUTO_INCREMENT=15 ;
 
 --
 -- テーブルのデータのダンプ `store`
