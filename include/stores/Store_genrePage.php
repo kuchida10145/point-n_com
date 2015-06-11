@@ -36,12 +36,16 @@ class Store_genrePage extends Page{
 		$get_data = array('tkn' => $this->token);
 		if (getPost('m') == 'search_select') {
 			$post = $_POST;
+			$post['area_first_ids']  = is_array(getPost('area_first')) ? getPost('area_first') : array();
+			$post['area_second_ids'] = is_array(getPost('area_second')) ? getPost('area_second') : array();
+			$post['area_key_ids'] = getGet('area_key_ids');
 			// 入力チェック
 			if ($this->selectValidation($post)) {
 				$get_data['category_large_id']  = getPost('category_large_id');
 				$get_data['region_id']          = getPost('region_id');
 				$get_data['category_midium_id'] = getPost('category_midium_id');
 				$get_data['category_small_ids'] = implode(",", getPost('category_small_ids'));
+				$get_data['area_key_ids']       = $post['area_key_ids'];
 				$get_param = createLinkParam($get_data);
 				redirect('/stores/area.php' . $get_param);
 			}
@@ -52,6 +56,7 @@ class Store_genrePage extends Page{
 			$post['region_id']          = getGet('region_id');
 			$post['category_midium_id'] = getGet('category_midium_id');
 			$post['category_small_ids'] = explode(",", getGet('category_small_ids'));
+			$post['area_key_ids']       = getGet('area_key_ids');
 		}
 		
 		$category_midium_ids = array();
@@ -72,6 +77,7 @@ class Store_genrePage extends Page{
 		$get_data['region_id']          = $post['region_id'];
 		$get_data['category_midium_id'] = $post['category_midium_id'];
 		$get_data['category_small_ids'] = is_array($post['category_small_ids']) ? implode(",", $post['category_small_ids']) : $post['category_small_ids'];
+		$get_data['area_key_ids']       = $post['area_key_ids'];
 		$get_param = createLinkParam($get_data);
 		
 		$data['post'] = escapeHtml($post);
@@ -80,6 +86,10 @@ class Store_genrePage extends Page{
 		$data['category_midium_ids'] = $category_midium_ids;
 		$data['category_small_ids']  = $category_small_ids;
 		$data['category_midium_ids_for_delivery'] = $category_midium_ids_for_delivery;
+		$data['condition_category_large_name']  = getParam(category_large(), $post['category_large_id']);
+		$data['condition_redion_name']          = getParam(region_master(), $post['region_id']);
+		$data['condition_category_midium_name'] = "";
+		$data['condition_category_small_names'] = array();
 		$this->loadView('index', $data);
 	}
 	

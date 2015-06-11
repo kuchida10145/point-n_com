@@ -35,7 +35,7 @@
 <div class="selectedterms">
 <dl>
 <dt>選んだ条件</dt>
-<dd><a href="#" class="block alncenter">条件変更</a></dd>
+<dd><a href="/stores/area.php<?php echo $action_link; ?>" class="block alncenter">条件変更</a></dd>
 <dd><?php echo $condition_category_large_name; ?></dd>
 <dd><?php echo $condition_redion_name; ?></dd>
 <dd><?php echo $condition_category_midium_name; ?></dd>

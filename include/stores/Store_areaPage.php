@@ -82,7 +82,7 @@ class Store_areaPage extends Page{
 						$area_second_ids[] = $pieces[0] . '-' . $pieces[1];
 					}
 					if (count($pieces) >= 1) {
-						$area_second_ids[] = $pieces[0];
+						$area_first_ids[] = $pieces[0];
 					}
 				}
 			}

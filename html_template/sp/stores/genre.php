@@ -89,6 +89,19 @@
 
 <h2><span class="icon-shop"></span>店舗を探す<?php echo getParam($error, 'category_midium_id'); ?></h2>
 
+<div class="selectedterms">
+<dl>
+<dt>選んだ条件</dt>
+<dd><a href="/index.php<?php echo $action_link; ?>" class="block alncenter">条件変更</a></dd>
+<dd><?php echo $condition_category_large_name; ?></dd>
+<dd><?php echo $condition_redion_name; ?></dd>
+<dd><?php echo $condition_category_midium_name; ?></dd>
+<?php foreach ($condition_category_small_names as $small_name) : ?>
+<dd><?php echo $small_name; ?></dd>
+<?php endforeach; ?>
+</dl>
+</div>
+
 <?php // 中カテゴリー ?>
 <div class="genrelist">
 	<p class="fixHeight">
