@@ -1,6 +1,6 @@
 <?php
 /**
- * 店舗検索：検索ジャンル
+ * 店舗検索：検索結果
  *
  */
 include_once(dirname(__FILE__) . '/../common/Page.php');
@@ -18,7 +18,7 @@ class Store_searchPage extends Page{
 	);
 	
 	/**
-	 * 検索ジャンル
+	 * 検索結果
 	 *
 	 */
 	public function indexAction(){
@@ -84,14 +84,23 @@ class Store_searchPage extends Page{
 		$data['condition_category_small_names'] = $small_names;
 		$area_key_names = array();
 		foreach ($post['area_key_ids'] as $key => $area_key_id) {
+			// 第３階層から第１階層の順で有効なエリア名を取得する
 			$pieces = explode("-", $area_key_id);
 			$area_first_id  = (isset($pieces[0])) ? $pieces[0] : "0";
-			$area_second_id = (isset($pieces[0])) ? $pieces[0] : "0";
-			$area_third_id  = (isset($pieces[0])) ? $pieces[0] : "0";
-			// TODO: 第３階層から第１階層の順で有効なエリア名を取得する
+			$area_second_id = (isset($pieces[1])) ? $pieces[1] : "0";
+			$area_third_id  = (isset($pieces[2])) ? $pieces[2] : "0";
+			$area123name = $this->manager->db_manager->get('area_third')->area123name($area_first_id, $area_second_id, $area_third_id);
+			if (isset($area123name['area_third_name']) && $area123name['area_third_name'] != "") {
+				$area_key_names[] = $area123name['area_third_name'];
+			} else if (isset($area123name['area_second_name']) && $area123name['area_second_name'] != "") {
+				$area_key_names[] = $area123name['area_second_name'];
+			} else if (isset($area123name['area_first_name']) && $area123name['area_first_name'] != "") {
+				$area_key_names[] = $area123name['area_first_name'];
+			}
 		}
-		$data['area_names'] = $small_names;
-		$data['shops']        = $shops;
+		$data['area_key_names'] = $area_key_names;
+		$data['area_names']     = $small_names;
+		$data['shops']          = $shops;
 		$this->loadView('index', $data);
 	}
 

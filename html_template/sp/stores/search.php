@@ -42,6 +42,9 @@
 <?php foreach ($condition_category_small_names as $small_name) : ?>
 <dd><?php echo $small_name; ?></dd>
 <?php endforeach; ?>
+<?php foreach ($area_key_names as $area_name) : ?>
+<dd><?php echo $area_name; ?></dd>
+<?php endforeach; ?>
 </dl>
 </div>
 
