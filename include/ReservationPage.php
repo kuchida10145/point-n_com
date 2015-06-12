@@ -32,7 +32,11 @@ class ReservationPage extends Page{
 		//トークンが設定されていない場合
 		if(getGet('tkn') == ''){
 			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('?tkn='.$this->token);
+			if(getGet('coupon_id') == ''){
+				redirect('?tkn='.$this->token);
+			} else {
+				redirect('?tkn='.$this->token.'&coupon_id='.getGet('coupon_id'));
+			}
 			exit();
 		}
 
@@ -76,8 +80,7 @@ class ReservationPage extends Page{
 		$data['nickname'] = "テストさん";
 		$data['user_point'] = number_format("1000");
 		// クーポン情報取得
-// 		$couponData = $this->manager->db_manager->get('coupon')->findById($this->getFormSession('coupon_id'));
-		$couponData = $this->manager->db_manager->get('coupon')->findById("2");
+ 		$couponData = $this->manager->db_manager->get('coupon')->findById(getGet('coupon_id'));
 		// 店舗情報取得
 		$storeData = $this->manager->db_manager->get('store')->findById($couponData['store_id']);
 		// コース情報取得
@@ -103,7 +106,11 @@ class ReservationPage extends Page{
 		//トークンが設定されていない場合
 		if(getGet('tkn') == ''){
 			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('?tkn='.$this->token);
+			if(getGet('store_id') == ''){
+				redirect('?tkn='.$this->token);
+			} else {
+				redirect('?tkn='.$this->token.'&store_id='.getGet('store_id'));
+			}
 			exit();
 		}
 
@@ -149,10 +156,10 @@ class ReservationPage extends Page{
 		$data['nickname'] = "テストさん";
 		$data['user_point'] = number_format("1000");
 		// 店舗情報取得
-		$storeData = $this->manager->db_manager->get('store')->findById("1");
-		$data['store_id'] = "1";
+		$storeData = $this->manager->db_manager->get('store')->findById(getGet('store_id'));
+		$data['store_id'] = $storeData['store_id'];
 		$data['store_name'] = $storeData['store_name'];
-		$data['course_price'] = course_price("1");
+		$data['course_price'] = course_price($storeData['store_id']);
 
 		$this->loadView('indexP', $data);
 	}
