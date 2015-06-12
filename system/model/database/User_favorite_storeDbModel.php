@@ -116,4 +116,45 @@ class User_favorite_storeDbModel extends DbModel{
 		$where = " WHERE ".implode(' AND ',$wheres);
 		return $where;
 	}
+
+	/**
+	 * お気に入りフラグ取得
+	 * （store_idとuser_idからお気に入り店舗か否かを返す）
+	 * @param int $store_id 店舗ID
+	 * @param int $user_id ユーザID
+	 * @return boolean:
+	 */
+	public function getFavoriteFlg($store_id,$user_id){
+		$sql = "
+			SELECT
+				*
+			FROM
+				`user_favorite_store`
+			WHERE
+				store_id = '".$store_id."'
+				AND user_id = '".$user_id."'
+				AND delete_flg = '0'";
+
+		$count = $this->db->getCount($sql);
+
+		if($count == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * お気に入りデータの更新
+	 *
+	 * @param Array $param 更新するデータ
+	 * @param int $user_id ユーザID
+	 * @param int $store_id 店舗ID
+	 * @return Bool 結果
+	 */
+	public function favotiteUpdate($param,$user_id,$store_id)
+	{
+		$where = "user_id = '$user_id' AND store_id = '$store_id'";
+		return $this->db->update($this->table,$param,$where);
+	}
 }

@@ -78,4 +78,34 @@ class CouponDbModel extends DbModel{
 		}
 		return FALSE;
 	}
+
+	/*==========================================================================================
+	 * フロント共通処理
+	 *
+	 *==========================================================================================*/
+	/**
+	 * store_idから有効なクーポン情報を取得する
+	 * @param int $store_id 店舗id
+	 * @return array:
+	 */
+	public function storeCouponDetailSearch($store_id){
+		$sql = "
+		SELECT
+			coupon.point,
+			coupon.point_kind,
+			course.minutes,
+			course.price,
+			coupon.coupon_name,
+			coupon.use_condition,
+			coupon.coupon_id
+		FROM
+			`coupon`,
+			`course`
+		WHERE
+			coupon.store_id = '".$store_id."'
+			AND coupon.course_id = course.course_id
+			AND coupon.status_id = '".ST_ACT."'";
+
+		return $this->db->getAllData($sql);
+	}
 }
