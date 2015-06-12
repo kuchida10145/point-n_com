@@ -139,12 +139,19 @@ class StoreDbModel extends DbModel{
 	 * @param number $category_midium_id
 	 * @param string $category_small_ids
 	 * @param array $area_key_ids
+	 * @param string $search_keyword
 	 * @return array
 	 */
-	public function shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids) {
+	public function shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword) {
 		if (!is_array($area_key_ids)) {
-			return null;
+			$area_key_ids = array();
 		}
+		
+		$category_large_id  = $this->escape_string($category_large_id);
+		$category_midium_id = $this->escape_string($category_midium_id);
+		$category_small_ids = $this->escape_string($category_small_ids);
+		$area_key_ids       = $this->escape_string($area_key_ids);
+		$search_keyword     = $this->escape_string($search_keyword);
 		
 		$wheres_or = array();
 		foreach ($area_key_ids as $key => $value) {
@@ -157,13 +164,25 @@ class StoreDbModel extends DbModel{
 			$where .= "AND store.area_third_id  = {$area_ids[2]} ) ";
 			$wheres_or[] = $where;
 		}
+		
 		$wheres = array();
-		$wheres[] = "(" . implode(" OR ", $wheres_or) . ")";
-		$wheres[] = "store.category_large_id = {$category_large_id}";
-		$wheres[] = "store.category_midium_id = {$category_midium_id}";
-		$wheres[] = "store.category_small_id IN ({$category_small_ids})";
+		if (count($wheres_or) > 0) {
+			$wheres[] = "(" . implode(" OR ", $wheres_or) . ")";
+		}
+		if ($category_large_id != "") {
+			$wheres[] = "store.category_large_id  = {$category_large_id}";
+		}
+		if ($category_midium_id != "") {
+			$wheres[] = "store.category_midium_id = {$category_midium_id}";
+		}
+		if ($category_small_ids != "") {
+			$wheres[] = "store.category_small_id IN ({$category_small_ids})";
+		}
 		$wheres[] = "store.status_id = 2";
 		$wheres[] = "store.delete_flg = 0";
+		if ($search_keyword != "") {
+			$wheres[] = "store.store_name LIKE '%{$search_keyword}%'";
+		}
 		$where = implode(" AND ", $wheres);
 		$sql  = $this->shopListSqlBase();
 		$sql .= " WHERE {$where} ";

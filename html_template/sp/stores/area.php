@@ -17,10 +17,14 @@
 <!--ヘッダ-->
 
 <div id="headsearch">
-<form action="" name="" method="get">
+<form action="" name="frmkeyword" method="get">
 <input type="hidden" name="m" value="search_keyword"/>
-<input name="keyword" placeholder="店舗名検索" type="text"> 
-<a href="#">検索</a>
+<input type="hidden" name="category_large_id" id="category_large_id" value="<?php echo getParam($post, 'category_large_id'); ?>"/>
+<input type="hidden" name="region_id" id="region_id" value="<?php echo getParam($post, 'region_id'); ?>"/>
+<input type="hidden" name="category_midium_id" id="category_midium_id" value="<?php echo getParam($post, 'category_midium_id'); ?>"/>
+<input type="hidden" name="category_small_ids" id="category_small_ids" value="<?php echo getParam($post, 'category_small_ids'); ?>"/>
+<input type="text" name="keyword" placeholder="店舗名検索" value="<?php echo getParam($post, 'keyword'); ?>"/>
+<a href="javascript:void(0);" onclick="document.frmkeyword.submit();">検索</a>
 </form>
 
 </div>

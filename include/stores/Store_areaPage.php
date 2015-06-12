@@ -24,17 +24,17 @@ class Store_areaPage extends Page{
 	public function indexAction(){
 		$post = array();
 		$error = array();
-		$this->token = getGet('tkn');
+		$get_data = array();
 		
-		// トークンが設定されていない場合
-		if ($this->token == '') {
-			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('/?tkn=' . $this->token);
-			exit();
-		}
-		
-		$get_data = array('tkn' => $this->token);
-		if (getPost('m') == 'search_select') {
+		if (getGet('m') == 'search_keyword') {
+			$get_data['category_large_id']  = getGet('category_large_id');
+			$get_data['region_id']          = getGet('region_id');
+			$get_data['keyword']            = getGet('keyword');
+			$get_data['category_midium_id'] = getGet('category_midium_id');
+			$get_data['category_small_ids'] = getGet('category_small_ids');
+			$get_param = createLinkParam($get_data);
+			redirect('/stores/search.php' . $get_param);
+		} else if (getPost('m') == 'search_select') {
 			$post = $_POST;
 			$post['area_first_ids']  = is_array(getPost('area_first')) ? getPost('area_first') : array();
 			$post['area_second_ids'] = is_array(getPost('area_second')) ? getPost('area_second') : array();

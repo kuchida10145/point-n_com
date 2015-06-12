@@ -24,26 +24,10 @@ class Store_searchPage extends Page{
 	public function indexAction(){
 		$post = array();
 		$error = array();
-		$this->token = getGet('tkn');
+		$get_data = array();
 		
-		// トークンが設定されていない場合
-		if ($this->token == '') {
-			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('?tkn=' . $this->token);
-			exit();
-		}
-		
-		$get_data = array('tkn' => $this->token);
-		if (getPost('m') == 'search_select') {
-			$post = $_POST;
-// 			// 入力チェック
-// 			if ($this->selectValidation($post)) {
-// 				$get_data['category_large_id'] = getPost('category_large_id');
-// 				$get_data['region_id'] = getPost('region_id');
-// 				$get_param = createLinkParam($get_data);
-// 				redirect('/stores/search.php' . $get_param);
-// 			}
-// 			$error = $this->getValidationError();
+		if (getGet('m') == 'search_keyword') {
+			$post = $_GET;
 		} else {
 			$post = $get_data;
 			$post['category_large_id']  = getGet('category_large_id');
@@ -51,26 +35,43 @@ class Store_searchPage extends Page{
 			$post['category_midium_id'] = getGet('category_midium_id');
 			$post['category_small_ids'] = getGet('category_small_ids');
 			$post['area_key_ids']       = getGet('area_key_ids');
+			$post['keyword']            = getGet('keyword');
 		}
 		
 		$category_small_ids = (is_array($post['category_small_ids'])) ? $post['category_small_ids'] : explode(",", $post['category_small_ids']);
 		$post['category_small_ids'] = implode(",", $category_small_ids);
-		$post['area_key_ids']       = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
+		$area_key_ids               = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
+		$post['area_key_ids']       = implode(",", $area_key_ids);
 		
 		// 該当する条件の店舗を取得する
-		$shops = $this->manager->db_manager->get('store')->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $post['area_key_ids']);
+		$shops = $this->manager->db_manager->get('store')->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
 		$shops = ($shops != null) ? $shops : array();
 		
+		// リンクパラメータを作成する
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
 		$get_data['category_midium_id'] = $post['category_midium_id'];
 		$get_data['category_small_ids'] = $post['category_small_ids'];
-		$get_data['area_key_ids']       = implode(",", $post['area_key_ids']);
+		$get_data['area_key_ids']       = $post['area_key_ids'];
+		$get_back_param = createLinkParam($get_data);
+		$get_data['keyword']            = $post['keyword'];
 		$get_param = createLinkParam($get_data);
+		
+		// 条件変更のリンク先を決定する
+		if ($get_data['region_id'] == "" || $get_data['category_large_id'] == "") {
+			$back_link = '/';
+		} else if ($get_data['category_small_ids'] == "" || $get_data['category_midium_id'] == "") {
+			$back_link = '/stores/genre.php';
+		} else if ($get_data['area_key_ids'] == "") {
+			$back_link = '/stores/area.php';
+		} else {
+			$back_link = '/stores/area.php';
+		}
 		
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
 		$data['action_link'] = $get_param;
+		$data['get_back_param'] = $get_back_param;
 		$data['condition_category_large_name']  = getParam(category_large(), $post['category_large_id']);
 		$data['condition_redion_name']          = getParam(region_master(), $post['region_id']);
 		$data['condition_category_midium_name'] = getParam(category_midium_for_customer($post['category_large_id'], $post['region_id']), $post['category_midium_id']);
@@ -83,7 +84,7 @@ class Store_searchPage extends Page{
 		}
 		$data['condition_category_small_names'] = $small_names;
 		$area_key_names = array();
-		foreach ($post['area_key_ids'] as $key => $area_key_id) {
+		foreach ($area_key_ids as $key => $area_key_id) {
 			// 第３階層から第１階層の順で有効なエリア名を取得する
 			$pieces = explode("-", $area_key_id);
 			$area_first_id  = (isset($pieces[0])) ? $pieces[0] : "0";
@@ -100,6 +101,7 @@ class Store_searchPage extends Page{
 		}
 		$data['area_key_names'] = $area_key_names;
 		$data['area_names']     = $small_names;
+		$data['back_link']      = $back_link;
 		$data['list']           = $shops;
 		$this->loadView('index', $data);
 	}

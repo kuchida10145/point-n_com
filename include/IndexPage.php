@@ -24,30 +24,32 @@ class IndexPage extends Page{
 	public function indexAction() {
 		$post = array();
 		$error = array();
-		$this->token = getGet('tkn');
+		$get_data = array();
 		
-		// トークンが設定されていない場合
-		if ($this->token == '') {
-			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('?tkn=' . $this->token);
-			exit();
-		}
-		
-		$get_data = array('tkn' => $this->token);
-		if (getPost('m') == 'search_select') {
+		if (getGet('m') == 'search_keyword') {
+			$get_data['keyword'] = getGet('keyword');
+			$get_param = createLinkParam($get_data);
+			redirect('/stores/search.php' . $get_param);
+		} else if (getPost('m') == 'search_select') {
 			$post = $_POST;
 			// 入力チェック
 			if ($this->selectValidation($post)) {
-				$get_data['category_large_id'] = getPost('category_large_id');
-				$get_data['region_id'] = getPost('region_id');
+				$get_data['category_large_id']  = getPost('category_large_id');
+				$get_data['region_id']          = getPost('region_id');
+				$get_data['category_midium_id'] = getPost('category_midium_id');
+				$get_data['category_small_ids'] = getPost('category_small_ids');
+				$get_data['area_key_ids']       = getPost('area_key_ids');
 				$get_param = createLinkParam($get_data);
 				redirect('/stores/genre.php' . $get_param);
 			}
 			$error = $this->getValidationError();
 		} else {
 			$post = $get_data;
-			$post['category_large_id'] = getGet('category_large_id');
-			$post['region_id']         = getGet('region_id');
+			$post['category_large_id']  = getGet('category_large_id');
+			$post['region_id']          = getGet('region_id');
+			$post['category_midium_id'] = getGet('category_midium_id');
+			$post['category_small_ids'] = getGet('category_small_ids');
+			$post['area_key_ids']       = getGet('area_key_ids');
 		}
 		
 		$data['post'] = escapeHtml($post);
