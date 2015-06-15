@@ -56,7 +56,7 @@ abstract class AdminPage extends Page{
 			//すべてのセッションを削除
 
 			//TOPページへリダイレクト
-			redirect(ADMIN_URL.'index.php');
+			redirect('/admin/index.php');
 		}
 
 
