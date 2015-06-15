@@ -34,13 +34,17 @@ abstract class Page{
 		//$this->device = $this->manager->device->getDevice();
 		$this->device = 'sp';
 	}
+	
+	public function errorAction(){
+		$this->errorPage();
+	}
 
 	/**
 	 * エラーが発生した場合の表示画面
 	 *
 	 */
 	protected function errorPage(){
-		$this->view['error'] = 'error';
+		$this->view['error'] = '404';
 		$this->loadView('error', array());
 	}
 
