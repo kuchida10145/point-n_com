@@ -32,7 +32,7 @@ class Category_midiumDbModel extends DbModel{
 		$wheres = array();
 		$wheres[] = 'category_large_id = ' . $category_large_id;
 		$wheres[] = 'region_id = ' . $region_id;
-		if ($delivery != null) {
+		if ($delivery !== null) {
 			$wheres[] = "delivery = '" . $delivery . "'";
 		}
 		return $this->adminSearch($wheres, "", " ORDER BY rank ASC, category_midium_id ASC ");
