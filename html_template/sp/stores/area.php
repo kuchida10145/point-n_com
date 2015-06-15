@@ -65,19 +65,27 @@
 <!--コンテンツ-->
 
 <div class="contents">
-<h2 style="margin:-10px -10px 0 -10px;">エリアを探す 
+<h2 style="margin:-10px -10px 0 -10px;"><?php if ($delivery) { echo '（発）'; } ?>エリアを探す 
 <?php 
 	$err_messages = array();
-	$err_messages[] = getParam($error, 'area_first');
-	$err_messages[] = getParam($error, 'area_second');
-	$err_messages[] = getParam($error, 'area_third'); 
+	if (getParam($error, 'area_first') != "") {
+		$err_messages[] = getParam($error, 'area_first');
+	}
+	if (getParam($error, 'area_second') != "") {
+		$err_messages[] = getParam($error, 'area_second');
+	}
+	if (getParam($error, 'area_third') != "") {
+		$err_messages[] = getParam($error, 'area_third');
+	}
 	if (count($err_messages) > 0) {
-		echo $err_messages[0];
+		// 選択されていません ⇒ 第３階層目が選択されていません
+		echo str_replace("選択", "第３階層目が選択", $err_messages[0]);
 	}
 ?>
 </h2>
 
 <div class="arealist">
+<?php $js_areas = array(); ?>
 <?php if (count($areas) > 0) : ?>
 <dl>
 <?php 
@@ -88,7 +96,8 @@
 	foreach ($areas as $area) {
 		// 第１エリア
 		if ($area_first_id != $area['area_first_id']) {
-			$area_first_id = $area['area_first_id'];
+			$area_first_id  = $area['area_first_id'];
+			$area_second_id = "";
 			if ($is_first) {
 				$is_first = false;
 				echo '</dd>' . "\n";
@@ -98,23 +107,27 @@
 			$checked = _check_checked($area_first_value, $post['area_first_ids']);
 			echo '<dt>';
 			echo '<label for="' . $area_first_tag . '">';
-			echo '<input type="checkbox" name="area_first[]" value="' . $area_first_value . '" id="' . $area_first_tag. '" ' . $checked . ' />';
+			echo '<input type="checkbox" name="area_first[]" value="' . $area_first_value . '" id="' . $area_first_tag. '" ' . $checked . ' onclick="area_check_action(' . "'" . $area_first_tag . "'" . ');" />';
 			echo $area['area_first_name'];
 			echo '</label>';
 			echo '</dt>' . "\n";
 			echo '<dd>' . "\n";
+			$js_areas[$area_first_tag] = array();
 		}
 		// 第２エリア
 		if ($area_second_id != $area['area_second_id']) {
 			$area_second_id = $area['area_second_id'];
+			$area_third_id  = "";
 			$area_second_name = ($area_second_id != 0) ? $area['area_second_name'] : '−';
 			$area_second_value = $area_first_id . '-' . $area_second_id;
 			$area_second_tag = 'b' . $area_second_value;
 			$checked = _check_checked($area_second_value, $post['area_second_ids']);
 			echo '<label for="' . $area_second_tag . '" class="citytitle">';
-			echo '<input type="checkbox" name="area_second[]" value="' . $area_second_value . '" id="' . $area_second_tag . '" ' . $checked . ' />';
+			echo '<input type="checkbox" name="area_second[]" value="' . $area_second_value . '" id="' . $area_second_tag . '" ' . $checked . ' onclick="area_check_action(' . "'" . $area_second_tag . "'" . ');" />';
 			echo $area_second_name;
 			echo '</label>' . "\n";
+			$js_areas[$area_first_tag][] = $area_second_tag;
+			$js_areas[$area_second_tag]  = array();
 		}
 		// 第３エリア
 		if ($area_third_id != $area['area_third_id']) {
@@ -127,6 +140,8 @@
 			echo '<input type="checkbox" name="area_third[]" value="' . $area_third_value . '" id="' . $area_third_tag . '" ' . $checked . ' />';
 			echo $area_third_name . '(' . $area['cnt'] . ')';
 			echo '</label>' . "\n";
+			$js_areas[$area_first_tag][]  = $area_third_tag;
+			$js_areas[$area_second_tag][] = $area_third_tag;
 		}
 	}
 ?>
@@ -168,6 +183,28 @@ Copyright 2015 POINT.COM All Rights Reserved
 <!--スライド-->
 <?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
 <!--/スライド-->
+
+<script type="text/javascript">
+	
+	function area_check_action(check_id) {
+		if ($('#' + check_id).prop('checked')) {
+			checked = true;
+		} else {
+			checked = false;
+		}
+		
+		area_check_list = <?php echo json_encode($js_areas); ?>;
+		if (!(check_id in area_check_list)) {
+			return;
+		}
+		
+		list = area_check_list[check_id];
+		for (i = 0; i < list.length; i++) {
+			$('#' + list[i]).prop('checked', checked);
+		}
+	}
+	
+</script>
 
 </body>
 </html>

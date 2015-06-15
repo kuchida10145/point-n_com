@@ -3,8 +3,13 @@
  * 店舗情報
  */
 class StoreDbModel extends DbModel{
-
-
+	
+	// 一覧取得用の開始番号(0 origin)
+	protected $start_number = -1;
+	// 取得件数
+	protected $get_count    = 0;
+	// ソートID
+	protected $sort_id      = 0;
 	
 	public function getField(){
 		return array(
@@ -57,8 +62,6 @@ class StoreDbModel extends DbModel{
 			'regist_date',
 			'update_date',
 			'delete_flg',
-
-
 		);
 	}
 	
@@ -91,7 +94,7 @@ class StoreDbModel extends DbModel{
 	}
 	
 	/**
-	 * 指定カテゴリーに属するデータを取得する
+	 * 指定カテゴリーに属するデータ件数を取得する
 	 * 
 	 * @param number $category_large_id
 	 * @param number $category_midium_id
@@ -113,7 +116,9 @@ class StoreDbModel extends DbModel{
 		$category_small_ids = ($category_small_ids == "") ? "0" : $category_small_ids;
 		
 		$sql  = " SELECT ";
-		$sql .= "   t2.area_first_name, t3.area_second_name, t4.area_third_name, t1.area_first_id, t1.area_second_id, t1.area_third_id, count(t1.category_small_id) as cnt ";
+		$sql .= "     t2.area_first_name, t3.area_second_name, t4.area_third_name ";
+		$sql .= "   , t1.area_first_id, t1.area_second_id, t1.area_third_id, t3.delivery ";
+		$sql .= "   , count(t1.category_small_id) as cnt ";
 		$sql .= " FROM ";
 		$sql .= "     {$this->table} as t1 ";
 		$sql .= "   LEFT JOIN area_first  as t2 ON t1.area_first_id  = t2.area_first_id ";
@@ -133,6 +138,44 @@ class StoreDbModel extends DbModel{
 	}
 	
 	/**
+	 * 一覧取得時のページ送りパラメータを設定する
+	 * 
+	 * @param number $start_number
+	 * @param number $get_count
+	 */
+	public function setNextPage($start_number, $get_count) {
+		$this->start_number = $start_number;
+		$this->get_count    = $get_count;
+	}
+	
+	/**
+	 * 一覧取得時のソートパラメータを設定する
+	 * 
+	 * @param number $sort_id
+	 */
+	public function setSortID($sort_id) {
+		$this->sort_id = $sort_id;
+	}
+	
+	/**
+	 * エリアIDをキーとして店舗一覧用の件数を取得する
+	 * 
+	 * @param number $category_large_id
+	 * @param number $category_midium_id
+	 * @param string $category_small_ids
+	 * @param array $area_key_ids
+	 * @param string $search_keyword
+	 * @return array
+	 */
+	public function shopCountByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword) {
+		$count = $this->shopCommonByCategoryAndAreaKeyIDs(true, $category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword);
+		if ($count == null) {
+			return 0;
+		}
+		return $count['cnt'];
+	}
+	
+	/**
 	 * エリアIDをキーとして店舗一覧用の情報を取得する
 	 * 
 	 * @param number $category_large_id
@@ -143,6 +186,21 @@ class StoreDbModel extends DbModel{
 	 * @return array
 	 */
 	public function shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword) {
+		return $this->shopCommonByCategoryAndAreaKeyIDs(false, $category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword);
+	}
+	
+	/**
+	 * エリアIDをキーとして店舗一覧用の情報を取得する（件数と情報）
+	 * 
+	 * @param boolean $is_count
+	 * @param number $category_large_id
+	 * @param number $category_midium_id
+	 * @param string $category_small_ids
+	 * @param array $area_key_ids
+	 * @param string $search_keyword
+	 * @return array
+	 */
+	private function shopCommonByCategoryAndAreaKeyIDs($is_count, $category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $search_keyword) {
 		if (!is_array($area_key_ids)) {
 			$area_key_ids = array();
 		}
@@ -153,6 +211,7 @@ class StoreDbModel extends DbModel{
 		$area_key_ids       = $this->escape_string($area_key_ids);
 		$search_keyword     = $this->escape_string($search_keyword);
 		
+		// WHERE 句
 		$wheres_or = array();
 		foreach ($area_key_ids as $key => $value) {
 			$area_ids = explode("-", $value);
@@ -184,32 +243,82 @@ class StoreDbModel extends DbModel{
 			$wheres[] = "store.store_name LIKE '%{$search_keyword}%'";
 		}
 		$where = implode(" AND ", $wheres);
-		$sql  = $this->shopListSqlBase();
+		$sql  = $this->shopListSqlBase($is_count);
 		$sql .= " WHERE {$where} ";
-		$sql .= " ORDER BY c1.coupon_id DESC, c2.coupon_id DESC, notice.notice_id DESC ";
+		
+		if ($is_count) {
+			// 件数取得
+			return $this->db->getData($sql);
+		}
+		
+		// ORDER BY 句
+		$sql .= $this->shopListSqlOrderBy($this->sort_id);
+		
+		// LIMIT 句
+		if ($this->start_number >= 0 && $this->get_count > 0) {
+			$sql .= " LIMIT {$this->start_number}, {$this->get_count} ";
+		}
+		
 		return $this->db->getAllData($sql);
 	}
 	
 	/**
 	 * 店舗一覧取得用のベースSQL
 	 * 
+	 * @param boolean $is_count
 	 * @return string
 	 */
-	protected function shopListSqlBase() {
-		$sql  = 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.image1';
-		$sql .= ', region.region_name';
-		$sql .= ', category.category_small_name';
-		$sql .= ', c1.point normal_point, c1.status_id normal_point_status';
-		$sql .= ', c2.point event_point, c2.status_id event_point_status';
-		$sql .= ', notice.title';
+	protected function shopListSqlBase($is_count = false) {
+		if ($is_count) {
+			$sql = ' SELECT count(store.store_id) as cnt ';
+		} else {
+			$sql  = 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.address2, store.image1';
+			$sql .= ', region.region_name';
+			$sql .= ', category.category_small_name';
+			$sql .= ', c1.point normal_point, c1.status_id normal_point_status';
+			$sql .= ', c2.point event_point, c2.status_id event_point_status';
+			$sql .= ', notice.title';
+		}
 		$sql .= ' FROM `store`';
 		$sql .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
 		$sql .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
 		$sql .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
 		$sql .= ' LEFT JOIN `coupon` AS c1 ON store.store_id = c1.store_id AND c1.status_id = 1 AND c1.point_kind = 1';
+		$sql .= ' LEFT JOIN `course` AS cs1 ON c1.course_id = cs1.course_id AND c1.store_id = cs1.store_id ';
 		$sql .= ' LEFT JOIN `coupon` AS c2 ON store.store_id = c2.store_id AND c2.status_id = 1 AND c2.point_kind = 2';
+		$sql .= ' LEFT JOIN `course` AS cs2 ON c2.course_id = cs2.course_id AND c2.store_id = cs2.store_id ';
 		$sql .= ' LEFT JOIN `notice` ON store.store_id = notice.store_id AND notice.public = 1';
 		return $sql;
+	}
+	
+	/**
+	 * 店舗一覧取得用のソート条件を取得する
+	 * 
+	 * @param number $sort_id
+	 * @return string
+	 */
+	protected function shopListSqlOrderBy($sort_id) {
+		$orderby = array(
+			// 1：通常ポイントが高い順（デフォルト）
+			1=>" ORDER BY c1.point DESC, c2.point DESC ",
+			// 2：イベントポイントが高い順
+			2=>" ORDER BY c2.point DESC, c1.point DESC ",
+			// 3：通常ポイント総額料金が高い順
+			3=>" ORDER BY cs1.price DESC, cs2.price DESC ",
+			// 4：通常ポイント総額料金が低い順
+			4=>" ORDER BY cs1.price ASC, cs2.price ASC ",
+			// 5：イベントポイント総額料金が高い順
+			5=>" ORDER BY cs2.price DESC, cs1.price DESC ",
+			// 6：イベントポイント総額料金が低い順
+			6=>" ORDER BY cs2.price ASC, cs1.price ASC ",
+			// 7：新着店舗
+			7=>" ORDER BY store.new_arrival DESC, store.regist_date DESC ",
+		);
+		if (isset($orderby[$sort_id])) {
+			return $orderby[$sort_id];
+		} else {
+			return $orderby[1];
+		}
 	}
 	
 	/*==========================================================================================

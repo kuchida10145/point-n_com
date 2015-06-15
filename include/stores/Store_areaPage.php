@@ -62,6 +62,10 @@ class Store_areaPage extends Page{
 		// エリアごとの件数を取得する
 		$areas = $this->manager->db_manager->get('store')->searchCountByCategory($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids']);
 		$areas = ($areas != null) ? $areas : array();
+		$delivery = 0;
+		if (count($areas) > 0) {
+			$delivery = $areas[0]['delivery'];
+		}
 		
 		$category_small_ids = (is_array($post['category_small_ids'])) ? $post['category_small_ids'] : explode(",", $post['category_small_ids']);
 		$post['category_small_ids'] = implode(",", $category_small_ids);
@@ -111,7 +115,8 @@ class Store_areaPage extends Page{
 			}
 		}
 		$data['condition_category_small_names'] = $small_names;
-		$data['areas']        = $areas;
+		$data['areas']    = $areas;
+		$data['delivery'] = $delivery;
 		$this->loadView('index', $data);
 	}
 
@@ -122,8 +127,8 @@ class Store_areaPage extends Page{
 	 * @return boolean
 	 */
 	private function selectValidation($param){
-		$this->manager->validation->setRule('area_first', 'checked');
-		$this->manager->validation->setRule('area_second', 'checked');
+// 		$this->manager->validation->setRule('area_first', 'checked');
+// 		$this->manager->validation->setRule('area_second', 'checked');
 		$this->manager->validation->setRule('area_third', 'checked');
 		return $this->manager->validation->run($param);
 	}

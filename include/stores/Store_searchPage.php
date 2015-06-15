@@ -1,24 +1,25 @@
 <?php
 /**
- * 店舗検索：検索結果
+ * 店舗検索：検索結果一覧
  *
  */
 include_once(dirname(__FILE__) . '/../common/Page.php');
 
-class Store_searchPage extends Page{
+class Store_searchPage extends Page {
 	
 	protected $id = 0;/* ID */
-// 	protected $use_table   = 'reserved';
 	protected $session_key = 'store_search';
 	protected $use_confirm = false;
-	protected $page_title = 'エリアから探す';
+	protected $page_title = '検索結果一覧';
+	protected $page_cnt = 10;
+	protected $debug = false;
 	
 	protected $view = array(
 			'index'     => 'stores/search',
 	);
 	
 	/**
-	 * 検索結果
+	 * 検索結果一覧
 	 *
 	 */
 	public function indexAction(){
@@ -26,7 +27,12 @@ class Store_searchPage extends Page{
 		$error = array();
 		$get_data = array();
 		
-		if (getGet('m') == 'search_keyword') {
+		if (getGet('m') == 'next') {
+			$this->nextAjax();
+			exit();
+		} else if (getGet('m') == 'search_keyword') {
+			$post = $_GET;
+		} else if (getGet('m') == 'search_sort') {
 			$post = $_GET;
 		} else {
 			$post = $get_data;
@@ -36,6 +42,7 @@ class Store_searchPage extends Page{
 			$post['category_small_ids'] = getGet('category_small_ids');
 			$post['area_key_ids']       = getGet('area_key_ids');
 			$post['keyword']            = getGet('keyword');
+			$post['sort']               = getGet('sort');
 		}
 		
 		$category_small_ids = (is_array($post['category_small_ids'])) ? $post['category_small_ids'] : explode(",", $post['category_small_ids']);
@@ -43,9 +50,18 @@ class Store_searchPage extends Page{
 		$area_key_ids               = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
 		$post['area_key_ids']       = implode(",", $area_key_ids);
 		
+		// 今日のニュースを１件取得する
+		$news = $this->manager->db_manager->get('news')->getNewsList(0, 1);
+		$news = ($news != null) ? $news : array();
+		
 		// 該当する条件の店舗を取得する
-		$shops = $this->manager->db_manager->get('store')->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
+		$store = $this->manager->db_manager->get('store');
+		$store->setNextPage(0, $this->page_cnt);
+		$store->setSortID($post['sort']);
+		$total = $store->shopCountByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
+		$shops = $store->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
 		$shops = ($shops != null) ? $shops : array();
+		$shops = $this->changeListData($shops, false);
 		
 		// リンクパラメータを作成する
 		$get_data['category_large_id']  = $post['category_large_id'];
@@ -102,18 +118,63 @@ class Store_searchPage extends Page{
 		$data['area_key_names'] = $area_key_names;
 		$data['area_names']     = $small_names;
 		$data['back_link']      = $back_link;
-		$data['list']           = $shops;
+		$data['news_list']      = $news;
+		$data['shop_list']      = $shops;
+		$data['total']          = $total;
+		$data['debug']          = $this->debug;
 		$this->loadView('index', $data);
 	}
-
+	
 	/**
-	 * 予約情報入力確認
-	 * @param array $param 検証用配列
-	 * @return boolean
+	 * 検索結果Ajax
+	 * 
 	 */
-	private function selectValidation($param){
-// 		$this->manager->validation->setRule('contract', 'checked');
-		return $this->manager->validation->run($param);
+	public function nextAjax() {
+		$res['result']      = 'false';
+		$next               = getGet('next');
+		$start              = $next * $this->page_cnt;
+		$category_large_id  = getGet('category_large_id');
+		$category_midium_id = getGet('category_midium_id');
+		$category_small_ids = getGet('category_small_ids');
+		$area_key_ids       = getGet('area_key_ids');
+		$keyword            = getGet('keyword');
+		$store = $this->manager->db_manager->get('store');
+		$store->setNextPage($start, $this->page_cnt);
+		$pages = $store->shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $keyword);
+		if ($pages) {
+			$res['result']    = 'true';
+			$res['cur_shops'] = $start + count($pages);
+		}
+		$res['pages'] = $this->changeListData($pages, true);
+		echo json_encode($res);		
+	}
+	
+	/**
+	 * 一覧用データ変換(HTMLエスケープも実行)
+	 * 
+	 * @param array $datas
+	 * @param boolean $is_escape_html
+	 * @return NULL|array
+	 */
+	private function changeListData($datas, $is_escape_html) {
+		if (!$datas) {
+			return null;
+		}
+		
+		foreach ($datas as $data_key => $data) {
+			if ($data['image1'] == "") {
+				$data['image1'] = '/img/no_image_shop.gif';
+			} else {
+				$data['image1'] = '/files/images/' . $data['image1'];
+			}
+			
+			if ($is_escape_html) {
+				$data = escapeHtml($data);
+			}
+			
+			$datas[$data_key] = $data;
+		}
+		
+		return $datas;
 	}
 }
-
