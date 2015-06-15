@@ -115,8 +115,9 @@
 											</strong>
 										<?php endif;?>
 
-										<?php echo getParam($data,'title');?><br />
-										住所：<?php echo getParam($data,'address1');?><?php echo getParam($data,'address2');?><br />
+										<br />
+										<?php echo (NULL != getParam($data,'title')) ? getParam($data,'title') . '<br />' : ''; ?>
+										住所：<?php echo getParam($data,'address1');?><?php echo getParam($data,'address2'); ?><br />
 									</dd>
 								</dl>
 								<!--/1件-->
