@@ -78,7 +78,7 @@
 
 					<?php if ( isset($list) && !empty($list) ): ?>
 
-						<h3>検索結果一覧　<?php echo $storeStart; ?>件～<?php echo $storeEnd; ?>件（全<?php echo $storesTotal; ?>件）</h3>
+						<h3>検索結果一覧（全<?php echo $storesTotal; ?>件）</h3>
 						<div class="shoplist">
 
 							<?php foreach($list as $data) : ?>
@@ -148,6 +148,87 @@
 
 <script type="text/javascript" src="<?php echo HTTP_HOST; ?>/js/pointcom.js"></script>
 <script type="text/javascript">
+//検索結果自動ロード
+var ajaxUrl = "<?php echo $_SERVER['REQUEST_URI']; ?>";
+$(function() {
+
+	var page_cnt = 1; //現在のページ数
+
+  $(window).scroll(function(ev) {
+
+    var $window = $(ev.currentTarget),
+    height = $window.height(),
+    scrollTop = $window.scrollTop(),
+    documentHeight = $(document).height();
+
+    //スクロールがページの最後に着いたらAjaxで次のページの店舗をクエリー
+    if (documentHeight === height + scrollTop) {
+
+	    page_cnt++;
+			$.ajax({
+				type: "GET",
+				url: ajaxUrl ,
+				data: { 'page' : page_cnt },
+				dataType: "json",
+				success: function(stores){
+
+					if ( !(null === stores) ) {
+
+						var html = "";
+
+						$.each(stores, function(i,store){
+
+							var storeId = store.store_id;
+							var image 	= store.image1;
+							var name 		= store.store_name;
+							var categ		= store.category_small_name;
+							var region	= store.region_name;
+							var title 	= store.title;
+							var address1 	= store.address1;
+							var address2 	= (null === store.address2) ? '' : store.address2;
+							var normalPtStatus = store.normal_point_status;
+							var normalPtValue  = store.normal_point;
+							var eventPtStatus  = store.event_point_status;
+							var eventPtValue   = store.event_point;
+
+							html += '<dl class="clearfix">';
+							html += '<a href="/stores/detail.php?id=' + storeId + '"></a>';
+							html += '<dt>';
+							if ( !(null === image) ) {
+								html += '<img src="../../../files/images/' + image + '" alt="" />';
+							}
+							html += '</dt>';
+							html += '<dd>';
+							html += '<strong>' + name + '</strong><br />';
+							html += categ + '/' + region;
+							if ( "1" == normalPtStatus ) {
+								html += ' <strong class="pointtag">ポイント</strong>';
+								html += '<strong class="clrred">' + normalPtValue + 'PT</strong>';
+							}
+							if ( "1" == eventPtStatus ) {
+								html += ' <strong class="eventtag">イベント</strong>';
+								html += '<strong class="clrgreen">' + eventPtValue + 'PT</strong>';
+							}						
+							html += '<br />';
+							if ( !(null === title) ) {
+								html += title + '<br />';
+							}
+							html += '住所：' + address1 + address2 + '<br />';
+							html += '</dd>';
+							html += '</dl>';
+						});
+
+						$('.shoplist').append(html);
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					page_cnt--;	
+				}
+			});
+    }
+  });
+});
+
 //Googleマップ表示するための情報
 var gMap = {
     'mapContainer' : 'nearby-map',

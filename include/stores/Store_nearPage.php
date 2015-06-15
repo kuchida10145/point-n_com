@@ -24,7 +24,7 @@ class Store_nearPage extends Page{
 
 		$gpsError 			  = ''; //現在地を取得するときに発生するエラーメッセージ
 		$nearbyStoresData	= array(); //検索結果一覧を表示する店舗関連情報が入る
-		$pagerHtml 				= ''; //ページャ
+		//$pagerHtml 				= ''; //ページャ
 		$storesCount 			= 0; //近くのお店検索結果数
 		$this->token 			= getGet('tkn');
 		
@@ -98,7 +98,16 @@ class Store_nearPage extends Page{
 
 				//検索結果一覧に表示する近くのお店の情報を取得
 				$nearbyStoresData = $this->manager->db_manager->get('store')->findShopDataById( $storesId );
+				
+				//Ajaxクエリーの場合
+				//GETでページ数が入っていると$firstStore > 0 == true
+				if ( $firstStore > 0 ) {
 
+					echo json_encode($nearbyStoresData);
+					exit;
+				}
+
+				/*
 				//ページャ(HTML)生成
 				$pagerParam['per_cnt'] = $this->storeByPage;
 				$pagerParam['all_cnt'] = $storesCount;
@@ -107,6 +116,7 @@ class Store_nearPage extends Page{
 				$this->manager->pager->initialize( $pagerParam );
 
 				$pagerHtml = $this->manager->pager->create();
+				*/
 
 				//ビューで使うデータの準備
 				$data['storesTotal'] = $storesCount;
@@ -129,7 +139,7 @@ class Store_nearPage extends Page{
 		$data['gps']['error'] = $gpsError;
 		$data['gps']['km'] 	= $this->gpsRadius;
 		$data['page_title'] = $this->page_title;
-		$data['pager_html']	= $pagerHtml;
+		//$data['pager_html']	= $pagerHtml;
 		$data['list'] 		  = $nearbyStoresData;		
  		$this->loadView('near', $data);
 	}
