@@ -66,7 +66,7 @@
 				<?php endif; ?>
 
 					<!-- 近くのお店を探す機能-->
-					<form method="post" name="gps" action="<?php echo HTTP_HOST; ?>/stores/near.php/?tkn=<?php echo getGet('tkn'); ?>">
+					<form method="post" name="gps" action="<?php echo HTTP_HOST; ?>/stores/near.php">
 					    <input type="hidden" name="gps_lat" id="latitude" value=""/>
 					    <input type="hidden" name="gps_long" id="longitude" value=""/>
 					    <input type="hidden" name="gps_error" id="gps-error" value=""/>
@@ -125,7 +125,7 @@
 							<?php endforeach;?>
 						</div><!-- /.shoplist -->
 
-						<?php echo $pager_html; ?>
+						<?php //echo $pager_html; ?>
 					<?php endif;?>
 
 			</div>

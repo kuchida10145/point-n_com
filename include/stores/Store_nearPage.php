@@ -26,14 +26,6 @@ class Store_nearPage extends Page{
 		$nearbyStoresData	= array(); //検索結果一覧を表示する店舗関連情報が入る
 		//$pagerHtml 				= ''; //ページャ
 		$storesCount 			= 0; //近くのお店検索結果数
-		$this->token 			= getGet('tkn');
-		
-		// トークンが設定されていない場合
-		if ($this->token == '') {
-			$this->token = $this->manager->token->createToken($this->session_key);
-			redirect('?tkn=' . $this->token);
-			exit();
-		}
 
 		$post = $_POST;
 
