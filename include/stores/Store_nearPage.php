@@ -36,21 +36,36 @@ class Store_nearPage extends Page{
 		} elseif ( '' != getPost('gps_lat') && '' != getPost('gps_long') ) {
 
 			//GET urlを作成
-			redirect( '?tkn=' . $this->token . '&lat=' . getPost('gps_lat') . '&long=' . getPost('gps_long') );
+			redirect( '?lat=' . getPost('gps_lat') . '&long=' . getPost('gps_long') );
 			exit;			
 		} elseif ( '' != getGet('lat') && '' != getGet('long') ) {
 
+			$keyword   = '';
 			$latitude  = floatval( getGet('lat') );
 			$longitude = floatval( getGet('long') );
 			$mapStores = array();
 
+			//店舗名で抽出検索
+			if ( '' != getGet('keyword') ) {
+
+				$keyword = urldecode( getGet('keyword') );
+			}
+
 			//近くの店舗を検索
-			$stores = $this->manager->db_manager->get('store')->findShopsNearby( $latitude, $longitude, $this->gpsRadius );
+			$stores = $this->manager->db_manager->get('store')->findShopsNearby( $latitude, $longitude, $this->gpsRadius, $keyword );
 
 			if ( NULL == $stores || empty($stores) ) {
 				
 				//加盟店舗が見つからなかったエラーメッセージ
-				$gpsError = '現在地より' . $this->gpsRadius . 'km以内のお店は見つかりませんでした。<br><br>';
+				$gpsError = '現在地より' . $this->gpsRadius . 'km以内';
+
+				if ( '' != getGet('keyword') ) {
+					$gpsError .= '「' . getGet('keyword') . '」という';
+				} else {
+					$gpsError .= 'の';
+				}
+
+				$gpsError .= 'お店は見つかりませんでした。<br><br>';
 			} else {
 
 				//ページャ用：近くのお店の結果数を計算

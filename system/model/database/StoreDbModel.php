@@ -408,6 +408,7 @@ class StoreDbModel extends DbModel{
 	 * @param double $latitude 経度
 	 * @param double $longitude 緯度
 	 * @param int $radius 検索半径（単位＝キロメートル）
+	 * @param string $keyword WHERE部分の条件(店舗名で検索)
 	 * @param int $offset クエリーのoffset
 	 * @param int $nbResult クエリー結果数（-1の場合全結果取得）
 	 * 
@@ -415,7 +416,7 @@ class StoreDbModel extends DbModel{
 	 * 
 	 * @return array,NULL 実行結果
 	 */
-	public function findShopsNearby( $latitude, $longitude, $radius, $offset = -1, $nbResult = -1 ) {
+	public function findShopsNearby( $latitude, $longitude, $radius, $keyword = '', $offset = -1, $nbResult = -1 ) {
 
 		$field 		 = $this->getFieldText();
 		$latitude  = $latitude;
@@ -425,8 +426,19 @@ class StoreDbModel extends DbModel{
 		$nbResult  = $nbResult;
 
 		$query = "SELECT {$field}, ( 6371 * acos( cos( radians({$latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians({$longitude}) ) + sin( radians({$latitude}) ) * sin( radians( latitude ) ) ) ) AS distance";
-		$query .= " FROM {$this->table} HAVING distance < {$radius} AND status_id = 2 ORDER BY distance";
+		$query .= " FROM {$this->table}";
 		
+		//WHERE		
+		if ( isset($keyword) && !empty($keyword) ) {
+
+			$keyword = $this->escape_string( $keyword );
+			$where = " WHERE `store_name` LIKE '%%%s%%'";
+			$query .= sprintf( $where, $keyword );
+			//$query .= $where;
+		}
+
+		$query .= " HAVING distance < {$radius} AND status_id = 2 ORDER BY distance";
+
 		//結果数を限定する
 		if ( $offset > -1 && $nbResult > -1 ) {
 			$query .= " LIMIT {$offset}, {$nbResult}";
