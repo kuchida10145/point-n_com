@@ -465,6 +465,18 @@ function news_status_kind(){
 	);
 }
 
+/**
+ * お知らせステータス（WEBサイト管理･店舗管理共通）
+ *
+ * @return array
+ */
+function notice_public_kind(){
+	return array(
+			1=>'公開',
+			2=>'非公開',
+	);
+}
+
 
 /**
  * クーポンステータス ラベル

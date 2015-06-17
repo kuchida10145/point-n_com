@@ -129,6 +129,13 @@ $(function(){
          * 削除ボタン
          */
 		$(document).on('click','#'+result_name+' .img_capbox .btn-delete',function(e){
+						
+			//editの場合：DBにある画像URLの削除実装
+			var $target   = $('#'+$(this).data('id'));
+			var $inputEl = $($target.selector).find('input:hidden');
+			$inputEl.val('');
+			$inputEl.clone().appendTo('#images');
+
 			$('#'+$(this).data('id')).remove();
 			$('#'+upload_btn).html(btn_txt);
 			$('#'+upload_btn).css({'display':''});
@@ -137,6 +144,11 @@ $(function(){
 
 
 		function create_img_box(image_name,thum_url){
+			
+			//editの場合：DBにある画像URLの削除実装
+			var $target = $('#images').find('input[name='+name+']');
+			$target.remove();
+
 			var img_box = 'imgup_capbox_'+name;
 
 			if(options.multiple == true){
