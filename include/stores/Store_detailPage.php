@@ -52,8 +52,6 @@ class Store_detailPage extends Page{
 			}
 		}
 
-		$store_id = "1";
-
 		$list    = $this->manager->db_manager->get($this->use_table)->findStoreDetailById($store_id);
 
 		if(!$list) {
