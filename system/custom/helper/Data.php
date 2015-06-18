@@ -115,7 +115,7 @@ function store_type_of_industry() {
 	return array(
 		1=>'店舗型風俗',
 		2=>'無店舗型風俗',
-		3=>'ホストその他',
+		3=>'ホスト・ガールズウォーター',
 	);
 }
 
@@ -179,7 +179,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 
 /**
  * 中カテゴリー（カスタマー用）
- * 
+ *
  * @param number $category_large_id
  * @param number $region_id
  * @param number $delivery
@@ -218,7 +218,7 @@ function category_small($category_midium_id) {
 
 /**
  * 小カテゴリー（カスタマー用）
- * 
+ *
  * @param number $category_midium_id
  * @return array
  */
@@ -613,7 +613,7 @@ function reservation_list($max_count) {
 
 /**
  * 店舗検索結果一覧の並べ替えリスト
- * 
+ *
  * @return array
  */
 function search_sortlist() {

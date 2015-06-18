@@ -74,7 +74,7 @@
 										<span class="checked"><input id="type_of_industry_id2" name="type_of_industry_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('type_of_industry_id'));?>></span> 無店舗型風俗
 									</label>
 									<label class="checkbox inline">
-										<span class="checked"><input id="type_of_industry_id3" name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホストその他
+										<span class="checked"><input id="type_of_industry_id3" name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホスト・ガールズウォーター
 									</label>
 								</div>
 							</div>
@@ -103,7 +103,7 @@
 										$(function(){$("[name=regist_end]").datepicker({"dateFormat":"yy-mm-dd"});});
 									</script>
 								</div>
-							</div> 
+							</div>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">検索</button>
 								<button type="button" class="btn" onclick="location.href='store.php'">リセット</button>

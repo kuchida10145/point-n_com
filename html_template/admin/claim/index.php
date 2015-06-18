@@ -36,7 +36,7 @@
 				<h1><?php echo $page_title;?>　<?php echo $page_type_text;?></h1>
 				<?php echo $system_message;?>
 				<!-- 検索フォーム-->
-				<div class="row-fluid">	
+				<div class="row-fluid">
 
 					<div class="box span12">
 						<div class="box-header" data-original-title>
@@ -57,7 +57,7 @@
 											<span class="checked"><input name="type_of_industry_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('type_of_industry_id'));?>></span> 無店舗型風俗
 										</label>
 										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホストその他
+											<span class="checked"><input name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホスト・ガールズウォーター
 										</label>
 									</div>
 								</div>
@@ -79,7 +79,7 @@
 										</script>
 									</div>
 								</div>
-								
+
 								<div class="form-actions">
 									<button type="submit" class="btn btn-primary">検索</button>
 									<button type="button" onclick="location.href='claim.php'" class="btn">リセット</button>
@@ -89,9 +89,9 @@
 					</div><!--/span-->
 				</div><!--/row-->
 				<!-- /検索フォーム -->
-				
-				
-				<div class="row-fluid">	
+
+
+				<div class="row-fluid">
 					<div class="box span12">
 						<div class="box-content">
 							<div style="clear:both;">
@@ -103,11 +103,11 @@
 								</div>
 								<div class="span4">　<?php if($list):?><p style="font-size:16px;padding-top:10px;text-align:right;"><strong>csvファイル </strong><a href="claim.php?m=csv&<?php echo $get_query;?>" class="btn btn-large btn-danger">ダウンロード</button></a><?php endif;?></div>
 							</div>
-							
+
 							<?php if(!$list):?>
 							<div style="clear:both;">データがありませんでした</div>
 							<?php else:?>
-							
+
 							<div style="clear:both;">
 								<div class="span8"></div>
 								<div class="span4"><p style="font-size:16px;text-align:right;">
@@ -146,7 +146,7 @@
 							<?php endforeach;?>
 							</tbody>
 							</table>
-							
+
 							<?php echo $pager_html;?>
 							<?php endif;?>
 						</div>
@@ -169,6 +169,6 @@
 	<!-- start:一覧画面共通処理 -->
 	<?php include_once dirname(__FILE__).'/../common/list_common.php';?>
 	<!-- end:一覧画面共通処理 -->
-	
+
 </body>
 </html>
