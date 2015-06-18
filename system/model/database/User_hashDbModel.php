@@ -85,6 +85,8 @@ class User_hashDbModel extends DbModel{
 			$this->deleteById($hash['id']);
 		}
 
+		date_default_timezone_set('Asia/Tokyo');
+
 		$param = array(
 			'user_id'=>$user_id,
 			'hash' =>md5(uniqid(rand(), true)),
