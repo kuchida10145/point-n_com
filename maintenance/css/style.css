@@ -2973,3 +2973,26 @@ ul.messagesList li span.date {
 	}
     
 }
+
+/* 画像アップロード
+=================================================================== */
+.img_capbox .img_thumnail {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    width: auto;
+}
+.img_capbox .img_thumnail .btn-delete{
+    background:#333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    display: block;
+    width: 14px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.img_capbox .img_thumnail .btn-delete:hover{
+    text-decoration: none;
+}

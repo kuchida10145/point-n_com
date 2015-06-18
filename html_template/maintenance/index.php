@@ -37,7 +37,7 @@
 				</ul>
 
 				<div class="box-content">
-					<a class="quick-button span2" href="news.php">
+					<a class="quick-button span2" href="notice.php">
 						<i class="icon-flag"></i>
 						<p>お知らせ情報登録</p>
 					</a>
