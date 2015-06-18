@@ -74,7 +74,7 @@ $(function() {
             documentHeight = $(document).height();
         if (documentHeight === height + scrollTop) {
 			
-            //page++;
+            page_cnt++;
 			$.ajax({
 				type: "GET",
 				url: "/news/?m=next&next="+page_cnt,
@@ -100,7 +100,7 @@ $(function() {
 					$('.shoplist').append(html);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					//page--;
+					page_cnt--;
 					
 				}
 			});
