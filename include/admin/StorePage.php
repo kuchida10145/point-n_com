@@ -127,7 +127,7 @@ class StorePage extends AdminPage {
 		$param = $this->inputToDbData($param);
 
 		$store_common = new StoreCommonPage($this->manager);
-		return $store_common->update_action($param, $this->id, $this->use_table);
+		return $store_common->update_action($param, $this->id, $this->use_table,true);
 	}
 
 	/**
