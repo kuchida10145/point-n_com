@@ -23,7 +23,11 @@ define('DB_CHARSET','utf8');
 |--------------------------------------------------------------------------
  */
 
-define('HTTP_HOST','http://point.lo');
+if($_SERVER["SERVER_NAME"] == "point.lo") {
+	define('HTTP_HOST','http://point.lo');
+} elseif($_SERVER["SERVER_NAME"] == "test.point-n.com") {
+	define('HTTP_HOST','http://test.point-n.com');
+}
 
 //システムディレクトリ
 define('SYSTEM_DIR',dirname(__FILE__)."/");
