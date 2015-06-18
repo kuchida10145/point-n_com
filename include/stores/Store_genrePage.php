@@ -74,7 +74,7 @@ class Store_genrePage extends Page{
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
 		$get_data['category_midium_id'] = $post['category_midium_id'];
-		$get_data['category_small_ids'] = is_array($post['category_small_ids']) ? implode(",", $post['category_small_ids']) : $post['category_small_ids'];
+		$get_data['category_small_ids'] = is_array(getParam($post,'category_small_ids')) ? implode(",", $post['category_small_ids']) : getParam($post,'category_small_ids');
 		$get_data['area_key_ids']       = $post['area_key_ids'];
 		$get_param = createLinkParam($get_data);
 		
