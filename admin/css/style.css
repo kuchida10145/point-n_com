@@ -2977,8 +2977,10 @@ ul.messagesList li span.date {
 /* 画像アップロード
 =================================================================== */
 .img_capbox .img_thumnail {
-    position: relative;
     display: inline-block;
+    max-width: 100%;
+    position: relative;
+    width: auto;
 }
 .img_capbox .img_thumnail .btn-delete{
     background:#333;
