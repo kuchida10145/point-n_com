@@ -13,6 +13,7 @@ class CouponPage extends MaintenancePage{
 	protected $use_confirm = true;
 	protected $page_title = 'クーポン情報登録';
 
+
 	/**
 	 * 入力チェック
 	 *
@@ -123,17 +124,19 @@ class CouponPage extends MaintenancePage{
 		$pager_html = '';
 		$get        = $_GET;
 		$list       = array();
+		$normal_list = array();
+		$event_list = array();
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
 		$dbFlg = true;
 
-		// 通常コース有効処理
-		if(!empty($get['normal_course'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_course'],"1");
+		// 通常クーポン有効処理
+		if(!empty($get['normal_coupon'])){
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_coupon'], COUPON_ST_NORAL);
 		}
-		// イベントコース有効処理
-		if(!empty($get['event_course'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['event_course'],"2");
+		// イベントクーポン有効処理
+		if(!empty($get['event_coupon'])){
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['event_coupon'], COUPON_ST_EVENT);
 		}
 
 		if(!$dbFlg){
@@ -152,11 +155,21 @@ class CouponPage extends MaintenancePage{
 		}
 
 
-		//リストを出力用のデータに変換
+		// リストを出力用のデータに変換
 		$list = $this->dbToListData($list);
 
+		// 発行エリア用プルダウンデータ作成
+		foreach ($list as $key=>$val) {
+			if($val['status_id'] == ST_ACT) {
+				continue;
+			}
 
-		//システムメッセージ
+			if($val['point_kind'] == COUPON_ST_NORAL) {
+				$normal_list[$val['coupon_id']] = $val['coupon_name'];
+			} elseif ($val['point_kind'] == COUPON_ST_EVENT) {
+				$event_list[$val['coupon_id']] = $val['coupon_name'];
+			}
+		}
 
 		//ページャ生成
 		$data = $this->getIndexCommon();
@@ -167,6 +180,8 @@ class CouponPage extends MaintenancePage{
 		$pager_html = $this->manager->pager->create();
 
 		$data['list']           = $list;
+		$data['normal_list']    = $normal_list;
+		$data['event_list']     = $event_list;
 		$data['pager_html']     = $pager_html;
 		$data['page_title']     =$this->page_title;
 

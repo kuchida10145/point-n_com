@@ -85,6 +85,13 @@ define('RESERVE_ST_SP'  ,9);//特別ポイント
 define('PW_KEY',md5('point'));
 
 /*----------------------------
+ * クーポンステータス
+*----------------------------*/
+define('COUPON_ST_NORAL' ,1);//通常
+define('COUPON_ST_EVENT' ,2);//イベント
+define('COUPON_ST_SPECIAL' ,3);//特別
+
+/*----------------------------
  * 予約情報
 *----------------------------*/
 define('MAX_PERSON' ,50);//最大来客人数
