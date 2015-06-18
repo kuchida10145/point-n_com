@@ -122,7 +122,7 @@ class StorePage extends AdminPage {
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function update_actoin($param){
+	protected function update_action($param){
 		// DB用データに変換
 		$param = $this->inputToDbData($param);
 

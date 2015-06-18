@@ -75,7 +75,7 @@ class AccountPage extends AdminPage{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function update_actoin($param){
+	protected function update_action($param){
 		//パスワード暗号化
 		if(getParam($param,'login_password') != ''){
 			$param['login_password'] = encodePassword($param['login_password']);

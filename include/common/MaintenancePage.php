@@ -133,7 +133,7 @@ abstract class MaintenancePage extends AdminPage{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function update_actoin($param){
+	protected function update_action($param){
 		$account = $this->getAccount();
 		$param['store_id'] = $account['store_id'];
 		$param = $this->inputToDbData($param);
