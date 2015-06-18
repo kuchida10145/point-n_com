@@ -16,7 +16,7 @@
 $(function(){
 	$('body').on('click','[data-toggle="modal"]',function(e){
 			id = $(this).data('id');
-			alert(id);
+			//alert(id);
 	});
 	$('#do_delete').click(function(){
 		location.href="?m=delete&id="+id;
