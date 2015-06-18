@@ -27,15 +27,8 @@ class FavoritePage extends Page{
 	 */
 	public function indexAction(){
 		$account = $this->getAccount();
-//TODO:デバッグ用--->>>
-//		$user_id = getParam($account,'user_id');
-		$user_id = "1";
-		$account = array(
-			'user_id' => '1',
-			'nickname' => 'テストちゃん',
-			'point' => '1000',
-		);
-//----------------<<<
+		$user_id = getParam($account,'user_id');
+
 		$pager_html = '';
 		$get        = $_GET;
 		$list       = array();
@@ -64,9 +57,7 @@ class FavoritePage extends Page{
 		$this->manager->pager->initialize($pager_param);
 		$pager_html = $this->manager->pager->create();
 
-		//TODO:デバッグ用--->>>
 		$data['debug_account']		= $account;
-		//----------------<<<
 		$data['list']           = $list;
 		$data['pager_html']     = $pager_html;
 		$data['page_title']     =$this->page_title;
