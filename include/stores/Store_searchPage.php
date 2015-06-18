@@ -61,7 +61,7 @@ class Store_searchPage extends Page {
 		$total = $store->shopCountByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
 		$shops = $store->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
 		$shops = ($shops != null) ? $shops : array();
-		$shops = $this->changeListData($shops, false);
+		$shops = $this->changeListData($shops, true);
 		
 		// リンクパラメータを作成する
 		$get_data['category_large_id']  = $post['category_large_id'];
@@ -118,7 +118,7 @@ class Store_searchPage extends Page {
 		$data['area_key_names'] = $area_key_names;
 		$data['area_names']     = $small_names;
 		$data['back_link']      = $back_link;
-		$data['news_list']      = $news;
+		$data['news_list']      = escapeHtml($news);
 		$data['shop_list']      = $shops;
 		$data['total']          = $total;
 		$data['debug']          = $this->debug;

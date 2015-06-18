@@ -193,7 +193,7 @@ abstract class AdminPage extends Page{
 						$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 					}
 					else {
-						$result_flg = $this->update_actoin($post);
+						$result_flg = $this->update_action($post);
 						$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
 					}
 
@@ -330,7 +330,7 @@ abstract class AdminPage extends Page{
 				$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 			}
 			else {
-				$result_flg = $this->update_actoin($post);
+				$result_flg = $this->update_action($post);
 				$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
 			}
 
@@ -396,7 +396,7 @@ abstract class AdminPage extends Page{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function update_actoin($param){
+	protected function update_action($param){
 		$param = $this->inputToDbData($param);
 		return $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
 	}

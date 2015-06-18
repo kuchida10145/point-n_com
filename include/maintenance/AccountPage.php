@@ -48,7 +48,7 @@ class AccountPage extends MaintenancePage {
 					$upd_data[$field_name] = $post[$field_name];
 				}
 				
-				$this->update_actoin($upd_data);
+				$this->update_action($upd_data);
 				
 				$account = $this->manager->db_manager->get($this->use_table)->findById($account['store_id']);
 				$this->setAccount($account);
@@ -116,12 +116,12 @@ class AccountPage extends MaintenancePage {
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function update_actoin($param) {
+	protected function update_action($param) {
 		// DB用データに変換
 		$param = $this->inputToDbData($param);
 		
 		$store_common = new StoreCommonPage($this->manager);
-		return $store_common->update_action($param, $this->id, $this->use_table);
+		return $store_common->update_action($param, $this->id, $this->use_table,false);
 	}
 	
 	/**

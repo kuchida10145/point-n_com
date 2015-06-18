@@ -99,7 +99,7 @@ class ReservePage extends MaintenancePage{
 			else {
 				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'), RESERVE_ST_FIN);
 				if($dbFlg !== false){
-					$dbFlg = $this->user_update_actoin($get);
+					$dbFlg = $this->user_update_action($get);
 				}
 			}
 		}
@@ -161,7 +161,7 @@ class ReservePage extends MaintenancePage{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function user_update_actoin($param){
+	protected function user_update_action($param){
 		$res = $this->manager->db_manager->get('user')->findByNickname($param['name']);
 		$user_id = $res['user_id'];
 		$param['point'] = $res['point'] + $param['get_p'] - $param['use_p'];				// 保持ポイント計算

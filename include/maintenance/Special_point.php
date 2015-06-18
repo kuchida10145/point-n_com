@@ -211,7 +211,7 @@ class Special_point extends MaintenancePage{
 		if(getPost('m') == 'confirm'){
 			$result_flg = $this->inseart_action($post);		// 予約情報更新
 			if($result_flg !== false){
-				$result_flg = $this->user_update_actoin($post);	// ユーザテーブル更新
+				$result_flg = $this->user_update_action($post);	// ユーザテーブル更新
 			}
 			$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 
@@ -273,7 +273,7 @@ class Special_point extends MaintenancePage{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function user_update_actoin($param){
+	protected function user_update_action($param){
 		$param = $this->inputToDbData($param);
 		// 保持ポイント取得
 		$res =$this->manager->db_manager->get('user')->findById($param['user_id']);
