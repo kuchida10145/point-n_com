@@ -23,7 +23,11 @@ define('DB_CHARSET','utf8');
 |--------------------------------------------------------------------------
  */
 
-define('HTTP_HOST','http://point.lo');
+if($_SERVER["SERVER_NAME"] == "point.lo") {
+	define('HTTP_HOST','http://point.lo');
+} elseif($_SERVER["SERVER_NAME"] == "test.point-n.com") {
+	define('HTTP_HOST','http://test.point-n.com');
+}
 
 //システムディレクトリ
 define('SYSTEM_DIR',dirname(__FILE__)."/");
@@ -79,6 +83,13 @@ define('RESERVE_ST_SP'  ,9);//特別ポイント
 
 //暗号化キー
 define('PW_KEY',md5('point'));
+
+/*----------------------------
+ * クーポンステータス
+*----------------------------*/
+define('COUPON_ST_NORAL' ,1);//通常
+define('COUPON_ST_EVENT' ,2);//イベント
+define('COUPON_ST_SPECIAL' ,3);//特別
 
 /*----------------------------
  * 予約情報

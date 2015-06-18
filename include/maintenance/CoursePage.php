@@ -140,7 +140,7 @@ class CoursePage extends MaintenancePage{
 						$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 					}
 					else {
-						$result_flg = $this->update_actoin($post);
+						$result_flg = $this->update_action($post);
 						$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
 					}
 

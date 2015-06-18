@@ -88,9 +88,9 @@
                             	<div class="control-group">
 									<label class="control-label" for="selectError3">通常クーポン</label>
 									<div class="controls">
-										<select id="normal_course" name="normal_course">
+										<select id="normal_coupon" name="normal_coupon">
 											<option value="">選択してください。</option>
-											<?php foreach(course_list($account_id,"1") as $cor_num=>$cor_val):?>
+											<?php foreach($normal_list as $cor_num=>$cor_val):?>
 												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
 											<?php endforeach;?>
 										</select>
@@ -100,9 +100,9 @@
                             	<div class="control-group">
 									<label class="control-label" for="selectError3">イベントクーポン</label>
 									<div class="controls">
-									<select id="event_course" name="event_course">
+									<select id="event_coupon" name="event_coupon">
 										<option value="">選択してください。</option>
-										<?php foreach(course_list($account_id,"2") as $cor_num=>$cor_val):?>
+										<?php foreach($event_list as $cor_num=>$cor_val):?>
 												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
 										<?php endforeach;?>
 									</select>

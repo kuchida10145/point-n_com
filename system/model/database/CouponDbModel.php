@@ -59,22 +59,21 @@ class CouponDbModel extends DbModel{
 	/**
 	 * クーポン有効処理
 	 *
-	 *  @param string $course_id
+	 *  @param string $coupon_id
 	 *  @param string $point_kind
 	 *  @return Bool 結果
 	 */
-	public function updateForce($course_id, $point_kind) {
-		$where = " point_kind = {$point_kind} ";
+	public function updateForce($coupon_id, $point_kind) {
+		$where = " status_id = ".ST_ACT." AND point_kind = ".$point_kind;
 		$param = array(
 				'status_id'=>'0',
 		);
 
 		if($this->update($param,$where)){
-			$where = " course_id = {$course_id} AND point_kind = {$point_kind} AND delete_flg = 0 ";
 			$param = array(
 					'status_id'=>'1',
 			);
-			return $this->update($param,$where);
+			return $this->updateById($coupon_id, $param);
 		}
 		return FALSE;
 	}
