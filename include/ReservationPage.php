@@ -71,14 +71,10 @@ class ReservationPage extends Page{
 
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
-//TODO: デバッグ用（結合時修正）
-//		$account = $this->getAccount();
-// 		$data['user_id'] = $account['user_id'];
-// 		$data['nickname'] = $account['nickname'];
-// 		$data['user_point'] = $account['user_point'];
-		$data['user_id'] = "1";
-		$data['nickname'] = "テストさん";
-		$data['user_point'] = number_format("1000");
+		$account = $this->getAccount();
+ 		$data['user_id'] = $account['user_id'];
+ 		$data['nickname'] = $account['nickname'];
+ 		$data['user_point'] = $account['user_point'];
 		// クーポン情報取得
  		$couponData = $this->manager->db_manager->get('coupon')->findById(getGet('coupon_id'));
 		// 店舗情報取得
@@ -147,14 +143,10 @@ class ReservationPage extends Page{
 
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
-		//TODO: デバッグ用（結合時修正）
-		//		$account = $this->getAccount();
-		// 		$data['user_id'] = $account['user_id'];
-		// 		$data['nickname'] = $account['nickname'];
-		// 		$data['user_point'] = $account['user_point'];
-		$data['user_id'] = "1";
-		$data['nickname'] = "テストさん";
-		$data['user_point'] = number_format("1000");
+		$account = $this->getAccount();
+		$data['user_id'] = $account['user_id'];
+		$data['nickname'] = $account['nickname'];
+		$data['user_point'] = $account['user_point'];
 		// 店舗情報取得
 		$storeData = $this->manager->db_manager->get('store')->findById(getGet('store_id'));
 		$data['store_id'] = $storeData['store_id'];
@@ -198,14 +190,10 @@ class ReservationPage extends Page{
 
 		$data['post'] = escapeHtml($post);
 		//表示データ
-		//TODO: デバッグ用（結合時修正）
-//		$account = $this->getAccount();
-// 		$data['user_id'] = $account['user_id'];
-// 		$data['nickname'] = $account['nickname'];
-// 		$data['user_point'] = $account['user_point'];
-		$data['user_id'] = "1";
-		$data['nickname'] = "テストさん";
-		$data['user_point'] = number_format("1000");
+		$account = $this->getAccount();
+ 		$data['user_id'] = $account['user_id'];
+ 		$data['nickname'] = $account['nickname'];
+ 		$data['user_point'] = $account['user_point'];
 		// 支払合計金額計算
 		$data['total_price'] = $post['price']
 				 - $post['use_point'];
@@ -225,14 +213,10 @@ class ReservationPage extends Page{
 		$resrved_id = $this->getFormSession('resrved_id');
 		$post = $this->manager->db_manager->get($this->use_table)->findById($resrved_id);
 		$data['post'] = escapeHtml($post);
-		//TODO: デバッグ用（結合時修正）
-//		$account = $this->getAccount();
-// 		$data['user_id'] = $account['user_id'];
-// 		$data['nickname'] = $account['nickname'];
-// 		$data['user_point'] = $account['user_point'];
-		$data['user_id'] = "1";
-		$data['nickname'] = "テストさん";
-		$data['user_point'] = number_format("1000");
+		$account = $this->getAccount();
+ 		$data['user_id'] = $account['user_id'];
+ 		$data['nickname'] = $account['nickname'];
+ 		$data['user_point'] = $account['user_point'];
 		$data['point_code_array'] = str_split($post['point_code']);
 		$reserved_date = new DateTime($post['reserved_date']);
 		$data['reserved_date'] = $reserved_date->format('Y年 m月 d日  H:i');
@@ -279,9 +263,7 @@ class ReservationPage extends Page{
 		}
 
 		if($param['get_point'] != '0') {
-			//TODO:デバッグ用（結合修正）
-			// 		$couponData = $this->manager->db_manager->get('coupon')->findById($this->getFormSession('coupon_id'));
-			$couponData = $this->manager->db_manager->get('coupon')->findById("2");
+			$couponData = $this->manager->db_manager->get('coupon')->findById($this->getFormSession('coupon_id'));
 			$param['coupon_id'] = $couponData['coupon_id'];
 			$param['coupon_name'] = $couponData['coupon_name'];
 			$param['use_condition'] = $couponData['use_condition'];

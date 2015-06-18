@@ -27,23 +27,11 @@ class Store_detailPage extends Page{
 	 */
 	public function indexAction(){
 		$account = $this->getAccount();
-//TODO:デバッグ用--->>>
-//		$user_id = getParam($account,'user_id');
-		$user_id = "1";
-		$account = array(
-			'user_id' => '1',
-			'nickname' => 'テストちゃん',
-			'point' => '1000',
-		);
-//		$store_id = '1';
-		$store_id = '1';
-//----------------<<<
+		$user_id = getParam($account,'user_id');
 		$pager_html = '';
 		$get        = $_GET;
-//TODO:デバッグ用--->>>
-//		$store_id = getParam($get,'store_id');;
-		$store_id = '1';
-//----------------<<<
+		$store_id = getParam($get,'store_id');;
+
 		$list       = array();
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
@@ -99,9 +87,7 @@ class Store_detailPage extends Page{
 		$this->manager->pager->initialize($pager_param);
 		$pager_html = $this->manager->pager->create();
 
-		//TODO:デバッグ用--->>>
 		$data['debug_account']	= $account;
-		//----------------<<<
 		$data['store']          = $list['0'];
 		//写真データ
 		foreach ($data['store'] as $id=>$value) {
