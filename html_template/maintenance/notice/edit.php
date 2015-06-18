@@ -134,9 +134,9 @@
 	<script>
 	$(function(){
 
-		$('#image1').imageUpload({url:'/admin/notice.php?m=image_upload',name:'image1'});
-		$('#image2').imageUpload({url:'/admin/notice.php?m=image_upload',name:'image2'});
-		$('#image3').imageUpload({url:'/admin/notice.php?m=image_upload',name:'image3'});
+		$('#image1').imageUpload({url:'/maintenance/notice.php?m=image_upload',name:'image1'});
+		$('#image2').imageUpload({url:'/maintenance/notice.php?m=image_upload',name:'image2'});
+		$('#image3').imageUpload({url:'/maintenance/notice.php?m=image_upload',name:'image3'});
 	});
 	</script>
 </body>

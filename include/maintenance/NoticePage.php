@@ -29,17 +29,11 @@ class NoticePage extends MaintenancePage{
 		return $this->manager->validation->run($param);
 	}	
 
-
 	/**
 	 * 画像アップロード（AJAX)
 	 */
 	protected function image_uploadAction(){
  		$news_common = new NewsCommonPage();
  		$news_common->image_uploadAction();
-	}
-
-	function maintenanceSearchWhere() {
-		echo 'hello';
-		die();
 	}
 }
