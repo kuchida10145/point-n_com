@@ -1,6 +1,6 @@
 <?php
 /**
- * 店舗検索一覧
+ * 店舗詳細
  *
  */
 include_once dirname(__FILE__).'/../common/Page.php';
@@ -22,7 +22,7 @@ class Store_detailPage extends Page{
 	);
 
 	/**
-	 * お気に入り店舗一覧
+	 * 店舗詳細データ
 	 *
 	 */
 	public function indexAction(){
@@ -52,15 +52,10 @@ class Store_detailPage extends Page{
 			}
 		}
 
-		//limit句生成
-		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
+		$list    = $this->manager->db_manager->get($this->use_table)->findStoreDetailById($store_id);
 
-		//最大件数取得
-		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceSearchMaxCnt($store_id,$get);
-
-		//リスト取得
-		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceSearch($store_id,$get,$limit,$this->order);
+		if(!$list) {
+			$this->errorAction();
 		}
 
 		//クーポンデータ取得
@@ -71,6 +66,7 @@ class Store_detailPage extends Page{
 		$favorite = $this->manager->db_manager->get('user_favorite_store')->getFavoriteFlg($store_id,$store_id);
 
 		//各データを出力用のデータに変換
+		$data['store_introduction']	= $list['introduction'];	// HTMLエスケープ前に紹介文は退避
 		$list = $this->dbToListData($list);
 		if($coupon != NULL) {
 			$coupon = $this->dbToListData($coupon);
@@ -80,15 +76,8 @@ class Store_detailPage extends Page{
 			$notice = $this->dbToListData($notice);
 		}
 
-		//ページャ生成
-		$pager_param['per_cnt'] = $this->page_cnt;
-		$pager_param['all_cnt'] = $max_cnt;
-		$this->manager->pager->setHtmlType( array() ,'admin');
-		$this->manager->pager->initialize($pager_param);
-		$pager_html = $this->manager->pager->create();
-
 		$data['debug_account']	= $account;
-		$data['store']          = $list['0'];
+		$data['store']          = $list;
 		//写真データ
 		foreach ($data['store'] as $id=>$value) {
 			if($id == "image".$image_count) {

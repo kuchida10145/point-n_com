@@ -133,11 +133,7 @@
 							<?php endforeach;?>
 						</div>
 					<?php endif;?>
-				<p><?php echo getParam($store,'introduction');?></p>
-				<div class="accordion_btn">
-					<dt>続きをみる</dt>
-					<dd><p><?php echo getParam($store,'introduction');?></p></dd>
-				</div>
+				<p><?php echo $store_introduction;?></p>
 				<h3>ショップデータ</h3>
 				<table border="0" cellpadding="0" cellspacing="0" class="table01">
 					<tr>
