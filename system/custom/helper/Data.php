@@ -546,7 +546,6 @@ function point_data() {
  */
 function use_point_data() {
 	return array(
-			0=>'選択してください',
 			1=>'0',
 			2=>'1,000',
 			3=>'2,000',
@@ -594,6 +593,19 @@ function specialPoint_data() {
 	);
 }
 
+
+/**
+ * 予約人数プルダウン
+ */
+function reservation_person_cnt(){
+	$returnArray = array();
+
+	for($i=1; $i<=MAX_PERSON; $i++) {
+		$returnArray[$i] = $i;
+	}
+
+	return $returnArray;
+}
 /**
  * 予約用プルダウン作成
  *

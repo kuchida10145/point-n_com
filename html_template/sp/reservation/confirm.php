@@ -47,18 +47,7 @@
 			<a name="top" id="top"></a>
 			<!--ヘッダ-->
 			<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-			<div id="headmenberinfo" class="clearfix">
-				<p>会員No.<?php echo $user_id;?> <?php echo $nickname;?></p>
-				<ul>
-					<li>ポイント数 <strong><?php echo $user_point;?>PT</strong></li>
-				</ul>
-			</div>
-			<div id="headsearch">
-				<form action="" name="" method="get">
-					<input name="keyword" placeholder="店舗名検索" type="text">
-					<a href="#">検索</a>
-				</form>
-			</div>
+			<?php include_once dirname(__FILE__).'/../common/header_search.php';?>
 			<!--ヘッダ-->
 				<!--メイン全体-->
 				<div id="mainbodywrap">
@@ -67,7 +56,7 @@
 					<!--コンテンツ-->
 					<div class="contents">
 						<h2>予約画面</h2>
-						<form action="confirm.php?m=thanks&tnk=<?php echo getGet('tnk');?>" method="post" name="frm">
+						<form action="confirm.php?m=thanks&tkn=<?php echo getGet('tkn');?>" method="post" name="frm">
 							<input type="hidden" name="m" value="thanks" />
 							<p>
 								<label for="get_point">今回の獲得PT <strong class="clrred"><?php echo number_format(getParam($post, 'get_point'));?>PT</strong></label>

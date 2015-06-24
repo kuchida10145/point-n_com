@@ -49,12 +49,7 @@
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-		<div id="headmenberinfo" class="clearfix">
-			<p>会員No.<?php echo getParam($debug_account,'user_id');?> <?php echo getParam($debug_account,'nickname');?></p>
-			<ul>
-				<li>ポイント数 <strong><?php echo number_format(getParam($debug_account,'point'));?>PT</strong></li>
-			</ul>
-		</div>
+		
 		<div id="headsearch">
 			<form action="" name="frm" method="get">
 				<input name="keyword" value="<?php echo getGet('keyword');?>" placeholder="店舗名検索" type="text">

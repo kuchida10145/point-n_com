@@ -19,6 +19,8 @@ class ReservationPage extends Page{
 			'confirm'  =>'reservation/confirm',
 			'thanks'   =>'reservation/thanks',
 	);
+	
+	
 
 	/**
 	 * 予約情報入力
@@ -28,38 +30,68 @@ class ReservationPage extends Page{
 		$data = array();
 		$post = array();
 		$error = array();
+		$coupon_id = 0;
 
 		//トークンが設定されていない場合
 		if(getGet('tkn') == ''){
 			$this->token = $this->manager->token->createToken($this->session_key);
+			
 			if(getGet('coupon_id') == ''){
-				redirect('?tkn='.$this->token);
+				//エラー
+				$this->errorAction();
 			} else {
-				redirect('?tkn='.$this->token.'&coupon_id='.getGet('coupon_id'));
+				$this->setFormSession('coupon_id', getGet('coupon_id'));
+				redirect('?tkn='.$this->token);
 			}
 			exit();
 		}
-
+		//トークン設定
+		else{
+			$this->token = getGet('tkn');
+		}
+		
+		$this->loginCheck();
+		
+		//クーポンID設定
+		$coupon_id = $this->getFormSession('coupon_id');
+		
+		//会員データ
+		$account = $this->getAccount();
+		// クーポン情報取得
+ 		if(!$couponData = $this->manager->db_manager->get('coupon')->findById($coupon_id)){
+			$this->errorAction();
+		}
+		// 店舗情報取得
+		if(!$storeData = $this->manager->db_manager->get('store')->findById($couponData['store_id'])){
+			$this->errorAction();
+		}
+		// コース情報取得
+		if(!$courseData = $this->manager->db_manager->get('course')->findById($couponData['course_id'])){
+			$this->errorAction();
+		}
+		
+		
 		if(getPost('m') == 'confirm'){
 			$post = $_POST;
 			//入力チェック
 			if($this->Validation($post)){
 				$form_data = array(
-						'get_point' => str_replace(',', '', $post['get_point']),
-						'course_id' => $post['course_id'],
-						'course_name' => $post['course_name'],
-						'store_name' => $post['store_name'],
-						'use_persons' => $post['use_persons'],
-						'use_date' => $post['use_date'],
-						'use_time' => $post['use_time'],
-						'use_min' => $post['use_min'],
+						'coupon_id'     => $coupon_id,
+						'get_point'     => $couponData['point'],
+						'course_id'     => $courseData['course_id'],
+						'course_name'   => $courseData['course_name'],
+						'store_name'    => $storeData['store_name'],
+						'use_persons'   => $post['use_persons'],
+						'use_date'      => $post['use_date'],
+						'use_time'      => $post['use_time'],
+						'use_min'       => $post['use_min'],
 						'reserved_name' => $post['reserved_name'],
-						'telephone1' => $post['telephone1'],
-						'telephone2' => $post['telephone2'],
-						'telephone3' => $post['telephone3'],
-						'price' => str_replace(',', '', $post['price']),
-						'use_point' => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
-						'contract' => $post['contract'],
+						'telephone1'    => $post['telephone1'],
+						'telephone2'    => $post['telephone2'],
+						'telephone3'    => $post['telephone3'],
+						'price'         => str_replace(',', '', $post['price']),
+						'use_point'     => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
+						'contract'      => $post['contract'],
 				);
 				$this->setFormSession('form', $form_data);
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
@@ -68,24 +100,18 @@ class ReservationPage extends Page{
 		} else {
 			$post = $this->getFormSession('form');
 		}
-
-		$data['post'] = escapeHtml($post);
-		$data['error'] = $error;
-		$account = $this->getAccount();
- 		$data['user_id'] = $account['user_id'];
- 		$data['nickname'] = $account['nickname'];
- 		$data['user_point'] = $account['user_point'];
-		// クーポン情報取得
- 		$couponData = $this->manager->db_manager->get('coupon')->findById(getGet('coupon_id'));
-		// 店舗情報取得
-		$storeData = $this->manager->db_manager->get('store')->findById($couponData['store_id']);
-		// コース情報取得
-		$courseData = $this->manager->db_manager->get('course')->findById($couponData['course_id']);
-		$data['get_point'] = number_format($couponData['point']);
-		$data['course_id'] = $courseData['course_id'];
-		$data['course_name'] = $courseData['course_name'];
-		$data['store_name'] = $storeData['store_name'];
-		$data['price'] = number_format($courseData['price']);
+		
+		
+		
+		
+		//データ格納
+		$data['post']        = escapeHtml($post);
+		$data['error']       = $error;
+		$data['get_point']   = number_format($couponData['point']);
+		$data['course_id']   = $courseData['course_id'];
+		$data['course_name'] = escapeHtml($courseData['course_name']);
+		$data['store_name']  = escapeHtml($storeData['store_name']);
+		$data['price']       = number_format($courseData['price']);
 
 		$this->loadView('index', $data);
 	}
@@ -103,35 +129,61 @@ class ReservationPage extends Page{
 		if(getGet('tkn') == ''){
 			$this->token = $this->manager->token->createToken($this->session_key);
 			if(getGet('store_id') == ''){
-				redirect('?tkn='.$this->token);
+				//エラー
+				$this->errorAction();
 			} else {
-				redirect('?tkn='.$this->token.'&store_id='.getGet('store_id'));
+				$this->setFormSession('store_id', getGet('store_id'));
+				redirect('?tkn='.$this->token);
 			}
 			exit();
 		}
-
+		//トークン設定
+		else{
+			$this->token = getGet('tkn');
+		}
+		
+		//ログインチェック
+		$this->loginCheck();
+		
+		//店舗ID設定
+		$store_id = $this->getFormSession('store_id');
+		
+		//会員データ
+		$account = $this->getAccount();
+		
+		
+		// 店舗情報取得
+		if(!$storeData = $this->manager->db_manager->get('store')->findById($store_id)){
+			$this->errorAction();
+		}
+		
+		
 		if(getPost('m') == 'confirm'){
 			$post = $_POST;
 			//入力チェック
 			if($this->Validation($post)){
 				// コース情報取得
-				$courseData = $this->manager->db_manager->get('course')->findById($post['course_id']);
+				if(!$courseData = $this->manager->db_manager->get('course')->findById($post['course_id'])){
+					$this->errorAction();
+				}
+				
+				
 				$form_data = array(
-						'get_point' => '0',
-						'course_id' => $post['course_id'],
-						'course_name' => $courseData['course_name'],
-						'store_name' => $post['store_name'],
-						'use_persons' => $post['use_persons'],
-						'use_date' => $post['use_date'],
-						'use_time' => $post['use_time'],
-						'use_min' => $post['use_min'],
+						'get_point'     => '0',
+						'course_id'     => $post['course_id'],
+						'course_name'   => $courseData['course_name'],
+						'store_name'    => $storeData['store_name'],
+						'use_persons'   => $post['use_persons'],
+						'use_date'      => $post['use_date'],
+						'use_time'      => $post['use_time'],
+						'use_min'       => $post['use_min'],
 						'reserved_name' => $post['reserved_name'],
-						'telephone1' => $post['telephone1'],
-						'telephone2' => $post['telephone2'],
-						'telephone3' => $post['telephone3'],
-						'price' => $courseData['price'],
-						'use_point' => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
-						'contract' => $post['contract'],
+						'telephone1'    => $post['telephone1'],
+						'telephone2'    => $post['telephone2'],
+						'telephone3'    => $post['telephone3'],
+						'price'         => $courseData['price'],
+						'use_point'     => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
+						'contract'      => $post['contract'],
 				);
 				$this->setFormSession('form', $form_data);
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
@@ -141,16 +193,10 @@ class ReservationPage extends Page{
 			$post = $this->getFormSession('form');
 		}
 
-		$data['post'] = escapeHtml($post);
-		$data['error'] = $error;
-		$account = $this->getAccount();
-		$data['user_id'] = $account['user_id'];
-		$data['nickname'] = $account['nickname'];
-		$data['user_point'] = $account['user_point'];
-		// 店舗情報取得
-		$storeData = $this->manager->db_manager->get('store')->findById(getGet('store_id'));
-		$data['store_id'] = $storeData['store_id'];
-		$data['store_name'] = $storeData['store_name'];
+		$data['post']         = escapeHtml($post);
+		$data['error']        = $error;
+		$data['store_id']     = $storeData['store_id'];
+		$data['store_name']   = $storeData['store_name'];
 		$data['course_price'] = course_price($storeData['store_id']);
 
 		$this->loadView('indexP', $data);
@@ -164,7 +210,17 @@ class ReservationPage extends Page{
 	public function confirmAction(){
 		$data = array();
 		$post = array();
+		
+		//トークンが無い場合エラー
+		if(getGet('tkn') == ''){
+			$this->errorAction();
+		}
+		$this->token = getGet('tkn');
 
+		
+		//ログインチェック
+		$this->loginCheck();
+		
 		$form_data = $this->getFormSession('form');
 
  		if(!$form_data || $this->validation($form_data) == false){
@@ -181,7 +237,7 @@ class ReservationPage extends Page{
 				//フォームセッション削除
 				$this->unsetFormSession('form');
 				$this->setFormSession('resrved_id', $resrved_id);
-				redirect('thanks.php');
+				redirect('thanks.php?tkn='.$this->token);
 			}
 
  		} else{
@@ -193,10 +249,8 @@ class ReservationPage extends Page{
 		$account = $this->getAccount();
  		$data['user_id'] = $account['user_id'];
  		$data['nickname'] = $account['nickname'];
- 		$data['user_point'] = $account['user_point'];
 		// 支払合計金額計算
-		$data['total_price'] = $post['price']
-				 - $post['use_point'];
+		$data['total_price'] = $post['price'] - $post['use_point'];
 
 		$this->loadView('confirm', $data);
 	}
@@ -210,23 +264,41 @@ class ReservationPage extends Page{
 		$data = array();
 		$post = array();
 
+		//トークンが無い場合エラー
+		if(getGet('tkn') == ''){
+			$this->errorAction();
+		}
+		$this->token = getGet('tkn');
+		
+		//予約ID
 		$resrved_id = $this->getFormSession('resrved_id');
+		
+		//予約内容
 		$post = $this->manager->db_manager->get($this->use_table)->findById($resrved_id);
-		$data['post'] = escapeHtml($post);
+		
+		//会員データ
 		$account = $this->getAccount();
- 		$data['user_id'] = $account['user_id'];
- 		$data['nickname'] = $account['nickname'];
- 		$data['user_point'] = $account['user_point'];
-		$data['point_code_array'] = str_split($post['point_code']);
+		
+		//予約日
 		$reserved_date = new DateTime($post['reserved_date']);
-		$data['reserved_date'] = $reserved_date->format('Y年 m月 d日  H:i');
+		
+		//利用日
 		$date = new DateTime($post['use_date']);
-		$data['use_date'] = $date->format('Y年 m月 d日');
-		$data['use_time'] = $date->format('H');
-		$data['use_min'] = $date->format('i');
+		
+		
 		// 店舗情報取得
 		$storeData = $this->manager->db_manager->get('store')->findById($post['store_id']);
-		$data['store_name'] = $storeData['store_name'];
+		
+		$data['post']             = escapeHtml($post);
+ 		//$data['user_id']          = $account['user_id'];
+ 		//$data['nickname']         = $account['nickname'];
+ 		//$data['user_point']       = $account['user_point'];
+		$data['point_code_array'] = str_split($post['point_code']);
+		$data['reserved_date']    = $reserved_date->format('Y年 m月 d日  H:i');
+		$data['use_date']         = $date->format('Y年 m月 d日');
+		$data['use_time']         = $date->format('H');
+		$data['use_min']          = $date->format('i');
+		$data['store_name']       = $storeData['store_name'];
 
 		$this->loadView('thanks', $data);
 	}
@@ -286,6 +358,29 @@ class ReservationPage extends Page{
 		$param['reserved_date'] = date('Y-m-d H:i:s');
 
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
+	}
+	
+	
+	
+	/**
+	 * ログインチェック
+	 * 
+	 */
+	private function loginCheck(){
+		$account = $this->getAccount();
+		if(!$account){
+			redirect('/login.php?back=reserve&tkn='.getGet('tkn'));
+		}
+		else{
+			//DB二データが無い場合はセッションごと削除
+			$user_id = $account['user_id'];
+			if(!$account = $this->manager->db_manager->get('user')->getActiveUserById($user_id)){
+				$this->clearAccountSession();
+				redirect('/login.php');
+			}
+			
+			$this->setAccount($account);
+		}
 	}
 }
 

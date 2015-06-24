@@ -53,18 +53,8 @@
 			<a name="top" id="top"></a>
 			<!--ヘッダ-->
 			<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-			<div id="headmenberinfo" class="clearfix">
-				<p>会員No.<?php echo $user_id;?> <?php echo $nickname;?></p>
-				<ul>
-					<li>ポイント数 <strong><?php echo $user_point;?>PT</strong></li>
-				</ul>
-			</div>
-			<div id="headsearch">
-				<form action="" name="" method="get">
-					<input name="keyword" placeholder="店舗名検索" type="text">
-					<a href="#">検索</a>
-				</form>
-			</div>
+			<?php include_once dirname(__FILE__).'/../common/header_search.php';?>
+			
 			<!--ヘッダ-->
 				<!--メイン全体-->
 				<div id="mainbodywrap">
@@ -89,11 +79,10 @@
 							</p>
 							<?php echo getParam($error, 'course_id'); ?>
 
-							<input type="hidden" value="<?php echo $store_name;?>" name="store_name"></input>
 							<h3><span class="clrred">※</span> 来客人数</h3>
 								<p>
 									<select name="use_persons">
-									<?php foreach(reservation_list(MAX_PERSON) as $per_num=>$per_val):?>
+									<?php foreach(reservation_person_cnt() as $per_num=>$per_val):?>
 										<option value="<?php echo $per_num;?>" <?php echo _check_selected($per_num, getParam($post,'use_persons'));?>><?php echo $per_val;?></option>
 									<?php endforeach;?>
 									</select>

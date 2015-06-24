@@ -47,18 +47,7 @@
 			<a name="top" id="top"></a>
 			<!--ヘッダ-->
 			<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-			<div id="headmenberinfo" class="clearfix">
-				<p>会員No.<?php echo $user_id;?> <?php echo $nickname;?></p>
-				<ul>
-					<li>ポイント数 <strong><?php echo $user_point;?>PT</strong></li>
-				</ul>
-			</div>
-			<div id="headsearch">
-				<form action="" name="" method="get">
-					<input name="keyword" placeholder="店舗名検索" type="text">
-					<a href="#">検索</a>
-				</form>
-			</div>
+			<?php include_once dirname(__FILE__).'/../common/header_search.php';?>
 			<!--ヘッダ-->
 				<!--メイン全体-->
 					<div id="mainbodywrap">
