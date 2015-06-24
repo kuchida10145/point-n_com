@@ -30,7 +30,7 @@ class Store_detailPage extends Page{
 		$user_id = getParam($account,'user_id');
 		$pager_html = '';
 		$get        = $_GET;
-		$store_id = getParam($get,'store_id');;
+		$store_id = getParam($get,'id');
 
 		$list       = array();
 		$system_message = $this->getSystemMessage();
