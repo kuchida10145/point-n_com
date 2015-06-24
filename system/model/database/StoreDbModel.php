@@ -499,7 +499,7 @@ class StoreDbModel extends DbModel{
 	 */
 	public function findStoreDetailById( $id ) {
 		$field = $this->getFieldText();
-		$sql = "SELECT {$field} FROM {$this->table} WHERE {$this->primary_key} = '{$id}' AND delete_flg = 0 AND status_id = 1 LIMIT 0,1";
+		$sql = "SELECT {$field} FROM {$this->table} WHERE {$this->primary_key} = '{$id}' AND delete_flg = 0 AND status_id = 2 LIMIT 0,1";
 		return $this->db->getData($sql);
 	}
 }
