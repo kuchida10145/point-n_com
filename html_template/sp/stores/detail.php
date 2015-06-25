@@ -109,7 +109,7 @@
 						<div class="box03">
 							<p>「ポイントのみ」利用しての予約が可能です。<br />
 							1000ポイントから利用が可能です。</p>
-							<p><a href="../reservation/indexP.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
+							<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
 							を利用して予約する</a></p>
 						</div>
 					</div>

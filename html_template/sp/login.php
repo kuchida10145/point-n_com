@@ -32,7 +32,7 @@
 <h3>会員の方</h3>
 <?php echo $system_message;?>
 <h4>メールアドレス(ユーザーID)</h4>
-<form action="/login.php" method="post" name="frm">
+<form action="/login.php<?php echo $url_param;?>" method="post" name="frm">
 <input type="hidden" value="login" name="m">
 <p>
 <input type="text" name="email" value="<?php echo getParam($post,'email');?>" style="width:95%;" />

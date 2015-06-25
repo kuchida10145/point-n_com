@@ -36,14 +36,19 @@ class ReservationPage extends Page{
 		if(getGet('tkn') == ''){
 			$this->token = $this->manager->token->createToken($this->session_key);
 			
-			if(getGet('coupon_id') == ''){
-				//エラー
-				$this->errorAction();
-			} else {
+			//クーポンIDが設定されている場合
+			if(getGet('coupon_id') != ''){
 				$this->setFormSession('coupon_id', getGet('coupon_id'));
 				redirect('?tkn='.$this->token);
 			}
-			exit();
+			//店舗IDが設定されている場合
+			else if(getGet('store_id') != ''){
+				$this->setFormSession('store_id', getGet('store_id'));
+				redirect('?tkn='.$this->token);
+			}
+			else{
+				$this->errorAction();
+			}
 		}
 		//トークン設定
 		else{
@@ -51,6 +56,13 @@ class ReservationPage extends Page{
 		}
 		
 		$this->loginCheck();
+		
+		//店舗IDがある場合
+		if($this->getFormSession('store_id') != ''){
+			$this->indexPointOnlyAction();
+			exit();
+		}
+		
 		
 		//クーポンID設定
 		$coupon_id = $this->getFormSession('coupon_id');
@@ -120,30 +132,10 @@ class ReservationPage extends Page{
 	 * 予約情報入力(ポイントのみ利用)
 	 *
 	 */
-	public function indexPointOnlyAction(){
+	private function indexPointOnlyAction(){
 		$data = array();
 		$post = array();
 		$error = array();
-
-		//トークンが設定されていない場合
-		if(getGet('tkn') == ''){
-			$this->token = $this->manager->token->createToken($this->session_key);
-			if(getGet('store_id') == ''){
-				//エラー
-				$this->errorAction();
-			} else {
-				$this->setFormSession('store_id', getGet('store_id'));
-				redirect('?tkn='.$this->token);
-			}
-			exit();
-		}
-		//トークン設定
-		else{
-			$this->token = getGet('tkn');
-		}
-		
-		//ログインチェック
-		$this->loginCheck();
 		
 		//店舗ID設定
 		$store_id = $this->getFormSession('store_id');

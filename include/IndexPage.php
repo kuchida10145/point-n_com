@@ -74,7 +74,7 @@ class IndexPage extends Page{
 		$system_message = '';
 		$post  = array();
 		$error = array();
-		
+		$url_param = ''; //URLパラメータ
 		
 		
 		
@@ -91,6 +91,10 @@ class IndexPage extends Page{
 				if($res = $this->manager->db_manager->get('user')->login($post['email'],$post['password'])){
 					$this->setAccount($res);
 					$this->setAutoLogin($res['user_id'],getPost('auto_login'));
+					
+					if(getGet('back') == 'reserve' && getGet('tkn') != ''){
+						redirect('/reservation/?tkn='.getGet('tkn'));
+					}
 					redirect('/');
 				}
 			}
@@ -100,9 +104,15 @@ class IndexPage extends Page{
 			$system_message = $this->manager->message->get('front_'.$this->device)->getMessage('login_error');
 		}
 		
+		//予約画面から来ている場合
+		if(getGet('back') == 'reserve' && getGet('tkn') != ''){
+			$url_param = "?back=reserve&tkn=".getGet('tkn');
+		}
+		
 		$data = array();
 		$data['system_message'] = $system_message;
 		$data['post'] = escapeHtml($post);
+		$data['url_param'] = $url_param;
 		$this->loadView('login', $data);
 	}
 	
