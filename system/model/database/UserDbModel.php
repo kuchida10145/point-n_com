@@ -35,7 +35,7 @@ class UserDbModel extends DbModel{
 		$email = $this->escape_string($email);
 		$login_pw = encodePassword($this->escape_string($login_pw));
 		$field = $this->getFieldText();
-		$sql = "SELECT {$field} FROM {$this->table} WHERE status_id = 1 AND delete_flg = 0 AND email = '{$email}' AND password = '{$login_pw}' LIMIT 0,1 ";
+		$sql = "SELECT {$field} FROM {$this->table} WHERE status_id = 2 AND delete_flg = 0 AND email = '{$email}' AND password = '{$login_pw}' LIMIT 0,1 ";
 		if($res = $this->db->getData($sql)){
 			$this->updateById($res['user_id'],array('latest_login_date'=>date('Y-m-d H:i:s')));
 			return $res;
