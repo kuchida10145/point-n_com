@@ -46,6 +46,7 @@ class ContactPage extends Page{
 				$form_data = array(
 					'pref'    => getPost('pref'),
 					'detail'  => getPost('detail'),
+					'email'  => getPost('email'),
 				);
 
 				$this->setFormSession('form', $form_data);
@@ -74,6 +75,7 @@ class ContactPage extends Page{
 		$this->token = getGet('tkn');
 
 		$form_data = $this->getFormSession('form');
+		
 		if(!$form_data || $this->validation($form_data) == false){
 			redirect('index.html');
 			exit();
@@ -95,6 +97,16 @@ class ContactPage extends Page{
 			//メール用データ
 			$mail = create_mail_data($mail,$mail_data);
 			$mail['to'] = ADMIN_MAIL;
+			$this->manager->mailer->setMailData($mail);
+			$this->manager->mailer->sendMail();
+			
+			
+			//ユーザーへメール
+			$mail_id = 9;
+			$mail = $this->manager->db_manager->get('automail')->findById($mail_id);
+			//メール用データ
+			$mail = create_mail_data($mail,$mail_data);
+			$mail['to'] = $mail_data['email'];
 			$this->manager->mailer->setMailData($mail);
 			$this->manager->mailer->sendMail();
 
@@ -128,8 +140,9 @@ class ContactPage extends Page{
 	 * @return boolean
 	 */
 	private function validation($param){
-		$this->manager->validation->setRule('pref' ,'selected');
-		$this->manager->validation->setRule('detail','required');
+		$this->manager->validation->setRule('pref'    ,'selected');
+		$this->manager->validation->setRule('detail'  ,'required');
+		$this->manager->validation->setRule('email'   ,'required|email');
 		return $this->manager->validation->run($param);
 	}
 }

@@ -38,7 +38,10 @@
 	</select>
 		<?php echo getParam($error,'pref');?>
 	</p>
-
+	<h3>メールアドレス</h3>
+	<p><input type="text" value="<?php echo getParam($post,'email');?>" name="email"><?php echo getParam($error,'email');?></p>
+		
+	</p>
 	<h3>お問い合わせ内容</h3>
 	<p><textarea name="detail" style="width:90%" cols="" rows="5"><?php echo getParam($post,'detail');?></textarea>
 		<?php echo getParam($error,'detail');?>

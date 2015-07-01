@@ -32,7 +32,10 @@
 	<p>
 	<?php echo getParam($post, 'pref');?>
 	</p>
-
+	<h3>メールアドレス</h3>
+	<p>
+	<?php echo getParam($post, 'email');?>
+	</p>
 	<h3>お問い合わせ内容</h3>
 	<p>
 	<?php echo getParam($post, 'detail');?>
