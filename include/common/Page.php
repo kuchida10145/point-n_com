@@ -58,6 +58,17 @@ abstract class Page{
 	 */
 	protected function loadView($template,$data){
 		$data['account'] = $this->getAccount();
+		if($this->account_type == 'user'){
+			//ポイントコード処理
+			$data['point_code_flg'] = false;
+			if($data['account']){
+				$point_codes = $this->manager->db_manager->get('reserved')->getMyPointCodeList($data['account']['user_id']);
+				if($point_codes){
+					$data['point_code_flg']  = true;
+				}
+			}
+		}
+		
 		$this->manager->view->loadView($this->device.'/'.$this->view[$template],$data,true);
 		exit();
 	}

@@ -20,7 +20,7 @@
 <?php if($account):?>
 <div id="headmenberinfo" class="clearfix">
 <p>会員No.<?php echo $account['user_id'];?> <?php echo $account['nickname'];?>さん<br />
-	<a href="/mypage/point_code/">ポイントコード表示</a></p>
+<?php if($point_code_flg == true):?><a href="/mypage/point_code/">ポイントコード表示</a><?php endif;?></p>
 <ul>
 	<li><span>ポイント数 <strong><?php echo number_format($account['point']);?>T</strong></span></li>
 
