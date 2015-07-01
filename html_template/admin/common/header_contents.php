@@ -25,7 +25,7 @@
 								<li class="dropdown-menu-title">
  									<span>アカウント設定</span>
 								</li>
-								<li><a href="#"><i class="halflings-icon user"></i> プロフィール</a></li>
+								<li><a href="profile.php"><i class="halflings-icon user"></i> プロフィール</a></li>
 								<li><a href="index.php?m=logout"><i class="halflings-icon off"></i>ログアウト</a></li>
 							</ul>
 						</li>
