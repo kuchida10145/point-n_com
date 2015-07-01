@@ -104,10 +104,10 @@
 						<?php foreach($list as $data):?>
 						<tr>
 							<td><?php echo getParam(user_status_label(), $data['status_id']); ?></td>
-							<td><?php echo date( 'Y/m/d', strtotime( $data['regist_date'] ) ); ?></td>
-							<td><?php echo $data['user_id']; ?></td>
-							<td><?php echo $data['email']; ?></td>
-							<td><?php echo $data['nickname']; ?></td>
+							<td style="word-break: break-all;"><?php echo date( 'Y/m/d', strtotime( $data['regist_date'] ) ); ?></td>
+							<td style="word-break: break-all;"><?php echo $data['user_id']; ?></td>
+							<td style="word-break: break-all;"><?php echo $data['email']; ?></td>
+							<td style="word-break: break-all;"><?php echo $data['nickname']; ?></td>
 							<td>
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $data['user_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $data['user_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
