@@ -364,7 +364,7 @@ class ReservationPage extends Page{
 			redirect('/login.php?back=reserve&tkn='.getGet('tkn'));
 		}
 		else{
-			//DB二データが無い場合はセッションごと削除
+			//DBにデータが無い場合はセッションごと削除
 			$user_id = $account['user_id'];
 			if(!$account = $this->manager->db_manager->get('user')->getActiveUserById($user_id)){
 				$this->clearAccountSession();

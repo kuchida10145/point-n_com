@@ -60,7 +60,7 @@ class ReservedDbModel extends DbModel{
 	}
 	
 	/**
-	 * 対象の会員のポイントコード一覧データを取得
+	 * 対象の会員のポイントコードデータを取得
 	 * @param int $user_id 会員ID
 	 * @return array
 	 */

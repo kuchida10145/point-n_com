@@ -52,7 +52,7 @@ class UserDbModel extends DbModel{
 	 */
 	public function getActiveUserById($id){
 		$field = $this->getFieldText();
-		$sql = "SELECT {$field} FROM {$this->table} WHERE user_id = '{$id}' AND status_id = 1 AND delete_flg = 0 LIMIT 0,1 ";
+		$sql = "SELECT {$field} FROM {$this->table} WHERE user_id = '{$id}' AND status_id = 2 AND delete_flg = 0 LIMIT 0,1 ";
 		return $this->db->getData($sql);
 	}
 
