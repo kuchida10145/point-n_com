@@ -80,7 +80,7 @@ class ReservedDbModel extends DbModel{
 		
 		$sql = "SELECT {$field} FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
 		$sql.= " reserved.reserved_id = {$reserve_id} AND ";
-		$sql.= " reserved.user_id = {$user_id} AND "; 
+		$sql.= " reserved.user_id = {$user_id} AND ";
 		$sql.= " reserved.status_id=1 ";
 		//$sql.= " reserved.status_id=1 AND  ";
 		//$sql.= " reserved.use_date <= '{$today}' ";
@@ -372,7 +372,7 @@ class ReservedDbModel extends DbModel{
 	public function maintenanceRserveSearch($id,$get,$limit,$order){
 		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
 		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,coupon_name,get_point,use_point", $sql);
-		$sql = $sql." {$order} {$limit}";
+		$sql = $sql." {$order} {$limit}";print $sql;
 		return $this->db->getAllData($sql);
 	}
 

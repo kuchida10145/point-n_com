@@ -104,6 +104,7 @@ class ReservationPage extends Page{
 						'price'         => str_replace(',', '', $post['price']),
 						'use_point'     => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
 						'contract'      => $post['contract'],
+						'status_id'     => RESERVE_ST_YET,
 				);
 				$this->setFormSession('form', $form_data);
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
@@ -176,6 +177,7 @@ class ReservationPage extends Page{
 						'price'         => $courseData['price'],
 						'use_point'     => str_replace(',', '', getParam(use_point_data(), $post['use_point'])),
 						'contract'      => $post['contract'],
+						'status_id'     => RESERVE_ST_YET,
 				);
 				$this->setFormSession('form', $form_data);
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
@@ -333,14 +335,12 @@ class ReservationPage extends Page{
 			$param['use_condition'] = $couponData['use_condition'];
 		}
 
+		$account = $this->getAccount();
 		// コース情報取得
 		$courseData = $this->manager->db_manager->get('course')->findById($param['course_id']);
 		$param['store_id'] = $courseData['store_id'];
-// 		$data['user_id'] = $this->getFormSession('user_id');
-		$param['user_id'] = "1";
-		$param['status_id'] = '1';
+		$param['user_id'] = $account['user_id'];
 		$param['point_code'] = '1234567';
-		$param['status_id'] = '0';
 		$param['minutes'] = $courseData['minutes'];
 		$param['telephone'] = $param['telephone1'].'-'.$param['telephone2'].'-'.$param['telephone3'];
 		$param['total_price'] = $param['price'] - $param['use_point'];
