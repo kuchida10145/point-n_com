@@ -57,7 +57,7 @@
 						<i class="icon-bookmark"></i>
 						<p>特別ポイント管理</p>
 					</a>
-					<a class="quick-button span2" href="request_point.php">
+					<a class="quick-button span2" href="claim.php">
 						<i class="icon-edit"></i>
 						<p>請求処理</p>
 					</a>

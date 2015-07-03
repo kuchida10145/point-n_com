@@ -45,7 +45,7 @@
 					<a class="quick-button span2" href="notice.php"> <i class="icon-bullhorn"></i><p>お知らせ情報管理</p></a>
 					<a class="quick-button span2" href="user.php"> <i class="icon-user"></i><p>ユーザー管理</p></a>
 
-					<a class="quick-button span2" href="request_point.php"> <i class="icon-edit"></i><p>請求処理</p></a>
+					<a class="quick-button span2" href="claim.php"> <i class="icon-edit"></i><p>請求処理</p></a>
 					<a class="quick-button span2" href="account.php"> <i class="icon-user"></i><p>アカウント設定</p></a>
 					<div class="clearfix"></div>
 				</div>
