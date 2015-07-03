@@ -45,7 +45,7 @@
 <div class="selectbtn">
 <ul class="clearfix">
 	<?php foreach (category_large() as $val_key => $val_name) : ?>
-    <li style="width:33%;">
+    <li style="width:32%;">
             <input type="radio" id="<?php echo "category_large_id_" . $val_key; ?>" name="category_large_id" value="<?php echo $val_key; ?>" <?php echo _check_checked($val_key, getParam($post, 'category_large_id'));?>/>
             <label for="<?php echo "category_large_id_" . $val_key; ?>"><?php echo $val_name; ?></label>
     </li>
