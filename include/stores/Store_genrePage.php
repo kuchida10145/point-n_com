@@ -99,7 +99,7 @@ class Store_genrePage extends Page{
 	 */
 	private function selectValidation($param) {
 		$this->manager->validation->setRule('category_midium_id', 'selected');
-		if (isset($param['category_midium_id']) && count(category_small($param['category_midium_id'])) > 0) {
+		if (isset($param['category_midium_id']) && count(category_small_for_customer($param['category_midium_id'])) > 0) {
 			$this->manager->validation->setRule('category_small_ids', 'selected');
 		}
 		return $this->manager->validation->run($param);
