@@ -99,7 +99,7 @@
 										<?php echo getParam($error,'image3');?>
 									</div>
 								</div>
-								<div class="control-group hidden-phone <?php echo error_class(getParam($error, 'title'));?>">
+								<div class="control-group <?php echo error_class(getParam($error, 'title'));?>">
 									<label class="control-label" for="textarea2">本文 <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<textarea class="cleditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>

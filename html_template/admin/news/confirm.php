@@ -89,7 +89,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="control-group hidden-phone">
+								<div class="control-group">
 									<label class="control-label" for="textarea2">本文</label>
 									<div class="controls">
 										<?php echo getParam($post, ('body'));?>
