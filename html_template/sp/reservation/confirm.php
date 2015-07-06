@@ -59,7 +59,7 @@
 						<form action="confirm.php?m=thanks&tkn=<?php echo getGet('tkn');?>" method="post" name="frm">
 							<input type="hidden" name="m" value="thanks" />
 							<p>
-								<label for="get_point">今回の獲得PT <strong class="clrred"><?php echo number_format(getParam($post, 'get_point'));?>PT</strong></label>
+								<label for="get_point">今回の獲得PT <strong class="clrred"><?php echo $get_point;?>PT</strong></label>
 							</p>
 							<p>
 								<label for="course_name">コース名 <strong><?php echo getParam($post, 'course_name');?></strong></label>

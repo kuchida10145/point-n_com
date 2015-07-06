@@ -245,6 +245,9 @@ class ReservationPage extends Page{
  		$data['nickname'] = $account['nickname'];
 		// 支払合計金額計算
 		$data['total_price'] = $post['price'] - $post['use_point'];
+		
+		//獲得PT
+		$data['get_point']   = number_format($post['get_point']);
 
 		$this->loadView('confirm', $data);
 	}

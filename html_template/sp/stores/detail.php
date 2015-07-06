@@ -84,7 +84,7 @@
 									<?php elseif(getParam($data,'point_kind') == 2):?>
 										<strong class="eventtag">イベント</strong>
 									<?php endif;?>
-									<strong class="clrred txt120"><?php echo getParam($data,'point');?>PT</strong><br />
+									<strong class="clrred txt120"><?php echo number_format(getParam($data,'point'));?>PT</strong><br />
 									<strong class="chargetag">総額料金</strong>
 									<strong class="txt120"><?php echo getParam($data,'minutes');?>分<?php echo getParam($data,'price');?>円</strong>
 								</p>
