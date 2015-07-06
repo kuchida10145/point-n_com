@@ -20,6 +20,19 @@ class User_hashDbModel extends DbModel{
 		);
 	}
 
+	
+	/**
+	 * IDに該当するデータを削除
+	 *
+	 * @param Int $id 会員ID
+	 * @return Bool 結果
+	 */
+	public function compdeleteById($id)
+	{
+		$id = $this->db->escape_string($id);
+		$where = " {$this->primary_key} = '{$id}'";
+		return $this->db->delete($this->table,$where);
+	}
 
 	/**
 	 * ハッシュに該当するデータを取得する
@@ -82,7 +95,7 @@ class User_hashDbModel extends DbModel{
 	public function createSingup($user_id){
 
 		if($hash = $this->getSignupByUserId($user_id)){
-			$this->deleteById($hash['id']);
+			$this->compdeleteById($hash['user_hash_id']);
 		}
 
 		date_default_timezone_set('Asia/Tokyo');

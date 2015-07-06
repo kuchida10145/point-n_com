@@ -193,7 +193,7 @@ class PasswordReminderPage extends Page {
 								$mailTemplate 	= $this->manager->db_manager->get('automail')->findById($mailTemplateId);
 
 								//メール内容の準備
-								$mail 			= create_mail_data( $mailTemplate, $mailContent );
+								$mail 			= create_mail_data( $mailTemplate, array() );
 								$mail['to'] = $user['email'];
 
 								//メール送信

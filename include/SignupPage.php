@@ -36,7 +36,22 @@ class SignupPage extends Page{
 			if($this->signupValidation($post)){
 				$ins_data['email'] = $post['email'];
 				$ins_data['status_id'] = USER_ST_REQ;
-				if($user_id = $this->manager->db_manager->get('user')->insert($ins_data)){
+				
+				$user_id = false;
+				//仮登録済みのものがある場合は、更新処理
+				if(($already_user = $this->manager->db_manager->get('user')->findByEmail($ins_data['email'])) && $already_user['status_id'] == USER_ST_REQ){
+					if($already_user['status_id'] == USER_ST_REQ){
+						$user_id = $already_user['user_id'];
+					}
+				}
+				//新規登録
+				else{
+					$user_id = $this->manager->db_manager->get('user')->insert($ins_data);
+				}
+				
+				
+				
+				if($user_id !== false){
 					$hash_data = $this->manager->db_manager->get('user_hash')->createSingup($user_id);
 
 					//仮登録
