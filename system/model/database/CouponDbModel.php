@@ -38,7 +38,7 @@ class CouponDbModel extends DbModel{
 
 		$wheres = array();
 		$wheres[] = " delete_flg = 0 ";
-
+		$wheres[] = " store_id = '{$id}'";
 		//名前が設定されている場合
 		if(getParam($get,'account_name') != '' && getParam($get,'account_name')){
 			$name = $this->escape_string(getParam($get,'account_name'));
@@ -59,12 +59,13 @@ class CouponDbModel extends DbModel{
 	/**
 	 * クーポン有効処理
 	 *
+	 *  @param int $store_id
 	 *  @param string $coupon_id
 	 *  @param string $point_kind
 	 *  @return Bool 結果
 	 */
-	public function updateForce($coupon_id, $point_kind) {
-		$where = " status_id = ".ST_ACT." AND point_kind = ".$point_kind;
+	public function updateForce($store_id,$coupon_id, $point_kind) {
+		$where = " store_id = '{$store_id}' AND status_id = ".ST_ACT." AND point_kind = ".$point_kind;
 		$param = array(
 				'status_id'=>'0',
 		);
@@ -104,7 +105,7 @@ class CouponDbModel extends DbModel{
 			coupon.store_id = '".$store_id."'
 			AND coupon.course_id = course.course_id
 			AND coupon.status_id = '".ST_ACT."'";
-
+print $sql;
 		return $this->db->getAllData($sql);
 	}
 }

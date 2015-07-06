@@ -132,11 +132,11 @@ class CouponPage extends MaintenancePage{
 
 		// 通常クーポン有効処理
 		if(!empty($get['normal_coupon'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['normal_coupon'], COUPON_ST_NORAL);
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($account['store_id'],$get['normal_coupon'], COUPON_ST_NORAL);
 		}
 		// イベントクーポン有効処理
 		if(!empty($get['event_coupon'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($get['event_coupon'], COUPON_ST_EVENT);
+			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($account['store_id'],$get['event_coupon'], COUPON_ST_EVENT);
 		}
 
 		if(!$dbFlg){
