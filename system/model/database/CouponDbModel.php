@@ -105,7 +105,6 @@ class CouponDbModel extends DbModel{
 			coupon.store_id = '".$store_id."'
 			AND coupon.course_id = course.course_id
 			AND coupon.status_id = '".ST_ACT."'";
-print $sql;
 		return $this->db->getAllData($sql);
 	}
 }
