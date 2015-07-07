@@ -200,6 +200,46 @@ class CoursePage extends MaintenancePage{
 	}
 
 	/**
+	 * 入力確認画面
+	 *
+	 */
+	protected function confirmAction(){
+		$post  = $this->getFormSession('form');
+		$data  = array();
+		//入力チェック
+		if(!$this->validation($post)){
+			$this->errorPage();
+			exit();
+		}
+
+		//POST送信があった場合
+		if(getPost('m') == 'confirm'){
+			if($this->id == 0){
+				$result_flg = $this->inseart_action($post);
+				$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
+			}
+			else {
+				$result_flg = $this->update_action($post);
+				$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
+			}
+
+			if($result_flg !== false){
+				redirect($this->use_table.'.php');
+			}
+			$this->unsetSystemMessage();
+		}
+
+		//表示用データ
+		$data = $this->getConfirmCommon();
+		$data['use_condition']  = $post['use_condition'];	// HTMLエスケープ前に利用条件を退避する。
+		$data['post']  = escapeHtml($post);
+		$data['page_title']     =$this->page_title;
+		$data['page_type_text'] =$this->page_type_text;
+
+		$this->loadView('confirm', $data);
+	}
+
+	/**
 	 * 新規登録処理
 	 *
 	 * @param array $param 更新用パラメータ
