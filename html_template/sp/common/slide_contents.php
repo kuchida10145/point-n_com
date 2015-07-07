@@ -12,7 +12,7 @@
 <li><a href="/guid.php">利用ガイド</a></li>
 <li><a href="/question.php">よくある質問</a></li>
 <li><a href="/contact/">お問い合わせ</a></li>
-<li><a href="/storeadmin.php">店舗運営の方へ</a></li>
+<li><a href="/storeadmin.php">広告掲載について</a></li>
 <li><a href="/gaiyou.php">会社概要</a></li>
 <li><a href="/kitei.php">ご利用規定</a></li>
 <?php if($account):?>

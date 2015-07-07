@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>店舗経営の方へ｜ポイント.com</title>
+<title>広告掲載について｜ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/common/header_meta.php';?>
@@ -24,7 +24,7 @@
 
 
 <div class="titlebox">
-<h2>店舗経営の方へ</h2>
+<h2>広告掲載について</h2>
 </div>
 
 <!--コンテンツ-->
