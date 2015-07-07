@@ -33,8 +33,8 @@ class ReservedDbModel extends DbModel{
 
 		);
 	}
-	
-	
+
+
 	/*==========================================================================================
 	 * フロント：ポイントコード関連
 	 *
@@ -49,16 +49,16 @@ class ReservedDbModel extends DbModel{
 			return NULL;
 		}
 		$today = date('Y-m-d 23:59:59',strtotime('+24hour'));//日付をまたぐ可能性もあるので24時間プラス
-		
+
 		$sql = "SELECT store_name,reserved_id,use_date FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
-		$sql.= " user_id = {$user_id} AND "; 
+		$sql.= " user_id = {$user_id} AND ";
 		$sql.= " reserved.status_id=1";
 		//$sql.= " reserved.status_id=1 AND  ";
 		//$sql.= " use_date <= '{$today}' ";
 		//print $sql;
 		return $this->db->getAllData($sql);
 	}
-	
+
 	/**
 	 * 対象の会員のポイントコードデータを取得
 	 * @param int $user_id 会員ID
@@ -69,21 +69,39 @@ class ReservedDbModel extends DbModel{
 			return NULL;
 		}
 		$today = date('Y-m-d 23:59:59',strtotime('+24hour'));//日付をまたぐ可能性もあるので24時間プラス
-		
+
 		$fields = array();
 		foreach($this->getField() as $field_name){
 			$fields[] = 'reserved.'.$field_name;
 		}
 		$fields[] ='store.store_name';
-		
+
 		$field = implode(',',$fields);
-		
+
 		$sql = "SELECT {$field} FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
 		$sql.= " reserved.reserved_id = {$reserve_id} AND ";
 		$sql.= " reserved.user_id = {$user_id} AND ";
 		$sql.= " reserved.status_id=1 ";
 		//$sql.= " reserved.status_id=1 AND  ";
 		//$sql.= " reserved.use_date <= '{$today}' ";
+		return $this->db->getData($sql);
+	}
+
+	/**
+	 * 対象の店舗のポイントコードデータを取得
+	 * @param int $store_id 店舗id
+	 * @return array
+	 */
+	public function getStorePointCode($store_id){
+		if(!is_numeric($store_id)){
+			return NULL;
+		}
+
+		$fields = array();
+
+		$sql = "SELECT point_code FROM reserved WHERE store_id = {$store_id} ";
+		$sql.= " ORDER BY point_code DESC ";
+
 		return $this->db->getData($sql);
 	}
 

@@ -97,3 +97,13 @@ define('COUPON_ST_SPECIAL' ,3);//特別
 define('MAX_PERSON' ,50);//最大来客人数
 define('MAX_USE_TIME' ,23);//最大利用時間
 define('MAX_USE_MIN',59);//最大利用分
+
+/*----------------------------
+ * ポイントコード
+*----------------------------*/
+define('POINT_CODE_FOR_NUM' ,-3);//ポイントコード連番部分
+define('POINT_CODE_NUM_MAX' ,1000);//ポイントコード連番最大値
+define('POINT_CODE_NUM_MIN' ,1);//ポイントコード連番最小値
+
+
+

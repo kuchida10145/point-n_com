@@ -346,7 +346,7 @@ class ReservationPage extends Page{
 		$courseData = $this->manager->db_manager->get('course')->findById($param['course_id']);
 		$param['store_id'] = $courseData['store_id'];
 		$param['user_id'] = $account['user_id'];
-		$param['point_code'] = '1234567';
+		$param['point_code'] = $this->makePointCode($param['store_id']);
 		$param['minutes'] = $courseData['minutes'];
 		$param['telephone'] = $param['telephone1'].'-'.$param['telephone2'].'-'.$param['telephone3'];
 		$param['total_price'] = $param['price'] - $param['use_point'];
@@ -393,6 +393,24 @@ class ReservationPage extends Page{
 			}
 		}
 		return $pointArray;
+	}
+
+	/**
+	 * ポイントコード生成
+	 * @param $store_id		店舗id
+	 * @return $point_code	ポイントコード
+	 */
+	private function makePointCode($store_id) {
+		$storeData = $this->manager->db_manager->get('store')->findById($store_id);
+		$reservedData = $this->manager->db_manager->get('reserved')->getStorePointCode($store_id);
+		$pointCode_3 = substr($reservedData['point_code'], POINT_CODE_FOR_NUM);
+		$pointCode_3 = $pointCode_3 + 1;
+		if($pointCode_3 === POINT_CODE_NUM_MAX) {
+			$pointCode_3 = POINT_CODE_NUM_MIN;
+		}
+		$point_code = $storeData['store_hex_id'].sprintf('%03d', $pointCode_3);
+
+		return $point_code;
 	}
 }
 
