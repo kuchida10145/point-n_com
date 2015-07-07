@@ -229,6 +229,9 @@ class ReservationPage extends Page{
 		if(getPost('m') == 'thanks'){
 			//登録処理
 			$resrved_id = $this->inseart_action($form_data);
+			//メール送付
+			$this->sendUserMail($this->getAccount(), USER_MAIL_ID);
+			$this->sendStoreMail($form_data['course_id'], STORE_MAIL_ID);
 
 			if($resrved_id !== false){
 				//フォームセッション削除
@@ -411,6 +414,39 @@ class ReservationPage extends Page{
 		$point_code = $storeData['store_hex_id'].sprintf('%03d', $pointCode_3);
 
 		return $point_code;
+	}
+
+	/**
+	 * ユーザへメール送信
+	 * @param $userData	ユーザデータ
+	 * @param $mailId	送信するメールID
+	 */
+	private function sendUserMail($userData, $mailId) {
+		$mail = $this->manager->db_manager->get('automail')->findById($mailId);
+		//メール用データ
+		$mail_data['nickname'] = $userData['nickname'];
+		$mail = create_mail_data($mail,$mail_data);
+		$mail['to'] = $userData['email'];
+		$this->manager->mailer->setMailData($mail);
+		$this->manager->mailer->sendMail();
+	}
+
+	/**
+	 * 店舗へメール送信
+	 * @param $courseID	コースID
+	 * @param $mailId	送信するメールID
+	 */
+	private function sendStoreMail($courseID, $mailId) {
+		//店舗データ取得
+		$courseData = $this->manager->db_manager->get('course')->findById($courseID);
+		$storeData = $this->manager->db_manager->get('store')->findById($courseData['store_id']);
+		$mail = $this->manager->db_manager->get('automail')->findById($mailId);
+		//メール用データ
+		$mail_data['store_name'] = $storeData['store_name'];
+		$mail = create_mail_data($mail,$mail_data);
+		$mail['to'] = $storeData['reserved_email'];
+		$this->manager->mailer->setMailData($mail);
+		$this->manager->mailer->sendMail();
 	}
 }
 

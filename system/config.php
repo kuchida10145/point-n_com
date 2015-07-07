@@ -97,6 +97,8 @@ define('COUPON_ST_SPECIAL' ,3);//特別
 define('MAX_PERSON' ,50);//最大来客人数
 define('MAX_USE_TIME' ,23);//最大利用時間
 define('MAX_USE_MIN',59);//最大利用分
+define('USER_MAIL_ID' ,4);//予約完了時にユーザに送信すメールID
+define('STORE_MAIL_ID' ,5);//予約完了時に店舗に送信すメールID
 
 /*----------------------------
  * ポイントコード
