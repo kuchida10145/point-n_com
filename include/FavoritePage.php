@@ -75,7 +75,14 @@ class FavoritePage extends Page{
 	 * @return array 変換後データ
 	 */
 	protected function dbToListData($data){
+
 		foreach($data as $key => $val){
+
+			if ($val['image1'] == "") {
+				$val['image1'] = '/img/no_image_shop.gif';
+			} else {
+				$val['image1'] = '/files/images/' . $val['image1'];
+			}
 			//HTMLエスケープも実行
 			$data[$key] = escapeHtml($val);
 		}

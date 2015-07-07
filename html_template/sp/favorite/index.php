@@ -43,12 +43,7 @@
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-		<div id="headmenberinfo" class="clearfix">
-			<p>会員No.<?php echo getParam($debug_account,'user_id');?> <?php echo getParam($debug_account,'nickname');?></p>
-			<ul>
-				<li>ポイント数 <strong><?php echo number_format(getParam($debug_account,'point'));?>PT</strong></li>
-			</ul>
-		</div>
+
 		<div id="headsearch">
 			<form action="" name="frm" method="get">
 				<input name="keyword" value="<?php echo getGet('keyword');?>" placeholder="店舗名検索" type="text">
@@ -63,15 +58,24 @@
 				<div class="contents">
 					<h2>お気に入り一覧</h2>
 					<div class="shoplist">
-						<?php if(!$list):?>
+						<?php if(!$list): ?>
 						データがありませんでした
-						<?php else:?>
+						<?php else: ?>
 							<?php foreach($list as $data):?>
 							<dl class="clearfix">
-								<dt><img src="../../../files/images/<?php echo getParam($data,'image1');?>" alt="<?php echo getParam($data,'image1');?>" /></dt>
-								<dd><strong><?php echo getParam($data,'store_name');?></strong><br /><?php echo getParam($data,'category_small_name');?>/<?php echo getParam($data,'region_name');?>
+								<dt>
+									<a href="/stores/detail.php?id=<?php echo getParam($data, 'store_id'); ?>">
+									<img src="<?php echo getParam($data, 'image1'); ?>" alt="" />
+									</a>
+								</dt>
+								<dd>
+									<a href="/stores/detail.php?id=<?php echo getParam($data, 'store_id'); ?>">
+									<strong><?php echo getParam($data, 'store_name'); ?></strong>
+									</a><br />
+									<?php echo getParam($data,'category_small_name');?>/<?php echo getParam($data,'region_name');?>
 									<?php if(getParam($data,'normal_point_status') == '1'):?>
-										<strong class="pointtag">ポイント</strong><strong class="clrred"><?php echo number_format(getParam($data,'normal_point'));?>PT</strong><br />
+										<strong class="pointtag">ポイント</strong>
+										<strong class="clrred"><?php echo number_format(getParam($data,'normal_point'));?>PT</strong><br />
 									<?php endif;?>
 									<?php if(getParam($data,'event_point_status') == '1'):?>
 										<strong class="eventtag">イベント</strong><strong class="clrgreen"><?php echo number_format(getParam($data,'event_point'));?>PT</strong><br />
