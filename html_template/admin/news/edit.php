@@ -75,9 +75,10 @@
 									情報
 								</div> <br>
 								<div class="control-group">
-									<label class="control-label" for="date03">公開日付</label>
+									<label class="control-label" for="date03">表示日付</label>
 									<div class="controls">
 										<input type="text" class="input-xlarge datepicker" id="date03" name="display_date" value="<?php echo getParam($post, 'display_date');?>">
+										</br>※入力した日付がタイトルと共にwebサイト上に表示されます。
 										<?php echo getParam($error,'display_date');?>
 									</div>
 								</div>
