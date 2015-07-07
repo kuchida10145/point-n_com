@@ -60,3 +60,5 @@
 <script src="../maintenance/js/jquery.form.js"></script>
 <script src="../maintenance/js/file.js"></script>
 <script src="../maintenance/js/category_area.js"></script>
+
+	<script src="/maintenance/js/ckeditor/ckeditor.js" type="text/javascript"></script>
