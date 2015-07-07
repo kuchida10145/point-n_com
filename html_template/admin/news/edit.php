@@ -54,9 +54,9 @@
 								<div class="control-group">
 									<label class="control-label" for="selectError3">公開</label>
 									<div class="controls">
-										<select name="status">
+										<select name="public">
 											<?php foreach(news_status_kind() as $status_id => $status_val):?>
-												<option value="<?php echo $status_id;?>" <?php echo _check_selected($status_id,getParam($post, 'status'));?>><?php echo $status_val;?></option>
+												<option value="<?php echo $status_id;?>" <?php echo _check_selected($status_id,getParam($post, 'public'));?>><?php echo $status_val;?></option>
 											<?php endforeach;?>
 										</select>
 							    	</div>

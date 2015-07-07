@@ -49,7 +49,7 @@
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-		
+
 		<div id="headsearch">
 			<form action="" name="frm" method="get">
 				<input name="keyword" value="<?php echo getGet('keyword');?>" placeholder="店舗名検索" type="text">
@@ -76,36 +76,38 @@
 					</p>
 					<div class="pointinfobox">
 						<h3>ポイント情報</h3>
-						<?php foreach($coupon as $data):?>
-							<div class="box03">
-								<p>
-									<?php if(getParam($data,'point_kind') == 1):?>
-										<strong class="pointtag">ポイント</strong>
-									<?php elseif(getParam($data,'point_kind') == 2):?>
-										<strong class="eventtag">イベント</strong>
-									<?php endif;?>
-									<strong class="clrred txt120"><?php echo number_format(getParam($data,'point'));?>PT</strong><br />
-									<strong class="chargetag">総額料金</strong>
-									<strong class="txt120"><?php echo getParam($data,'minutes');?>分<?php echo getParam($data,'price');?>円</strong>
-								</p>
-								<p>
-									<strong><?php echo getParam($data,'coupon_name');?></strong>
-								</p>
-								<h4>ご利用条件</h4>
-								<p>
-									<strong><?php echo getParam($data,'use_condition');?></strong>
-								</p>
-								<p>
-									<?php if(getParam($data,'point_kind') == 1):?>
-										<a class="linkbtn block alncenter" onclick="MoveCheck01(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
-										を獲得して予約する</a>
-									<?php elseif(getParam($data,'point_kind') == 2):?>
-										<a class="linkbtn block alncenter" onclick="MoveCheck02(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
-										を獲得して予約する</a>
-									<?php endif;?>
-								</p>
-							</div>
-						<?php endforeach;?>
+						<?php if($coupon != NULL):?>
+							<?php foreach($coupon as $id=>$data):?>
+								<div class="box03">
+									<p>
+										<?php if(getParam($data,'point_kind') == 1):?>
+											<strong class="pointtag">ポイント</strong>
+										<?php elseif(getParam($data,'point_kind') == 2):?>
+											<strong class="eventtag">イベント</strong>
+										<?php endif;?>
+										<strong class="clrred txt120"><?php echo number_format(getParam($data,'point'));?>PT</strong><br />
+										<strong class="chargetag">総額料金</strong>
+										<strong class="txt120"><?php echo getParam($data,'minutes');?>分<?php echo getParam($data,'price');?>円</strong>
+									</p>
+									<p>
+										<strong><?php echo getParam($data,'coupon_name');?></strong>
+									</p>
+									<h4>ご利用条件</h4>
+									<p>
+										<strong><?php echo getParam($coupon_esc[$id],'use_condition');?></strong>
+									</p>
+									<p>
+										<?php if(getParam($data,'point_kind') == 1):?>
+											<a class="linkbtn block alncenter" onclick="MoveCheck01(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
+											を獲得して予約する</a>
+										<?php elseif(getParam($data,'point_kind') == 2):?>
+											<a class="linkbtn block alncenter" onclick="MoveCheck02(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
+											を獲得して予約する</a>
+										<?php endif;?>
+									</p>
+								</div>
+							<?php endforeach;?>
+						<?php endif;?>
 						<div class="box03">
 							<p>「ポイントのみ」利用しての予約が可能です。<br />
 							1000ポイントから利用が可能です。</p>
@@ -113,10 +115,10 @@
 							を利用して予約する</a></p>
 						</div>
 					</div>
-					<h3><a href="#" class="newslistbtn">一覧をみる</a>お店からのお知らせ</h3>
+					<h3><a href="news.php?sid=<?php echo getParam($store,'store_id');?>" class="newslistbtn">一覧をみる</a>お店からのお知らせ</h3>
 					<div class="newslist">
 						<ul>
-							<li><a href="#"><?php echo getParam($notice,'display_date');?><br />
+							<li><a href="news_detail.php?id=<?php echo getParam($notice,'notice_id');?>"><?php echo getParam($notice,'display_date');?><br />
 							<?php echo getParam($notice,'title');?></a></li>
 							<li></li>
 						</ul>
@@ -151,17 +153,15 @@
 				</table>
 				<h3>女の子の詳細はこちら</h3>
 				<p>
-					<a href="http://www.cityheaven.net/"><img src="http://img.cityheaven.net/img/linkgist/234_60.gif" alt="風俗 デリヘル ヘルス｜ヘブンネット" width="234" height="60" border="0" style="width:49%;"></a>
-					<a href="http://www.yoasobi.co.jp/" target="_blank"><img src="http://www.yoasobi.co.jp/pc/img/234x60_1.gif" border="0" alt="風俗 デリヘル｜夜遊びガイド" style="width:49%;" /></a>
+					<a href="<?php echo getParam($store,'url_outside1');?>" target="_blank"><img src="http://img.cityheaven.net/img/linkgist/234_60.gif" alt="風俗 デリヘル ヘルス｜ヘブンネット" width="234" height="60" border="0" style="width:49%;"></a>
+					<a href="<?php echo getParam($store,'url_outside2');?>" target="_blank"><img src="http://www.yoasobi.co.jp/pc/img/234x60_1.gif" border="0" alt="風俗 デリヘル｜夜遊びガイド" style="width:49%;" /></a>
 					<script language="JavaScript" type="text/javascript"><!--
 						function MoveCheck01(id) {
 							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
 							if( res == true ) {
 								window.location = "../reservation/index.php?coupon_id="+id;
 							}
-							else {
-								window.location = "detail.php";
-							}
+
 						}
 				// --></script>
 					<script language="JavaScript" type="text/javascript"><!--
@@ -169,8 +169,6 @@
 							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
 							if( res == true ) {
 								window.location = "../reservation/index.php?coupon_id="+id;
-							} else {
-								window.location = "detail.php";
 							}
 						}
 				// --></script>

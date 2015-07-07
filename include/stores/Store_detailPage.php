@@ -67,6 +67,7 @@ class Store_detailPage extends Page{
 
 		//各データを出力用のデータに変換
 		$data['store_introduction']	= $list['introduction'];	// HTMLエスケープ前に紹介文は退避
+		$data['coupon_esc']	= $coupon;							// HTMLエスケープ前にクーポン情報を退避
 		$list = $this->dbToListData($list);
 		if($coupon != NULL) {
 			$coupon = $this->dbToListData($coupon);

@@ -132,7 +132,7 @@
 								<br />
 							<h3>ポイント発行規約</h3>
 							<p><a href="../info/point_kiyaku.html">こちら</a>をご覧ください。<br /></p>
-							<p class="alncenter"><a href="../index.html" class="linkbtn">トップページに戻る</a></p>
+							<p class="alncenter"><a href="../index.php" class="linkbtn">トップページに戻る</a></p>
 						</div>
 						<!--/コンテンツ-->
 						<div id="footer">
