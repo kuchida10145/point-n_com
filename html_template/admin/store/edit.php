@@ -150,7 +150,7 @@
 							<div class="control-group <?php echo error_class(getParam($error, 'login_password'));?>">
 								<label class="control-label" for="typeahead">ログインPW <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<input placeholder="4～8文字の半角英数字" id="login_password" name="login_password" value="<?php echo getParam($post, 'login_password');?>" type="password">
+									<input placeholder="4～8文字の半角英数字" id="login_password" name="login_password" value="<?php echo getParam($post, 'login_password');?>" type="text">
 									<?php echo getParam($error,'login_password');?>
 								</div>
 							</div>
