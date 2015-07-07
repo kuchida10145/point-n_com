@@ -92,12 +92,12 @@
 								<div class="control-group">
 									<label class="control-label" for="textarea2">本文</label>
 									<div class="controls">
-										<?php echo getParam($post, ('body'));?>
+										<?php echo $body;?>
 									</div>
 								</div>
 								<div class="form-actions">
 									<button type="submit" class="btn btn-primary">登録する</button>
-									<button type="button" onclick="location.href='?m=edit&tkn=<?php echo getGet('tkn');?>'" class="btn">リセット</button>
+									<button type="button" onclick="location.href='?m=edit&tkn=<?php echo getGet('tkn');?>'" class="btn">戻る</button>
 								</div>
 							</form>
 						</div>

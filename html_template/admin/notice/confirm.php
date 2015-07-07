@@ -92,7 +92,7 @@
 								<div class="control-group">
 									<label class="control-label" for="textarea2">本文</label>
 									<div class="controls">
-										<?php echo getParam($post, ('body'));?>
+										<?php echo $body;?>
 									</div>
 								</div>
 								<div class="form-actions">

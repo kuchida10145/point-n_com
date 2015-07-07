@@ -76,7 +76,7 @@
 							<div class="control-group">
 								<label class="control-label">ご利用条件</label>
 								<div class="controls">
-									<?php echo getParam($post,'use_condition');?>
+									<?php echo $use_condition;?>
 								</div>
 							</div>
 
