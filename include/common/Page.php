@@ -24,6 +24,9 @@ abstract class Page{
 
 
 	protected  $account_type = 'user';
+	
+	/*アカウントデータ*/
+	protected $account_data = NULL;
 
 
 	public function __construct(){
@@ -66,6 +69,7 @@ abstract class Page{
 				if($point_codes){
 					$data['point_code_flg']  = true;
 				}
+				
 			}
 		}
 		
@@ -175,10 +179,28 @@ abstract class Page{
 	 * @return array $account
 	 */
 	protected function getAccount(){
-		if(isset($_SESSION[$this->account_type]['_account']) && is_array($_SESSION[$this->account_type]['_account'])){
-			return $_SESSION[$this->account_type]['_account'];
+		
+		if($this->account_data == NULL){
+			if(isset($_SESSION[$this->account_type]['_account']) && is_array($_SESSION[$this->account_type]['_account'])){
+				
+				//会員のデータの場合
+				if($this->account_type == 'user'){
+					$data = $_SESSION[$this->account_type]['_account'];
+					if($user = $this->manager->db_manager->get('user')->getActiveUserById($data['user_id'])){
+						$result = array_merge($data, $user);
+						$_SESSION[$this->account_type]['_account'] = $result;
+					}
+					else{
+						$this->account_data = NULL;
+						unset($_SESSION[$this->account_type]['_account']);
+					}
+				}
+				$this->account_data = $_SESSION[$this->account_type]['_account'];
+			}
 		}
-		return NULL;
+		
+	
+		return $this->account_data;
 	}
 
 	/**
