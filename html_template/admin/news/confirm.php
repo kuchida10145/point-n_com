@@ -51,7 +51,7 @@
 								<div class="control-group">
 									<label class="control-label" for="selectError3">公開</label>
 									<div class="controls">
-										<?php echo getParam(news_status_kind(), getParam($post, ('status')));?>
+										<?php echo getParam(news_status_kind(), getParam($post, ('public')));?>
 									</div>
 								</div>
 								<div class="control-group">
