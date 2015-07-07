@@ -175,7 +175,7 @@
 							<div class="control-group hidden-phone <?php echo error_class(getParam($error, 'introduction'));?>">
 								<label class="control-label" for="textarea2">お店からのお知らせ</label>
 								<div class="controls">
-									<textarea class="cleditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
+									<textarea class="ckeditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
 									<?php echo getParam($error, 'introduction');?>
 								</div>
 							</div>

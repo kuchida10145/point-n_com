@@ -103,7 +103,7 @@
 								<div class="control-group <?php echo error_class(getParam($error, 'title'));?>">
 									<label class="control-label" for="textarea2">本文 <span class="label label-important">必須</span></label>
 									<div class="controls">
-										<textarea class="cleditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
+										<textarea class="ckeditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
 										<?php echo getParam($error,'body');?>
 									</div>
 								</div>

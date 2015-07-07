@@ -103,7 +103,7 @@
 								<div class="control-group">
 									<label class="control-label" for="textarea2">本文</label>
 									<div class="controls">
-										<textarea class="cleditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
+										<textarea class="ckeditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
 										<?php echo getParam($error,'body');?>
 									</div>
 								</div>
