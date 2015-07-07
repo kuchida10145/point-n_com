@@ -61,7 +61,7 @@
 							<p>
 								<label for="get_point">今回の獲得PT <strong class="clrred"><?php echo $get_point;?>PT</strong></label>
 							</p>
-							
+
 							<p>
 								<label for="course_name">コース名 <strong><?php echo $course_name;?></strong></label>
 							</p>
@@ -125,7 +125,7 @@
 							<h3>利用するポイント</h3>
 								<p>
 									<select name="use_point">
-									<?php foreach(use_point_data() as $poi_num=>$poi_val):?>
+									<?php foreach($point_list as $poi_num=>$poi_val):?>
 										<option value="<?php echo $poi_num;?>" <?php echo _check_selected($poi_num, getParam($post,'use_point'));?>><?php echo $poi_val;?></option>
 									<?php endforeach;?>
 									</select>
