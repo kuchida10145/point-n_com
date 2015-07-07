@@ -23,12 +23,12 @@ class NoticeDbModel extends DbModel{
 			'delete_flg'
 		);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 一覧用データ取得
-	 * 
+	 *
 	 * @param int $store_id	 店舗ID
 	 * @param int $start_page 開始番号
 	 * @param int $get_page 取得する件数
@@ -45,19 +45,19 @@ class NoticeDbModel extends DbModel{
 		$sql.= "LIMIT {$start_page},{$get_page}";
 		return $this->db->getAllData($sql);
 	}
-	
+
 	/**
 	 * 詳細データ取得
-	 * 
+	 *
 	 * @param int $id 主キー
 	 * @return array 詳細データ1件
 	 */
 	public function getNoticeData($id){
-		
+
 		if(!is_numeric($id)){
 			return NULL;
 		}
-		
+
 		$field = $this->getFieldText();
 		$sql = "SELECT {$field} FROM {$this->table} WHERE ";
 		$sql.= "notice_id = '{$id}' AND ";
@@ -79,6 +79,7 @@ class NoticeDbModel extends DbModel{
 
 		$wheres = array();
 		$wheres[] = " delete_flg = 0 ";
+		$wheres[] = " store_id IS NULL or store_id = 0 ";
 
 		//公開、非公開ボタン
 		if(getParam($get,'public') != '' && getParam($get,'public')){
