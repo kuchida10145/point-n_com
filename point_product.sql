@@ -1131,6 +1131,7 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
   `bank_account_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '銀行口座ID',
   `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
   `bank_name` varchar(50) NOT NULL COMMENT '銀行名',
+  `branch_name` varchar(50) NOT NULL COMMENT '銀行支店名',
   `bank_kind` tinyint(4) NOT NULL COMMENT '銀行口座種類',
   `bank_account_number` varchar(30) NOT NULL COMMENT '銀行口座番号',
   `bank_account_holder` varchar(50) NOT NULL COMMENT '銀行口座名義人',
@@ -2258,6 +2259,13 @@ CREATE TABLE IF NOT EXISTS `store` (
   `business_hours` varchar(50) NOT NULL COMMENT '営業時間 : 例．11:00?24:00',
   `telephone` varchar(15) NOT NULL COMMENT '電話番号',
   `holiday` varchar(50) DEFAULT NULL COMMENT '休日',
+  `contract_zip_code` varchar(7) NOT NULL COMMENT '契約郵便番号',
+  `contract_prefectures_id` tinyint(4) NOT NULL COMMENT '契約都道府県ID',
+  `contract_address1` varchar(100) NOT NULL COMMENT '契約市区町村番地',
+  `contract_address2` varchar(100) DEFAULT NULL COMMENT '契約マンション／ビル名',
+  `contract_telephone` varchar(15) NOT NULL COMMENT '契約電話番号',
+  `link_text_outside1` varchar(100) DEFAULT NULL COMMENT '外部サイト用リンクテキスト1',
+  `link_text_outside2` varchar(100) DEFAULT NULL COMMENT '外部サイト用リンクテキスト2',
   `url_outside1` varchar(256) DEFAULT NULL COMMENT '外部サイト1 : ヘブンネットURL',
   `url_outside2` varchar(256) DEFAULT NULL COMMENT '外部サイト2 : 夜遊びガイドURL',
   `url_official1` varchar(256) DEFAULT NULL COMMENT '公式サイト1',
@@ -2279,8 +2287,8 @@ CREATE TABLE IF NOT EXISTS `store` (
 -- テーブルのデータのダンプ `store`
 --
 
-INSERT INTO `store` (`store_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
-(1, 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
+INSERT INTO `store` (`store_id`, `store_hex_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `contract_zip_code`, `contract_prefectures_id`, `contract_address1`, `contract_address2`, `contract_telephone`, `link_text_outside1`, `link_text_outside2`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
+(1, '0001', 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 

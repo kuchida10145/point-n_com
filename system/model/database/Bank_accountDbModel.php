@@ -11,6 +11,7 @@ class Bank_accountDbModel extends DbModel{
 			'bank_account_id',
 			'store_id',
 			'bank_name',
+			'branch_name',
 			'bank_kind',
 			'bank_account_number',
 			'bank_account_holder',
