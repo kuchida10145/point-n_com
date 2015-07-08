@@ -123,6 +123,62 @@
 								</div>
 							</div>
 							
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_zip_code1'));?> <?php echo error_class(getParam($error, 'contract_zip_code2'));?> <?php echo error_class(getParam($error, 'contract_zip_code'));?>">
+								<label class="control-label" for="typeahead">事務所郵便番号 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input placeholder="" id="contract_zip_code1" name="contract_zip_code1" type="text" value="<?php echo getParam($post, 'contract_zip_code1');?>"> 
+									<?php echo getParam($error, 'contract_zip_code1');?>
+									-
+									<input placeholder="" id="contract_zip_code2" name="contract_zip_code2" type="text" value="<?php echo getParam($post, 'contract_zip_code2');?>">
+									<?php echo getParam($error, 'contract_zip_code2');?>
+									<?php echo getParam($error, 'contract_zip_code');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_prefectures_id'));?>">
+								<label class="control-label" for="selectError3">事務所都道府県 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<select id="contract_prefectures_id" name="contract_prefectures_id">
+										<option value="">選択してください</option>
+										<?php foreach(prefectures_master() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'contract_prefectures_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+									<?php echo getParam($error, 'contract_prefectures_id');?>
+								</div>
+							</div>  
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_address1'));?>">
+								<label class="control-label" for="typeahead">事務所市町村番地 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input placeholder="" id="contract_address1" name="contract_address1" type="text" class="input-block-level" value="<?php echo getParam($post, 'contract_address1');?>">
+									<?php echo getParam($error, 'contract_address1');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_address2'));?>">
+								<label class="control-label" for="typeahead">事務所マンション/ビル名</label>
+								<div class="controls">
+									<input placeholder="" id="contract_address2" name="contract_address2" type="text" class="input-block-level" value="<?php echo getParam($post, 'contract_address2');?>">
+									<?php echo getParam($error, 'contract_address2');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_telephone1'));?> <?php echo error_class(getParam($error, 'contract_telephone2'));?> <?php echo error_class(getParam($error, 'contract_telephone3'));?>">
+								<label class="control-label" for="typeahead">事務所電話番号 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input placeholder="" id="contract_telephone1" name="contract_telephone1" type="text" value="<?php echo getParam($post, 'contract_telephone1');?>">
+									<?php echo getParam($error, 'contract_telephone1');?>
+									-
+									<input placeholder="" id="contract_telephone2" name="contract_telephone2" type="text" value="<?php echo getParam($post, 'contract_telephone2');?>">
+									<?php echo getParam($error, 'contract_telephone2');?>
+									-
+									<input placeholder="" id="contract_telephone3" name="contract_telephone3" type="text" value="<?php echo getParam($post, 'contract_telephone3');?>">
+									<?php echo getParam($error, 'contract_telephone3');?>
+									<?php echo getParam($error, 'contract_telephone');?>
+								</div>
+							</div>
+							
 							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
 								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -281,7 +337,7 @@
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'zip_code1'));?> <?php echo error_class(getParam($error, 'zip_code2'));?> <?php echo error_class(getParam($error, 'zip_code'));?>">
-								<label class="control-label" for="typeahead">郵便番号 <span class="label label-important">必須</span></label>
+								<label class="control-label" for="typeahead">店舗または発エリア郵便番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="zip_code1" name="zip_code1" type="text" value="<?php echo getParam($post, 'zip_code1');?>"> 
 									<?php echo getParam($error, 'zip_code1');?>
@@ -293,7 +349,7 @@
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'prefectures_id'));?>">
-								<label class="control-label" for="selectError3">都道府県 <span class="label label-important">必須</span></label>
+								<label class="control-label" for="selectError3">店舗または発エリア都道府県 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<select id="prefectures_id" name="prefectures_id">
 										<option value="">選択してください</option>
@@ -306,7 +362,7 @@
 							</div>  
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'address1'));?>">
-								<label class="control-label" for="typeahead">市町村番地 <span class="label label-important">必須</span></label>
+								<label class="control-label" for="typeahead">店舗または発エリア市町村番地 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="address1" name="address1" type="text" class="input-block-level" value="<?php echo getParam($post, 'address1');?>">
 									<?php echo getParam($error, 'address1');?>
@@ -314,7 +370,7 @@
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'address2'));?>">
-								<label class="control-label" for="typeahead">マンション/ビル名</label>
+								<label class="control-label" for="typeahead">店舗または発エリアマンション/ビル名</label>
 								<div class="controls">
 									<input placeholder="" id="address2" name="address2" type="text" class="input-block-level" value="<?php echo getParam($post, 'address2');?>">
 									<?php echo getParam($error, 'address2');?>
@@ -338,7 +394,7 @@
 							</div>
 							
 							<div class="control-group <?php echo error_class(getParam($error, 'telephone1'));?> <?php echo error_class(getParam($error, 'telephone2'));?> <?php echo error_class(getParam($error, 'telephone3'));?>">
-								<label class="control-label" for="typeahead">電話番号 <span class="label label-important">必須</span></label>
+								<label class="control-label" for="typeahead">店舗または発エリア電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="telephone1" name="telephone1" type="text" value="<?php echo getParam($post, 'telephone1');?>">
 									<?php echo getParam($error, 'telephone1');?>
@@ -392,11 +448,27 @@
 								</div>
 							</div>
 							
+							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside1'));?>">
+								<label class="control-label" for="typeahead">外部サイト1リンクテキスト</label>
+								<div class="controls">
+									<input placeholder="" id="link_text_outside1" name="link_text_outside1" type="text" class="input-block-level" value="<?php echo getParam($post, 'link_text_outside1');?>">
+									<?php echo getParam($error, 'link_text_outside1');?>
+								</div>
+							</div>
+							
 							<div class="control-group <?php echo error_class(getParam($error, 'url_outside2'));?>">
 								<label class="control-label" for="typeahead">外部サイト2</label>
 								<div class="controls">
 									<input placeholder="" id="url_outside2" name="url_outside2" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside2');?>">
 									<?php echo getParam($error, 'url_outside2');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside2'));?>">
+								<label class="control-label" for="typeahead">外部サイト2リンクテキスト</label>
+								<div class="controls">
+									<input placeholder="" id="link_text_outside2" name="link_text_outside2" type="text" class="input-block-level" value="<?php echo getParam($post, 'link_text_outside2');?>">
+									<?php echo getParam($error, 'link_text_outside2');?>
 								</div>
 							</div>
 							
@@ -452,6 +524,14 @@
 								</div>
 							</div>
 							
+							<div class="control-group <?php echo error_class(getParam($error, 'branch_name1'));?>">
+								<label class="control-label" for="typeahead">支店名 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input placeholder="" id="branch_name1" name="branch_name1" type="text" class="input-block-level" value="<?php echo getParam($post, 'branch_name1');?>">
+									<?php echo getParam($error, 'branch_name1');?>
+								</div>
+							</div>
+							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind1'));?> <?php echo error_class(getParam($error, 'bank_account_number1'));?>">
 								<label class="control-label" for="typeahead">口座番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -488,6 +568,14 @@
 								</div>
 							</div>
 							
+							<div class="control-group <?php echo error_class(getParam($error, 'branch_name2'));?>">
+								<label class="control-label" for="typeahead">支店名</label>
+								<div class="controls">
+									<input placeholder="" id="branch_name2" name="branch_name2" type="text" class="input-block-level" value="<?php echo getParam($post, 'branch_name2');?>">
+									<?php echo getParam($error, 'branch_name2');?>
+								</div>
+							</div>
+							
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind2'));?>">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -521,6 +609,14 @@
 								<div class="controls">
 									<input placeholder="" id="bank_name3" name="bank_name3" type="text" class="input-block-level" value="<?php echo getParam($post, 'bank_name3');?>">
 									<?php echo getParam($error, 'bank_name3');?>
+								</div>
+							</div>
+							
+							<div class="control-group <?php echo error_class(getParam($error, 'branch_name3'));?>">
+								<label class="control-label" for="typeahead">支店名</label>
+								<div class="controls">
+									<input placeholder="" id="branch_name3" name="branch_name3" type="text" class="input-block-level" value="<?php echo getParam($post, 'branch_name3');?>">
+									<?php echo getParam($error, 'branch_name3');?>
 								</div>
 							</div>
 							

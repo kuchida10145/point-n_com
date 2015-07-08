@@ -67,6 +67,15 @@ class StorePage extends AdminPage {
 		$param['login_password'] = encodePassword($param['login_password']);
 		// 第1エリア(都道府県)
 		$param['area_first_id'] = $this->derive_area_first_id($param);
+		// 契約郵便番号
+		$param['contract_zip_code'] = $param['contract_zip_code1'] . $param['contract_zip_code2'];
+		unset($param['contract_zip_code1']);
+		unset($param['contract_zip_code2']);
+		// 契約電話番号
+		$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
+		unset($param['contract_telephone1']);
+		unset($param['contract_telephone2']);
+		unset($param['contract_telephone3']);
 		// 郵便番号
 		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
 		unset($param['zip_code1']);
@@ -93,9 +102,10 @@ class StorePage extends AdminPage {
 				continue;
 			}
 			$bank_param = array();
-			$bank_param['store_id'] = $id;
-			$bank_param['bank_name'] = $param['bank_name' . $i];
-			$bank_param['bank_kind'] = $param['bank_kind' . $i];
+			$bank_param['store_id']    = $id;
+			$bank_param['bank_name']   = $param['bank_name' . $i];
+			$bank_param['branch_name'] = $param['branch_name' . $i];
+			$bank_param['bank_kind']   = $param['bank_kind' . $i];
 			$bank_param['bank_account_number'] = $param['bank_account_number' . $i];
 			$bank_param['bank_account_holder'] = $param['bank_account_holder' . $i];
 			$this->manager->db_manager->get('bank_account')->insert($bank_param);

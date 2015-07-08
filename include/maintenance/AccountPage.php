@@ -36,11 +36,12 @@ class AccountPage extends MaintenancePage {
 					'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'image7', 'image8', 'image9', 
 					'introduction', 'latitude', 'longitude', 'zip_code1', 'zip_code2', 'prefectures_id', 
 					'address1', 'address2', 'business_hours', 'telephone1', 'telephone2', 'telephone3', 'holiday', 
+					'link_text_outside1', 'link_text_outside2', 
 					'url_outside1', 'url_outside2', 'url_official1', 'url_official2', 'url_official3', 'url_official4',
 					'representative_sei', 'representative_mei', 'representative_email', 'reserved_email',
-					'bank_name1', 'bank_kind1', 'bank_account_number1', 'bank_account_holder1',
-					'bank_name2', 'bank_kind2', 'bank_account_number2', 'bank_account_holder2',
-					'bank_name3', 'bank_kind3', 'bank_account_number3', 'bank_account_holder3',
+					'bank_name1', 'branch_name1', 'bank_kind1', 'bank_account_number1', 'bank_account_holder1',
+					'bank_name2', 'branch_name2', 'bank_kind2', 'bank_account_number2', 'bank_account_holder2',
+					'bank_name3', 'branch_name3', 'bank_kind3', 'bank_account_number3', 'bank_account_holder3',
 					'jpbank_symbol1', 'jpbank_symbol2', 'jpbank_account_number', 'jpbank_account_holder',
 				);
 				

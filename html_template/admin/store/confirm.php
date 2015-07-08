@@ -88,7 +88,48 @@
 									<?php echo getParam(store_type_of_industry(), getParam($post, 'type_of_industry_id'));?>
 								</div>
 							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">事業所郵便番号</label>
+								<div class="controls">
+									<?php echo getParam($post, 'contract_zip_code1');?>
+									-
+									<?php echo getParam($post, 'contract_zip_code2');?>
+								</div>
+							</div>
 
+							<div class="control-group">
+								<label class="control-label" for="selectError3">事業所都道府県</label>
+								<div class="controls">
+									<?php echo getParam(prefectures_master(), getParam($post, 'contract_prefectures_id'));?>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="typeahead">事業所市町村番地</label>
+								<div class="controls">
+									<?php echo getParam($post, 'contract_address1');?>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="typeahead">事業所マンション/ビル名</label>
+								<div class="controls">
+									<?php echo getParam($post, 'contract_address2');?>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">事業所電話番号</label>
+								<div class="controls">
+									<?php echo getParam($post, 'contract_telephone1');?>
+									-
+									<?php echo getParam($post, 'contract_telephone2');?>
+									-
+									<?php echo getParam($post, 'contract_telephone3');?>
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
 								<div class="controls"><?php echo create_file_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
@@ -195,7 +236,7 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="typeahead">郵便番号</label>
+								<label class="control-label" for="typeahead">店舗または発エリア郵便番号</label>
 								<div class="controls">
 									<?php echo getParam($post, 'zip_code1');?>
 									-
@@ -204,21 +245,21 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="selectError3">都道府県</label>
+								<label class="control-label" for="selectError3">店舗または発エリア都道府県</label>
 								<div class="controls">
 									<?php echo getParam(prefectures_master(), getParam($post, 'prefectures_id'));?>
 								</div>
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="typeahead">市町村番地</label>
+								<label class="control-label" for="typeahead">店舗または発エリア市町村番地</label>
 								<div class="controls">
 									<?php echo getParam($post, 'address1');?>
 								</div>
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="typeahead">マンション/ビル名</label>
+								<label class="control-label" for="typeahead">店舗または発エリアマンション/ビル名</label>
 								<div class="controls">
 									<?php echo getParam($post, 'address2');?>
 								</div>
@@ -239,7 +280,7 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="typeahead">電話番号</label>
+								<label class="control-label" for="typeahead">店舗または発エリア電話番号</label>
 								<div class="controls">
 									<?php echo getParam($post, 'telephone1');?>
 									-
@@ -283,14 +324,28 @@
 									<?php echo getParam($post, 'url_outside1');?>
 								</div>
 							</div>
-
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">外部サイト1リンクテキスト</label>
+								<div class="controls">
+									<?php echo getParam($post, 'link_text_outside1');?>
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">外部サイト2</label>
 								<div class="controls">
 									<?php echo getParam($post, 'url_outside2');?>
 								</div>
 							</div>
-
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">外部サイト2リンクテキスト</label>
+								<div class="controls">
+									<?php echo getParam($post, 'link_text_outside2');?>
+								</div>
+							</div>
+							
 						<div class="box-header" data-original-title="">
 							その他
 						</div>
@@ -329,7 +384,14 @@
 									<?php echo getParam($post, 'bank_name1');?>
 								</div>
 							</div>
-
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">支店名</label>
+								<div class="controls">
+									<?php echo getParam($post, 'branch_name1');?>
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -355,7 +417,14 @@
 									<?php echo getParam($post, 'bank_name2');?>
 								</div>
 							</div>
-
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">支店名</label>
+								<div class="controls">
+									<?php echo getParam($post, 'branch_name2');?>
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -381,7 +450,14 @@
 									<?php echo getParam($post, 'bank_name3');?>
 								</div>
 							</div>
-
+							
+							<div class="control-group">
+								<label class="control-label" for="typeahead">支店名</label>
+								<div class="controls">
+									<?php echo getParam($post, 'branch_name3');?>
+								</div>
+							</div>
+							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
