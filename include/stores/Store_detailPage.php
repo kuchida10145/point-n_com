@@ -43,11 +43,11 @@ class Store_detailPage extends Page{
 		if(isset($get['favorite']) && $get['favorite'] != ''){
 			if($get['favorite'] == 0) {
 				if(!$this->inseart_favorite_action($user_id,$store_id)){
-					redirect('detail.php');
+					redirect('detail.php?id='.$store_id);
 				}
 			} elseif($get['favorite'] == 1) {
 				if(!$this->update_favorite_actoin($get,$user_id,$store_id)){
-					redirect('detail.php');
+					redirect('detail.php?id='.$store_id);
 				}
 			}
 		}
@@ -63,7 +63,7 @@ class Store_detailPage extends Page{
 		//お知らせ取得(1件のみ)
 		$notice = $this->manager->db_manager->get('notice')->getNoticeList($store_id, 0, 1);
 		//お気に入り
-		$favorite = $this->manager->db_manager->get('user_favorite_store')->getFavoriteFlg($store_id,$store_id);
+		$favorite = $this->manager->db_manager->get('user_favorite_store')->getFavoriteFlg($user_id, $store_id);
 
 		//各データを出力用のデータに変換
 		$data['store_introduction']	= $list['introduction'];	// HTMLエスケープ前に紹介文は退避
