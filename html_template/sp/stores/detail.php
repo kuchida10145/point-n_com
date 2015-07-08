@@ -64,9 +64,9 @@
 				<div class="contents">
 					<h2>店舗詳細</h2>
 					<?php if($favorite):?>
-						<p class="alnright"><a href="?favorite=1" class="linkbtn3"><span class="icon-star"></span>お気に入りから外す</a></p>
+						<p class="alnright"><a href="?favorite=1&id=<?php echo getParam($store,'store_id');?>" class="linkbtn3"><span class="icon-star"></span>お気に入りから外す</a></p>
 					<?php else:?>
-						<p class="alnright"><a href="?favorite=0" class="linkbtn3"><span class="icon-star"></span>お気に入りに追加</a></p>
+						<p class="alnright"><a href="?favorite=0&id=<?php echo getParam($store,'store_id');?>" class="linkbtn3"><span class="icon-star"></span>お気に入りに追加</a></p>
 					<?php endif;?>
 					<p>
 						<strong class="shopname"><?php echo getParam($store,'store_name');?></strong>

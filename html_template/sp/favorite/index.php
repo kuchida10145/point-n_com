@@ -6,57 +6,26 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
-
-		<!--[if lte IE 9]>
-		<script src="/js/html5.js"></script>
-		<script src="/js/css3-mediaqueries.js"></script>
-		<![endif]-->
-
-
-		<script type="text/javascript" src="../js/jquery.js"></script>
-		<script type="text/javascript" src="../js/obj.js"></script>
-		<script type="text/javascript" src="../js/font-size.js"></script>
-		<script type="text/javascript" src="../js/smooth.pack.js"></script>
-		<script type="text/javascript" src="../js/acc.js"></script>
-
-		<!--スライドメニュー-->
-		<script src="../js/sidr/jquery.sidr.min.js"></script>
-		<link rel="stylesheet" href="../js/sidr/jquery.sidr.light.css">
-
-		<!--datepicker -->
-		<link href="../js/calendar/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-		<script src="../js/calendar/jquery-ui.min.js"></script>
-		<script src="../js/calendar/jquery.ui.core.min.js"></script>
-		<script src="../js/calendar/jquery.ui.datepicker.min.js"></script>
-		<script src="../js/calendar/jquery.ui.datepicker-ja.min.js"></script>
-
-		<script type="text/javascript">
-		$(function() {
-		    $('#date_from').datepicker({
-		        dateFormat: 'yy-mm-dd',//年月日の並びを変更
-		    });
-			$('#date_return').datepicker({
-		        dateFormat: 'yy-mm-dd',//年月日の並びを変更
-		    });
-		});
-		</script>
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 
 		<div id="headsearch">
-			<form action="" name="frm" method="get">
-				<input name="keyword" value="<?php echo getGet('keyword');?>" placeholder="店舗名検索" type="text">
+			<form action="<?php echo $action_link; ?>" name="frm" method="get">
+				<input type="hidden" name="m" value="search_keyword"/>
+				<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>"/>
+				<input name="keyword" id="keyword" value="<?php echo getParam($post, 'keyword'); ?>" placeholder="店舗名検索" type="text">
 				<a href="javascript:void(0);" onclick="document.frm.submit();">検索</a>
 			</form>
 		</div>
+
 		<!--メイン全体-->
 		<div id="mainbodywrap">
 			<!--ページメイン部分-->
 			<div id="mainbody" class="clearfix">
 				<!--コンテンツ-->
 				<div class="contents">
-					<h2>お気に入り一覧</h2>
+					<h2>お気に入り一覧 <?php echo number_format($total); ?>件中<span id="cur_shops"><?php echo number_format(count($list)); ?></span>件表示</h2>
 					<div class="shoplist">
 						<?php if(!$list): ?>
 						データがありませんでした
@@ -101,5 +70,72 @@
 	<!--スライド-->
 	<?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
 	<!-- /スライド-->
+	<script type="text/javascript">
+		$(function() {
+			var page_cnt = 0;
+		    $(window).scroll(function(ev) {
+		        var $window = $(ev.currentTarget),
+		            height = $window.height(),
+		            scrollTop = $window.scrollTop(),
+		            documentHeight = $(document).height();
+		        if (documentHeight === height + scrollTop) {
+					page_cnt++;
+					user_id  = $("#user_id").val();
+					keyword  = $("#keyword").val();
+					get_param  = "&user_id="+user_id;
+					get_param += "&keyword="+keyword;
+					$.ajax({
+						type: "GET",
+						url: "/favorite/index.php?m=next&next="+page_cnt+get_param,
+						dataType: "json",
+						success: function (res) {
+							if (res.result == 'false') {
+								return;
+							}
+							var html = "";
+							for (var i = 0; i < res.pages.length; i++) {
+								var page                = res.pages[i];
+								var store_id            = page.store_id;
+								var store_name          = page.store_name;
+								var image1              = page.image1;
+								var category_small_name = page.category_small_name;
+								var region_name         = page.region_name;
+								var normal_point_status = page.normal_point_status;
+								var normal_point        = page.normal_point;
+								var event_point_status  = page.event_point_status;
+								var event_point         = page.event_point;
+								var title               = page.title;
+								var address1            = page.address1;
+								var address2            = page.address2;
+								html += '<dl class="clearfix">';
+								html += '  <dt><a href="/stores/detail.php?id=' + store_id + '"><img src="' + image1 + '" alt="" /></a></dt>';
+								html += '  <dd><a href="/stores/detail.php?id=' + store_id + '"><strong>' + store_name + '</strong></a><br />';
+								html += category_small_name + '/' + region_name;
+								if (normal_point_status == '1') {
+									html += '  <strong class="pointtag">ポイント</strong>';
+									html += '  <strong class="clrred">' + normal_point + '</strong>';
+								}
+								if (event_point_status == '1') {
+									html += '  <strong class="eventtag">イベント</strong>';
+									html += '  <strong class="clrgreen">' + event_point + '</strong>';
+								}
+								html += title + '<br />';
+								html += '  住所：' + address1 + address2 + '<br />';
+								html += '  </dd>';
+								html += '</dl>';
+							}
+
+							$('.shoplist').append(html);
+							$("#cur_shops").html(res.cur_shops);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(errorThrown);
+							page_cnt--;
+						}
+					});
+		        }
+		    });
+		});
+	</script>
 	</body>
 </html>
