@@ -30,7 +30,7 @@
 			<a name="top" id="top"></a>
 			<!--ヘッダ-->
 			<?php include_once dirname(__FILE__).'/../../common/header_contents.php';?>
-			
+
 			<!--ヘッダ-->
 				<!--メイン全体-->
 					<div id="mainbodywrap">
@@ -110,7 +110,7 @@
 									</tbody>
 								</table>
 								<br />
-							<p class="alncenter"><a href="/" class="linkbtn">トップページに戻る</a></p>
+							<p class="alncenter"><a href="../../index.php" class="linkbtn">トップページに戻る</a></p>
 						</div>
 						<!--/コンテンツ-->
 						<div id="footer">

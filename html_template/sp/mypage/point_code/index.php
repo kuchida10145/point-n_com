@@ -25,7 +25,7 @@
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../../common/header_contents.php';?>
-		
+
 		<!--メイン全体-->
 		<div id="mainbodywrap">
 			<!--ページメイン部分-->
@@ -42,7 +42,7 @@
 									<tr>
 										<td class="bg12">来店日</td>
 										<td class="bg12"> 利用店舗名</td>
-										
+
 									</tr>
 									<?php foreach($point_codes as $point_code):?>
 									<tr>
@@ -53,9 +53,9 @@
 								</tbody>
 							</table>
 							<p>ポイント履歴で表示される期間は利用した日時より1年間とし、それ以前の履歴は自動削除されますので、予めご了承ください。</p>
-							
+
 						<?php endif;?>
-							<p class="alncenter"><a href="/" class="linkbtn">トップページに戻る</a></p>
+							<p class="alncenter"><a href="../../index.php" class="linkbtn">トップページに戻る</a></p>
 					</div>
 				</div>
 			</div>

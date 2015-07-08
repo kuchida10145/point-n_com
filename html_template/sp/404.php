@@ -33,10 +33,10 @@
 
 <p>
 	お探しのページは一時的にアクセスできない状況にあるか、移動もしくは削除された可能性があります。
-	
+
 </p>
 
-<p class="alncenter"><a href="/" class="linkbtn4 alncenter">戻る</a></p>
+<p class="alncenter"><a href="/index.php" class="linkbtn4 alncenter">戻る</a></p>
 
 
 </div>
