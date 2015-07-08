@@ -82,11 +82,11 @@
 							<form class="form-horizontal" method="get">
 	           					<div class="alert alert-block">
 									<button type="button" class="close" data-dismiss="alert">×</button>
-									<p>一度に発行できるクーポンは、通常、イベントそれぞれひとつになります。<br>
+									<p>一度に発行できるクーポンは、クーポン、イベントそれぞれひとつになります。<br>
 									有効中のものがほかにある場合は、こちらの操作が有効になります。</p>
 								</div>
                             	<div class="control-group">
-									<label class="control-label" for="selectError3">通常クーポン</label>
+									<label class="control-label" for="selectError3">クーポン</label>
 									<div class="controls">
 										<select id="normal_coupon" name="normal_coupon">
 											<option value="">選択してください。</option>
@@ -98,7 +98,7 @@
 									</div>
 							  	</div>
                             	<div class="control-group">
-									<label class="control-label" for="selectError3">イベントクーポン</label>
+									<label class="control-label" for="selectError3">イベント</label>
 									<div class="controls">
 									<select id="event_coupon" name="event_coupon">
 										<option value="">選択してください。</option>
@@ -122,8 +122,8 @@
 					</div>
 					<div class="box-content">
 						<p>
-							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(通常ポイントクーポン)</button>
-							<button class="btn btn-large btn-danger" onClick="location.href='?m=edit&p=2'">新規登録(イベントポイントクーポン)</button>
+							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(クーポン)</button>
+							<button class="btn btn-large btn-danger" onClick="location.href='?m=edit&p=2'">新規登録(イベント)</button>
 						</p>
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>

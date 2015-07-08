@@ -100,7 +100,7 @@ class ReservedDbModel extends DbModel{
 		$fields = array();
 
 		$sql = "SELECT point_code FROM reserved WHERE store_id = {$store_id} ";
-		$sql.= " ORDER BY point_code DESC ";
+		$sql.= " ORDER BY regist_date DESC ";
 
 		return $this->db->getData($sql);
 	}
