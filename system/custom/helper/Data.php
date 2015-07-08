@@ -497,7 +497,7 @@ function coupon_status_label(){
  */
 function point_kind(){
 	return array(
-			1=>'通常',
+			1=>'クーポン',
 			2=>'イベント',
 	);
 }
