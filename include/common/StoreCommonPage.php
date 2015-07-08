@@ -49,6 +49,14 @@ class StoreCommonPage {
 			}
 			$data['area_first_prefectures_id'] = $prefectures_id;
 		}
+		// 契約郵便番号
+		$data['contract_zip_code1'] = (strlen($data['contract_zip_code']) > 0) ? substr($data['contract_zip_code'], 0, 3) : "";
+		$data['contract_zip_code2'] = (strlen($data['contract_zip_code']) > 3) ? substr($data['contract_zip_code'], 3)    : "";
+		// 契約電話番号
+		$telephone = explode("-", $data['contract_telephone']);
+		$data['contract_telephone1'] = isset($telephone[0]) ? $telephone[0] : "";
+		$data['contract_telephone2'] = isset($telephone[1]) ? $telephone[1] : "";
+		$data['contract_telephone3'] = isset($telephone[2]) ? $telephone[2] : "";
 		// 郵便番号
 		$data['zip_code1'] = (strlen($data['zip_code']) > 0) ? substr($data['zip_code'], 0, 3) : "";
 		$data['zip_code2'] = (strlen($data['zip_code']) > 3) ? substr($data['zip_code'], 3)    : "";
@@ -68,8 +76,9 @@ class StoreCommonPage {
 			if (!isset($bank_data[$i-1]['bank_account_id'])) {
 				continue;
 			}
-			$data['bank_name' . $i] = $bank_data[$i-1]['bank_name'];
-			$data['bank_kind' . $i] = $bank_data[$i-1]['bank_kind'];
+			$data['bank_name' . $i]   = $bank_data[$i-1]['bank_name'];
+			$data['branch_name' . $i] = $bank_data[$i-1]['branch_name'];
+			$data['bank_kind' . $i]   = $bank_data[$i-1]['bank_kind'];
 			$data['bank_account_number' . $i] = $bank_data[$i-1]['bank_account_number'];
 			$data['bank_account_holder' . $i] = $bank_data[$i-1]['bank_account_holder'];
 		}
@@ -98,6 +107,23 @@ class StoreCommonPage {
 			$this->manager->validation->setRule('store_name',          'required|maxlength:50');
 			// 業種
 			$this->manager->validation->setRule('type_of_industry_id', 'required');
+			// 契約郵便番号
+			$this->manager->validation->setRule('contract_zip_code1',        'required|numeric');
+			$this->manager->validation->setRule('contract_zip_code2',        'required|numeric');
+			$param['contract_zip_code'] = $param['contract_zip_code1'] . $param['contract_zip_code2'];
+			$this->manager->validation->setRule('contract_zip_code',         'postcode');
+			// 契約都道府県
+			$this->manager->validation->setRule('contract_prefectures_id',   'selected');
+			// 契約市町村番地
+			$this->manager->validation->setRule('contract_address1',         'required|maxlength:100');
+			// 契約マンション/ビル名
+			$this->manager->validation->setRule('contract_address2',         'maxlength:100');
+			// 契約電話番号
+			$this->manager->validation->setRule('contract_telephone1',       'required|numeric');
+			$this->manager->validation->setRule('contract_telephone2',       'required|numeric');
+			$this->manager->validation->setRule('contract_telephone3',       'required|numeric');
+			$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
+			$this->manager->validation->setRule('contract_telephone',        'tel');
 			// 許可証の表示
 			$this->manager->validation->setRule('license',             'required');
 		}
@@ -154,6 +180,10 @@ class StoreCommonPage {
 		$this->manager->validation->setRule('url_official3',             'maxlength:256');
 		// 公式サイト4
 		$this->manager->validation->setRule('url_official4',             'maxlength:256');
+		// 外部サイト用リンクテキスト1
+		$this->manager->validation->setRule('link_text_outside1',        'maxlength:100');
+		// 外部サイト用リンクテキスト2
+		$this->manager->validation->setRule('link_text_outside2',        'maxlength:100');
 		// 外部サイト1
 		$this->manager->validation->setRule('url_outside1',              'maxlength:256');
 		// 外部サイト2
@@ -182,9 +212,11 @@ class StoreCommonPage {
 		}
 		// 銀行
 		for ($i = 1; $i <= 3; $i++) {
-			if ($i == 1 || ($param['bank_name'.$i] != "" || $param['bank_kind'.$i] != "" || $param['bank_account_number'.$i] != "" || $param['bank_account_holder'.$i] != "")) {
+			if ($i == 1 || ($param['bank_name'.$i] != "" || $param['branch_name'.$i] != "" || $param['bank_kind'.$i] != "" || $param['bank_account_number'.$i] != "" || $param['bank_account_holder'.$i] != "")) {
 				// 銀行名
 				$this->manager->validation->setRule('bank_name'.$i,           'required|maxlength:50');
+				// 銀行支店名
+				$this->manager->validation->setRule('branch_name'.$i,         'required|maxlength:50');
 				// 口座種類
 				$this->manager->validation->setRule('bank_kind'.$i,           'selected');
 				// 口座番号
@@ -259,6 +291,10 @@ class StoreCommonPage {
 		if ($isAdmin) {
 			// 第1エリア(都道府県)
 			$param['area_first_id'] = $this->derive_area_first_id($param);
+			// 契約郵便番号
+			$param['contract_zip_code'] = $param['contract_zip_code1'] . $param['contract_zip_code2'];
+			// 契約電話番号
+			$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
 		}
 		// 郵便番号
 		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
@@ -280,9 +316,10 @@ class StoreCommonPage {
 				}
 				continue;
 			}
-			$bank_param['store_id'] = $id;
-			$bank_param['bank_name'] = $param['bank_name' . $i];
-			$bank_param['bank_kind'] = $param['bank_kind' . $i];
+			$bank_param['store_id']    = $id;
+			$bank_param['bank_name']   = $param['bank_name' . $i];
+			$bank_param['branch_name'] = $param['branch_name' . $i];
+			$bank_param['bank_kind']   = $param['bank_kind' . $i];
 			$bank_param['bank_account_number'] = $param['bank_account_number' . $i];
 			$bank_param['bank_account_holder'] = $param['bank_account_holder' . $i];
 			if (isset($bank_data[$i-1]['bank_account_id'])) {
