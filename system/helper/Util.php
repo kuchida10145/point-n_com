@@ -536,17 +536,17 @@ function create_file_uploaded($data,$name,$type='edit'){
 function _create_file_uploaded($name,$file_val){
 	$html = '<div class="file_capbox" id="fileup_capbox_'.$name.'" style="margin-bottom:5px;">'."\r\n";
 	$html.= '<a href="javascript:void(0);" class="btn-delete" data-id="fileup_capbox_'.$name.'"><!-- img_thumnail -->'."\r\n";
-	$html.= '<i class="fa fa-times"></i>'."\r\n";
+	$html.= '<i class="icon-remove"></i>'."\r\n";
 	$html.= '</a><!-- btn-delete -->'."\r\n";
 	$html.= '<input type="hidden" name="'.$name.'" value="'.$file_val.'">'."\r\n";
-	$html.= '<a href="'.ROOT_URL.'files/file/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
+	$html.= '<a href="'.ROOT_URL.'files/files/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
 	$html.= '</div><!-- file_capbox -->'."\r\n";
 	return $html;
 }
 
 function _create_file_display($name,$file_val){
 	$html = '<div class="file_capbox" id="fileup_capbox_'.$name.'" style="margin-bottom:5px;">'."\r\n";
-	$html.= '<a href="'.ROOT_URL.'files/file/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
+	$html.= '<a href="'.ROOT_URL.'files/files/'.$file_val.'" target="_blank">'.$file_val.'</a>'."\r\n";
 	$html.= '</div><!-- file_capbox -->'."\r\n";
 	return $html;
 }

@@ -7,7 +7,6 @@ include_once dirname(__FILE__) . '/../common/AdminPage.php';
 include_once(dirname(__FILE__) . '/../common/StoreCommonPage.php');
 
 class StorePage extends AdminPage {
-
 	protected $id = 0;/* ID */
 	protected $use_table   = 'store';
 	protected $session_key = 'store';
@@ -263,4 +262,70 @@ class StorePage extends AdminPage {
 
 		$this->loadView('confirm', $data);
 	}
+	
+	
+	
+	/**=========================================
+	 * ファイルアップロード周り
+	 *==========================================*/
+	/**
+	 * ファイルアップロード(AJAX)
+	 * 
+	 */
+	public function file_uploadAction(){
+		$this->file_upload();
+	}
+	
+	/**
+	 * ファイルアップロード
+	 *  
+	 */
+	protected function file_upload(){
+		$result['result'] = 'false';
+
+		$dir = UPLOAD_FILE_DIR;
+		
+		
+		
+		$new_file_name =$this->makeNewFileName($_FILES['file']['tmp_name'],$_FILES['file']['name']);
+
+		
+		if(!file_exists($dir)){
+			mkdir($dir);
+			chmod($dir, '0777');
+		}
+		
+		if($new_file_name === false){
+			$result['result'] = 'mime_error';
+		}
+		else if($new_file_name !== false && move_uploaded_file($_FILES['file']['tmp_name'], $dir.$new_file_name)){
+			$result['result'] = 'result';
+			$result['file_name'] = $new_file_name;
+			$result['base_dir']   = UPLOAD_FILE_URL;
+			$this->manager->db_manager->get('temp_image')->insert(array('file_name'=>$new_file_name));
+		}
+		echo json_encode($result);
+		exit();
+	}
+	
+	
+	/***
+	 * アップロードするファイルの新しい名前を設定
+	 * PDF以外はfalseを返す
+	 *
+	 * @param string $file $_FILE[x][tmp_name]データ
+	 * @param string $file_name $_FILE[x][name]データ
+	 * @return mixed
+	 */
+	protected function makeNewFileName($file,$file_name){
+		if (!file_exists($file)) return false;
+		
+		
+		$temps = explode('.',$file_name);
+		$mime = end($temps);
+		$base_name =md5(uniqid(rand(), true));
+		return $base_name.'.'.$mime;
+		
+	}
+	
 }

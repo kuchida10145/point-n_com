@@ -101,6 +101,10 @@ $(function(){
 
 		/*既に登録されている写真を取得*/
 		var photos_html = $(this).html();
+		if(photos_html!= '' && options.multiple != true){
+			btn_txt = '変更';
+		}
+		
 		$(this).html("");
 
 		$(form).append('<input type="file" id="'+input_file+'" name="file" style="display:none" value=""><div ><label id="'+upload_btn+'" for="'+input_file+'" class="btn btn-success">'+btn_txt+'</label></div>');
@@ -261,6 +265,10 @@ $(function(){
 
 		/*既に登録されている写真を取得*/
 		var photos_html = $(this).html();
+		if(photos_html!= '' && options.multiple != true){
+			btn_txt = '変更';
+		}
+		
 		$(this).html("");
 
 		$(form).append('<input type="file" id="'+input_file+'" name="file" style="display:none" value=""><div ><label id="'+upload_btn+'" for="'+input_file+'" class="btn btn-success">'+btn_txt+'</label></div>');
@@ -280,7 +288,7 @@ $(function(){
          * 削除ボタン
          */
 		$(document).on('click','#'+result_name+' .file_capbox .btn-delete',function(e){
-			alert($(this).data('id'));
+			//alert($(this).data('id'));
 			$('#'+$(this).data('id')).remove();
 			$('#'+upload_btn).html(btn_txt);
 			$('#'+upload_btn).css({'display':''});
@@ -297,7 +305,7 @@ $(function(){
 			block_html = '<div class="file_capbox" id="'+file_box+'" style="margin-bottom:10px;">';
 			block_html+= '<input type="hidden" name="'+name+'" value="'+file_name+'" />';
 			block_html+= '<a href="javascript:void(0);" class="btn-delete" data-id="'+file_box+'"><!-- img_thumnail -->';
-			block_html+= '<i class="fa fa-times"></i>';
+			block_html+= '<i class="icon-remove"></i>';
 			block_html+= '</a><!-- btn-delete -->　';
 			block_html+= '<a href="'+file_url+'" target="_blank">'+file_name+'</a>';
 			block_html+= '</div><!-- file_capbox -->';

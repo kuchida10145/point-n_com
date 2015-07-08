@@ -91,7 +91,7 @@
 
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
-								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
+								<div class="controls"><?php echo create_file_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 							</div>
 
 							<div class="control-group">

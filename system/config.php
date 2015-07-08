@@ -56,6 +56,8 @@ define('ADMIN_MAIL','takahashi@6web.co.jp');
 -----------------------------*/
 define('UPLOAD_IMG_DIR',ROOT_DIR.'files/images/');//アップロードファイルディレクトリ
 define('UPLOAD_IMG_URL',ROOT_URL.'files/images/');//アップローディディレクトリＵＲＬ
+define('UPLOAD_FILE_DIR',ROOT_DIR.'files/files/');//アップロードファイルディレクトリ
+define('UPLOAD_FILE_URL',ROOT_URL.'files/files/');//アップローディディレクトリＵＲＬ
 
 
 

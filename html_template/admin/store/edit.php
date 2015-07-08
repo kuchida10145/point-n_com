@@ -126,7 +126,7 @@
 							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
 								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<div id="license"><?php echo create_image_uploaded(getParam($post,'license'),'license');?></div>
+									<div id="license"><?php echo create_file_uploaded(getParam($post,'license'),'license');?></div>
 									<?php echo getParam($error,'license');?>
 								</div>
 							</div>
@@ -608,7 +608,7 @@
 	<script>
 	$(function(){
 		
-		$('#license').imageUpload({url:'/admin/store.php?m=image_upload',name:'license'});
+		$('#license').fileUpload({url:'/admin/store.php?m=file_upload',name:'license'});
 		$('#type_of_industry_id').change(function() {
 			$('#type_of_industry_id').changeUpperItem({
 				url:'/admin/store.php?m=change_upper_item',
