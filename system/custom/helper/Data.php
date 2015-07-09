@@ -225,7 +225,7 @@ function category_small($category_midium_id) {
 function category_small_for_customer($category_midium_id) {
 	$list = array();
 	$manager = Management::getInstance();
-	$records = $manager->db_manager->get('category_small')->categoryList($category_midium_id);
+	$records = $manager->db_manager->get('category_small')->categoryListCustomer($category_midium_id);
 	$records = ($records != null) ? $records : array();
 	foreach ($records as $record) {
 		$list[$record['category_small_id']] = $record['category_small_name'];

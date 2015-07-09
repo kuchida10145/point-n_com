@@ -124,12 +124,16 @@
 		<?php foreach ($category_midium_ids as $category_midium_id) : ?>
 			<?php $small_list_style = (getParam($post, 'category_midium_id') == $category_midium_id) ? ' style="display: inline;" ' : ' style="display: none;" '; ?>
 			<span id="category_small_list_id_<?php echo $category_midium_id; ?>"<?php echo $small_list_style; ?>>
+			<?php if(!$category_small_for_customer = category_small_for_customer($category_midium_id)):?>
+				<p class="alncenter">現在登録されている店舗はありません。</p>
+			<?php else:?>
 			<?php foreach (category_small_for_customer($category_midium_id) as $val_key => $val_name) : ?>
 			<li>
 				<input type="checkbox" name="category_small_ids[]" value="<?php echo $val_key; ?>" id="category_small_id_<?php echo $val_key; ?>" <?php echo _check_checked($val_key, getParam($post, 'category_small_ids')); ?>>
 				<label for="category_small_id_<?php echo $val_key; ?>"><?php echo $val_name; ?></label>
 			</li>
 			<?php endforeach; ?>
+			<?php endif;?>
 			</span>
 		<?php endforeach; ?>
 		</ul>
