@@ -55,6 +55,7 @@
 				<div id="mainbody" class="clearfix">
 					<!--コンテンツ-->
 					<div class="contents">
+						<strong class="clrred"><?php echo $system_message;?></strong>
 						<h2>予約画面</h2>
 						<form method="post" action="" name="frm">
 						<input type="hidden" name="m" value="confirm" />

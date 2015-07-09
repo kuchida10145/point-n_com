@@ -31,6 +31,7 @@ class ReservationPage extends Page{
 		$post = array();
 		$error = array();
 		$coupon_id = 0;
+		$system_message = '';
 
 		//トークンが設定されていない場合
 		if(getGet('tkn') == ''){
@@ -128,6 +129,11 @@ class ReservationPage extends Page{
 		$data['price']       = number_format($courseData['price']);
 		$data['point_list']  = $this->getUsePoint($account['point']);
 
+		if(getGet('back') == 'confirm') {
+			$system_message = $this->manager->message->get('front_'.$this->device)->getMessage('point_error');
+		}
+		$data['system_message']  = $system_message;
+
 		$this->loadView('index', $data);
 	}
 
@@ -139,6 +145,7 @@ class ReservationPage extends Page{
 		$data = array();
 		$post = array();
 		$error = array();
+		$system_message = '';
 
 		//店舗ID設定
 		$store_id = $this->getFormSession('store_id');
@@ -156,7 +163,7 @@ class ReservationPage extends Page{
 		if(getPost('m') == 'confirm'){
 			$post = $_POST;
 			//入力チェック
-			if($this->Validation($post)){
+			if($this->ValidationPointOnly($post)){
 				// コース情報取得
 				if(!$courseData = $this->manager->db_manager->get('course')->findById($post['course_id'])){
 					$this->errorAction();
@@ -196,6 +203,11 @@ class ReservationPage extends Page{
 		$data['course_price'] = course_price($storeData['store_id']);
 		$data['point_list']  = $this->getUsePoint($account['point']);
 
+		if(getGet('back') == 'confirm') {
+			$system_message = $this->manager->message->get('front_'.$this->device)->getMessage('point_error');
+		}
+		$data['system_message']  = $system_message;
+
 		$this->loadView('indexP', $data);
 	}
 
@@ -220,6 +232,9 @@ class ReservationPage extends Page{
 
 		$form_data = $this->getFormSession('form');
 
+		//ポイントチェック
+		$this->usePointCheck($form_data['use_point']);
+
  		if(!$form_data || $this->validation($form_data) == false){
  			redirect('index.php');
  			exit();
@@ -227,13 +242,14 @@ class ReservationPage extends Page{
 
 		//予約するボタンが押された場合
 		if(getPost('m') == 'thanks'){
-			//登録処理
-			$resrved_id = $this->inseart_action($form_data);
+			//DB処理
+			$resrved_id = $this->inseart_action($form_data);	//予約情報登録
+			$user_id = $this->user_update($form_data);			//ユーザ情報更新
 			//メール送付
 			$this->sendUserMail($this->getAccount(), USER_MAIL_ID);
 			$this->sendStoreMail($form_data['course_id'], STORE_MAIL_ID);
 
-			if($resrved_id !== false){
+			if($resrved_id !== false && $user_id !== false){
 				//フォームセッション削除
 				$this->unsetFormSession('form');
 				$this->setFormSession('resrved_id', $resrved_id);
@@ -324,6 +340,24 @@ class ReservationPage extends Page{
 	}
 
 	/**
+	 * 予約情報入力確認(ポイントのみ利用時)
+	 * @param array $param 検証用配列
+	 * @return boolean
+	 */
+	private function ValidationPointOnly($param){
+		$this->manager->validation->setRule('course_id','selected');
+		$this->manager->validation->setRule('use_person','isPnumeric');
+		$this->manager->validation->setRule('use_date','required');
+		$this->manager->validation->setRule('reserved_name','required');
+		$this->manager->validation->setRule('telephone1','required|numeric|digit|pnumeric');
+		$this->manager->validation->setRule('telephone2','required|numeric|digit|pnumeric');
+		$this->manager->validation->setRule('telephone3','required|numeric|digit|pnumeric');
+		$this->manager->validation->setRule('use_point','isPnumeric');
+		$this->manager->validation->setRule('contract','checked');
+		return $this->manager->validation->run($param);
+	}
+
+	/**
 	 * 新規登録処理
 	 *
 	 * @param array $param 更新用パラメータ
@@ -361,7 +395,27 @@ class ReservationPage extends Page{
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
 	}
 
+	/**
+	 * ユーザ情報更新処理
+	 *
+	 * @param array $param 更新用パラメータ
+	 * @return mixed
+	 */
+	protected function user_update($param){
+		//ログインチェック
+		if(!$this->checkDBAccount()){
+			//フォームセッション削除
+			$this->unsetFormSession('form');
+			redirect('../login.php');
+		}
 
+		$account = $this->getAccount();
+		$update_param = array(
+			'point'=>$account['point'] - $param['use_point'],
+		);
+
+		return $this->manager->db_manager->get('user')->updateById($account['user_id'], $update_param);
+	}
 
 	/**
 	 * ログインチェック
@@ -381,6 +435,26 @@ class ReservationPage extends Page{
 			}
 
 			$this->setAccount($account);
+		}
+	}
+
+	/**
+	 * 利用ポイントチェック
+	 * @param  number $use_point
+	 */
+	private function usePointCheck($use_point){
+		$account = $this->getAccount();
+		if(!$account){
+			redirect('/login.php?back=reserve&tkn='.getGet('tkn'));
+		}
+		else{
+			//DBにデータが無い場合はセッションごと削除
+			$user_id = $account['user_id'];
+			$account = $this->manager->db_manager->get('user')->getActiveUserById($user_id);
+
+			if($use_point > $account['point']) {
+					redirect('/reservation/index.php?back=confirm&tkn='.getGet('tkn'));
+			}
 		}
 	}
 
