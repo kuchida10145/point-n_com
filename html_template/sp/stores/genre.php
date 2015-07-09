@@ -107,7 +107,7 @@
 
 <?php // 中カテゴリー ?>
 <div class="genrelist">
-	<p class="fixHeight">
+	<p class="fixHeight" style="width: 100%">
 		<?php foreach (category_midium_for_customer(getParam($post, 'category_large_id'), getParam($post, 'region_id')) as $val_key => $val_name) : ?>
 		<?php 	$active = (getParam($post, 'category_midium_id') == $val_key) ? ' class="active" ' : ''; ?>
 		<a href="javascript:void(0);" id="category_midium_id_<?php echo $val_key; ?>" onclick="activeCategoryMidium(<?php echo $val_key; ?>);" <?php echo $active; ?>><?php echo $val_name; ?></a>
