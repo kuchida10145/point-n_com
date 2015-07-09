@@ -90,16 +90,19 @@ class ReservePage extends MaintenancePage{
 		$this->unsetSystemMessage();
 		$dbFlg = true;
 
-		if(getParam($get,'update') != ''  && is_string(getParam($get,'update'))){
+		if(getParam($get,'reserved_id') != ''  && is_string(getParam($get,'reserved_id'))){
 			// 取消ボタン
-			if(getParam($get,'sp') != ''  && is_string(getParam($get,'sp'))){
-				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'), RESERVE_ST_INV);
+			if(getParam($get,'type') == 'cancel'  && is_string(getParam($get,'type'))){
+				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'reserved_id'), RESERVE_ST_INV);
+				if($dbFlg !== false){
+					$dbFlg = $this->user_update_action_cancel(getParam($get,'reserved_id'));
+				}
 			}
 			// 受理ボタン
-			else {
-				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'update'), RESERVE_ST_FIN);
+			elseif(getParam($get,'type') == 'accept'  && is_string(getParam($get,'type'))){
+				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'reserved_id'), RESERVE_ST_FIN);
 				if($dbFlg !== false){
-					$dbFlg = $this->user_update_action($get);
+					$dbFlg = $this->user_update_action(getParam($get,'reserved_id'));
 				}
 			}
 		}
@@ -156,15 +159,36 @@ class ReservePage extends MaintenancePage{
 	}
 
 	/**
-	 * 更新処理
+	 * 更新処理（予約受理）
 	 *
-	 * @param array $param 更新用パラメータ
+	 * @param number $reserved_id 予約ID
 	 * @return mixed
 	 */
-	protected function user_update_action($param){
-		$res = $this->manager->db_manager->get('user')->findByNickname($param['name']);
-		$user_id = $res['user_id'];
-		$param['point'] = $res['point'] + $param['get_p'] - $param['use_p'];				// 保持ポイント計算
-		return $this->manager->db_manager->get('user')->updateById($user_id,$param);
+	protected function user_update_action($reserved_id){
+		//DBデータ取得
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
+		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+
+		$updateParam = array(
+					'point'=>$res['point'] + $reservedInfo['get_point'],	// 保持ポイント計算
+				);
+		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
+	}
+
+	/**
+	 * 更新処理（予約取り消し）
+	 *
+	 * @param number $reserved_id 予約ID
+	 * @return mixed
+	 */
+	protected function user_update_action_cancel($reserved_id){
+		//DBデータ取得
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
+		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+
+		$updateParam = array(
+				'point'=>$res['point'] + $reservedInfo['use_point'],	// 保持ポイント計算
+		);
+		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
 	}
 }

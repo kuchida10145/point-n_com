@@ -117,11 +117,8 @@
 									<td class="center"><?php echo $reserve_data['get_point'];?></td>
 									<?php if($reserve_data['status_id'] == "1"):?>
 										<td class="center">
-											<a class="btn btn-info" href="?m=index&update=<?php echo $reserve_data['reserved_id'];?>
-											&use_p=<?php echo $reserve_data['use_point'];?>&get_p=<?php echo $reserve_data['get_point']?>
-											&name=<?php echo $reserve_data['nickname'];?>">受理</a>
-											<a class="btn btn-danger" href="?m=index&update=<?php echo $reserve_data['reserved_id'];?>
-											&sp=<?php echo RESERVE_ST_SP;?>">取消</a>
+											<a class="btn btn-info" href="?m=index&type=accept&reserved_id=<?php echo $reserve_data['reserved_id'];?>">受理</a>
+											<a class="btn btn-danger" href="?m=index&type=cancel&reserved_id=<?php echo $reserve_data['reserved_id'];?>">取消</a>
 										</td>
 									<?php else:?>
 										<td class="center">&nbsp;</td>
