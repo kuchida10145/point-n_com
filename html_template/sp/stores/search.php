@@ -103,15 +103,15 @@
 			</a><br />
 			<?php echo getParam($data, 'category_small_name'); ?>/<?php echo getParam($data, 'region_name'); ?>
 			<?php if (getParam($data, 'normal_point_status') == '1') : ?>
-				<strong class="pointtag">
+				<br /><strong class="pointtag">
 					ポイント
 				</strong>
 				<strong class="clrred">
 					<?php echo number_format(getParam($data, 'normal_point')); ?>PT
-				</strong><br />
+				</strong>
 			<?php endif;?>
 			<?php if (getParam($data, 'event_point_status') == '1') : ?>
-				<strong class="eventtag">
+				<br /><strong class="eventtag">
 					イベント
 				</strong>
 				<strong class="clrgreen">
