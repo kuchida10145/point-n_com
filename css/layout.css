@@ -558,6 +558,7 @@ text-overflow: ellipsis;
 	display:inline-block;
 	padding:0 10px;
 	color:#fff;
+        margin-bottom: 5px;
 }
 .selectedterms dd a{
 	color:#fff;
