@@ -43,7 +43,7 @@
 <div class="genreselect">
 <h2><span class="icon-shop"></span>ジャンルを選ぶ<?php echo getParam($error, 'category_large_id'); ?></h2>
 <div class="selectbtn">
-<ul class="clearfix">
+	<ul class="clearfix" style="padding-left: 2%;">
 	<?php foreach (category_large() as $val_key => $val_name) : ?>
     <li style="width:32%;">
             <input type="radio" id="<?php echo "category_large_id_" . $val_key; ?>" name="category_large_id" value="<?php echo $val_key; ?>" <?php echo _check_checked($val_key, getParam($post, 'category_large_id'));?>/>
@@ -57,7 +57,7 @@
 <h2><span class="icon-area"></span>地域を選ぶ	<?php echo getParam($error, 'region_id'); ?></h2>
 <div class="select4btn">
 <div class="selectbtn">
-<ul class="clearfix fixHeight">
+<ul class="clearfix fixHeight" style="padding-left: 3%;">
 	<li class="gpsbtn">
       <label for="a"><a href="javascript:void(0);" onclick="document.gps.submit();">現在地<br />から探す</a></label>
     </li>
