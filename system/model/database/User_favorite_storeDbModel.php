@@ -222,6 +222,7 @@ class User_favorite_storeDbModel extends DbModel{
 		$sql = str_replace("##field##",
 				"store.store_id,
 				store.store_name,
+				store.type_of_industry_id,
 				store.new_arrival,
 				region_master.region_name,
 				store.address1,

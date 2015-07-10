@@ -50,7 +50,11 @@
 										<strong class="eventtag">イベント</strong><strong class="clrgreen"><?php echo number_format(getParam($data,'event_point'));?>PT</strong><br />
 									<?php endif;?>
 									<?php echo getParam($data,'title');?><br />
-									住所：<?php echo getParam($data,'address1');?><?php echo getParam($data,'address2');?><br />
+									<?php 
+										echo (is_delivery(getParam($data, 'type_of_industry_id'))) ? '発エリア：' : '店舗住所：';
+										echo getParam($data, 'address1') . getParam($data, 'address2');
+									?>
+									<br />
 								</dd>
 							</dl>
 							<?php endforeach;?>

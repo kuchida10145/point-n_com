@@ -285,6 +285,7 @@ class StoreDbModel extends DbModel{
 			$sql = ' SELECT count(store.store_id) as cnt ';
 		} else {
 			$sql  = 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.address2, store.image1';
+			$sql .= ', store.type_of_industry_id';
 			$sql .= ', region.region_name';
 			$sql .= ', category.category_small_name';
 			$sql .= ', c1.point normal_point, c1.status_id normal_point_status';

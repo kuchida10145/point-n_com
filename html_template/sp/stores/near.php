@@ -115,7 +115,11 @@
 
 										<br />
 										<?php echo (NULL != getParam($data,'title')) ? getParam($data,'title') . '<br />' : ''; ?>
-										住所：<?php echo getParam($data,'address1');?><?php echo getParam($data,'address2'); ?><br />
+										<?php 
+											echo (is_delivery(getParam($data, 'type_of_industry_id'))) ? '発エリア：' : '店舗住所：';
+											echo getParam($data, 'address1') . getParam($data, 'address2');
+										?>
+										<br />
 									</dd>
 								</dl>
 								<!--/1件-->
