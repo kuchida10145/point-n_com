@@ -23,9 +23,30 @@ class NoticeDbModel extends DbModel{
 			'delete_flg'
 		);
 	}
-
-
-
+	
+	/**
+	 * 店舗IDに対応するお知らせ一覧を取得する
+	 * 
+	 * @param int $store_id 店舗ID
+	 * @return array
+	 */
+	public function getListByStoreID($store_id) {
+		if ($store_id != null) {
+			$store_id = $this->escape_string($store_id);
+		}
+		$fields = $this->getFieldText();
+		$sql  = " SELECT {$fields} ";
+		$sql .= " FROM {$this->table} ";
+		$sql .= " WHERE ";
+		if ($store_id != null) {
+			$sql .= "       store_id = '{$store_id}' ";
+		} else {
+			$sql .= "       store_id IS NULL ";
+		}
+		$sql .= "   AND delete_flg = 0 ";
+		return $this->db->getAllData($sql);
+	}
+	
 	/**
 	 * 一覧用データ取得
 	 *
@@ -35,6 +56,7 @@ class NoticeDbModel extends DbModel{
 	 * @return array 詳細データ複数件
 	 */
 	public function getNoticeList($store_id,$start_page,$get_page){
+		$store_id = $this->escape_string($store_id);
 		$sql = "SELECT notice_id,display_date,title,image1,image2,image3 FROM {$this->table} WHERE ";
 		$sql.= "store_id = '{$store_id}' AND ";
 		$sql.= "delete_flg = 0 AND ";

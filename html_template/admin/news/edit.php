@@ -92,10 +92,13 @@
 								<div class="control-group">
 									<label class="control-label" for="fileInput">画像の登録</label>
 									<div class="controls">
+										<input type="hidden" id="cur_image1" name="cur_image1" value="<?php echo getParam($post, 'cur_image1', '');?>">
 										<div id="image1"><?php echo create_image_uploaded(getParam($post,'image1'),'image1');?></div>
 										<?php echo getParam($error,'image1');?>
+										<input type="hidden" id="cur_image2" name="cur_image2" value="<?php echo getParam($post, 'cur_image2', '');?>">
 										<div id="image2"><?php echo create_image_uploaded(getParam($post,'image2'),'image2');?></div>
 										<?php echo getParam($error,'image2');?>
+										<input type="hidden" id="cur_image3" name="cur_image3" value="<?php echo getParam($post, 'cur_image3', '');?>">
 										<div id="image3"><?php echo create_image_uploaded(getParam($post,'image3'),'image3');?></div>
 										<?php echo getParam($error,'image3');?>
 									</div>

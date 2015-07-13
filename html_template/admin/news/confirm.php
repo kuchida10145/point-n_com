@@ -78,12 +78,15 @@
 									<div class="controls">
 										<div class="masonry-gallery">
 											<div id="image1" class="masonry-thumb">
+												<input type="hidden" id="cur_image1" name="cur_image1" value="<?php echo getParam($post, 'cur_image1', '');?>">
 												<?php echo create_image_uploaded(getParam($post, 'image1'), 'image1', 'display');?>
 											</div>
 											<div id="image2" class="masonry-thumb">
+												<input type="hidden" id="cur_image2" name="cur_image2" value="<?php echo getParam($post, 'cur_image2', '');?>">
 												<?php echo create_image_uploaded(getParam($post, 'image2'), 'image2', 'display');?>
 											</div>
 											<div id="image3" class="masonry-thumb">
+												<input type="hidden" id="cur_image3" name="cur_image3" value="<?php echo getParam($post, 'cur_image3', '');?>">
 												<?php echo create_image_uploaded(getParam($post, 'image3'), 'image3', 'display');?>
 											</div>
 										</div>

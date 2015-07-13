@@ -95,6 +95,21 @@ class StorePage extends AdminPage {
 		$update_param = array();
 		$update_param['store_hex_id']  = sprintf("%04X", $id);
 		$this->manager->db_manager->get($this->use_table)->updateById($id, $update_param);
+		
+		// 許可証
+		$update_param = array();
+		$update_param['use_state'] = 1;
+		$this->manager->db_manager->get('temp_image')->updateByFileName($param['license'], $update_param);
+		
+		// 画像1〜9
+		for ($i = 1; $i <= 9; $i++) {
+			if ($param['image' . $i] == '') {
+				continue;
+			}
+			$update_param = array();
+			$update_param['use_state'] = 1;
+			$this->manager->db_manager->get('temp_image')->updateByFileName($param['image' . $i], $update_param);
+		}
 
 		// 銀行
 		for ($i = 1; $i <= 3; $i++) {
@@ -312,7 +327,7 @@ class StorePage extends AdminPage {
 			$result['result'] = 'result';
 			$result['file_name'] = $new_file_name;
 			$result['base_dir']   = UPLOAD_FILE_URL;
-			$this->manager->db_manager->get('temp_image')->insert(array('file_name'=>$new_file_name));
+			$this->manager->db_manager->get('temp_image')->insert(array('dir_path'=>$dir, 'file_name'=>$new_file_name));
 		}
 		echo json_encode($result);
 		exit();

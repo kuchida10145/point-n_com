@@ -56,6 +56,7 @@
 							<div class="control-group <?php echo error_class(getParam($error,'status_id'));?>">
 								<label class="control-label" for="">WEBサービス</label>
 								<div class="controls">
+									<input type="hidden" id="cur_status_id" name="cur_status_id" value="<?php echo getParam($post, 'cur_status_id', '');?>">
 									<label class="radio">
 										<input type="radio" name="status_id" value="2" <?php echo _check_checked(2, getParam($post, 'status_id'));?>><div class="btn btn-success">運営中</div>
 									</label>
@@ -182,6 +183,7 @@
 							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
 								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
 								<div class="controls">
+									<input type="hidden" id="cur_license" name="cur_license" value="<?php echo getParam($post, 'cur_license', '');?>">
 									<div id="license"><?php echo create_file_uploaded(getParam($post,'license'),'license');?></div>
 									<?php echo getParam($error,'license');?>
 								</div>
@@ -297,22 +299,31 @@
 							<div class="control-group">
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">
+									<input type="hidden" id="cur_image1" name="cur_image1" value="<?php echo getParam($post, 'cur_image1', '');?>">
 									<div id="image1"><?php echo create_image_uploaded(getParam($post,'image1'),'image1');?></div>
 									<?php echo getParam($error,'image1');?>
+									<input type="hidden" id="cur_image2" name="cur_image2" value="<?php echo getParam($post, 'cur_image2', '');?>">
 									<div id="image2"><?php echo create_image_uploaded(getParam($post,'image2'),'image2');?></div>
 									<?php echo getParam($error,'image2');?>
+									<input type="hidden" id="cur_image3" name="cur_image3" value="<?php echo getParam($post, 'cur_image3', '');?>">
 									<div id="image3"><?php echo create_image_uploaded(getParam($post,'image3'),'image3');?></div>
 									<?php echo getParam($error,'image3');?>
+									<input type="hidden" id="cur_image4" name="cur_image4" value="<?php echo getParam($post, 'cur_image4', '');?>">
 									<div id="image4"><?php echo create_image_uploaded(getParam($post,'image4'),'image4');?></div>
 									<?php echo getParam($error,'image4');?>
+									<input type="hidden" id="cur_image5" name="cur_image5" value="<?php echo getParam($post, 'cur_image5', '');?>">
 									<div id="image5"><?php echo create_image_uploaded(getParam($post,'image5'),'image5');?></div>
 									<?php echo getParam($error,'image5');?>
+									<input type="hidden" id="cur_image6" name="cur_image6" value="<?php echo getParam($post, 'cur_image6', '');?>">
 									<div id="image6"><?php echo create_image_uploaded(getParam($post,'image6'),'image6');?></div>
 									<?php echo getParam($error,'image6');?>
+									<input type="hidden" id="cur_image7" name="cur_image7" value="<?php echo getParam($post, 'cur_image7', '');?>">
 									<div id="image7"><?php echo create_image_uploaded(getParam($post,'image7'),'image7');?></div>
 									<?php echo getParam($error,'image7');?>
+									<input type="hidden" id="cur_image8" name="cur_image8" value="<?php echo getParam($post, 'cur_image8', '');?>">
 									<div id="image8"><?php echo create_image_uploaded(getParam($post,'image8'),'image8');?></div>
 									<?php echo getParam($error,'image8');?>
+									<input type="hidden" id="cur_image9" name="cur_image9" value="<?php echo getParam($post, 'cur_image9', '');?>">
 									<div id="image9"><?php echo create_image_uploaded(getParam($post,'image9'),'image9');?></div>
 									<?php echo getParam($error,'image9');?>
 								</div>

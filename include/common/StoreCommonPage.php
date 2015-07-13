@@ -35,6 +35,10 @@ class StoreCommonPage {
 	 * @return array 変換後データ
 	 */
 	public function dbToInputData($data, $primary_key) {
+		// 現在のステータス
+		$data['cur_status_id'] = $data['status_id'];
+		// 現在の許可証ファイル名
+		$data['cur_license'] = $data['license'];
 		// パスワードデコード
 		$data['login_password'] = decodePassword($data['login_password']);
 		// 第1エリア(都道府県)
@@ -57,6 +61,10 @@ class StoreCommonPage {
 		$data['contract_telephone1'] = isset($telephone[0]) ? $telephone[0] : "";
 		$data['contract_telephone2'] = isset($telephone[1]) ? $telephone[1] : "";
 		$data['contract_telephone3'] = isset($telephone[2]) ? $telephone[2] : "";
+		// 現在の画像１〜９
+		for ($i = 1; $i <= 9; $i++) {
+			$data['cur_image' . $i] = $data['image' . $i];
+		}
 		// 郵便番号
 		$data['zip_code1'] = (strlen($data['zip_code']) > 0) ? substr($data['zip_code'], 0, 3) : "";
 		$data['zip_code2'] = (strlen($data['zip_code']) > 3) ? substr($data['zip_code'], 3)    : "";
@@ -305,6 +313,62 @@ class StoreCommonPage {
 			return false;
 		}
 		
+		// ステータス(1：準備中、2：運営中、9：停止中)
+		// ※ステータスが停止中はアップロードしたファイルを「2：使用不可」とする
+		$use_state = ($param['status_id'] == 9) ? 2 : 1;
+		
+		if ($isAdmin) {
+			// 許可証
+			$update_param = array();
+			$update_param['use_state'] = $use_state;
+			$this->manager->db_manager->get('temp_image')->updateByFileName($param['license'], $update_param);
+			if ($param['cur_license'] != "" && $param['license'] != $param['cur_license']) {
+				delete_file($param['cur_license']);
+			}
+		}
+		
+		// 画像1〜9
+		$images = array();
+		for ($i = 1; $i <= 9; $i++) {
+			if ($param['image' . $i] == '') {
+				continue;
+			}
+			$images[] = $param['image' . $i];
+			$update_param = array();
+			$update_param['use_state'] = $use_state;
+			$this->manager->db_manager->get('temp_image')->updateByFileName($param['image' . $i], $update_param);
+		}
+		for ($i = 1; $i <= 9; $i++) {
+			if ($param['cur_image' . $i] == '') {
+				continue;
+			}
+			if (!in_array($param['cur_image' . $i], $images)) {
+				delete_file($param['cur_image' . $i]);
+			}
+		}
+		
+		// 店舗のお知らせでアップロードしたファイルの使用不可制御
+		$notice_list = $this->manager->db_manager->get('notice')->getListByStoreID($primary_key);
+		if (is_array($notice_list)) {
+			$notice_images = array();
+			foreach ($notice_list as $key => $notice) {
+				for ($i = 1; $i <= 3; $i++) {
+					if (empty($notice['image' . $i])) {
+						continue;
+					}
+					$notice_images[] = $notice['image' . $i];
+				}
+			}
+			foreach ($notice_images as $notice_image) {
+				$update_param = array();
+				$update_param['use_state'] = $use_state;
+				$this->manager->db_manager->get('temp_image')->updateByFileName($notice_image, $update_param);
+			}
+		}
+		
+		// .htaccess ファイルを生成してアップロードファイルの使用可否制御
+		set_cannot_use_file();
+		
 		// 銀行
 		$bank_data = $this->manager->db_manager->get('bank_account')->searchForStoreId($primary_key);
 		for ($i = 1; $i <= 3; $i++) {
@@ -370,7 +434,7 @@ class StoreCommonPage {
 			$result['image_name'] = $new_file_name;
 			$result['base_dir']   = UPLOAD_IMG_URL;
 			
-			$this->manager->db_manager->get('temp_image')->insert(array('file_name'=>$new_file_name));
+			$this->manager->db_manager->get('temp_image')->insert(array('dir_path'=>$dir, 'file_name'=>$new_file_name));
 		}
 		echo json_encode($result);
 		exit();

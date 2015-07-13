@@ -550,3 +550,54 @@ function _create_file_display($name,$file_val){
 	$html.= '</div><!-- file_capbox -->'."\r\n";
 	return $html;
 }
+
+function set_cannot_use_file() {
+	$manager = Management::getInstance();
+	$temp_image = $manager->db_manager->get('temp_image');
+	$records  = $temp_image->getListForUseState(2);
+	if ($records == null) {
+		return;
+	}
+	
+	$cannot_use_files = array();
+	foreach ($records as $key => $record) {
+		if (!isset($cannot_use_files[$record['dir_path']])) {
+			$cannot_use_files[$record['dir_path']] = array();
+		}
+		$cannot_use_files[$record['dir_path']][] = $record['file_name'];
+	}
+	
+	$cannot_use_outputs = array();
+	foreach ($cannot_use_files as $key => $files) {
+		$output  = '<Files ~ "^(';
+		$output .= implode('|', $files);
+		$output .= ')$">' . "\r\n";
+		$output .= "\t" . 'order deny, allow' . "\r\n";
+		$output .= "\t" . 'deny from all' . "\r\n";
+		$output .= "\t" . 'allow from ' . $_SERVER["REMOTE_ADDR"] . "\r\n";
+		$output .= '</Files> ' . "\r\n";
+		$cannot_use_outputs[$key] = $output;
+	}
+	
+	foreach ($cannot_use_outputs as $key => $output) {
+		if ($key == "" || $key == UPLOAD_FILE_DIR) {
+			// NOTE: 一旦、許可証ファイルは除外としておく
+			continue;
+		}
+		$htaccess = $key . ".htaccess";
+		@file_put_contents($htaccess, $output);
+	}
+}
+
+function delete_file($filename) {
+	$manager = Management::getInstance();
+	$record  = $manager->db_manager->get('temp_image')->findByFileName($filename);
+	if ($record != null) {
+		$file_path = $record['dir_path'] . $record['file_name'];
+		@unlink($file_path);
+	}
+	
+	$update_param = array();
+	$update_param['delete_flg'] = 1;
+	$manager->db_manager->get('temp_image')->updateByFileName($filename, $update_param);
+}

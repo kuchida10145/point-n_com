@@ -55,6 +55,7 @@
 							<div class="control-group">
 								<label class="control-label" for="selectError3">WEBサービス</label>
 								<div class="controls">
+									<input type="hidden" id="cur_status_id" name="cur_status_id" value="<?php echo getParam($post, 'cur_status_id', '');?>">
 									<?php echo getParam(store_status_label(), getParam($post, 'status_id'));?>
 								</div>
 							</div>
@@ -132,6 +133,7 @@
 							
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
+								<input type="hidden" id="cur_license" name="cur_license" value="<?php echo getParam($post, 'cur_license', '');?>">
 								<div class="controls"><?php echo create_file_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 							</div>
 
@@ -190,30 +192,39 @@
 								<div class="controls">
 									<div class="masonry-gallery">
 										<div id="image1" class="masonry-thumb">
+											<input type="hidden" id="cur_image1" name="cur_image1" value="<?php echo getParam($post, 'cur_image1', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image1'), 'image1', 'display');?>
 										</div>
 										<div id="image2" class="masonry-thumb">
+											<input type="hidden" id="cur_image2" name="cur_image2" value="<?php echo getParam($post, 'cur_image2', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image2'), 'image2', 'display');?>
 										</div>
 										<div id="image3" class="masonry-thumb">
+											<input type="hidden" id="cur_image3" name="cur_image3" value="<?php echo getParam($post, 'cur_image3', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image3'), 'image3', 'display');?>
 										</div>
 										<div id="image4" class="masonry-thumb">
+											<input type="hidden" id="cur_image4" name="cur_image4" value="<?php echo getParam($post, 'cur_image4', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image4'), 'image4', 'display');?>
 										</div>
 										<div id="image5" class="masonry-thumb">
+											<input type="hidden" id="cur_image5" name="cur_image5" value="<?php echo getParam($post, 'cur_image5', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image5'), 'image5', 'display');?>
 										</div>
 										<div id="image6" class="masonry-thumb">
+											<input type="hidden" id="cur_image6" name="cur_image6" value="<?php echo getParam($post, 'cur_image6', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image6'), 'image6', 'display');?>
 										</div>
 										<div id="image7" class="masonry-thumb">
+											<input type="hidden" id="cur_image7" name="cur_image7" value="<?php echo getParam($post, 'cur_image7', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image7'), 'image7', 'display');?>
 										</div>
 										<div id="image8" class="masonry-thumb">
+											<input type="hidden" id="cur_image8" name="cur_image8" value="<?php echo getParam($post, 'cur_image8', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image8'), 'image8', 'display');?>
 										</div>
 										<div id="image9" class="masonry-thumb">
+											<input type="hidden" id="cur_image9" name="cur_image9" value="<?php echo getParam($post, 'cur_image9', '');?>">
 											<?php echo create_image_uploaded(getParam($post, 'image9'), 'image9', 'display');?>
 										</div>
 									</div>

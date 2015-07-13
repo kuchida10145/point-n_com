@@ -28,7 +28,55 @@ class NoticePage extends AdminPage {
 
 		return $this->manager->validation->run($param);
 	}
-
+	
+	/**
+	 * ＤＢデータから入力用データへ変換
+	 *
+	 * @param array $data 変換元データ
+	 * @return array 変換後データ
+	 */
+	protected function dbToInputData($data) {
+		$news_common = new NewsCommonPage();
+		return $news_common->dbToInputData($data, $this->id);
+	}
+	
+	/**
+	 * 新規登録処理
+	 *
+	 * @param array $param 更新用パラメータ
+	 * @return mixed
+	 */
+	protected function inseart_action($param){
+		$param = $this->inputToDbData($param);
+		
+		$news_common = new NewsCommonPage();
+		return $news_common->insert_action($param, $this->use_table);
+	}
+	
+	/**
+	 * 更新処理
+	 *
+	 * @param array $param 更新用パラメータ
+	 * @return mixed
+	 */
+	protected function update_action($param){
+		$param = $this->inputToDbData($param);
+		
+		$news_common = new NewsCommonPage();
+		return $news_common->update_action($param, $this->id, $this->use_table);
+	}
+	
+	/**
+	 * 入力用データからＤＢデータへ変換
+	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
+	 *
+	 * @param array $data 変換元データ
+	 * @return array 変換後データ
+	 */
+	protected function inputToDbData($data){
+		return $data;
+	}
+	
 	/**
 	 * 画像アップロード（AJAX)
 	 */
