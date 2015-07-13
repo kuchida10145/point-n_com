@@ -130,32 +130,48 @@
 							<?php endforeach;?>
 						</div>
 					<?php endif;?>
-				<p><?php echo $store_introduction;?></p>
-				<h3>ショップデータ</h3>
-				<table border="0" cellpadding="0" cellspacing="0" class="table01">
-					<tr>
-						<th>住所</th>
-						<td><?php echo getParam($store,'address1');?><?php echo getParam($store,'address2');?><br />
-						<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn2">MAPを表示する</a></td>
-					</tr>
-					<tr>
-						<th>営業時間</th>
-						<td><?php echo getParam($store,'business_hours');?></td>
-					</tr>
-					<tr>
-						<th>電話番号</th>
-						<td><?php echo getParam($store,'telephone');?></td>
-					</tr>
-					<tr>
-						<th>休日</th>
-						<td><?php echo getParam($store,'holiday');?></td>
-					</tr>
-				</table>
-				<h3>女の子の詳細はこちら</h3>
-				<p>
-					<a href="<?php echo getParam($store,'url_outside1');?>" target="_blank"><img src="http://img.cityheaven.net/img/linkgist/234_60.gif" alt="風俗 デリヘル ヘルス｜ヘブンネット" width="234" height="60" border="0" style="width:49%;"></a>
-					<a href="<?php echo getParam($store,'url_outside2');?>" target="_blank"><img src="http://www.yoasobi.co.jp/pc/img/234x60_1.gif" border="0" alt="風俗 デリヘル｜夜遊びガイド" style="width:49%;" /></a>
-					<script language="JavaScript" type="text/javascript"><!--
+					<p><?php echo $store_introduction;?></p>
+					<h3>ショップデータ</h3>
+					<table border="0" cellpadding="0" cellspacing="0" class="table01">
+						<tr>
+							<th>住所</th>
+							<td><?php echo getParam($store,'address1');?><?php echo getParam($store,'address2');?><br />
+							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn2">MAPを表示する</a></td>
+						</tr>
+						<tr>
+							<th>営業時間</th>
+							<td><?php echo getParam($store,'business_hours');?></td>
+						</tr>
+						<tr>
+							<th>電話番号</th>
+							<td><?php echo getParam($store,'telephone');?></td>
+						</tr>
+						<tr>
+							<th>休日</th>
+							<td><?php echo getParam($store,'holiday');?></td>
+						</tr>
+					</table>
+				<?php if (!empty(getParam($store, 'url_outside1')) || !empty(getParam($store, 'url_outside2'))) : ?>
+					<h3>女の子の詳細はこちら</h3>
+					<p>
+					<?php if (!empty(getParam($store,'url_outside1'))) : ?>
+						<?php 
+							$link_text_outside1 = getParam($store, 'link_text_outside1');
+							$link_text_outside1 = ($link_text_outside1 != '') ? $link_text_outside1 : '外部サイトへ';
+						?>
+						<a href="<?php echo getParam($store,'url_outside1');?>" target="_blank"><?php echo $link_text_outside1; ?></a>　
+					<?php endif; ?>
+					<?php if (!empty(getParam($store,'url_outside2'))) : ?>
+						<?php 
+							$link_text_outside2 = getParam($store, 'link_text_outside2');
+							$link_text_outside2 = ($link_text_outside2 != '') ? $link_text_outside2 : '外部サイトへ';
+						?>
+						<a href="<?php echo getParam($store,'url_outside2');?>" target="_blank"><?php echo $link_text_outside2; ?></a>
+					<?php endif; ?>
+					</p>
+				<?php endif; ?>
+					<script language="JavaScript" type="text/javascript">
+						<!--
 						function MoveCheck01(id) {
 							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
 							if( res == true ) {
@@ -163,17 +179,15 @@
 							}
 
 						}
-				// --></script>
-					<script language="JavaScript" type="text/javascript"><!--
 						function MoveCheck02(id) {
 							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
 							if( res == true ) {
 								window.location = "../reservation/index.php?coupon_id="+id;
 							}
 						}
-				// --></script>
-				</p>
-			</div>
+						// -->
+					</script>
+				</div>
 			<!--/コンテンツ-->
 			<div id="footer">
 				<address>
