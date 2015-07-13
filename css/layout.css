@@ -161,6 +161,24 @@ input[type="radio"] {
 	text-decoration:none;
 }
 
+.linkbtn5{
+	font-size:110%;
+	padding:5px 1% 5px 1%;
+	color:#fff;
+	font-weight:800;
+	background:#ff2f7d;
+	-moz-border-radius: 5px;		
+	border-radius: 5px;
+	text-decoration:none;
+
+}
+
+.btn2block .linkbtn5{
+	width:46%;
+	margin:0 1% 0 1%;
+	float:left;
+}
+
 .width100{
 	width:100%;
 }
@@ -558,7 +576,6 @@ text-overflow: ellipsis;
 	display:inline-block;
 	padding:0 10px;
 	color:#fff;
-        margin-bottom: 5px;
 }
 .selectedterms dd a{
 	color:#fff;

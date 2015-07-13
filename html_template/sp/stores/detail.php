@@ -151,25 +151,39 @@
 							<td><?php echo getParam($store,'holiday');?></td>
 						</tr>
 					</table>
-				<?php if (!empty(getParam($store, 'url_outside1')) || !empty(getParam($store, 'url_outside2'))) : ?>
+				<?php 
+					$outside_urls = array();
+					for ($i = 1; $i <= 2; $i++) {
+						if (!empty(getParam($store, 'url_outside' . $i))) {
+							$link_text = getParam($store, 'link_text_outside' . $i);
+							$link_text = ($link_text != '') ? $link_text : '外部サイトへ';
+							$outside_urls[] = array(
+								'url'       => getParam($store, 'url_outside' . $i),
+								'link_text' => $link_text
+							);
+						}
+					}
+					$is_plural = count($outside_urls) > 1 ? true : false;
+				?>
+				<?php if (count($outside_urls) > 0) :?>
 					<h3>女の子の詳細はこちら</h3>
+					<?php if ($is_plural) : ?>
+					<div class="btn2block">
+					<p class="fixHeight clearfix">
+					<?php else : ?>
 					<p>
-					<?php if (!empty(getParam($store,'url_outside1'))) : ?>
-						<?php 
-							$link_text_outside1 = getParam($store, 'link_text_outside1');
-							$link_text_outside1 = ($link_text_outside1 != '') ? $link_text_outside1 : '外部サイトへ';
-						?>
-						<a href="<?php echo getParam($store,'url_outside1');?>" target="_blank"><?php echo $link_text_outside1; ?></a>　
 					<?php endif; ?>
-					<?php if (!empty(getParam($store,'url_outside2'))) : ?>
-						<?php 
-							$link_text_outside2 = getParam($store, 'link_text_outside2');
-							$link_text_outside2 = ($link_text_outside2 != '') ? $link_text_outside2 : '外部サイトへ';
-						?>
-						<a href="<?php echo getParam($store,'url_outside2');?>" target="_blank"><?php echo $link_text_outside2; ?></a>
-					<?php endif; ?>
-					</p>
 				<?php endif; ?>
+				<?php foreach ($outside_urls as $outside_url) : ?>
+					<a href="<?php echo $outside_url['url']; ?>" class="linkbtn5 block alncenter" target="_blank"><?php echo $outside_url['link_text']; ?></a>
+				<?php endforeach; ?>
+				<?php if (count($outside_urls) > 0) :?>
+					</p>
+					<?php if ($is_plural) : ?>
+					</div>
+					<?php endif; ?>
+				<?php endif; ?>
+					
 					<script language="JavaScript" type="text/javascript">
 						<!--
 						function MoveCheck01(id) {
