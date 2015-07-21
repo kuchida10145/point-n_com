@@ -253,13 +253,13 @@ class StoreDbModel extends DbModel{
 		$sql  = $this->shopListSqlBase($is_count);
 		$sql .= " WHERE {$where} ";
 
+		// 複数の結果を防ぐ
+		$sql .= ' GROUP BY store.store_id';
+
 		if ($is_count) {
 			// 件数取得
 			return $this->db->getData($sql);
 		}
-
-		// 複数の結果を防ぐ
-		$sql .= ' GROUP BY store.store_id';
 
 		// ORDER BY 句
 		$sql .= $this->shopListSqlOrderBy($this->sort_id);

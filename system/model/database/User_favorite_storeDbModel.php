@@ -238,13 +238,14 @@ class User_favorite_storeDbModel extends DbModel{
 				notice.title"
 				, $sql);
 
+
+		// 複数の結果を防ぐ
+		$sql .= ' GROUP BY store.store_id';
+
 		if ($is_count) {
 			// 件数取得
 			return $this->db->getCount($sql);
 		}
-
-		// 複数の結果を防ぐ
-		$sql .= ' GROUP BY store.store_id';
 
 		// ORDER BY 句
 		$sql .= " ORDER BY user_favorite_store.update_date DESC ";
