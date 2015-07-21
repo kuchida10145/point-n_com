@@ -258,6 +258,9 @@ class StoreDbModel extends DbModel{
 			return $this->db->getData($sql);
 		}
 
+		// 複数の結果を防ぐ
+		$sql .= ' GROUP BY store.store_id';
+
 		// ORDER BY 句
 		$sql .= $this->shopListSqlOrderBy($this->sort_id);
 
@@ -296,11 +299,11 @@ class StoreDbModel extends DbModel{
 		$sql .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
 		$sql .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
 		$sql .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
-		$sql .= ' LEFT JOIN `coupon` AS c1 ON store.store_id = c1.store_id AND c1.status_id = 1 AND c1.point_kind = 1';
+		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 1 ORDER BY point DESC) AS c1 ON store.store_id = c1.store_id';
 		$sql .= ' LEFT JOIN `course` AS cs1 ON c1.course_id = cs1.course_id AND c1.store_id = cs1.store_id ';
-		$sql .= ' LEFT JOIN `coupon` AS c2 ON store.store_id = c2.store_id AND c2.status_id = 1 AND c2.point_kind = 2';
+		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 2 ORDER BY point DESC) AS c2 ON store.store_id = c2.store_id';
 		$sql .= ' LEFT JOIN `course` AS cs2 ON c2.course_id = cs2.course_id AND c2.store_id = cs2.store_id ';
-		$sql .= ' LEFT JOIN `notice` ON store.store_id = notice.store_id AND notice.public = 1 AND notice.public_start_date <= "' . $todayDate .'" AND notice.public_end_date >= "' . $todayDate . '"';
+		$sql .= ' LEFT JOIN ( SELECT * FROM `notice` WHERE public_start_date <= "' . $todayDate . '" AND public_end_date >= "' . $todayDate . '" ORDER BY notice_id) AS notice ON store.store_id = notice.store_id AND notice.public = 1';
 		return $sql;
 	}
 
