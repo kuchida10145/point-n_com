@@ -253,13 +253,13 @@ class StoreDbModel extends DbModel{
 		$sql  = $this->shopListSqlBase($is_count);
 		$sql .= " WHERE {$where} ";
 
-		// 複数の結果を防ぐ
-		$sql .= ' GROUP BY store.store_id';
-
 		if ($is_count) {
 			// 件数取得
 			return $this->db->getData($sql);
 		}
+
+		// 複数の結果を防ぐ
+		$sql .= ' GROUP BY store.store_id';
 
 		// ORDER BY 句
 		$sql .= $this->shopListSqlOrderBy($this->sort_id);
@@ -285,7 +285,7 @@ class StoreDbModel extends DbModel{
 		$todayDate = date( 'Y-m-d H:i:s', time() );
 
 		if ($is_count) {
-			$sql = ' SELECT count(store.store_id) as cnt ';
+			$sql = ' SELECT count(DISTINCT store.store_id) as cnt ';
 		} else {
 			$sql  = 'SELECT store.store_id, store.store_name, store.new_arrival, store.address1, store.address2, store.image1';
 			$sql .= ', store.type_of_industry_id';
