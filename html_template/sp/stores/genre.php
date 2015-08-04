@@ -150,7 +150,7 @@
 
 <div class="searchlinkbtn">
 	<?php $delivery_style = in_array(getParam($post, 'category_midium_id'), $category_midium_ids_for_delivery) ? ' style="display: inline;" ' : ' style="display: none;" '; ?>
-	<p><a href="javascript:void(0);" onclick="document.frm.submit();"><span class="searchlinkicon"></span><span id="delivery"<?php echo $delivery_style; ?>>（発）</span>エリアから探す</a></p>
+	<p><a href="javascript:void(0);" onclick="document.frm.submit();"><span class="searchlinkicon"></span><span id="delivery"<?php echo $delivery_style; ?>>発</span>エリアから探す</a></p>
 </div>
 
 <div id="footer">

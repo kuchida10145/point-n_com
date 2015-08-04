@@ -65,7 +65,7 @@
 <!--コンテンツ-->
 
 <div class="contents">
-<h2 style="margin:-10px -10px 0 -10px;"><?php if ($delivery) { echo '（発）'; } ?>エリアを探す 
+<h2 style="margin:-10px -10px 0 -10px;"><?php if ($delivery) { echo '発'; } ?>エリアを探す 
 <?php 
 	$err_messages = array();
 	if (getParam($error, 'area_first') != "") {
