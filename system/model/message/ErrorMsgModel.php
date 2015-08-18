@@ -50,6 +50,8 @@ class ErrorMsgModel extends MsgModel
 			'strict_select'  => '不正なデータが選択されています',
 			'same_email'     => '同一のメールアドレスを入力してください',
 			'pdecimal_zero'  => '0以上の小数で入力してください', 
+			'this_monthChk'  => '今月以外の日付は設定できません',
+			'plus_moneyChk'  => '1円以上の金額を設定してください',
 		);
 		$this->setMessages($message);
 	}

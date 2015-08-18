@@ -147,7 +147,7 @@ class Add_limitPage extends AdminPage {
 			$param['user_id'] = $this->id;
 		}
 
-		$this->manager->validation->setRule('add_point'    ,'required|digit');
+		$this->manager->validation->setRule('add_point'    ,'required|digit|plus_moneyChk');
 		$this->manager->validation->setRule('add_type'     ,'selected');
 		$this->manager->validation->setRule('add_date'     ,'required|realdate');
 		$this->manager->validation->setRule('review_status','selected');

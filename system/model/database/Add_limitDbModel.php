@@ -36,10 +36,12 @@ class Add_limitDbModel extends DbModel{
 		$wheres[] = " store_id = '{$id}' ";
 		
 		//月が設定されている場合
-		if(getParam($get,'month') != '' ){
+		if(getParam($get,'month') != '' && getParam($get,'year') != '' ){
 			$month = getParam($get,'month');
+			$year = getParam($get,'year');
 			$month = $this->escape_string($month);
-			$wheres[] = " add_date LIKE '{$month}-__' ";
+			$year  = $this->escape_string($year);
+			$wheres[] = " add_date LIKE '{$year}-{$month}-__' ";
 		}
 		
 		$where = " WHERE ".implode(' AND ',$wheres);
