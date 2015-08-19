@@ -661,6 +661,41 @@ function add_review_status(){
 }
 
 
+/**
+ * 支払い状況
+ */
+function pay_status(){
+	return array(
+		0=>'未確定',
+		1=>'未入金',
+		2=>'入金',
+	);
+}
+
+
+/**
+ * 請求の合計計算
+ */
+function calculate_bil($data){
+	//請求用
+	$issue_point   = getParam($data,'issue_point');//発行ポイント
+	
+	//払い戻し用
+	$use_point     = getParam($data,'use_point');
+	$before_cancel = getParam($data,'before_cancel');
+	$deposit_price = getParam($data,'deposit_price');
+	
+	//調整用
+	$adjust_price  = getParam($data,'adjust_price');
+	
+	//払い戻し合計
+	$return_price = $use_point+$before_cancel+$deposit_price;
+	
+	$total = $issue_point-$return_price+$adjust_price;
+	
+	return $total;
+}
+
 
 /*-----------------------------------------------------------
  * 権限関連
