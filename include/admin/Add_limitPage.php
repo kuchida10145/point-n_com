@@ -164,10 +164,14 @@ class Add_limitPage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function inseart_action($param){
-		//パスワード暗号化
 		$param['store_id'] = $this->getFormSession('store_id');
-		return $this->manager->db_manager->get($this->use_table)->insert($param);
-
+		$bool = $this->manager->db_manager->get($this->use_table)->insert($param);
+		
+		//承認の場合
+		if($bool !== false && $param['review_status'] == 1){
+			return $this->manager->db_manager->get('store')->addPointLimit($param['store_id'],$param['add_point']);
+		}
+		return $bool;
 	}
 
 
@@ -178,17 +182,18 @@ class Add_limitPage extends AdminPage {
 	 * @return mixed
 	 */
 	protected function update_action($param){
-		//パスワード暗号化
-		if(getParam($param,'password') != ''){
-			$param['password'] = encodePassword($param['password']);
+		
+		$data = $this->manager->db_manager->get($this->use_table)->findById($this->id);
+		
+		$bool = $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
+		//承認の場合
+		if($bool !== false && $param['review_status'] == 1){
+			return $this->manager->db_manager->get('store')->addPointLimit($data['store_id'],$param['add_point']);
 		}
-		else{
-			unset($param['password']);
-		}
-		return $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
+		return $bool;
 	}
 
-		/**
+	/**
 	 * 入力画面の共通データを取得
 	 *
 	 * @param array $data 格納用変数

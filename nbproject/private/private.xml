@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/phpSite/point.com/html_template/admin/bill/confirm.php</file>
             <file>file:/D:/phpSite/point.com/system/model/database/BillDbModel.php</file>
-            <file>file:/D:/phpSite/point.com/include/common/AdminPage.php</file>
+            <file>file:/D:/phpSite/point.com/point_develop.sql</file>
+            <file>file:/D:/phpSite/point.com/system/model/database/Add_limitDbModel.php</file>
             <file>file:/D:/phpSite/point.com/include/admin/BillPage.php</file>
-            <file>file:/D:/phpSite/point.com/system/custom/core/DbModel.php</file>
-            <file>file:/D:/phpSite/point.com/system/custom/helper/Data.php</file>
-            <file>file:/D:/phpSite/point.com/html_template/admin/bill/edit.php</file>
-            <file>file:/D:/phpSite/point.com/html_template/admin/bill/index.php</file>
+            <file>file:/D:/phpSite/point.com/point_product.sql</file>
+            <file>file:/D:/phpSite/point.com/cron/monthly.cron.php</file>
+            <file>file:/D:/phpSite/point.com/system/core/database/DbModel.php</file>
+            <file>file:/D:/phpSite/point.com/system/model/database/StoreDbModel.php</file>
+            <file>file:/D:/phpSite/point.com/include/admin/Add_limitPage.php</file>
         </group>
     </open-files>
 </project-private>
