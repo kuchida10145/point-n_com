@@ -28,7 +28,7 @@ class BillDbModel extends DbModel{
 	/**
 	 * 今月の請求一覧を作成（Cronで月初めに実行）
 	 */
-	public function addThisMonthBill(){
+	public function addThisMonthBillCron(){
 		$regist_date = $update_date = date('Y-m-d H:i:s');
 		$this_month = date('Y-m');
 		$sql = "INSERT INTO bill (store_id,store_name,bill_month,regist_date,update_date) (SELECT store_id,store_name,'{$this_month}','{$regist_date}','{$update_date}' FROM store WHERE delete_flg = 0 )";

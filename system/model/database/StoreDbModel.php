@@ -65,6 +65,8 @@ class StoreDbModel extends DbModel{
 			'representative_mei',
 			'representative_email',
 			'reserved_email',
+			'point_limit',
+			'base_point',
 			'latest_login_date',
 			'regist_date',
 			'update_date',
@@ -512,5 +514,46 @@ class StoreDbModel extends DbModel{
 		$field = $this->getFieldText();
 		$sql = "SELECT {$field} FROM {$this->table} WHERE {$this->primary_key} = '{$id}' AND delete_flg = 0 AND status_id = 2 LIMIT 0,1";
 		return $this->db->getData($sql);
+	}
+	
+	
+	
+	/*==========================================================================================
+	* CRON：毎月１日に実行
+	*
+	*==========================================================================================*/
+	/**
+	 * ポイント利用枠を、月初めに付与するポイント枠（base_point)と同じ数値にする
+	 * 
+	 */
+	public function pointLimitThisMonthCron(){
+		$sql = "UPDATE {$this->table} SET point_limit = base_point ";
+		return $this->db->query($sql);
+	}
+	
+	
+	/*==========================================================================================
+	* ポイント枠周り
+	*
+	*==========================================================================================*/
+
+	/**
+	 * ポイント利用枠追加
+	 * @param int $store_id 店舗ID
+	 * @param int $point ポイント
+	 */
+	public function addPointLimit($store_id,$point){
+		$sql = "UPDATE {$this->table} SET point_limit = point_limit+{$point} WHERE store_id = '{$store_id}' ";
+		return $this->db->query($sql);
+	}
+	
+	/**
+	 * ポイント利用枠減少
+	 * @param int $store_id 店舗ID
+	 * @param int $point ポイント
+	 */
+	public function usePointLimit($store_id,$point){
+		$sql = "UPDATE {$this->table} SET point_limit = point_limit-{$point} WHERE store_id = '{$store_id}' ";
+		return $this->db->query($sql);
 	}
 }

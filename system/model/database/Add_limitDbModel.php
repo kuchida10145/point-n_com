@@ -97,6 +97,18 @@ class Add_limitDbModel extends DbModel{
 		}
 		return $res['add_date'];
 	}
-
+	
+	
+	/**
+	 * 毎月の利用枠分のデータを挿入（CRONで実行)
+	 */
+	public function addBasePointCron(){
+		$regist_date = $update_date = date('Y-m-01 H:i:s');
+		$add_date    = date('Y-m-01');
+		$memo        = "基本利用枠付与";
+		$sql = "INSERT INTO add_limit (store_id,add_date,add_point,review_status,add_type,memo,regist_date,update_date) ";
+		$sql.= "(SELECT store_id,'{$add_date}',base_point,'1','2','{$memo}','{$regist_date}','{$update_date}' FROM store WHERE delete_flg = 0 )";
+		$this->db->query($sql);
+	}
 
 }

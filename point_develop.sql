@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 3.4.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 2015 年 5 譛・11 日 14:16
+-- ホスト: localhost
+-- 生成時間: 2015 年 8 月 19 日 18:56
 -- サーバのバージョン： 5.6.16
 -- PHP Version: 5.5.11
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `point`
+-- データベース: `point`
 --
 
 -- --------------------------------------------------------
@@ -41,12 +41,32 @@ CREATE TABLE IF NOT EXISTS `account` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='アカウント情報' AUTO_INCREMENT=3 ;
 
 --
--- テーブルのデータのダンプ `account`
+-- テーブルのデータをダンプしています `account`
 --
 
 INSERT INTO `account` (`account_id`, `account_name`, `login_id`, `login_password`, `permission_kind`, `status_id`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
 (1, '高橋 <br />', 'testadmin', 'REm0ql7HNzY=', 2, 1, '2015-05-09 00:00:00', '2015-05-09 00:00:00', '2015-05-10 16:53:13', 0),
 (2, 'テスト太郎', 'testguest', 'REm0ql7HNzY=', 1, 1, NULL, '2015-05-10 00:34:02', '2015-05-10 11:40:37', 1);
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `add_limit`
+--
+
+CREATE TABLE IF NOT EXISTS `add_limit` (
+  `add_limit_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ポイント利用枠ＩＤ',
+  `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
+  `add_date` date NOT NULL COMMENT '入金日',
+  `add_point` int(11) NOT NULL DEFAULT '0' COMMENT '追加ポイント枠',
+  `add_type` char(1) NOT NULL DEFAULT '1' COMMENT '追加タイプ : 1:前払い 2:後払い',
+  `memo` text COMMENT 'メモ',
+  `review_status` char(1) NOT NULL DEFAULT '0' COMMENT '審査状況 : 0:申請 1:承認',
+  `regist_date` datetime NOT NULL COMMENT '登録日時',
+  `update_date` datetime NOT NULL COMMENT '更新日時',
+  `delete_flg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0:通常　1:削除',
+  PRIMARY KEY (`add_limit_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='利用枠追加' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -69,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `area_first` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第１エリアマスター' AUTO_INCREMENT=189 ;
 
 --
--- テーブルのデータのダンプ `area_first`
+-- テーブルのデータをダンプしています `area_first`
 --
 
 INSERT INTO `area_first` (`area_first_id`, `category_large_id`, `region_id`, `prefectures_id`, `area_first_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -281,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `area_second` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第２エリアマスター' AUTO_INCREMENT=227 ;
 
 --
--- テーブルのデータのダンプ `area_second`
+-- テーブルのデータをダンプしています `area_second`
 --
 
 INSERT INTO `area_second` (`area_second_id`, `area_first_id`, `area_second_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -530,7 +550,7 @@ CREATE TABLE IF NOT EXISTS `area_third` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第３エリアマスター' AUTO_INCREMENT=507 ;
 
 --
--- テーブルのデータのダンプ `area_third`
+-- テーブルのデータをダンプしています `area_third`
 --
 
 INSERT INTO `area_third` (`area_third_id`, `area_second_id`, `area_third_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1104,7 +1124,7 @@ CREATE TABLE IF NOT EXISTS `automail` (
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`automail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='メールテンプレート' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='メールテンプレート' AUTO_INCREMENT=10 ;
 
 --
 -- テーブルのデータをダンプしています `automail`
@@ -1144,6 +1164,30 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `bill`
+--
+
+CREATE TABLE IF NOT EXISTS `bill` (
+  `bill_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '請求ID',
+  `bill_month` varchar(7) NOT NULL COMMENT '請求月 : YYYY-mm形式',
+  `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
+  `store_name` varchar(255) NOT NULL COMMENT '店舗名',
+  `issue_point` int(11) NOT NULL DEFAULT '0' COMMENT '発行されたポイント',
+  `use_point` int(11) NOT NULL DEFAULT '0' COMMENT '会員が利用したポイント数',
+  `deposit_price` int(11) NOT NULL DEFAULT '0' COMMENT '前払い金',
+  `before_cancel` int(11) DEFAULT '0' COMMENT '前月以前のキャンセル',
+  `adjust_price` int(11) NOT NULL DEFAULT '0' COMMENT '調整費',
+  `pay_status` char(1) NOT NULL DEFAULT '0' COMMENT '支払い状況 : 0:未確定 1:未入金 2:入金済み',
+  `memo` text COMMENT 'メモ',
+  `regist_date` datetime NOT NULL COMMENT '登録日時',
+  `update_date` date NOT NULL COMMENT '更新日時',
+  `delete_flg` tinyint(1) DEFAULT '0' COMMENT '削除フラグ',
+  PRIMARY KEY (`bill_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='請求' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `category_large`
 --
 
@@ -1158,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `category_large` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='大カテゴリーマスター' AUTO_INCREMENT=4 ;
 
 --
--- テーブルのデータのダンプ `category_large`
+-- テーブルのデータをダンプしています `category_large`
 --
 
 INSERT INTO `category_large` (`category_large_id`, `category_large_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1186,7 +1230,7 @@ CREATE TABLE IF NOT EXISTS `category_midium` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='中カテゴリーマスター' AUTO_INCREMENT=219 ;
 
 --
--- テーブルのデータのダンプ `category_midium`
+-- テーブルのデータをダンプしています `category_midium`
 --
 
 INSERT INTO `category_midium` (`category_midium_id`, `category_large_id`, `region_id`, `category_midium_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1427,7 +1471,7 @@ CREATE TABLE IF NOT EXISTS `category_small` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='小カテゴリーマスター' AUTO_INCREMENT=510 ;
 
 --
--- テーブルのデータのダンプ `category_small`
+-- テーブルのデータをダンプしています `category_small`
 --
 
 INSERT INTO `category_small` (`category_small_id`, `category_midium_id`, `category_small_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2088,7 +2132,7 @@ CREATE TABLE IF NOT EXISTS `prefectures_master` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='都道府県マスター' AUTO_INCREMENT=48 ;
 
 --
--- テーブルのデータのダンプ `prefectures_master`
+-- テーブルのデータをダンプしています `prefectures_master`
 --
 
 INSERT INTO `prefectures_master` (`prefectures_id`, `region_id`, `prefectures_name`, `prefectures_code`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2157,7 +2201,7 @@ CREATE TABLE IF NOT EXISTS `region_master` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='地域マスター' AUTO_INCREMENT=20 ;
 
 --
--- テーブルのデータのダンプ `region_master`
+-- テーブルのデータをダンプしています `region_master`
 --
 
 INSERT INTO `region_master` (`region_id`, `region_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2221,7 +2265,7 @@ CREATE TABLE IF NOT EXISTS `reserved` (
 
 CREATE TABLE IF NOT EXISTS `store` (
   `store_id` mediumint(9) NOT NULL AUTO_INCREMENT COMMENT '店舗ID',
-  `store_hex_id` char(4) COMMENT '店ID : 16進数の店ID',
+  `store_hex_id` char(4) DEFAULT NULL COMMENT '店ID : 16進数の店ID',
   `status_id` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'ステータス : 1：準備中、2：運営中、9：停止中',
   `store_name` varchar(50) NOT NULL COMMENT '店舗名',
   `new_arrival` tinyint(4) NOT NULL COMMENT '新着 : 0：既存、1：新着',
@@ -2272,6 +2316,8 @@ CREATE TABLE IF NOT EXISTS `store` (
   `representative_mei` varchar(30) NOT NULL COMMENT '担当者の名',
   `representative_email` varchar(256) NOT NULL COMMENT '担当者メールアドレス',
   `reserved_email` varchar(256) NOT NULL COMMENT '予約受信メールアドレス',
+  `point_limit` int(11) NOT NULL DEFAULT '0' COMMENT 'ポイント利用枠',
+  `base_point` int(11) NOT NULL DEFAULT '20000' COMMENT '月初めに付与するポイント枠',
   `latest_login_date` datetime DEFAULT NULL COMMENT '最終ログイン日時',
   `regist_date` datetime NOT NULL COMMENT '登録日時',
   `update_date` datetime NOT NULL COMMENT '変更日時',
@@ -2280,24 +2326,24 @@ CREATE TABLE IF NOT EXISTS `store` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='店舗情報' AUTO_INCREMENT=15 ;
 
 --
--- テーブルのデータのダンプ `store`
+-- テーブルのデータをダンプしています `store`
 --
 
-INSERT INTO `store` (`store_id`, `store_hex_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `contract_zip_code`, `contract_prefectures_id`, `contract_address1`, `contract_address2`, `contract_telephone`, `link_text_outside1`, `link_text_outside2`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
-(1, '0001', 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
-(2, '0002', 2, '１５５知立店', 0, 1, '', '１５５知立店', '000ID1', 'kdeveu22Yxc=', 1, 50, 199, 43, 97, 216, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.005987, 137.031509, '4720055', 22, '知立市鳥居2-3-3', NULL, '9：00-17：00', '0123-00-0001', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '１５５知立', '店', 'a1@web.co.jp', 'a1@web.co.jp', NULL, '2015-06-09 16:04:21', '2015-06-09 16:04:21', 0),
-(3, '0003', 2, '大府共和店', 0, 1, '', '大府共和店', '000ID2', 'DFp+Me3OXZI=', 1, 51, 207, 43, 97, 217, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.032887, 136.952004, '4740061', 22, '大府市共和町3-3-11', NULL, '9：00-17：00', '0123-00-0002', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大府共和', '店', 'a2@web.co.jp', 'a2@web.co.jp', NULL, '2015-06-09 16:11:37', '2015-06-09 16:11:37', 0),
-(4, '0004', 2, '大須スポーツセンター店', 0, 1, '', '大須スポーツセンター店', '000ID3', 'Xi1s+jBhqk8=', 1, 51, 208, 43, 96, 214, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.157458, 136.899108, '4600018', 22, '名古屋市中区門前町1-60', NULL, '9：00-17：00', '0123-00-0003', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大須スポーツセンター', '店', 'a3@web.co.jp', 'a3@web.co.jp', NULL, '2015-06-09 16:18:50', '2015-06-09 16:18:50', 0),
-(5, '0005', 2, 'ＪＲ名古屋駅店', 0, 1, '', 'ＪＲ名古屋駅店', '000ID4', 'MjQfjAUIMh0=', 1, 52, 210, 43, 96, 204, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170711, 136.882545, '4500002', 22, '名古屋市中村区名駅1−1−4', NULL, '9：00-17：00', '0123-00-0004', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ＪＲ名古屋駅', '店', 'a4@web.co.jp', 'a4@web.co.jp', NULL, '2015-06-09 16:23:59', '2015-06-09 16:23:59', 0),
-(6, '0006', 2, '名古屋エスカ店', 0, 1, '', '名古屋エスカ店', '000ID5', 'rgazAp8y7Ek=', 1, 53, 211, 43, 96, 204, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170347, 136.879417, '4530015', 22, '名古屋市中村区椿町6-9', NULL, '9：00-17：00', '0123-00-0005', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '名古屋エスカ', '店', 'a5@web.co.jp', 'a5@web.co.jp', NULL, '2015-06-09 16:30:40', '2015-06-09 16:30:40', 0),
-(7, '0007', 2, '名古屋テルミナ店 ', 0, 2, '', '名古屋テルミナ店 ', '000ID6', '1MvZ0MVdhvk=', 1, 57, 224, 46, 102, 223, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170714, 136.883597, '4500002', 22, '名古屋市中村区名駅1-1-2', NULL, '9：00-17：00', '0123-00-0006', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '名古屋テルミナ', '店', 'a6@web.co.jp', 'a6@web.co.jp', NULL, '2015-06-09 16:49:52', '2015-06-09 16:49:52', 0),
-(8, '0008', 2, '名鉄レジャック店', 0, 3, '', '名鉄レジャック店', '000ID7', 'gGbabUJOSNQ=', 2, 123, 420, 116, 184, 420, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.167234, 136.884814, '4500003', 22, '中村区名駅南1-25-2', '', '9：00-17：00', '0123-00-0007', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '名鉄レジャック', '店', 'a7@web.co.jp', 'a7@web.co.jp', NULL, '2015-06-09 17:01:05', '2015-06-09 17:07:09', 0),
-(9, '0009', 2, '新岐阜駅前店', 0, 1, '', '新岐阜駅前店', '000ID8', '7KJGQ4zsRBs=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.412616, 136.759851, '5008833', 23, '岐阜市神田町8-7', NULL, '9：00-17：00', '0123-00-0008', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '新岐阜駅前', '店', 'a8@web.co.jp', 'a8@web.co.jp', NULL, '2015-06-09 17:06:17', '2015-06-09 17:06:17', 0),
-(10, '000A', 2, 'イオンタウン大垣店', 0, 2, '', 'イオンタウン大垣店', '000ID9', 'JZ45uKCtndY=', 1, 54, 214, 47, 106, 233, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.367259, 136.633389, '5030808', 23, '大垣市三塚町丹瀬463-1', NULL, '9：00-17：00', '0123-00-0009', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'イオンタウン大垣', '店', 'a9@web.co.jp', 'a9@web.co.jp', NULL, '2015-06-09 17:15:53', '2015-06-09 17:15:53', 0),
-(11, '000B', 2, '大垣アクアウォーク店 ', 0, 3, '', '大垣アクアウォーク店 ', '000ID10', 'FLww2ZPbbIM=', 2, 123, 422, 117, 185, 436, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.370614, 136.61746, '5030015', 23, '大垣市林町6−80−21', NULL, '9：00-17：00', '0123-00-0010', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大垣アクアウォーク', '店', 'a10@web.co.jp', 'a10@web.co.jp', NULL, '2015-06-09 17:26:12', '2015-06-09 17:26:12', 0),
-(12, '000C', 2, '矢場町店 ', 0, 1, '78689261e81316b6175c6df2522414c1.jpg', '矢場町店 ', '000ID11', 'c+b3Gs+BD0g=', 1, 51, 208, 43, 96, 214, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.161552, 136.906087, '4600011', 22, '名古屋市中区大須3-8-1', '', '9：00-17：00', '0123-00-0011', '土日祝日', '', 0, '', '', '', '', '', '', '', '', '', '', '', '矢場町', '店', 'a11@web.co.jp', 'a11@web.co.jp', NULL, '2015-06-10 11:00:23', '2015-06-10 11:01:02', 0),
-(13, '000D', 2, '岐阜アピタ店 ', 0, 1, 'cb410ce104e77d0de927cef6620491e2.jpg', '岐阜アピタ店 ', '000ID12', 'CePeLNogAEU=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.402701, 136.747825, '5008462', 23, '岐阜市加納桜田町３ー４', '', '9：00-17：00', '0123-00-0012', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '岐阜アピタ店', '店', 'a12@web.co.jp', 'a12@web.co.jp', NULL, '2015-06-10 11:10:18', '2015-06-10 11:10:33', 0),
-(14, '000E', 2, '岐阜オーキッドパーク店 ', 0, 1, '9355dcd2322c745668f1c1fd223af16e.jpg', '岐阜オーキッドパーク店 ', '000ID13', 'JZEW1rvpwlI=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.410775, 136.744789, '5008891', 23, '岐阜市香蘭2-23', '', '9：00-17：00', '0123-00-0013', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '岐阜オーキッドパーク', '店', 'a13@web.co.jp', 'a13@web.co.jp', NULL, '2015-06-10 11:14:56', '2015-06-10 11:15:17', 0);
+INSERT INTO `store` (`store_id`, `store_hex_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `contract_zip_code`, `contract_prefectures_id`, `contract_address1`, `contract_address2`, `contract_telephone`, `link_text_outside1`, `link_text_outside2`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `point_limit`, `base_point`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
+(1, '0001', 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', 0, 20000, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0),
+(2, '0002', 2, '１５５知立店', 0, 1, '', '１５５知立店', '000ID1', 'kdeveu22Yxc=', 1, 50, 199, 43, 97, 216, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.005987, 137.031509, '4720055', 22, '知立市鳥居2-3-3', NULL, '9：00-17：00', '0123-00-0001', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '１５５知立', '店', 'a1@web.co.jp', 'a1@web.co.jp', 0, 20000, NULL, '2015-06-09 16:04:21', '2015-06-09 16:04:21', 0),
+(3, '0003', 2, '大府共和店', 0, 1, '', '大府共和店', '000ID2', 'DFp+Me3OXZI=', 1, 51, 207, 43, 97, 217, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.032887, 136.952004, '4740061', 22, '大府市共和町3-3-11', NULL, '9：00-17：00', '0123-00-0002', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大府共和', '店', 'a2@web.co.jp', 'a2@web.co.jp', 0, 20000, NULL, '2015-06-09 16:11:37', '2015-06-09 16:11:37', 0),
+(4, '0004', 2, '大須スポーツセンター店', 0, 1, '', '大須スポーツセンター店', '000ID3', 'Xi1s+jBhqk8=', 1, 51, 208, 43, 96, 214, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.157458, 136.899108, '4600018', 22, '名古屋市中区門前町1-60', NULL, '9：00-17：00', '0123-00-0003', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大須スポーツセンター', '店', 'a3@web.co.jp', 'a3@web.co.jp', 0, 20000, NULL, '2015-06-09 16:18:50', '2015-06-09 16:18:50', 0),
+(5, '0005', 2, 'ＪＲ名古屋駅店', 0, 1, '', 'ＪＲ名古屋駅店', '000ID4', 'MjQfjAUIMh0=', 1, 52, 210, 43, 96, 204, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170711, 136.882545, '4500002', 22, '名古屋市中村区名駅1−1−4', NULL, '9：00-17：00', '0123-00-0004', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ＪＲ名古屋駅', '店', 'a4@web.co.jp', 'a4@web.co.jp', 0, 20000, NULL, '2015-06-09 16:23:59', '2015-06-09 16:23:59', 0),
+(6, '0006', 2, '名古屋エスカ店', 0, 1, '', '名古屋エスカ店', '000ID5', 'rgazAp8y7Ek=', 1, 53, 211, 43, 96, 204, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170347, 136.879417, '4530015', 22, '名古屋市中村区椿町6-9', NULL, '9：00-17：00', '0123-00-0005', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '名古屋エスカ', '店', 'a5@web.co.jp', 'a5@web.co.jp', 0, 20000, NULL, '2015-06-09 16:30:40', '2015-06-09 16:30:40', 0),
+(7, '0007', 2, '名古屋テルミナ店 ', 0, 2, '', '名古屋テルミナ店 ', '000ID6', '1MvZ0MVdhvk=', 1, 57, 224, 46, 102, 223, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.170714, 136.883597, '4500002', 22, '名古屋市中村区名駅1-1-2', NULL, '9：00-17：00', '0123-00-0006', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '名古屋テルミナ', '店', 'a6@web.co.jp', 'a6@web.co.jp', 0, 20000, NULL, '2015-06-09 16:49:52', '2015-06-09 16:49:52', 0),
+(8, '0008', 2, '名鉄レジャック店', 0, 3, '', '名鉄レジャック店', '000ID7', 'gGbabUJOSNQ=', 2, 123, 420, 116, 184, 420, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.167234, 136.884814, '4500003', 22, '中村区名駅南1-25-2', '', '9：00-17：00', '0123-00-0007', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '名鉄レジャック', '店', 'a7@web.co.jp', 'a7@web.co.jp', 0, 20000, NULL, '2015-06-09 17:01:05', '2015-06-09 17:07:09', 0),
+(9, '0009', 2, '新岐阜駅前店', 0, 1, '', '新岐阜駅前店', '000ID8', '7KJGQ4zsRBs=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.412616, 136.759851, '5008833', 23, '岐阜市神田町8-7', NULL, '9：00-17：00', '0123-00-0008', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '新岐阜駅前', '店', 'a8@web.co.jp', 'a8@web.co.jp', 0, 20000, NULL, '2015-06-09 17:06:17', '2015-06-09 17:06:17', 0),
+(10, '000A', 2, 'イオンタウン大垣店', 0, 2, '', 'イオンタウン大垣店', '000ID9', 'JZ45uKCtndY=', 1, 54, 214, 47, 106, 233, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.367259, 136.633389, '5030808', 23, '大垣市三塚町丹瀬463-1', NULL, '9：00-17：00', '0123-00-0009', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'イオンタウン大垣', '店', 'a9@web.co.jp', 'a9@web.co.jp', 0, 20000, NULL, '2015-06-09 17:15:53', '2015-06-09 17:15:53', 0),
+(11, '000B', 2, '大垣アクアウォーク店 ', 0, 3, '', '大垣アクアウォーク店 ', '000ID10', 'FLww2ZPbbIM=', 2, 123, 422, 117, 185, 436, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35.370614, 136.61746, '5030015', 23, '大垣市林町6−80−21', NULL, '9：00-17：00', '0123-00-0010', '土日祝日', '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '大垣アクアウォーク', '店', 'a10@web.co.jp', 'a10@web.co.jp', 0, 20000, NULL, '2015-06-09 17:26:12', '2015-06-09 17:26:12', 0),
+(12, '000C', 2, '矢場町店 ', 0, 1, '78689261e81316b6175c6df2522414c1.jpg', '矢場町店 ', '000ID11', 'c+b3Gs+BD0g=', 1, 51, 208, 43, 96, 214, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.161552, 136.906087, '4600011', 22, '名古屋市中区大須3-8-1', '', '9：00-17：00', '0123-00-0011', '土日祝日', '', 0, '', '', '', '', '', '', '', '', '', '', '', '矢場町', '店', 'a11@web.co.jp', 'a11@web.co.jp', 0, 20000, NULL, '2015-06-10 11:00:23', '2015-06-10 11:01:02', 0),
+(13, '000D', 2, '岐阜アピタ店 ', 0, 1, 'cb410ce104e77d0de927cef6620491e2.jpg', '岐阜アピタ店 ', '000ID12', 'CePeLNogAEU=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.402701, 136.747825, '5008462', 23, '岐阜市加納桜田町３ー４', '', '9：00-17：00', '0123-00-0012', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '岐阜アピタ店', '店', 'a12@web.co.jp', 'a12@web.co.jp', 0, 20000, NULL, '2015-06-10 11:10:18', '2015-06-10 11:10:33', 0),
+(14, '000E', 2, '岐阜オーキッドパーク店 ', 0, 1, '9355dcd2322c745668f1c1fd223af16e.jpg', '岐阜オーキッドパーク店 ', '000ID13', 'JZEW1rvpwlI=', 1, 51, 209, 44, 100, 220, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 35.410775, 136.744789, '5008891', 23, '岐阜市香蘭2-23', '', '9：00-17：00', '0123-00-0013', '土日祝日', '', 0, '', NULL, '', NULL, NULL, '', '', '', '', '', '', '岐阜オーキッドパーク', '店', 'a13@web.co.jp', 'a13@web.co.jp', 0, 20000, NULL, '2015-06-10 11:14:56', '2015-06-10 11:15:17', 0);
 
 -- --------------------------------------------------------
 

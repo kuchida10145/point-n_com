@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 3.4.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 2015 年 5 譛・11 日 14:16
+-- ホスト: localhost
+-- 生成時間: 2015 年 8 月 19 日 18:57
 -- サーバのバージョン： 5.6.16
 -- PHP Version: 5.5.11
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `point`
+-- データベース: `point`
 --
 
 -- --------------------------------------------------------
@@ -41,12 +41,32 @@ CREATE TABLE IF NOT EXISTS `account` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='アカウント情報' AUTO_INCREMENT=3 ;
 
 --
--- テーブルのデータのダンプ `account`
+-- テーブルのデータをダンプしています `account`
 --
 
 INSERT INTO `account` (`account_id`, `account_name`, `login_id`, `login_password`, `permission_kind`, `status_id`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
 (1, '高橋 <br />', 'testadmin', 'REm0ql7HNzY=', 2, 1, '2015-05-09 00:00:00', '2015-05-09 00:00:00', '2015-05-10 16:53:13', 0),
 (2, 'テスト太郎', 'testguest', 'REm0ql7HNzY=', 1, 1, NULL, '2015-05-10 00:34:02', '2015-05-10 11:40:37', 1);
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `add_limit`
+--
+
+CREATE TABLE IF NOT EXISTS `add_limit` (
+  `add_limit_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ポイント利用枠ＩＤ',
+  `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
+  `add_date` date NOT NULL COMMENT '入金日',
+  `add_point` int(11) NOT NULL DEFAULT '0' COMMENT '追加ポイント枠',
+  `add_type` char(1) NOT NULL DEFAULT '1' COMMENT '追加タイプ : 1:前払い 2:後払い',
+  `memo` text COMMENT 'メモ',
+  `review_status` char(1) NOT NULL DEFAULT '0' COMMENT '審査状況 : 0:申請 1:承認',
+  `regist_date` datetime NOT NULL COMMENT '登録日時',
+  `update_date` datetime NOT NULL COMMENT '更新日時',
+  `delete_flg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0:通常　1:削除',
+  PRIMARY KEY (`add_limit_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='利用枠追加' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -69,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `area_first` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第１エリアマスター' AUTO_INCREMENT=189 ;
 
 --
--- テーブルのデータのダンプ `area_first`
+-- テーブルのデータをダンプしています `area_first`
 --
 
 INSERT INTO `area_first` (`area_first_id`, `category_large_id`, `region_id`, `prefectures_id`, `area_first_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -281,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `area_second` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第２エリアマスター' AUTO_INCREMENT=227 ;
 
 --
--- テーブルのデータのダンプ `area_second`
+-- テーブルのデータをダンプしています `area_second`
 --
 
 INSERT INTO `area_second` (`area_second_id`, `area_first_id`, `area_second_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -530,7 +550,7 @@ CREATE TABLE IF NOT EXISTS `area_third` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='第３エリアマスター' AUTO_INCREMENT=507 ;
 
 --
--- テーブルのデータのダンプ `area_third`
+-- テーブルのデータをダンプしています `area_third`
 --
 
 INSERT INTO `area_third` (`area_third_id`, `area_second_id`, `area_third_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1104,7 +1124,7 @@ CREATE TABLE IF NOT EXISTS `automail` (
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`automail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='メールテンプレート' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='メールテンプレート' AUTO_INCREMENT=10 ;
 
 --
 -- テーブルのデータをダンプしています `automail`
@@ -1144,6 +1164,30 @@ CREATE TABLE IF NOT EXISTS `bank_account` (
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `bill`
+--
+
+CREATE TABLE IF NOT EXISTS `bill` (
+  `bill_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '請求ID',
+  `bill_month` varchar(7) NOT NULL COMMENT '請求月 : YYYY-mm形式',
+  `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
+  `store_name` varchar(255) NOT NULL COMMENT '店舗名',
+  `issue_point` int(11) NOT NULL DEFAULT '0' COMMENT '発行されたポイント',
+  `use_point` int(11) NOT NULL DEFAULT '0' COMMENT '会員が利用したポイント数',
+  `deposit_price` int(11) NOT NULL DEFAULT '0' COMMENT '前払い金',
+  `before_cancel` int(11) DEFAULT '0' COMMENT '前月以前のキャンセル',
+  `adjust_price` int(11) NOT NULL DEFAULT '0' COMMENT '調整費',
+  `pay_status` char(1) NOT NULL DEFAULT '0' COMMENT '支払い状況 : 0:未確定 1:未入金 2:入金済み',
+  `memo` text COMMENT 'メモ',
+  `regist_date` datetime NOT NULL COMMENT '登録日時',
+  `update_date` date NOT NULL COMMENT '更新日時',
+  `delete_flg` tinyint(1) DEFAULT '0' COMMENT '削除フラグ',
+  PRIMARY KEY (`bill_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='請求' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `category_large`
 --
 
@@ -1158,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `category_large` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='大カテゴリーマスター' AUTO_INCREMENT=4 ;
 
 --
--- テーブルのデータのダンプ `category_large`
+-- テーブルのデータをダンプしています `category_large`
 --
 
 INSERT INTO `category_large` (`category_large_id`, `category_large_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1183,10 +1227,10 @@ CREATE TABLE IF NOT EXISTS `category_midium` (
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`category_midium_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='中カテゴリーマスター' AUTO_INCREMENT=219 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='中カテゴリーマスター' AUTO_INCREMENT=220 ;
 
 --
--- テーブルのデータのダンプ `category_midium`
+-- テーブルのデータをダンプしています `category_midium`
 --
 
 INSERT INTO `category_midium` (`category_midium_id`, `category_large_id`, `region_id`, `category_midium_name`, `delivery`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -1425,10 +1469,10 @@ CREATE TABLE IF NOT EXISTS `category_small` (
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`category_small_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='小カテゴリーマスター' AUTO_INCREMENT=510 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='小カテゴリーマスター' AUTO_INCREMENT=514 ;
 
 --
--- テーブルのデータのダンプ `category_small`
+-- テーブルのデータをダンプしています `category_small`
 --
 
 INSERT INTO `category_small` (`category_small_id`, `category_midium_id`, `category_small_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2092,7 +2136,7 @@ CREATE TABLE IF NOT EXISTS `prefectures_master` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='都道府県マスター' AUTO_INCREMENT=48 ;
 
 --
--- テーブルのデータのダンプ `prefectures_master`
+-- テーブルのデータをダンプしています `prefectures_master`
 --
 
 INSERT INTO `prefectures_master` (`prefectures_id`, `region_id`, `prefectures_name`, `prefectures_code`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2161,7 +2205,7 @@ CREATE TABLE IF NOT EXISTS `region_master` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='地域マスター' AUTO_INCREMENT=20 ;
 
 --
--- テーブルのデータのダンプ `region_master`
+-- テーブルのデータをダンプしています `region_master`
 --
 
 INSERT INTO `region_master` (`region_id`, `region_name`, `rank`, `regist_date`, `update_date`, `delete_flg`) VALUES
@@ -2225,7 +2269,7 @@ CREATE TABLE IF NOT EXISTS `reserved` (
 
 CREATE TABLE IF NOT EXISTS `store` (
   `store_id` mediumint(9) NOT NULL AUTO_INCREMENT COMMENT '店舗ID',
-  `store_hex_id` char(4) COMMENT '店ID : 16進数の店ID',
+  `store_hex_id` char(4) DEFAULT NULL COMMENT '店ID : 16進数の店ID',
   `status_id` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'ステータス : 1：準備中、2：運営中、9：停止中',
   `store_name` varchar(50) NOT NULL COMMENT '店舗名',
   `new_arrival` tinyint(4) NOT NULL COMMENT '新着 : 0：既存、1：新着',
@@ -2276,6 +2320,8 @@ CREATE TABLE IF NOT EXISTS `store` (
   `representative_mei` varchar(30) NOT NULL COMMENT '担当者の名',
   `representative_email` varchar(256) NOT NULL COMMENT '担当者メールアドレス',
   `reserved_email` varchar(256) NOT NULL COMMENT '予約受信メールアドレス',
+  `point_limit` int(11) NOT NULL DEFAULT '0' COMMENT 'ポイント利用枠',
+  `base_point` int(11) NOT NULL DEFAULT '20000' COMMENT '月初めに付与するポイント枠',
   `latest_login_date` datetime DEFAULT NULL COMMENT '最終ログイン日時',
   `regist_date` datetime NOT NULL COMMENT '登録日時',
   `update_date` datetime NOT NULL COMMENT '変更日時',
@@ -2284,11 +2330,11 @@ CREATE TABLE IF NOT EXISTS `store` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='店舗情報' AUTO_INCREMENT=2 ;
 
 --
--- テーブルのデータのダンプ `store`
+-- テーブルのデータをダンプしています `store`
 --
 
-INSERT INTO `store` (`store_id`, `store_hex_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `contract_zip_code`, `contract_prefectures_id`, `contract_address1`, `contract_address2`, `contract_telephone`, `link_text_outside1`, `link_text_outside2`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
-(1, '0001', 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
+INSERT INTO `store` (`store_id`, `store_hex_id`, `status_id`, `store_name`, `new_arrival`, `type_of_industry_id`, `license`, `account_name`, `login_id`, `login_password`, `category_large_id`, `category_midium_id`, `category_small_id`, `area_first_id`, `area_second_id`, `area_third_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `image6`, `image7`, `image8`, `image9`, `introduction`, `latitude`, `longitude`, `zip_code`, `prefectures_id`, `address1`, `address2`, `business_hours`, `telephone`, `holiday`, `contract_zip_code`, `contract_prefectures_id`, `contract_address1`, `contract_address2`, `contract_telephone`, `link_text_outside1`, `link_text_outside2`, `url_outside1`, `url_outside2`, `url_official1`, `url_official2`, `url_official3`, `url_official4`, `representative_sei`, `representative_mei`, `representative_email`, `reserved_email`, `point_limit`, `base_point`, `latest_login_date`, `regist_date`, `update_date`, `delete_flg`) VALUES
+(1, '0001', 1, 'テスト店舗', 0, 0, '', 'テスト店舗', 'teststore', 'REm0ql7HNzY=', 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, '', NULL, '', '', NULL, '', 0, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', 0, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
