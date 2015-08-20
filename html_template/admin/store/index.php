@@ -145,6 +145,7 @@
 							<td class="center"><?php echo getParam(store_type_of_industry(), $store_data['type_of_industry_id']);?></td>
 							<td class="center">
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $store_data['store_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
+								<a class="btn btn-success" href="add_limit.php?store_id=<?php echo $store_data['store_id'];?>"><i class="halflings-icon white edit"></i>利用枠</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $store_data['store_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
 							</td>
 						</tr>

@@ -23,7 +23,19 @@ class BillDbModel extends DbModel{
 			'update_date',
 		);
 	}
-
+	
+	/**
+	 * 店舗側の月別請求データ取得
+	 * 
+	 */
+	public function getBillForStore($store_id,$year,$month){
+		$bill_month = date('Y-m',strtotime($year.'-'.$month));
+		$field = $this->getFieldText();
+		$sql = "SELECT {$field} FROM {$this->table} WHERE store_id = '{$store_id}' AND bill_month = '{$bill_month}' LIMIT 0,1";
+		
+		return $this->db->getData($sql);
+		
+	}
 
 	/**
 	 * 今月の請求一覧を作成（Cronで月初めに実行）

@@ -45,9 +45,15 @@
 					<a class="quick-button span2" href="notice.php"> <i class="icon-bullhorn"></i><p>お知らせ情報管理</p></a>
 					<a class="quick-button span2" href="user.php"> <i class="icon-user"></i><p>ユーザー管理</p></a>
 
-					<a class="quick-button span2" href="claim.php"> <i class="icon-edit"></i><p>請求処理</p></a>
-					<a class="quick-button span2" href="account.php"> <i class="icon-user"></i><p>アカウント設定</p></a>
+					<a class="quick-button span2" href="claim.php"> <i class="icon-edit"></i><p>ポイント利用履歴</p></a>
+					<a class="quick-button span2" href="bill.php"> <i class="icon-money"></i><p>請求処理</p></a>
+					
 					<div class="clearfix"></div>
+				</div>
+				<div class="box-content">
+					<a class="quick-button span2" href="automail.php"> <i class="icon-envelope"></i><p>自動返信メール管理</p></a>
+					<a class="quick-button span2" href="account.php"> <i class="icon-user"></i><p>アカウント設定</p></a>
+					 <div class="clearfix"></div>
 				</div>
 
 				

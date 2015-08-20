@@ -34,7 +34,6 @@
 					<li><a href="#"><?php echo $page_title;?></a></li>
 				</ul>
 				<h1><?php echo $page_title;?></h1>
-				<?php echo $system_message;?>
 				<!-- 検索フォーム-->
 				<div class="row-fluid">
 					<div class="box span12">
@@ -74,47 +73,63 @@
 				<div class="row-fluid">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求一覧</h2>
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求</h2>
 						<div class="box-icon"><a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a></div>
 					</div>
 					<div class="box-content">
-						<?php if(!$list):?>
+						<?php if(!$bill):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
-						<table class="table table-striped table-bordered table-hover table-condensed">
-						<thead>
-						<tr>
-							<th>年月</th>
-							<th>店舗名</th>
-							<th>発行ポイント</th>
-							<th>利用ポイント</th>
-							<th>前月キャンセル</th>
-							<th>前払い</th>
-							<th>調整</th>
-							<th>処理</th>
-							<th>合計</th>
-							<th>&nbsp;</th>
-						</tr>
-						</thead>
-						<tbody>
-						<?php foreach($list as $bill):?>
-						<tr>
-							<td class="center"><?php echo $bill['bill_month'];?></td>
-							<td class="center"><?php echo $bill['store_name'];?></td>
-							<td class="center"><?php echo number_format($bill['issue_point']);?></td>
-							<td class="center">-<?php echo number_format($bill['use_point']);?></td>
-							<td class="center">-<?php echo number_format($bill['before_cancel']);?></td>
-							<td class="center">-<?php echo number_format($bill['deposit_price']);?></td>
-							<td class="center"><?php echo number_format($bill['adjust_price']);?></td>
-							<td class="center"><?php echo getParam(pay_status(),$bill['pay_status']);?></td>
-							<td class="center"><?php echo number_format(calculate_bil($bill));?></td>
-							<td class="center">
-								<a class="btn btn-info" href="?m=edit&id=<?php echo $bill['bill_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
-								</td>
-						</tr>
-						<?php endforeach;?>
-						</tbody>
+						<table class="table table-bordered table-hover table-condensed">
+							<tr>
+								<th width="150">年月</th>
+								<td><?php echo $bill['bill_month'];?></td>
+							</tr>
+							<tr>
+								<th>支払い状況</th>
+								<td><?php echo getParam(pay_status(),$bill['pay_status']);?></td>
+							</tr>
+							<tr>
+								<th>請求種別</th>
+								<td><?php echo calculate_bil_type_txt($bill);?></td>
+							</tr>
+							<tr>
+								<th>発行ポイント</th>
+								<td>￥<span style="color: red">-<?php echo number_format($bill['issue_point']);?></span></td>
+							</tr>
+							<tr>
+								<th>予約時利用ポイント</th>
+								<td>￥<span style="color: blue"><?php echo number_format($bill['use_point']);?></span></td>
+							</tr>
+							<tr>
+								<th>キャンセルポイント</th>
+								<td>￥<span style="color: blue"><?php echo number_format($bill['before_cancel']);?></span></td>
+							</tr>
+							<tr>
+								<th>前払い増加利用枠</th>
+								<td>￥<span style="color: blue"><?php echo number_format($bill['deposit_price']);?></span></td>
+							</tr>
+							<tr>
+								<th>調整金額</th>
+								<td>￥<?php echo price_color_label($bill['adjust_price']);?></td>
+							</tr>
+							<tr>
+								<th>メモ・備考</th>
+								<td><?php echo str_replace("\r\n","<br />\r\n",$bill['memo']);?></td>
+							</tr>
+							<tr>
+								<th>合計金額</th>
+								<td>￥<strong style="font-size:140%"><?php echo price_color_label(calculate_bil($bill));?></strong>（<?php echo calculate_bil_type_txt($bill);?>）</td>
+							</tr>
+							
 						</table>
+						<strong>※発行ポイント：</strong>ポイント利用枠を消費して発行されたポイントの金額です。請求の対象になります。<br />
+						<strong>※予約時利用ポイント：</strong>お客様がポイントを利用して予約したときに発生する払い戻しの金額です。<br />
+						<strong>※キャンセルポイント：</strong>月をまたいで予約を行いキャンセルになった場合に発生する払い戻しの金額です。<br />
+						例）10/15に11/02の予約を行い、11/02にキャンセルを行った場合発生。<br />
+						<strong>※前払い増加利用枠：</strong>前払いでお支払いいただいたポイント利用枠の金額です。払い戻しの対象になります。<br />
+						<strong>※調整金額：</strong>何らかの理由で払い戻し・請求が発生した場合に、御社と弊社の話し合いの元設定されます。<br />
+						
 						<?php endif;?>
 					</div>
 				</div><!--/span-->

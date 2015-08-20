@@ -57,15 +57,24 @@
 						<i class="icon-bookmark"></i>
 						<p>特別ポイント管理</p>
 					</a>
-					<a class="quick-button span2" href="claim.php">
+					<a class="quick-button span2" href="add_limit.php">
 						<i class="icon-edit"></i>
-						<p>請求処理</p>
+						<p>ポイント利用枠</p>
 					</a>
+					
 					<div class="clearfix"></div>
 				</div>
 
 
 				 <div class="box-content">
+					<a class="quick-button span2" href="claim.php">
+						<i class="icon-edit"></i>
+						<p>ポイント利用履歴</p>
+					</a>
+					 <a class="quick-button span2" href="bill.php">
+						<i class="icon-money"></i>
+						<p>請求処理</p>
+					</a>
 					<a class="quick-button span2" href="account.php">
 						<i class="icon-user"></i>
 						<p>アカウント設定</p>

@@ -697,6 +697,44 @@ function calculate_bil($data){
 }
 
 
+/***
+ * プラスマイナスによる文字色の変更
+ * 
+ * @param int $price 金額
+ * @param string $text 金額以外を文字にするとき
+ * @return string ＨＴＭＬ
+ */
+function price_color_label($price,$text=''){
+	if($text == ''){
+		$text = number_format($price);
+	}
+	
+	if($price < 0){
+		return '<span style="color:red">'.$text.'</span>';
+	}
+	else{
+		return '<span style="color:blue">'.$text.'</span>';
+	}
+}
+
+/**
+ * 請求の合計が、払い戻しか請求かＨＴＭＬで表示
+ */
+function calculate_bil_type_txt($data){
+	$total = calculate_bil($data);
+	
+	if($total < 0){
+		return '支払い';
+	}
+	elseif($total > 0){
+		return '払い戻し';
+	}
+	else{
+		return '請求・払い戻し無し';
+	}
+}
+
+
 /*-----------------------------------------------------------
  * 権限関連
  *----------------------------------------------------------*/
