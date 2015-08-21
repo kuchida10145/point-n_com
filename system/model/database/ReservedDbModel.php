@@ -389,7 +389,7 @@ class ReservedDbModel extends DbModel{
 	 */
 	public function maintenanceRserveSearch($id,$get,$limit,$order){
 		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
-		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,coupon_name,get_point,use_point", $sql);
+		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,reserved.reserved_name,coupon_name,get_point,use_point", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}

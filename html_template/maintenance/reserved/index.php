@@ -93,7 +93,8 @@
 							        <th>予約処理</th>
 							        <th>予約日</th>
 							        <th>会員No.</th>
-							        <th>ニックネーム名</th>
+									<th>予約名(ニックネーム名)
+									</th>
 							        <th>予約　クーポン名</th>
 							        <th>ポイント利用</th>
 							        <th>ポイント取得</th>
@@ -111,7 +112,7 @@
 									<?php endif;?>
 									<td class="center"><?php echo $reserve_data['use_date'];?></td>
 									<td><?php echo $reserve_data['user_id'];?></td>
-									<td class="center"><?php echo $reserve_data['nickname'];?></td>
+									<td class="center"><strong><?php echo $reserve_data['reserved_name'];?></strong>(<?php echo $reserve_data['nickname'];?>)</td>
 									<td class="center"><?php echo $reserve_data['coupon_name'];?></td>
 									<td class="center"><?php echo $reserve_data['use_point'];?></td>
 									<td class="center"><?php echo $reserve_data['get_point'];?></td>
