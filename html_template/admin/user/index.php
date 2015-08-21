@@ -58,6 +58,10 @@
 							</div>
 						</div>
 						<div class="control-group">
+							<label for="user_id" class="control-label">会員番号</label>
+							<div class="controls"><input placeholder="" id="nickname" name="user_id" value="<?php echo getGet('user_id');?>" type="text">※完全一意</div>
+						</div>
+						<div class="control-group">
 							<label for="nickname" class="control-label">ニックネーム名</label>
 							<div class="controls"><input placeholder="" id="nickname" name="nickname" value="<?php echo getGet('nickname');?>" type="text"></div>
 						</div>

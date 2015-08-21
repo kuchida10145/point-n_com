@@ -103,6 +103,7 @@ class UserDbModel extends DbModel{
 		$nickname 	= getParam( $get, 'nickname' );
 		$from_date 	= getParam( $get, 'from-date' );
 		$to_date		= getParam( $get, 'to-date' );
+		$user_id    = getParam($get,'user_id');
 
 		//ステータスが設定されている場合
 		$i = 0;
@@ -127,6 +128,12 @@ class UserDbModel extends DbModel{
 		if ( isset( $nickname ) && !empty( $nickname ) ) {
 			$where .= 'AND `nickname` LIKE "%' . $this->escape_string( $nickname ) . '%" ';
 			$and = true;
+		}
+		
+		//会員番号が設定されている場合
+		if(isset($user_id)){
+			$user_id = $this->escape_string($user_id);
+			$where .= " AND user_id = '{$user_id}' ";
 		}
 
 		//日付が設定されている場合
