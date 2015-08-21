@@ -70,6 +70,9 @@
 <input type="password" name="password" id="password" style="width:95%;"  value="<?php echo getParam($post, 'password');?>" />
 <?php echo getParam($error, 'password'); ?>
 </p>
+<p>パスワードは1ヶ月に一度、定期的に変更されることをお勧めします。<br />
+なお、お客様の過失によるパスワードの漏えいやそれに伴う損害は、当サイトでは一切保障しませんのであらかじめご了承ください。</p>
+
 </form>
 <p><a href="javascript:void(0);" onclick="document.frm.submit();" class="linkbtn block alncenter">確認画面へ</a></p>
 
