@@ -131,7 +131,7 @@ class UserDbModel extends DbModel{
 		}
 		
 		//会員番号が設定されている場合
-		if(isset($user_id)){
+		if(isset($user_id) && $user_id != ''){
 			$user_id = $this->escape_string($user_id);
 			$where .= " AND user_id = '{$user_id}' ";
 		}
