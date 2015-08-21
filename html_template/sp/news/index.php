@@ -67,6 +67,7 @@ Copyright 2015 POINT.COM All Rights Reserved
 
 $(function() {
 	var page_cnt = 0;
+	var region_id = <?php echo getGet('region_id');?>;
     $(window).scroll(function(ev) {
         var $window = $(ev.currentTarget),
             height = $window.height(),
@@ -77,7 +78,7 @@ $(function() {
             page_cnt++;
 			$.ajax({
 				type: "GET",
-				url: "/news/?m=next&next="+page_cnt,
+				url: "/news/?m=next&region_id="+region_id+"&next="+page_cnt,
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){

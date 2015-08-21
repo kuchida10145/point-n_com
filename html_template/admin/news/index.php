@@ -60,6 +60,17 @@
 									</div>
 								</div>
 								<div class="control-group">
+									<label for="" class="control-label">対象エリア</label>
+									<div class="controls">
+										<select name="region_id">
+											<option value=""></option>
+											<?php foreach(region_master() as $region_id => $region_name):?>
+											<option value="<?php echo $region_id;?>" <?php echo _check_selected($region_id, getGet('region_id'));?>><?php echo $region_name;?></option>
+											<?php endforeach;?>
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
 									<label class="control-label" for="date01" >日付</label>
 									<div class="controls">
 										<input type="text" class="input-xlarge datepicker" id="date01" name="display_date_s" value="<?php echo getGet('display_date_s');?>">

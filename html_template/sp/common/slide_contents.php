@@ -7,7 +7,8 @@
 <li><a href="/mypage/pw/">パスワード変更</a></li>
 <li><a href="/mypage/point.php">ポイント利用履歴</a></li>
 <?php endif;?>
-<li><a href="/news/">POINT.COMからのお知らせ</a></li>
+<li><a href="/notice/">POINT.COMからのお知らせ</a></li>
+<li><a href="/news/area.php">今日のニュース</a></li>
 <li><a href="/about.php">本サイトとは</a></li>
 <li><a href="/guid.php">利用ガイド</a></li>
 <li><a href="/question.php">よくある質問</a></li>

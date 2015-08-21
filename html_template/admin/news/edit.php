@@ -83,6 +83,20 @@
 									</div>
 								</div>
 								<div class="control-group">
+									<label class="control-label" for="date03">対象エリア</label>
+									<div class="controls">
+										<select name="region_id">
+											<option value="">選択してください</option>
+											<?php foreach(region_master() as $region_id => $region_name):?>
+											<option value="<?php echo $region_id;?>" <?php echo _check_selected($region_id, getParam($post,'region_id'));?>><?php echo $region_name;?></option>
+											<?php endforeach;?>
+										</select>
+										<?php echo getParam($error,'region_id');?>
+									</div>
+								</div>
+								
+								
+								<div class="control-group">
 									<label class="control-label" for="typeahead">タイトル</label>
 									<div class="controls">
 										<input placeholder="" id="input" name="title" type="text" class="input-block-level" value="<?php echo getParam($post, 'title');?>">

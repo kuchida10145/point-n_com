@@ -2078,6 +2078,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `public` tinyint(4) NOT NULL DEFAULT '2' COMMENT '公開 : 0：削除(無効)、1：公開、2：非公開',
   `public_start_date` datetime DEFAULT NULL COMMENT '表示開始日時',
   `public_end_date` datetime DEFAULT NULL COMMENT '表示終了日時',
+  `region_id` tinyint(4) NOT NULL COMMENT '地域ID',
   `display_date` date NOT NULL COMMENT '表示日付',
   `title` varchar(100) NOT NULL COMMENT 'タイトル',
   `image1` varchar(100) DEFAULT NULL COMMENT '画像1 : 画像ファイル名',

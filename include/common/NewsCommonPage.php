@@ -65,7 +65,7 @@ class NewsCommonPage {
 		
 		// 画像1〜3
 		for ($i = 1; $i <= 3; $i++) {
-			if ($param['image' . $i] == '') {
+			if (getParam($param,'image' . $i) == '') {
 				continue;
 			}
 			$update_param = array();
@@ -106,7 +106,7 @@ class NewsCommonPage {
 		// 画像1〜3
 		$images = array();
 		for ($i = 1; $i <= 3; $i++) {
-			if ($param['image' . $i] == '') {
+			if (getParam($param,'image' . $i) == '') {
 				continue;
 			}
 			$images[] = $param['image' . $i];

@@ -154,7 +154,7 @@
 				<?php 
 					$outside_urls = array();
 					for ($i = 1; $i <= 2; $i++) {
-						if (!empty(getParam($store, 'url_outside' . $i))) {
+						if (getParam($store, 'url_outside' . $i)!= '') {
 							$link_text = getParam($store, 'link_text_outside' . $i);
 							$link_text = ($link_text != '') ? $link_text : '外部サイトへ';
 							$outside_urls[] = array(

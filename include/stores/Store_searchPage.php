@@ -51,7 +51,8 @@ class Store_searchPage extends Page {
 		$post['area_key_ids']       = implode(",", $area_key_ids);
 		
 		// 今日のニュースを１件取得する
-		$news = $this->manager->db_manager->get('news')->getNewsList(0, 1);
+		$region_id = getGet('region_id');
+		$news = $this->manager->db_manager->get('news')->getNewsList($region_id,0, 1);
 		$news = ($news != null) ? $news : array();
 		
 		// 該当する条件の店舗を取得する

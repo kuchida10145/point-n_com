@@ -70,6 +70,10 @@
 									<div class="controls"><?php echo getParam($post, ('display_date'));?></div>
 								</div>
 								<div class="control-group">
+									<label class="control-label" for="typeahead">対象エリア</label>
+									<div class="controls"><?php echo getParam(region_master(), getParam($post, ('region_id')));?></div>
+								</div>
+								<div class="control-group">
 									<label class="control-label" for="selectError3">タイトル</label>
 									<div class="controls"><?php echo getParam($post, ('title'));?></div>
 								</div>

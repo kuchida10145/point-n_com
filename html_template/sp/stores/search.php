@@ -54,7 +54,8 @@
 </dl>
 </div>
 
-<h2><a href="/news/index.php" class="newslistbtn">一覧をみる</a>今日のニュース</h2>
+<?php if(getGet('region_id') != ''):?>
+<h2><a href="/news/index.php?region_id=<?php echo getGet('region_id');?>" class="newslistbtn">一覧をみる</a>今日のニュース</h2>
 <?php if (count($news_list) <= 0) : ?>
 	<p>現在お知らせはありません</p>
 <?php else : ?>
@@ -70,7 +71,7 @@
 	</ul>
 	</div>
 <?php endif; ?>
-
+<?php endif;?>
 <h2>店舗一覧　<?php echo number_format($total); ?>件中<span id="cur_shops"><?php echo number_format(count($shop_list)); ?></span>件表示</h2>
 
 <div class="searchsetting clearfix">

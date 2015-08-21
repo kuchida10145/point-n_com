@@ -1,6 +1,6 @@
 <?php
 /**
- * お知らせ
+ * 今日のニュース
  *
  */
 include_once dirname(__FILE__).'/common/Page.php';
@@ -14,12 +14,13 @@ class NewsPage extends Page{
 
 	protected $view = array(
 			'index'    =>'news/index',
+			'area'    =>'news/area',
 			'detail'  =>'news/detail',
 	);
 
 
 	/**
-	 * お知らせ一覧
+	 * 今日のニュース一覧
 	 *
 	 */
 	public function indexAction(){
@@ -29,11 +30,19 @@ class NewsPage extends Page{
 			$this->nextAjax();
 			exit();
 		}
-		$data['news_list'] =  $this->changeListData($this->manager->db_manager->get('news')->getNewsList(0,$this->page_cnt));
+		$region_id = getGet('region_id');
+		$data['news_list'] =  $this->changeListData($this->manager->db_manager->get('news')->getNewsList($region_id,0,$this->page_cnt));
 		$this->loadView('index', $data);
 	}
 
 	
+	/**
+	 * 今日のニュースのエリア
+	 */
+	public function areaAction(){
+		$data = array();
+		$this->loadView('area', $data);
+	}
 	
 	/**
 	 * お知らせAjax
@@ -42,7 +51,8 @@ class NewsPage extends Page{
 	public function nextAjax(){
 		$next = getGet('next');
 		$res['result'] = 'false';
-		if($pages = $this->manager->db_manager->get('news')->getNewsList($next,$this->page_cnt)){
+		$region_id = getGet('region_id');
+		if($pages = $this->manager->db_manager->get('news')->getNewsList($region_id,$next,$this->page_cnt)){
 			$res['result'] = 'true';
 		}
 		$res['pages'] = $this->changeListData($pages);

@@ -52,7 +52,7 @@ dots: true,
 	<?php endif;?>
 	
 	<p><?php echo $news_data['body'];?></p>
-	<p><a href="/news/" class="linkbtn block alncenter">一覧へ戻る</a></p>
+	<p><a href="/news/index.php?region_id=<?php echo $news_data['region_id'];?>" class="linkbtn block alncenter">一覧へ戻る</a></p>
 
 </div>
 <!--/コンテンツ-->
