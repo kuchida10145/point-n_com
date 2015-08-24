@@ -9,7 +9,7 @@ class Store_nearPage extends Page{
 	
 	protected $session_key = 'store_near';
 	protected $page_title  = '近くの店舗を探す';
-	protected $gpsRadius 	 = 2; //近くのお店を探す機能の検索範囲半径
+	protected $gpsRadius 	 = 10; //近くのお店を探す機能の検索範囲半径
 	protected $storeByPage = 20; //近くのお店を探す結果ページに表示される店舗数 
 	
 	protected $view = array(
