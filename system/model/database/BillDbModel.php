@@ -15,7 +15,8 @@ class BillDbModel extends DbModel{
 			'issue_point',
 			'use_point',
 			'deposit_price',
-			'before_cancel',
+			'issue_point_cancel',
+			'use_point_cancel',
 			'adjust_price',
 			'memo',
 			'pay_status',
@@ -81,4 +82,35 @@ class BillDbModel extends DbModel{
 	}
 	
 	
+	public function findByMonthStoreId($year_month,$store_id){
+		$field = $this->getFieldText();
+		
+		$sql = "SELECT {$field} FROM bill WHERE bill_month = '{$year_month}' AND store_id = '{$store_id}' LIMIT 0,1";
+		return $this->db->getData($sql);
+	}
+	
+	
+	/**
+	 * 指定年月の発行料金計
+	 */
+	public function monthTotalBillByStoreId($year_month,$store_id){
+		
+		$bill = $this->findByMonthStoreId($year_month,$store_id);
+		
+		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		
+		$total = $this->db->getData($sql);
+		
+		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND cancel_flg = 1 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		$minus = $this->db->getData($sql);
+		
+		$param = array(
+			'issue_point'     =>$total['total_price']-$minus['total_price'],
+			'use_point'       =>$total['use_point']-$minus['use_point'],
+			'use_point_cancel'=>$minus['use_point'],
+			'issue_point_cancel'   =>$minus['total_price'],
+		);
+		
+		return $this->updateById($bill['bill_id'],$param);
+	}
 }

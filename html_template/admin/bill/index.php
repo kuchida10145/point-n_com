@@ -86,9 +86,10 @@
 						<tr>
 							<th>年月</th>
 							<th>店舗名</th>
-							<th>発行ポイント</th>
-							<th>利用ポイント</th>
-							<th>前月キャンセル</th>
+							<th>発行Ｐ</th>
+							<th>利用Ｐ</th>
+							<th>発行Ｐキャンセル</th>
+							<th>利用Ｐキャンセル</th>
 							<th>前払い</th>
 							<th>調整</th>
 							<th>処理</th>
@@ -103,7 +104,8 @@
 							<td class="center"><?php echo $bill['store_name'];?></td>
 							<td class="center"><?php echo number_format($bill['issue_point']);?></td>
 							<td class="center">-<?php echo number_format($bill['use_point']);?></td>
-							<td class="center">-<?php echo number_format($bill['before_cancel']);?></td>
+							<td class="center">-<?php echo number_format($bill['issue_point_cancel']);?></td>
+							<td class="center"><?php echo number_format($bill['use_point_cancel']);?></td>
 							<td class="center">-<?php echo number_format($bill['deposit_price']);?></td>
 							<td class="center"><?php echo number_format($bill['adjust_price']);?></td>
 							<td class="center"><?php echo getParam(pay_status(),$bill['pay_status']);?></td>

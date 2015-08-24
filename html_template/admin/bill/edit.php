@@ -70,21 +70,27 @@
 								</div>
 							</div>
                             <div class="control-group">
-								<label class="control-label" for="typeahead">発行ポイント</label>
+								<label class="control-label" for="typeahead">発行Ｐ</label>
 								<div class="controls">
 									<?php echo number_format($bill_data['issue_point']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">利用ポイント</label>
+								<label class="control-label" for="typeahead">利用Ｐ</label>
 								<div class="controls">
 									<?php echo number_format($bill_data['use_point']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">前月キャンセル</label>
+								<label class="control-label" for="typeahead">発行Ｐキャンセル</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['before_cancel']);?>円分
+									<?php echo number_format($bill_data['issue_point_cancel']);?>円分
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">利用Ｐキャンセル</label>
+								<div class="controls">
+									<?php echo number_format($bill_data['use_point_cancel']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
@@ -94,8 +100,8 @@
 								</div>
 							</div>
 							
-							<div class="control-group">
-								<label class="control-label" for="typeahead">調整</label>
+							<div class="control-group <?php echo error_class(getParam($error,'adjust_price'));?>">
+								<label class="control-label" for="typeahead">調整 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input type="text" class="input-xlarge" id="date01" name="adjust_price" value="<?php echo getParam($post, 'adjust_price');?>">円
 									<?php echo getParam($error,'adjust_price');?>
@@ -156,18 +162,31 @@
 	<?php include_once dirname(__FILE__).'/../common/footer_javascript.php';?>
 	<script type="text/javascript">
 	$(function(){
-		var issue_point   = <?php echo $bill_data['issue_point'];?>;
-		var use_point     = <?php echo $bill_data['use_point'];?>;
-		var before_cancel = <?php echo $bill_data['before_cancel'];?>;
-		var deposit_price = <?php echo $bill_data['deposit_price'];?>;
+		var issue_point        = <?php echo $bill_data['issue_point'];?>;
+		var use_point          = <?php echo $bill_data['use_point'];?>;
+		var issue_point_cancel = <?php echo $bill_data['issue_point_cancel'];?>;
+		var use_point_cancel = <?php echo $bill_data['use_point_cancel'];?>;
+		var deposit_price      = <?php echo $bill_data['deposit_price'];?>;
 		
 		function calculate(){
 			var adjust_price = parseInt($('[name=adjust_price]').val());
-			//払い戻し合計
-			var return_price = use_point+before_cancel+deposit_price;
-			var total = issue_point-return_price+adjust_price;
+			if(isNaN (adjust_price)){
+				adjust_price = 0;
+			}
 			
-			$('#total_price').html(separate(total)+"円");
+			//払い戻し合計
+			var return_price = use_point+issue_point_cancel+deposit_price;
+			var total = issue_point-return_price+adjust_price+use_point_cancel;
+			var number_format = separate(total);
+			
+			if(total < 0){
+				number_format = '<span style="color:red">'+number_format+'円</span>';
+			}
+			else{
+				number_format = '<span style="color:blue">'+number_format+'円</span>';
+			}
+			
+			$('#total_price').html(number_format);
 			
 		}
 		calculate();

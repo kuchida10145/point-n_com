@@ -82,8 +82,8 @@
 						<?php else:?>
 						<table class="table table-bordered table-hover table-condensed">
 							<tr>
-								<th width="150">年月</th>
-								<td><?php echo $bill['bill_month'];?></td>
+								<th width="250">年月</th>
+								<td><?php echo str_replace('-','年',$bill['bill_month']);?>月</td>
 							</tr>
 							<tr>
 								<th>支払い状況</th>
@@ -91,7 +91,7 @@
 							</tr>
 							<tr>
 								<th>請求種別</th>
-								<td><?php echo calculate_bil_type_txt($bill);?></td>
+								<td><?php echo calculate_bil_type_txt($total);?></td>
 							</tr>
 							<tr>
 								<th>発行ポイント</th>
@@ -102,8 +102,12 @@
 								<td>￥<span style="color: blue"><?php echo number_format($bill['use_point']);?></span></td>
 							</tr>
 							<tr>
-								<th>キャンセルポイント</th>
-								<td>￥<span style="color: blue"><?php echo number_format($bill['before_cancel']);?></span></td>
+								<th>発行ポイントキャンセル</th>
+								<td>￥<span style="color: blue"><?php echo number_format($bill['issue_point_cancel']);?></span></td>
+							</tr>
+							<tr>
+								<th>予約時利用ポイントキャンセル</th>
+								<td>￥<span style="color: red"><?php echo number_format($bill['use_point_cancel']);?></span></td>
 							</tr>
 							<tr>
 								<th>前払い増加利用枠</th>
@@ -119,14 +123,14 @@
 							</tr>
 							<tr>
 								<th>合計金額</th>
-								<td>￥<strong style="font-size:140%"><?php echo price_color_label(calculate_bil($bill));?></strong>（<?php echo calculate_bil_type_txt($bill);?>）</td>
+								<td>￥<strong style="font-size:140%"><?php echo price_color_label($total);?></strong>（<?php echo calculate_bil_type_txt($total);?>）</td>
 							</tr>
 							
 						</table>
 						<strong>※発行ポイント：</strong>ポイント利用枠を消費して発行されたポイントの金額です。請求の対象になります。<br />
 						<strong>※予約時利用ポイント：</strong>お客様がポイントを利用して予約したときに発生する払い戻しの金額です。<br />
-						<strong>※キャンセルポイント：</strong>月をまたいで予約を行いキャンセルになった場合に発生する払い戻しの金額です。<br />
-						例）10/15に11/02の予約を行い、11/02にキャンセルを行った場合発生。<br />
+						<strong>※発行ポイントキャンセル：</strong>キャンセルになった場合に発生する払い戻しの金額です。<br />
+						<strong>※予約時利用ポイントキャンセル：</strong>お客様がポイントを利用して予約しキャンセルになった場合に発生します。請求の対象になります。<br />
 						<strong>※前払い増加利用枠：</strong>前払いでお支払いいただいたポイント利用枠の金額です。払い戻しの対象になります。<br />
 						<strong>※調整金額：</strong>何らかの理由で払い戻し・請求が発生した場合に、御社と弊社の話し合いの元設定されます。<br />
 						

@@ -23,7 +23,7 @@ class BillPage extends AdminPage {
 	 *
 	 */
 	protected function validation($param){
-		$this->manager->validation->setRule('deposit_price'    ,'digit');
+		$this->manager->validation->setRule('adjust_price'    ,'required|digit');
 		return $this->manager->validation->run($param);
 	}
 

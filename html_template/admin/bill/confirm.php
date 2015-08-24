@@ -69,21 +69,27 @@
 								</div>
 							</div>
                             <div class="control-group">
-								<label class="control-label" for="typeahead">発行ポイント</label>
+								<label class="control-label" for="typeahead">発行P</label>
 								<div class="controls">
 									<?php echo number_format($bill_data['issue_point']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">利用ポイント</label>
+								<label class="control-label" for="typeahead">利用P</label>
 								<div class="controls">
 									<?php echo number_format($bill_data['use_point']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">前月キャンセル</label>
+								<label class="control-label" for="typeahead">発行Pキャンセル</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['before_cancel']);?>円分
+									<?php echo number_format($bill_data['issue_point_cancel']);?>円分
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">利用Pキャンセル</label>
+								<div class="controls">
+									<?php echo number_format($bill_data['use_point_cancel']);?>円分
 								</div>
 							</div>
 							<div class="control-group">
@@ -96,7 +102,7 @@
 							<div class="control-group">
 								<label class="control-label" for="typeahead">調整</label>
 								<div class="controls">
-									<?php echo number_format(getParam($post, 'adjust_price'));?>円
+									<?php echo number_format(getParam($post, 'adjust_price',0));?>円
 								</div>
 							</div>
                             <div class="control-group">

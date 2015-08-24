@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- ホスト: localhost
--- 生成時間: 2015 年 8 月 19 日 18:57
--- サーバのバージョン： 5.6.16
--- PHP Version: 5.5.11
+-- 生成時間: 2015 年 8 月 24 日 18:19
+-- サーバのバージョン: 5.1.56
+-- PHP のバージョン: 5.4.33
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -1175,7 +1175,8 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `issue_point` int(11) NOT NULL DEFAULT '0' COMMENT '発行されたポイント',
   `use_point` int(11) NOT NULL DEFAULT '0' COMMENT '会員が利用したポイント数',
   `deposit_price` int(11) NOT NULL DEFAULT '0' COMMENT '前払い金',
-  `before_cancel` int(11) DEFAULT '0' COMMENT '前月以前のキャンセル',
+  `issue_point_cancel` int(11) DEFAULT '0' COMMENT 'キャンセルされた発行ポイント',
+  `use_point_cancel` int(11) DEFAULT '0' COMMENT '利用されたポイントキャンセル',
   `adjust_price` int(11) NOT NULL DEFAULT '0' COMMENT '調整費',
   `pay_status` char(1) NOT NULL DEFAULT '0' COMMENT '支払い状況 : 0:未確定 1:未入金 2:入金済み',
   `memo` text COMMENT 'メモ',
@@ -1184,6 +1185,29 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `delete_flg` tinyint(1) DEFAULT '0' COMMENT '削除フラグ',
   PRIMARY KEY (`bill_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='請求' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `bill_action`
+--
+
+CREATE TABLE IF NOT EXISTS `bill_action` (
+  `bill_action_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '請求アクションID',
+  `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
+  `reserved_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '予約ID',
+  `action_name` varchar(255) NOT NULL COMMENT 'アクション名',
+  `action_type` int(1) NOT NULL DEFAULT '1' COMMENT '動作種別 : 1:通常 2:イベント 3:特別付与',
+  `issue_point` int(11) NOT NULL DEFAULT '0' COMMENT '発行ポイント',
+  `commission` int(11) NOT NULL DEFAULT '0' COMMENT '手数料',
+  `total_price` int(11) NOT NULL DEFAULT '0' COMMENT '合計 : 発行ポイントと手数料の合計',
+  `use_point` int(11) NOT NULL DEFAULT '0' COMMENT '会員が利用したポイント',
+  `cancel_flg` int(1) NOT NULL DEFAULT '0' COMMENT 'キャンセルフラグ : キャンセルはupdateでは無くinsertで追加登録すること',
+  `regist_date` datetime NOT NULL COMMENT '登録日時',
+  `update_date` datetime NOT NULL COMMENT '更新日時',
+  `delete_flg` tinyint(1) DEFAULT '0' COMMENT '削除フラグ',
+  PRIMARY KEY (`bill_action_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='請求アクション' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2082,7 +2106,6 @@ CREATE TABLE IF NOT EXISTS `news` (
   `public` tinyint(4) NOT NULL DEFAULT '2' COMMENT '公開 : 0：削除(無効)、1：公開、2：非公開',
   `public_start_date` datetime DEFAULT NULL COMMENT '表示開始日時',
   `public_end_date` datetime DEFAULT NULL COMMENT '表示終了日時',
-  `region_id` tinyint(4) NOT NULL COMMENT '地域ID',
   `display_date` date NOT NULL COMMENT '表示日付',
   `title` varchar(100) NOT NULL COMMENT 'タイトル',
   `image1` varchar(100) DEFAULT NULL COMMENT '画像1 : 画像ファイル名',

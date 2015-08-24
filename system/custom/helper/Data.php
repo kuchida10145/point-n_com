@@ -678,24 +678,32 @@ function pay_status(){
  */
 function calculate_bil($data){
 	//請求用
-	$issue_point   = getParam($data,'issue_point');//発行ポイント
+	$issue_point     = getParam($data,'issue_point');//発行ポイント
+	$use_point_cancel= getParam($data,'use_point_cancel');
 	
 	//払い戻し用
-	$use_point     = getParam($data,'use_point');
-	$before_cancel = getParam($data,'before_cancel');
-	$deposit_price = getParam($data,'deposit_price');
+	$use_point          = getParam($data,'use_point');
+	$issue_point_cancel = getParam($data,'issue_point_cancel');
+	$deposit_price      = getParam($data,'deposit_price');
 	
 	//調整用
 	$adjust_price  = getParam($data,'adjust_price');
 	
 	//払い戻し合計
-	$return_price = $use_point+$before_cancel+$deposit_price;
+	$return_price = $use_point+$issue_point_cancel+$deposit_price;
 	
-	$total = $issue_point-$return_price+$adjust_price;
+	$total = $issue_point-$return_price+$adjust_price+$use_point_cancel;
 	
 	return $total;
 }
 
+
+function calculate_bil_store($data){
+	$total = calculate_bil($data);
+	
+	$total = 0-$total;
+	return $total;
+}
 
 /***
  * プラスマイナスによる文字色の変更
@@ -709,6 +717,8 @@ function price_color_label($price,$text=''){
 		$text = number_format($price);
 	}
 	
+	
+	
 	if($price < 0){
 		return '<span style="color:red">'.$text.'</span>';
 	}
@@ -719,9 +729,9 @@ function price_color_label($price,$text=''){
 
 /**
  * 請求の合計が、払い戻しか請求かＨＴＭＬで表示
+ * 
  */
-function calculate_bil_type_txt($data){
-	$total = calculate_bil($data);
+function calculate_bil_type_txt($total){
 	
 	if($total < 0){
 		return '支払い';

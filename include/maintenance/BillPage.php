@@ -29,6 +29,7 @@ class BillPage extends MaintenancePage {
 		
 		
 		$data['bill'] = $this->manager->db_manager->get('bill')->getBillForStore($account['store_id'],getGet('year'),getGet('month'));
+		$data['total'] = calculate_bil_store($data['bill']);
 		$data['page_title']     =$this->page_title;
 
 		$data['page_type_text'] =$this->page_type_text;
