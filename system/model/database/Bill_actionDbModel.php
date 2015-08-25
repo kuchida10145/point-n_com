@@ -37,11 +37,11 @@ class Bill_actionDbModel extends DbModel{
 		
 		//通常の場合
 		if($coupon['point_kind'] == 1){
-			$this->issueEventPoint($reserve);
+			return $this->issueNormalPoint($reserve);
 		}
 		//イベントの場合
 		elseif($coupon['point_kind'] == 2){
-			$this->issueNormalPoint($reserve);
+			return $this->issueEventPoint($reserve);
 		}
 	}
 	

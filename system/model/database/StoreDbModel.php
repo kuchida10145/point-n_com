@@ -559,7 +559,15 @@ class StoreDbModel extends DbModel{
 	 * @param int $point ポイント
 	 */
 	public function usePointLimit($store_id,$point){
-		$sql = "UPDATE {$this->table} SET point_limit = point_limit-{$point} WHERE store_id = '{$store_id}' ";
-		return $this->db->query($sql);
+		
+		$store = $this->findById($store_id);
+		
+		if($store['point_limit'] >= $point){
+			$sql = "UPDATE {$this->table} SET point_limit = point_limit-{$point} WHERE store_id = '{$store_id}' ";
+			return $this->db->query($sql);
+		}
+		return false;
 	}
+	
+	
 }
