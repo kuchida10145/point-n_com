@@ -329,33 +329,21 @@
 								</div>
 							</div>
 
+						<?php for ($os_index = 1; $os_index <= 5; $os_index++) : ?>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">外部サイト1</label>
+								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?></label>
 								<div class="controls">
-									<?php echo getParam($post, 'url_outside1');?>
+									<?php echo getParam($post, 'url_outside' . $os_index);?>
 								</div>
 							</div>
 							
 							<div class="control-group">
-								<label class="control-label" for="typeahead">外部サイト1リンクテキスト</label>
+								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?>リンクテキスト</label>
 								<div class="controls">
-									<?php echo getParam($post, 'link_text_outside1');?>
+									<?php echo getParam($post, 'link_text_outside' . $os_index);?>
 								</div>
 							</div>
-							
-							<div class="control-group">
-								<label class="control-label" for="typeahead">外部サイト2</label>
-								<div class="controls">
-									<?php echo getParam($post, 'url_outside2');?>
-								</div>
-							</div>
-							
-							<div class="control-group">
-								<label class="control-label" for="typeahead">外部サイト2リンクテキスト</label>
-								<div class="controls">
-									<?php echo getParam($post, 'link_text_outside2');?>
-								</div>
-							</div>
+						<?php endfor; ?>
 							
 						<div class="box-header" data-original-title="">
 							その他

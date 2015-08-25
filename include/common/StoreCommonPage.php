@@ -192,10 +192,22 @@ class StoreCommonPage {
 		$this->manager->validation->setRule('link_text_outside1',        'maxlength:100');
 		// 外部サイト用リンクテキスト2
 		$this->manager->validation->setRule('link_text_outside2',        'maxlength:100');
+		// 外部サイト用リンクテキスト3
+		$this->manager->validation->setRule('link_text_outside3',        'maxlength:100');
+		// 外部サイト用リンクテキスト4
+		$this->manager->validation->setRule('link_text_outside4',        'maxlength:100');
+		// 外部サイト用リンクテキスト5
+		$this->manager->validation->setRule('link_text_outside5',        'maxlength:100');
 		// 外部サイト1
 		$this->manager->validation->setRule('url_outside1',              'maxlength:256');
 		// 外部サイト2
 		$this->manager->validation->setRule('url_outside2',              'maxlength:256');
+		// 外部サイト3
+		$this->manager->validation->setRule('url_outside3',              'maxlength:256');
+		// 外部サイト4
+		$this->manager->validation->setRule('url_outside4',              'maxlength:256');
+		// 外部サイト5
+		$this->manager->validation->setRule('url_outside5',              'maxlength:256');
 		// 担当者姓
 		$this->manager->validation->setRule('representative_sei',        'required|maxlength:30');
 		// 担当者名
