@@ -153,7 +153,7 @@
 					</table>
 				<?php 
 					$outside_urls = array();
-					for ($i = 1; $i <= 2; $i++) {
+					for ($i = 1; $i <= 5; $i++) {
 						if (getParam($store, 'url_outside' . $i)!= '') {
 							$link_text = getParam($store, 'link_text_outside' . $i);
 							$link_text = ($link_text != '') ? $link_text : '外部サイトへ';

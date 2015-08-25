@@ -451,37 +451,23 @@
 								</div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'url_outside1'));?>">
-								<label class="control-label" for="typeahead">外部サイト1</label>
+						<?php for ($os_index = 1; $os_index <= 5; $os_index++) : ?>
+							<div class="control-group <?php echo error_class(getParam($error, 'url_outside' . $os_index));?>">
+								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?></label>
 								<div class="controls">
-									<input placeholder="" id="url_outside1" name="url_outside1" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside1');?>">
-									<?php echo getParam($error, 'url_outside1');?>
+									<input placeholder="" id="url_outside<?php echo $os_index; ?>" name="url_outside<?php echo $os_index; ?>" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside' . $os_index);?>">
+									<?php echo getParam($error, 'url_outside' . $os_index);?>
 								</div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside1'));?>">
-								<label class="control-label" for="typeahead">外部サイト1リンクテキスト</label>
+							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside' . $os_index));?>">
+								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?>リンクテキスト</label>
 								<div class="controls">
-									<input placeholder="" id="link_text_outside1" name="link_text_outside1" type="text" class="input-block-level" value="<?php echo getParam($post, 'link_text_outside1');?>">
-									<?php echo getParam($error, 'link_text_outside1');?>
+									<input placeholder="" id="link_text_outside<?php echo $os_index; ?>" name="link_text_outside<?php echo $os_index; ?>" type="text" class="input-block-level" value="<?php echo getParam($post, 'link_text_outside' . $os_index);?>">
+									<?php echo getParam($error, 'link_text_outside' . $os_index);?>
 								</div>
 							</div>
-							
-							<div class="control-group <?php echo error_class(getParam($error, 'url_outside2'));?>">
-								<label class="control-label" for="typeahead">外部サイト2</label>
-								<div class="controls">
-									<input placeholder="" id="url_outside2" name="url_outside2" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_outside2');?>">
-									<?php echo getParam($error, 'url_outside2');?>
-								</div>
-							</div>
-							
-							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside2'));?>">
-								<label class="control-label" for="typeahead">外部サイト2リンクテキスト</label>
-								<div class="controls">
-									<input placeholder="" id="link_text_outside2" name="link_text_outside2" type="text" class="input-block-level" value="<?php echo getParam($post, 'link_text_outside2');?>">
-									<?php echo getParam($error, 'link_text_outside2');?>
-								</div>
-							</div>
+						<?php endfor; ?>
 							
 						<div class="box-header" data-original-title="">
 							その他
