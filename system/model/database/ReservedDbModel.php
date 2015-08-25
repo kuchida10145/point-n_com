@@ -628,9 +628,9 @@ class ReservedDbModel extends DbModel{
 			$wheres[] = " user.nickname LIKE '%{$nickname}%' ";
 		}
 
-		$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') GROUP BY user.user_id";
+		//$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') GROUP BY user.user_id";
 
-		$where = " WHERE ".implode(' AND ',$wheres);
+		$where = " WHERE ".implode(' AND ',$wheres)." GROUP BY user.user_id";
 		return $where;
 	}
 

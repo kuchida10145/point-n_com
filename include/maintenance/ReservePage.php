@@ -194,8 +194,21 @@ class ReservePage extends MaintenancePage{
 		$account = $this->getAccount();
 		$year_month = date('Y-m');
 		
-		$this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
+		
+		$bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id);
+		
+		$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
+		$today       = date('Y-m-d');
+		
+		$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
 		$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
+		
+		//年月が同じ場合のみ利用枠を復旧
+		if($today == $action_date){
+			$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$bill_action['total_price']);
+			$account = $this->manager->db_manager->get('store')->findById($account['store_id']);
+			$this->setAccount($account);
+		}
 		return $user_res;
 	}
 }
