@@ -189,6 +189,13 @@ class ReservePage extends MaintenancePage{
 		$updateParam = array(
 				'point'=>$res['point'] + $reservedInfo['use_point'],	// 保持ポイント計算
 		);
-		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
+		$user_res = $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
+		
+		$account = $this->getAccount();
+		$year_month = date('Y-m');
+		
+		$this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
+		$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
+		return $user_res;
 	}
 }
