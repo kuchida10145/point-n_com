@@ -14,6 +14,8 @@ class CouponDbModel extends DbModel{
 			'status_id',
 			'point_kind',
 			'coupon_name',
+			'minutes',
+			'price',
 			'point',
 			'use_condition',
 			'public_start_date',

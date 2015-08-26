@@ -2040,6 +2040,8 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   `status_id` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'ステータス : 0：無効、1：有効',
   `point_kind` tinyint(4) NOT NULL COMMENT 'ポイント種類 : 1：通常ポイント、2：イベントポイント、3：特別ポイント',
   `coupon_name` varchar(50) NOT NULL COMMENT 'クーポン名',
+  `minutes` smallint(6) NOT NULL COMMENT '分',
+  `price` mediumint(9) DEFAULT 0 NOT NULL COMMENT '料金',
   `point` int(11) NOT NULL COMMENT 'ポイント : ユーザーがサービス利用後に獲得するポイント',
   `use_condition` text COMMENT '利用条件',
   `public_start_date` datetime DEFAULT NULL COMMENT '表示開始日時',
