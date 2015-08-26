@@ -111,4 +111,16 @@ class Add_limitDbModel extends DbModel{
 		$this->db->query($sql);
 	}
 
+	
+	/**
+	 * 指定の月の指定の店舗の前払い金合計を取得
+	 */
+	public function monthDepositPriceStoreId($year_month,$store_id){
+		
+		$sql ="SELECT sum(add_point) as deposit_price FROM {$this->table} WHERE store_id = '{$store_id}' AND add_type=1 AND add_date LIKE '{$year_month}-__'  GROUP BY store_id";
+		if($res = $this->db->getData($sql)){
+			return $res['deposit_price'];
+		}
+		return 0;
+	}
 }
