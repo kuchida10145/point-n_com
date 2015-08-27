@@ -20,7 +20,10 @@ class CouponPage extends MaintenancePage{
 	 */
 	protected function validation($param){
 		$this->manager->validation->setRule('coupon_name','required');
-		$this->manager->validation->setRule('course_id','required');
+		$this->manager->validation->setRule('point','selected');
+		$this->manager->validation->setRule('course_id','selected');
+		$this->manager->validation->setRule('minutes','required');
+		$this->manager->validation->setRule('price','required');
 		$this->manager->validation->setRule('use_condition','required');
 		return $this->manager->validation->run($param);
 	}
@@ -130,17 +133,15 @@ class CouponPage extends MaintenancePage{
 		$this->unsetSystemMessage();
 		$dbFlg = true;
 
-		// 通常クーポン有効処理
-		if(!empty($get['normal_coupon'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($account['store_id'],$get['normal_coupon'], COUPON_ST_NORAL);
-		}
-		// イベントクーポン有効処理
-		if(!empty($get['event_coupon'])){
-			$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($account['store_id'],$get['event_coupon'], COUPON_ST_EVENT);
-		}
+		// クーポン有効処理
+		if(!empty($get['job'])){
+			if($get['kind']) {
+				$dbFlg = $this->manager->db_manager->get($this->use_table)->updateForce($account['store_id'],$get['id'], $get['kind']);
+			}
 
-		if(!$dbFlg){
-			redirect('index.php');
+			if(!$dbFlg){
+				redirect('index.php');
+			}
 		}
 
 		//limit句生成
@@ -154,21 +155,12 @@ class CouponPage extends MaintenancePage{
 			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceSearch($account_id,$get,$limit,$this->order);
 		}
 
-
 		// リストを出力用のデータに変換
 		$list = $this->dbToListData($list);
 
-		// 発行エリア用プルダウンデータ作成
+		// クーポン名プルダウン
 		foreach ($list as $key=>$val) {
-			if($val['status_id'] == ST_ACT) {
-				continue;
-			}
-
-			if($val['point_kind'] == COUPON_ST_NORAL) {
-				$normal_list[$val['coupon_id']] = $val['coupon_name'];
-			} elseif ($val['point_kind'] == COUPON_ST_EVENT) {
-				$event_list[$val['coupon_id']] = $val['coupon_name'];
-			}
+			$coupon_list[$val['coupon_id']] = $val['coupon_name'];
 		}
 
 		//ページャ生成
@@ -180,8 +172,7 @@ class CouponPage extends MaintenancePage{
 		$pager_html = $this->manager->pager->create();
 
 		$data['list']           = $list;
-		$data['normal_list']    = $normal_list;
-		$data['event_list']     = $event_list;
+		$data['coupon_list']    = coupon_list($account_id);
 		$data['pager_html']     = $pager_html;
 		$data['page_title']     =$this->page_title;
 
@@ -248,6 +239,7 @@ class CouponPage extends MaintenancePage{
 			//入力チェックエラー時
 			//エラーメッセージ取得
 			$error = $this->getValidationError();
+
 			//エラーシステムメッセージ取得
 			$system_message = $this->manager->message->get('system')->getMessage('edit_error');
 		}
@@ -276,9 +268,11 @@ class CouponPage extends MaintenancePage{
 		$data = $this->getEditCommon();
 		//表示用データ
 		if($this->getFormSession('p') == '1') {
-			$data['page_title']     ='通常クーポン情報登録';
+			$data['page_title'] = 'クーポン情報登録';
+			$data['claim_msg']	= '※ クーポンが1度使用される毎に、ポイント数+500円の使用料金が発生します。<br/>例) 1,000Pのクーポンを5組が使用した場合、7,500円の使用料金が発生します。';
 		} else {
 			$data['page_title']     ='イベントクーポン情報登録';
+			$data['claim_msg']	= '※ イベントクーポンが1度使用される毎に、ポイント数*2の使用料金が発生します。<br/>例) 1,000Pのイベントクーポンを5組が使用した場合、10,000円の使用料金が発生します。';
 		}
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
@@ -286,7 +280,10 @@ class CouponPage extends MaintenancePage{
 		$data['page_type_text'] =$this->page_type_text;
 		$account = $this->getAccount();
 		$data['store_id'] = $account['store_id'];
+		$data['course_price'] = course_price($account['store_id']);
+		$data['course_minutes'] = course_minutes($account['store_id']);
 		$data['p'] = $this->getFormSession('p');
+
 		$this->loadView('edit', $data);
 	}
 
@@ -324,6 +321,9 @@ class CouponPage extends MaintenancePage{
 		$data = $this->getConfirmCommon();
 		$data['use_condition']  = $post['use_condition'];	// HTMLエスケープ前に利用条件を退避する。
 		$data['post']  = escapeHtml($post);
+		// コース情報を取得する。
+		$data['course_name'] = getParam(course_list($post['store_id']),$post['course_id']);
+
 		$data['page_title']     =$this->page_title;
 		$data['page_type_text'] =$this->page_type_text;
 
