@@ -53,17 +53,6 @@
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="edit" name="m">
-                            <div class="control-group <?php echo error_class(getParam($error,'status_id'));?>">
-								<label class="control-label" for="selectError3">ステータス <span class="label label-important">必須</span></label>
-								<div class="controls">
-									<select name="status_id">
-										<?php foreach(course_status_id() as $stat_id => $stat_name):?>
-										<option value="<?php echo $stat_id;?>" <?php echo _check_selected($stat_id,getParam($post,'status_id'));?>><?php echo $stat_name;?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-							</div>
-
                             <div class="control-group <?php echo error_class(getParam($error,'course_name'));?>">
 								<label class="control-label" for="typeahead">コース名 <span class="label label-important">必須</span></label>
 								<div class="controls">

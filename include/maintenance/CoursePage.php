@@ -94,9 +94,6 @@ class CoursePage extends MaintenancePage{
 	protected function editDefaultParam(){
 		if($this->getFormSession('id') != '') {
 			$res = $this->getDbData($this->getFormSession('id'));
-			$this->setFormSession('p',$res['point_kind']); //ポイント種別
-		} else {
-			$this->setFormSession('p',getGet('p')); //ポイント種別
 		}
 		return;
 	}
@@ -186,11 +183,7 @@ class CoursePage extends MaintenancePage{
 
 		$data = $this->getEditCommon();
 		//表示用データ
-		if($this->getFormSession('p') == '1') {
-			$data['page_title']     ='通常コース情報登録';
-		} else {
-			$data['page_title']     ='イベントコース情報登録';
-		}
+		$data['page_title'] = 'コース情報登録';
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
 		$data['system_message'] = $system_message;
@@ -248,7 +241,7 @@ class CoursePage extends MaintenancePage{
 	protected function inseart_action($param){
 		$account = $this->getAccount();
 		$param['store_id'] = $account['store_id'];
-		$param['point_kind'] = $this->getFormSession('p');
+		$param['status_id'] = ST_ACT;
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
 
 	}

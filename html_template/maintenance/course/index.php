@@ -44,8 +44,7 @@
 					</div>
 					<div class="box-content">
 						<p>
-							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit&p=1'">新規登録(通常ポイント)</button>
-							<button class="btn btn-large btn-danger" onClick="location.href='?m=edit&p=2'">新規登録(イベントポイント)</button>
+							<button class="btn btn-large btn-primary" onClick="location.href='?m=edit'">新規登録</button>
 						</p>
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>
@@ -53,18 +52,18 @@
 						<table class="table table-striped table-bordered table-hover table-condensed">
 						<thead>
 						<tr>
-							<th>ステータス</th>
 							<th>コース名</th>
-							<th>ポイント種類</th>
+							<th>利用時間（分）</th>
+							<th>利用料金（円）</th>
 							<th>&nbsp;</th>
 						</tr>
 						</thead>
 						<tbody>
 						<?php foreach($list as $course_data):?>
 						<tr>
-							<td class="center"><?php echo getParam(course_status_label(),$course_data['status_id']);?></td>
 							<td class="center"><?php echo $course_data['course_name'];?></td>
-							<td><?php echo getParam(point_kind(),$course_data['point_kind']);?></td>
+							<td class="center"><?php echo $course_data['minutes'];?></td>
+							<td class="center"><?php echo number_format($course_data['price']);?></td>
 							<td class="center">
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $course_data['course_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $course_data['course_id'];?>"><i class="halflings-icon white trash"></i>削除</a>

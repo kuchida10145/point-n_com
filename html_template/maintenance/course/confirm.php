@@ -52,13 +52,6 @@
 						<form class="form-horizontal" action="?m=confirm&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="confirm" name="m">
                             <div class="control-group">
-							  <label class="control-label" for="typeahead">ステータス</label>
-								<div class="controls">
-									<?php echo getParam(course_status_id(),$post['status_id']);?>
-								</div>
-							</div>
-
-                            <div class="control-group">
 								<label class="control-label" for="typeahead">コース名</label>
 								<div class="controls">
 									<?php echo getParam($post,'course_name');?>
