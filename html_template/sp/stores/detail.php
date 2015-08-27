@@ -87,7 +87,10 @@
 										<?php endif;?>
 										<strong class="clrred txt120"><?php echo number_format(getParam($data,'point'));?>PT</strong><br />
 										<strong class="chargetag">総額料金</strong>
-										<strong class="txt120"><?php echo getParam($data,'minutes');?>分<?php echo getParam($data,'price');?>円</strong>
+										<strong class="txt120">
+											<?php echo getParam($data,'coupon_minutes');?>分 <?php echo number_format(getParam($data,'coupon_price'));?>円
+										</strong>
+											(通常料金：<?php echo getParam($data,'course_minutes');?>分 <?php echo number_format(getParam($data,'course_price'));?>円)
 									</p>
 									<p>
 										<strong><?php echo getParam($data,'coupon_name');?></strong>
@@ -151,7 +154,7 @@
 							<td><?php echo getParam($store,'holiday');?></td>
 						</tr>
 					</table>
-				<?php 
+				<?php
 					$outside_urls = array();
 					for ($i = 1; $i <= 5; $i++) {
 						if (getParam($store, 'url_outside' . $i)!= '') {
@@ -183,7 +186,7 @@
 					</div>
 					<?php endif; ?>
 				<?php endif; ?>
-					
+
 					<script language="JavaScript" type="text/javascript">
 						<!--
 						function MoveCheck01(id) {
