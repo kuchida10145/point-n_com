@@ -50,6 +50,7 @@
 							<label class="control-label" for="selectError3">クーポン種類</label>
 							<div class="controls">
 								<select name="point_kind">
+									<option value="">選択してください。</option>
 									<?php foreach(point_kind() as $poi_id => $poi_name):?>
 										<option value="<?php echo $poi_id;?>" <?php echo _check_selected($poi_id,getGet('point'));?>><?php echo $poi_name;?></option>
 									<?php endforeach;?>
@@ -58,7 +59,14 @@
 						</div>
 						<div class="control-group">
 							<label for="" class="control-label">クーポン名</label>
-							<div class="controls"><input placeholder="" id="" name="coupon_name" value="<?php echo getGet('coupon_name');?>" type="text"></div>
+							<div class="controls">
+								<select id="coupon_id" name="coupon_id">
+									<option value="">選択してください。</option>
+									<?php foreach($coupon_list as $cor_num=>$cor_val):?>
+										<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
+									<?php endforeach;?>
+								</select>
+							</div>
 						</div>
 						<div class="form-actions">
 							<button type="submit" class="btn btn-primary">検索</button>
@@ -69,50 +77,6 @@
 					</div><!--/span-->
 				</div><!--/row-->
 				<!-- /検索フォーム -->
-				<!-- 発行フォーム -->
-				<div class="row-fluid">
-					<div class="box span12">
-						<div class="box-header" data-original-title>
-							<h2><i class="icon-money"></i><span class="break"></span>発行</h2>
-							<div class="box-icon">
-								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
-							</div>
-						</div>
-						<div class="box-content">
-							<form class="form-horizontal" method="get">
-	           					<div class="alert alert-block">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<p>一度に発行できるクーポンは、クーポン、イベントそれぞれひとつになります。<br>
-									有効中のものがほかにある場合は、こちらの操作が有効になります。</p>
-								</div>
-                            	<div class="control-group">
-									<label class="control-label" for="selectError3">クーポン</label>
-									<div class="controls">
-										<select id="normal_coupon" name="normal_coupon">
-											<option value="">選択してください。</option>
-											<?php foreach($normal_list as $cor_num=>$cor_val):?>
-												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
-											<?php endforeach;?>
-										</select>
-										<button type="submit" class="btn btn-small btn-success">有効にする</button>
-									</div>
-							  	</div>
-                            	<div class="control-group">
-									<label class="control-label" for="selectError3">イベント</label>
-									<div class="controls">
-									<select id="event_coupon" name="event_coupon">
-										<option value="">選択してください。</option>
-										<?php foreach($event_list as $cor_num=>$cor_val):?>
-												<option value="<?php echo $cor_num;?>"><?php echo $cor_val;?></option>
-										<?php endforeach;?>
-									</select>
-									<button type="submit" class="btn btn-small btn-success">有効にする</button></div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- /発行フォーム -->
 
 				<div class="row-fluid">
 				<div class="box span12">
@@ -141,10 +105,15 @@
 						<tbody>
 						<?php foreach($list as $coupon_data):?>
 						<tr>
+							<!-- <td class="center"><?php echo getParam(coupon_status_label(),$coupon_data['status_id']);?></td> -->
+							<?php if($coupon_data['status_id']):?>
 							<td class="center"><?php echo getParam(coupon_status_label(),$coupon_data['status_id']);?></td>
+							<?php else:?>
+							<td class="center"><a class="btn" href="?job=force&id=<?php echo $coupon_data['coupon_id'];?>&kind=<?php echo $coupon_data['point_kind'];?>">無効</a></td>
+							<?php endif; ?>
 							<td><?php echo getParam(point_kind(),$coupon_data['point_kind']);?></td>
 							<td class="center"><?php echo $coupon_data['coupon_name'];?></td>
-							<td class="center"><?php echo getParam(point_data(),$coupon_data['point']);?>pt</td>
+							<td class="center"><?php echo number_format(getParam(point_data(),$coupon_data['point']));?>pt</td>
 							<td class="center">
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $coupon_data['coupon_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $coupon_data['coupon_id'];?>"><i class="halflings-icon white trash"></i>削除</a>

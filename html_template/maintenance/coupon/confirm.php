@@ -61,14 +61,30 @@
                             <div class="control-group">
 								<label class="control-label" for="typeahead">ポイント数</label>
 								<div class="controls">
-									<?php echo getParam(point_data(),$post['point']);?>pt
+									<?php echo number_format(getParam(point_data(),$post['point']));?>pt
 								</div>
 							</div>
 
                             <div class="control-group">
 								<label class="control-label" for="typeahead">発行するコース名</label>
 								<div class="controls">
-									<?php echo getParam(course_list($post['store_id'], $post['p']),$post['course_id']);?>
+									<?php echo $course_name;?>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="typeahead">コース基本情報</label>
+								<div class="controls">
+									<?php echo getParam($post,'course_minutes');?>分
+									<?php echo getParam($post,'course_price');?>円
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="typeahead">クーポンを使用した場合の時間・料金</label>
+								<div class="controls">
+									<?php echo getParam($post,'minutes');?>分
+									<?php echo number_format(getParam($post,'price'));?>円
 								</div>
 							</div>
 

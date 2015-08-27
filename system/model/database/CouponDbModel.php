@@ -42,9 +42,9 @@ class CouponDbModel extends DbModel{
 		$wheres[] = " delete_flg = 0 ";
 		$wheres[] = " store_id = '{$id}'";
 		//名前が設定されている場合
-		if(getParam($get,'account_name') != '' && getParam($get,'account_name')){
-			$name = $this->escape_string(getParam($get,'account_name'));
-			$wheres[] = " account_name LIKE '%{$name}%' ";
+		if(getParam($get,'coupon_id') != '' && getParam($get,'coupon_id')){
+			$coupon_id = $this->escape_string(getParam($get,'coupon_id'));
+			$wheres[] = " coupon_id = '{$coupon_id}' ";
 		}
 
 		//クーポン種別が設定されている場合
@@ -79,6 +79,21 @@ class CouponDbModel extends DbModel{
 			return $this->updateById($coupon_id, $param);
 		}
 		return FALSE;
+	}
+
+	/**
+	 * 店舗IDが一致するデータを全件取得
+	 *
+	 * @param string $store_id 店舗ID
+	 * @return array
+	 */
+	public function couponList($store_id){
+		$store_id = $this->escape_string($store_id);
+		$field = $this->getFieldText();
+
+		$sql = "SELECT {$field} FROM coupon WHERE store_id = '{$store_id}' AND delete_flg = 0";
+
+		return $this->db->getAllData($sql);
 	}
 
 	/*==========================================================================================
