@@ -420,6 +420,7 @@ function course_list($store_id, $point_kind=NULL){
 	$returnArray = array();
 	//コース一覧取得
 	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+
 	foreach ($list as $key=>$val){
 		$returnArray[$val['course_id']] = $val['course_name'];
 	}
@@ -438,6 +439,23 @@ function course_price($store_id, $point_kind=NULL){
 	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
 	foreach ($list as $key=>$val){
 		$returnArray[$val['course_id']] = $val['price'];
+	}
+	return $returnArray;
+}
+
+/**
+ * コース利用時間取得
+ * @param string $store_id
+ * @param string $point_kind
+ * @return array
+ */
+function course_minutes($store_id, $point_kind=NULL){
+	$manager = Management::getInstance();
+	$returnArray = array();
+	//コース一覧取得
+	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	foreach ($list as $key=>$val){
+		$returnArray[$val['course_id']] = $val['minutes'];
 	}
 	return $returnArray;
 }
@@ -488,6 +506,23 @@ function coupon_status_label(){
 			0=>'<span class="label label-large label-danger">無効</span>',
 			1=>'<span class="label label-large label-success">有効中</span>',
 	);
+}
+
+/**
+ * クーポン一覧取得
+ * @param string $store_id
+ * @return array
+ */
+function coupon_list($store_id){
+	$manager = Management::getInstance();
+	$returnArray = array();
+	//クーポン一覧取得
+	$list = $manager->db_manager->get('coupon')->couponList($store_id);
+
+	foreach ($list as $key=>$val){
+		$returnArray[$val['coupon_id']] = $val['coupon_name'];
+	}
+	return $returnArray;
 }
 
 /**
@@ -680,34 +715,34 @@ function calculate_bil($data){
 	//請求用
 	$issue_point     = getParam($data,'issue_point');//発行ポイント
 	$use_point_cancel= getParam($data,'use_point_cancel');
-	
+
 	//払い戻し用
 	$use_point          = getParam($data,'use_point');
 	$issue_point_cancel = getParam($data,'issue_point_cancel');
 	$deposit_price      = getParam($data,'deposit_price');
-	
+
 	//調整用
 	$adjust_price  = getParam($data,'adjust_price');
-	
+
 	//払い戻し合計
 	$return_price = $use_point+$issue_point_cancel+$deposit_price;
-	
+
 	$total = $issue_point-$return_price+$adjust_price+$use_point_cancel;
-	
+
 	return $total;
 }
 
 
 function calculate_bil_store($data){
 	$total = calculate_bil($data);
-	
+
 	$total = 0-$total;
 	return $total;
 }
 
 /***
  * プラスマイナスによる文字色の変更
- * 
+ *
  * @param int $price 金額
  * @param string $text 金額以外を文字にするとき
  * @return string ＨＴＭＬ
@@ -716,9 +751,9 @@ function price_color_label($price,$text=''){
 	if($text == ''){
 		$text = number_format($price);
 	}
-	
-	
-	
+
+
+
 	if($price < 0){
 		return '<span style="color:red">'.$text.'</span>';
 	}
@@ -729,10 +764,10 @@ function price_color_label($price,$text=''){
 
 /**
  * 請求の合計が、払い戻しか請求かＨＴＭＬで表示
- * 
+ *
  */
 function calculate_bil_type_txt($total){
-	
+
 	if($total < 0){
 		return '支払い';
 	}
