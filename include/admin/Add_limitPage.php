@@ -169,6 +169,15 @@ class Add_limitPage extends AdminPage {
 		
 		//承認の場合
 		if($bool !== false && $param['review_status'] == 1){
+			//前払いの場合
+			if($param['add_type'] == 1){
+				$year_month = date('Y-m',strtotime($param['add_date']));
+				$bill = $this->manager->db_manager->get('bill')->findByMonthStoreId($year_month,$param['store_id']);
+				$deposit_price = $this->manager->db_manager->get('add_limit')->monthDepositPriceStoreId($year_month,$param['store_id']);
+				$deposit['deposit_price'] = $deposit_price;
+				$this->manager->db_manager->get('bill')->updateById($bill['bill_id'],$deposit);
+			}
+			
 			return $this->manager->db_manager->get('store')->addPointLimit($param['store_id'],$param['add_point']);
 		}
 		return $bool;
@@ -188,7 +197,18 @@ class Add_limitPage extends AdminPage {
 		$bool = $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
 		//承認の場合
 		if($bool !== false && $param['review_status'] == 1){
+			
+			//前払いの場合
+			if($param['add_type'] == 1){
+				$year_month = date('Y-m',strtotime($param['add_date']));
+				$bill = $this->manager->db_manager->get('bill')->findByMonthStoreId($year_month,$data['store_id']);
+				$deposit_price = $this->manager->db_manager->get('add_limit')->monthDepositPriceStoreId($year_month,$data['store_id']);
+				$deposit['deposit_price'] = $deposit_price;
+				$this->manager->db_manager->get('bill')->updateById($bill['bill_id'],$deposit);
+			}
+			
 			return $this->manager->db_manager->get('store')->addPointLimit($data['store_id'],$param['add_point']);
+			
 		}
 		return $bool;
 	}
