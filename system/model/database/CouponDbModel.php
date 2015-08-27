@@ -110,8 +110,10 @@ class CouponDbModel extends DbModel{
 		SELECT
 			coupon.point,
 			coupon.point_kind,
-			course.minutes,
-			course.price,
+			course.minutes as course_minutes,
+			course.price as course_price,
+			coupon.minutes as coupon_minutes,
+			coupon.price as coupon_price,
 			coupon.coupon_name,
 			coupon.use_condition,
 			coupon.coupon_id
@@ -121,7 +123,8 @@ class CouponDbModel extends DbModel{
 		WHERE
 			coupon.store_id = '".$store_id."'
 			AND coupon.course_id = course.course_id
-			AND coupon.status_id = '".ST_ACT."'";
+			AND coupon.status_id = '".ST_ACT."'
+			AND coupon.delete_flg = '0'";
 		return $this->db->getAllData($sql);
 	}
 }
