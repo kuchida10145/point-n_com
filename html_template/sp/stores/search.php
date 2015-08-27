@@ -40,7 +40,7 @@
 <div class="contents">
 <div class="selectedterms">
 <dl>
-<dt>選んだ条件</dt>
+<dt>選んだ条件<?php if (!empty($research_link)) : ?>　<a href="./genre.php<?php echo $research_link; ?>">カテゴリを選び直す</a><?php endif; ?></dt>
 <dd><a href="<?php echo $back_link; ?><?php echo $get_back_param; ?>" class="block alncenter">条件変更</a></dd>
 <dd><?php echo $condition_category_large_name; ?></dd>
 <dd><?php echo $condition_redion_name; ?></dd>

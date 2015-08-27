@@ -96,6 +96,11 @@ class Store_areaPage extends Page{
 		
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
+		if (!empty($post['category_large_id']) && !empty($post['category_large_id'])) {
+			$research_param = createLinkParam($get_data);
+		} else {
+			$research_param = "";
+		}
 		$get_data['category_midium_id'] = $post['category_midium_id'];
 		$get_data['category_small_ids'] = $post['category_small_ids'];
 		$get_data['area_key_ids']       = implode(",", $post['area_key_ids']);
@@ -104,6 +109,7 @@ class Store_areaPage extends Page{
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
 		$data['action_link'] = $get_param;
+		$data['research_link'] = $research_param;
 		$data['condition_category_large_name']  = getParam(category_large(), $post['category_large_id']);
 		$data['condition_redion_name']          = getParam(region_master(), $post['region_id']);
 		$data['condition_category_midium_name'] = getParam(category_midium_for_customer($post['category_large_id'], $post['region_id']), $post['category_midium_id']);
