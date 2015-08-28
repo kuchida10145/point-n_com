@@ -55,7 +55,7 @@
 									</div>
 								</div>
 								<div class="control-group">
-									<label class="control-label" for="r_code">予約No.</label>
+									<label class="control-label" for="r_code">ポイントコード</label>
 									<div class="controls"><input placeholder="" id="r_code" name="point_code" value="<?php echo getGet('point_code');?>" type="text">
 									</div>
 								</div>
@@ -68,6 +68,7 @@
 					</div>
 				</div>
 				<!-- /検索フォーム -->
+				<!-- 予約一覧画面-->
 				<div class="row-fluid">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -81,6 +82,7 @@
 							<p>
 								<button class="btn btn-large btn-warning" type="submit" name="status_id" value="2">予約処理完了</button>
 	                   			<button class="btn btn-large btn-success" type="submit" name="status_id" value="1">予約未処理</button>
+	                   			<a class="btn btn-large btn-danger" href="?m=indexCancell">予約取消リスト</a>
 							</p>
 						</form>
 						<?php if(!$list):?>
@@ -89,7 +91,7 @@
 						<table class="table table-striped table-bordered table-hover table-condensed">
 							<thead>
 								<tr>
-									<th>予約No.</th>
+									<th>ポイントコード</th>
 							        <th>予約処理</th>
 							        <th>予約日</th>
 							        <th>会員No.</th>
@@ -133,6 +135,7 @@
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
+				<!-- /予約一覧画面-->
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
