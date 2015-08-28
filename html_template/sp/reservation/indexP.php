@@ -129,7 +129,7 @@
 										<?php echo getParam($error, 'telephone3'); ?>
 									<?php endif; ?>
 								</p>
-							<h3>総額料金</h3>
+							<h3>利用料金</h3>
 								<p>
 									<span id="price"></span>
 								円</p>

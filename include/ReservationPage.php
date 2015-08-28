@@ -128,7 +128,7 @@ class ReservationPage extends Page{
 		$data['course_id']   = $courseData['course_id'];
 		$data['course_name'] = escapeHtml($courseData['course_name']);
 		$data['store_name']  = escapeHtml($storeData['store_name']);
-		$data['price']       = number_format($courseData['price']);
+		$data['price']       = number_format($couponData['price']);
 		$data['point_list']  = $this->getUsePoint($account['point']);
 
 		if(getGet('back') == 'confirm') {
@@ -249,7 +249,7 @@ class ReservationPage extends Page{
 			$courseData = $this->manager->db_manager->get('course')->findById($form_data['course_id']);
 			//DB処理
 			$resrved_id = $this->inseart_action($form_data);	//予約情報登録
-			
+
 			//予約に失敗した場合
 			if(!$resrved_id){
 				$this->unsetFormSession('form');
@@ -260,10 +260,10 @@ class ReservationPage extends Page{
 				$this->unsetFormSession('form');
 				redirect('limit.php');
 			}
-			
+
 			$user_id = $this->user_update($form_data);			//ユーザ情報更新
-			
-			
+
+
 
 			//メール送付
 			$this->sendUserMail($this->getAccount(), USER_MAIL_ID);
@@ -341,8 +341,8 @@ class ReservationPage extends Page{
 
 		$this->loadView('thanks', $data);
 	}
-	
-	
+
+
 	/**
 	 * ポイント上限による予約失敗
 	 *
@@ -351,7 +351,7 @@ class ReservationPage extends Page{
 		$data = array();
 		$this->loadView('limit', $data);
 	}
-	
+
 	/**
 	 * ポイント上限による予約失敗
 	 *
@@ -430,13 +430,13 @@ class ReservationPage extends Page{
 		$date = new DateTime($param['use_date'].' '.$param['use_time'].':'.$param['use_min'].':00');
 		$param['use_date'] = $date->format('Y-m-d H:i:s');
 		$param['reserved_date'] = date('Y-m-d H:i:s');
-		
-		
+
+
 		if($reserved_id = $this->manager->db_manager->get($this->use_table)->insert($param)){
 			$year_month = date('Y-m',strtotime($param['reserved_date']));
 			//請求アクションに追加
-			$bill_action_id = $this->manager->db_manager->get('bill_action')->issueByReservedId($reserved_id); 
-			$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id); 
+			$bill_action_id = $this->manager->db_manager->get('bill_action')->issueByReservedId($reserved_id);
+			$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id);
 
 			//ポイント利用枠からマイナス
 			if($bill_action['total_price'] > 0){
@@ -447,11 +447,11 @@ class ReservationPage extends Page{
 					$reserved_id = 'limit';//上限に達した
 				}
 			}
-			
+
 			//請求集計
 			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$courseData['store_id']);
 		}
-		
+
 		return $reserved_id;
 	}
 
