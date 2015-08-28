@@ -2,7 +2,7 @@
 	<div class="nav-collapse sidebar-nav">
 	<ul class="nav nav-tabs nav-stacked main-menu">
 		<li><a href="index.php"><i class="icon-bar-chart"></i><span class="hidden-tablet">ダッシュボード</span></a></li>
-		<li><a href="notice.php"><i class="icon-flag"></i><span class="hidden-tablet">お知らせ情報登録</span></a></li>
+		<li><a href="notice.php"><i class="icon-flag"></i><span class="hidden-tablet">お店からのお知らせ登録</span></a></li>
 		<li><a href="course.php"><i class="icon-random"></i><span class="hidden-tablet">コース情報登録</span></a></li>
 		<li><a href="coupon.php"><i class="icon-money"></i><span class="hidden-tablet">クーポン発行</span></a></li>
 		<li><a href="reserve.php"><i class="icon-tags"></i><span class="hidden-tablet">予約管理</span></a></li>

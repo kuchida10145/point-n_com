@@ -79,7 +79,7 @@
 				<div class="row-fluid">
 					<div class="box span12">
 						<div class="box-header" data-original-title>
-							<h2><i class="halflings-icon align-justify"></i><span class="break"></span>お知らせ情報登録一覧</h2>
+							<h2><i class="halflings-icon align-justify"></i><span class="break"></span>お店からのお知らせ登録一覧</h2>
 							<div class="box-icon">
 								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 							</div>
