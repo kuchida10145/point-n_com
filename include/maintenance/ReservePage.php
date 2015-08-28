@@ -14,6 +14,22 @@ class ReservePage extends MaintenancePage{
 	protected $page_title = '予約管理';
 
 	/**
+	 * ビューテンプレートの設定
+	 *
+	 */
+	protected function setView(){
+		$this->view = array(
+				'index'       =>'maintenance/'.$this->use_table.'/index',
+				'indexCancell'=>'maintenance/'.$this->use_table.'/indexCancell',
+				'edit'        =>'maintenance/'.$this->use_table.'/edit',
+				'confirm'     =>'maintenance/'.$this->use_table.'/confirm',
+				'thanks'      =>'maintenance/'.$this->use_table.'/thanks',
+				'error'       =>'maintenance/error',
+				'token_error' =>'maintenance/token_error',
+		);
+	}
+
+	/**
 	 * 入力チェック
 	 *
 	 */
@@ -53,6 +69,10 @@ class ReservePage extends MaintenancePage{
 
 					//確認画面
 				case 'confirm':
+					break;
+				//予約取消一覧画面
+				case 'indexCancell':
+					$this->page_type_text = '一覧';
 					break;
 			}
 			$this->{$method}();
@@ -111,15 +131,16 @@ class ReservePage extends MaintenancePage{
 			redirect('index.php');
 		}
 
+		// 予約データ取得
 		//limit句生成
 		$limit = $this->manager->db_manager->get('reserved')->createLimit(getGet('page'),$this->page_cnt);
 
 		//最大件数取得
-		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceReserveSearchMaxCnt($account_id,$get);
+		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceReserveSearchMaxCnt($account_id,$get,$cancell_flg = 0);
 
 		//リスト取得
 		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order);
+			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order,$cancell_flg = 0);
 		}
 
 		//リストを出力用のデータに変換
@@ -143,6 +164,56 @@ class ReservePage extends MaintenancePage{
 		$data['system_message'] = $system_message;
 
 		$this->loadView('index', $data);
+	}
+
+	/**
+	 * 予約取消一覧ページ
+	 *
+	 */
+	protected function indexCancellAction(){
+
+		$account = $this->getAccount();
+		$account_id = getParam($account,'store_id');
+		$pager_html = '';
+		$get        = $_GET;
+		$list       = array();
+		$system_message = $this->getSystemMessage();
+		$this->unsetSystemMessage();
+		$dbFlg = true;
+
+		// 予約取消リスト取得
+		//limit句生成
+		$limit = $this->manager->db_manager->get('reserved')->createLimit(getGet('page'),$this->page_cnt);
+
+		//最大件数取得
+		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceReserveSearchMaxCnt($account_id,$get,$cancell_flg = 1);
+
+		//リスト取得
+		if($max_cnt > 0){
+			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order,$cancell_flg = 1);
+		}
+
+		//リストを出力用のデータに変換
+		$list = $this->dbToListData($list);
+
+		//システムメッセージ
+
+		//ページャ生成
+		$data = $this->getIndexCommon();
+		$pager_param['per_cnt'] = $this->page_cnt;
+		$pager_param['all_cnt'] = $max_cnt;
+		$this->manager->pager->setHtmlType( array() ,'admin');
+		$this->manager->pager->initialize($pager_param);
+		$pager_html = $this->manager->pager->create();
+
+		$data['list']           = $list;
+		$data['pager_html']     = $pager_html;
+		$data['page_title']     =$this->page_title;
+
+		$data['page_type_text'] =$this->page_type_text;
+		$data['system_message'] = $system_message;
+
+		$this->loadView('indexCancell', $data);
 	}
 
 	/**
@@ -190,19 +261,19 @@ class ReservePage extends MaintenancePage{
 				'point'=>$res['point'] + $reservedInfo['use_point'],	// 保持ポイント計算
 		);
 		$user_res = $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
-		
+
 		$account = $this->getAccount();
 		$year_month = date('Y-m');
-		
-		
+
+
 		$bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id);
-		
+
 		$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
 		$today       = date('Y-m-d');
-		
+
 		$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
 		$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
-		
+
 		//年月が同じ場合のみ利用枠を復旧
 		if($today == $action_date){
 			$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$bill_action['total_price']);

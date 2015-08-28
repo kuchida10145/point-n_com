@@ -367,10 +367,11 @@ class ReservedDbModel extends DbModel{
 	 * 検索結果最大取得件数（店舗用）
 	 * @param int $id 店舗ＩＤ
 	 * @param array $get
+	 * @param int $cancell_flg 取消リストフラグ
 	 * @return int
 	 */
-	public function maintenanceReserveSearchMaxCnt($id,$get=array()){
-		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
+	public function maintenanceReserveSearchMaxCnt($id,$get=array(),$cancell_flg){
+		$sql = $this->maintenanceReserveSearchSqlBase($id,$get,$cancell_flg);
 		$sql = str_replace("##field##",' count('.$this->primary_key.') as cnt ', $sql);
 		if($res = $this->db->getData($sql)){
 			return $res['cnt'];
@@ -385,10 +386,11 @@ class ReservedDbModel extends DbModel{
 	 * @param array $get
 	 * @param string $limit リミット句
 	 * @param order $order オーダー句
+	 * @param int $cancell_flg 予約取消リストフラグ
 	 * @return array:
 	 */
-	public function maintenanceRserveSearch($id,$get,$limit,$order){
-		$sql = $this->maintenanceReserveSearchSqlBase($id,$get);
+	public function maintenanceRserveSearch($id,$get,$limit,$order,$cancell_flg){
+		$sql = $this->maintenanceReserveSearchSqlBase($id,$get,$cancell_flg);
 		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,reserved.reserved_name,coupon_name,get_point,use_point", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
@@ -398,13 +400,12 @@ class ReservedDbModel extends DbModel{
 	 * ベースSELECT分（店舗用）
 	 * @param int $id 店舗ＩＤ
 	 * @param array $get
-	 * @param string $limit リミット句
-	 * @param order $order オーダー句
+	 * @param int $cancell_flg 予約取消リストフラグ
 	 * @return array:
 	 */
-	protected function maintenanceReserveSearchSqlBase($id,$get){
+	protected function maintenanceReserveSearchSqlBase($id,$get,$cancell_flg){
 		//フィールドは各メソッド内で変換
-		$where = $this->maintenanceReserveSearchWhere($id,$get);
+		$where = $this->maintenanceReserveSearchWhere($id,$get,$cancell_flg);
 		$sql = "SELECT ##field## FROM {$this->table},user  {$where}";
 		return $sql;
 	}
@@ -414,22 +415,24 @@ class ReservedDbModel extends DbModel{
 	 * WHERE句生成（店舗用）
 	 * @param int $id user_id
 	 * @param array $get
+	 * @param int $cancell_flg 予約取消リストフラグ
 	 * @return string
 	 */
-	protected function maintenanceReserveSearchWhere($id,$get){
+	protected function maintenanceReserveSearchWhere($id,$get,$cancell_flg){
 		$where = "";
 
 		$wheres[] = " reserved.delete_flg = 0 ";
 		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.user_id = user.user_id ";
-		$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') ";
-
+		if($cancell_flg) {
+			$wheres[] = " reserved.status_id = '".RESERVE_ST_INV."'";
+		} else {
+			$wheres[] = " reserved.status_id IN ('".RESERVE_ST_YET."','".RESERVE_ST_FIN."') ";
+		}
 		//予約ステータス
 		if(getParam($get,'status_id') != ''  && is_string(getParam($get,'status_id'))){
 			$status_id = $this->escape_string(getParam($get,'status_id'));
 			$wheres[] = " reserved.status_id = '{$status_id}' ";
-		} else {
-			$wheres[] = " reserved.status_id <> 0 ";
 		}
 
 		//利用開始日
