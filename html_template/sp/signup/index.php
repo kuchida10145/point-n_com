@@ -27,7 +27,7 @@
 <!--コンテンツ-->
 <div class="contents">
 <p>ユーザー利用規約に同意頂き登録するメールアドレスを入力してください。折り返し仮登録完了メールが届きます。仮登録完了メールにあるURLにアクセスしますと、ユーザー登録画面へ進みます。<br />
-<span class="clrred">※ドメイン指定受信している方はpoint-n.comを指定解除してください。</span></p>
+<span class="clrred">※ドメイン指定受信している方は【 point-n.com 】を指定解除してください。</span></p>
 <h3>メールアドレス(半角)</h3>
 <form method="post" action="" name="frm">
 <input type="hidden" name="m" value="signup" />
