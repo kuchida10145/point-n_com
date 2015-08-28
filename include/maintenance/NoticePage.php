@@ -12,7 +12,7 @@ class NoticePage extends MaintenancePage{
 	protected $use_table   = 'notice';
 	protected $session_key = 'notice';
 	protected $use_confirm = true;
-	protected $page_title = 'お知らせ情報管理';
+	protected $page_title = 'お店からのお知らせ管理';
 
 	/**
 	 * 入力チェック
@@ -28,7 +28,7 @@ class NoticePage extends MaintenancePage{
 
 		return $this->manager->validation->run($param);
 	}
-	
+
 	/**
 	 * ＤＢデータから入力用データへ変換
 	 *
@@ -39,7 +39,7 @@ class NoticePage extends MaintenancePage{
 		$news_common = new NewsCommonPage();
 		return $news_common->dbToInputData($data, $this->id);
 	}
-	
+
 	/**
 	 * 新規登録処理
 	 *
@@ -48,11 +48,11 @@ class NoticePage extends MaintenancePage{
 	 */
 	protected function inseart_action($param){
 		$param = $this->inputToDbData($param);
-		
+
 		$news_common = new NewsCommonPage();
 		return $news_common->insert_action($param, $this->use_table);
 	}
-	
+
 	/**
 	 * 更新処理
 	 *
@@ -61,11 +61,11 @@ class NoticePage extends MaintenancePage{
 	 */
 	protected function update_action($param){
 		$param = $this->inputToDbData($param);
-		
+
 		$news_common = new NewsCommonPage();
 		return $news_common->update_action($param, $this->id, $this->use_table);
 	}
-	
+
 	/**
 	 * 入力用データからＤＢデータへ変換
 	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
@@ -76,7 +76,7 @@ class NoticePage extends MaintenancePage{
 	protected function inputToDbData($data){
 		return $data;
 	}
-	
+
 	/**
 	 * 画像アップロード（AJAX)
 	 */
