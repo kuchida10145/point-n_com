@@ -307,9 +307,9 @@ class StoreDbModel extends DbModel{
 		$sql .= ' LEFT JOIN `area_first` AS area ON area.area_first_id = store.area_first_id';
 		$sql .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
 		$sql .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
-		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 1 ORDER BY point DESC) AS c1 ON store.store_id = c1.store_id';
+		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 1 AND delete_flg = 0 ORDER BY point DESC) AS c1 ON store.store_id = c1.store_id';
 		$sql .= ' LEFT JOIN `course` AS cs1 ON c1.course_id = cs1.course_id AND c1.store_id = cs1.store_id ';
-		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 2 ORDER BY point DESC) AS c2 ON store.store_id = c2.store_id';
+		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 2 AND delete_flg = 0 ORDER BY point DESC) AS c2 ON store.store_id = c2.store_id';
 		$sql .= ' LEFT JOIN `course` AS cs2 ON c2.course_id = cs2.course_id AND c2.store_id = cs2.store_id ';
 		$sql .= ' LEFT JOIN ( SELECT * FROM `notice` WHERE public_start_date <= "' . $todayDate . '" AND public_end_date >= "' . $todayDate . '" ORDER BY notice_id) AS notice ON store.store_id = notice.store_id AND notice.public = 1';
 		return $sql;
@@ -521,23 +521,23 @@ class StoreDbModel extends DbModel{
 		$sql = "SELECT {$field} FROM {$this->table} WHERE {$this->primary_key} = '{$id}' AND delete_flg = 0 AND status_id = 2 LIMIT 0,1";
 		return $this->db->getData($sql);
 	}
-	
-	
-	
+
+
+
 	/*==========================================================================================
 	* CRON：毎月１日に実行
 	*
 	*==========================================================================================*/
 	/**
 	 * ポイント利用枠を、月初めに付与するポイント枠（base_point)と同じ数値にする
-	 * 
+	 *
 	 */
 	public function pointLimitThisMonthCron(){
 		$sql = "UPDATE {$this->table} SET point_limit = base_point ";
 		return $this->db->query($sql);
 	}
-	
-	
+
+
 	/*==========================================================================================
 	* ポイント枠周り
 	*
@@ -552,22 +552,22 @@ class StoreDbModel extends DbModel{
 		$sql = "UPDATE {$this->table} SET point_limit = point_limit+{$point} WHERE store_id = '{$store_id}' ";
 		return $this->db->query($sql);
 	}
-	
+
 	/**
 	 * ポイント利用枠減少
 	 * @param int $store_id 店舗ID
 	 * @param int $point ポイント
 	 */
 	public function usePointLimit($store_id,$point){
-		
+
 		$store = $this->findById($store_id);
-		
+
 		if($store['point_limit'] >= $point){
 			$sql = "UPDATE {$this->table} SET point_limit = point_limit-{$point} WHERE store_id = '{$store_id}' ";
 			return $this->db->query($sql);
 		}
 		return false;
 	}
-	
-	
+
+
 }
