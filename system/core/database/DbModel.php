@@ -319,6 +319,14 @@ class Base_DbModel
 		return $sql;
 	}
 
+	/**
+	 * 最後に発行したSQL文を取得する
+	 */
+	public function getLastQuerySQL() {
+		$sql = $this->db->sql;
+		$sql = empty($sql) ? "" : $sql;
+		return $sql;
+	}
 
 	/**
 	 * WHERE文の生成

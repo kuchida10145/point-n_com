@@ -61,6 +61,9 @@ class Store_searchPage extends Page {
 		$store->setSortID($post['sort']);
 		$total = $store->shopCountByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
 		$shops = $store->shopListByCategoryAndAreaKeyIDs($post['category_large_id'], $post['category_midium_id'], $post['category_small_ids'], $area_key_ids, $post['keyword']);
+		if ($this->debug) {
+			$data['sql'] = $store->getLastQuerySQL();
+		}
 		$shops = ($shops != null) ? $shops : array();
 		$shops = $this->changeListData($shops, true);
 		
@@ -145,14 +148,21 @@ class Store_searchPage extends Page {
 		$category_small_ids = getGet('category_small_ids');
 		$area_key_ids       = getGet('area_key_ids');
 		$keyword            = getGet('keyword');
+		$sort               = getGet('sort');
 		$store = $this->manager->db_manager->get('store');
 		$store->setNextPage($start, $this->page_cnt);
+		$store->setSortID($sort);
 		$pages = $store->shopListByCategoryAndAreaKeyIDs($category_large_id, $category_midium_id, $category_small_ids, $area_key_ids, $keyword);
 		if ($pages) {
 			$res['result']    = 'true';
 			$res['cur_shops'] = $start + count($pages);
+			$res['is_point_selected_sort'] = is_point_selected_sort($sort);
+			$res['is_event_selected_sort'] = is_event_selected_sort($sort);
 		}
 		$res['pages'] = $this->changeListData($pages, true);
+		if ($this->debug) {
+			$res['sql'] = $store->getLastQuerySQL();
+		}
 		echo json_encode($res);		
 	}
 	

@@ -88,6 +88,7 @@ class Database{
 			$this->connid = $this->connect();
 		}
 		$this->res = mysqli_query($this->connid,$sql);
+		$this->sql = $sql;
 		return $this->res;
 	}
 

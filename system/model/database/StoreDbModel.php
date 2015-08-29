@@ -308,9 +308,7 @@ class StoreDbModel extends DbModel{
 		$sql .= ' LEFT JOIN `region_master` AS region ON region.region_id = area.region_id';
 		$sql .= ' LEFT JOIN `category_small` AS category ON store.category_small_id = category.category_small_id';
 		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 1 AND delete_flg = 0 ORDER BY point DESC) AS c1 ON store.store_id = c1.store_id';
-		$sql .= ' LEFT JOIN `course` AS cs1 ON c1.course_id = cs1.course_id AND c1.store_id = cs1.store_id ';
 		$sql .= ' LEFT JOIN ( SELECT * FROM `coupon` WHERE status_id = 1 AND point_kind = 2 AND delete_flg = 0 ORDER BY point DESC) AS c2 ON store.store_id = c2.store_id';
-		$sql .= ' LEFT JOIN `course` AS cs2 ON c2.course_id = cs2.course_id AND c2.store_id = cs2.store_id ';
 		$sql .= ' LEFT JOIN ( SELECT * FROM `notice` WHERE public_start_date <= "' . $todayDate . '" AND public_end_date >= "' . $todayDate . '" ORDER BY notice_id) AS notice ON store.store_id = notice.store_id AND notice.public = 1';
 		return $sql;
 	}
@@ -328,13 +326,13 @@ class StoreDbModel extends DbModel{
 			// 2：イベントポイントが高い順
 			2=>" ORDER BY c2.point DESC, c1.point DESC ",
 			// 3：通常ポイント総額料金が高い順
-			3=>" ORDER BY cs1.price DESC, cs2.price DESC ",
+			3=>" ORDER BY c1.price DESC, c2.price DESC ",
 			// 4：通常ポイント総額料金が低い順
-			4=>" ORDER BY cs1.price ASC, cs2.price ASC ",
+			4=>" ORDER BY c1.price ASC, c2.price ASC ",
 			// 5：イベントポイント総額料金が高い順
-			5=>" ORDER BY cs2.price DESC, cs1.price DESC ",
+			5=>" ORDER BY c2.price DESC, c1.price DESC ",
 			// 6：イベントポイント総額料金が低い順
-			6=>" ORDER BY cs2.price ASC, cs1.price ASC ",
+			6=>" ORDER BY c2.price ASC, c1.price ASC ",
 			// 7：新着店舗
 			7=>" ORDER BY store.new_arrival DESC, store.regist_date DESC ",
 		);

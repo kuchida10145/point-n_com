@@ -89,6 +89,9 @@
 
 <div class="shoplist">
 <?php if (isset($shop_list) && !empty($shop_list)) : ?>
+	<?php if ($debug) : ?>
+	<span><?php echo $sql; ?></span>
+	<?php endif; ?>
 	<?php foreach($shop_list as $data) : ?>
 	<dl class="clearfix">
 		<dt>
@@ -103,7 +106,7 @@
 			<strong><?php echo $store_name; ?></strong>
 			</a><br />
 			<?php echo getParam($data, 'category_small_name'); ?>/<?php echo getParam($data, 'region_name'); ?>
-			<?php if (getParam($data, 'normal_point_status') == '1') : ?>
+			<?php if (getParam($data, 'normal_point_status') == '1' && is_point_selected_sort(getParam($post, 'sort'))) : ?>
 				<br /><strong class="pointtag">
 					ポイント
 				</strong>
@@ -111,13 +114,13 @@
 					<?php echo number_format(getParam($data, 'normal_point')); ?>PT
 				</strong>
 			<?php endif;?>
-			<?php if (getParam($data, 'event_point_status') == '1') : ?>
+			<?php if (getParam($data, 'event_point_status') == '1' && is_event_selected_sort(getParam($post, 'sort'))) : ?>
 				<br /><strong class="eventtag">
 					イベント
 				</strong>
 				<strong class="clrgreen">
 					<?php echo number_format(getParam($data, 'event_point')); ?>PT
-				</strong><br />
+				</strong>
 			<?php endif;?>
 			<?php echo getParam($data, 'title'); ?><br />
 			<?php 
@@ -165,7 +168,7 @@ $(function() {
             scrollTop = $window.scrollTop(),
             documentHeight = $(document).height();
         if (documentHeight === height + scrollTop) {
-			page_cnt++;
+        	page_cnt++;
 			category_large_id  = $("#category_large_id").val();
 			region_id          = $("#region_id").val();
 			category_midium_id = $("#category_midium_id").val();
@@ -189,7 +192,12 @@ $(function() {
 					if (res.result == 'false') {
 						return;
 					}
+					var is_point_selected_sort = res.is_point_selected_sort;
+					var is_event_selected_sort = res.is_event_selected_sort;
 					var html = "";
+					<?php if ($debug) : ?>
+					html += "<span>" + res.sql + "</span>";
+					<?php endif; ?>
 					for (var i = 0; i < res.pages.length; i++) {
 						var page                = res.pages[i];
 						var store_id            = page.store_id;
@@ -211,11 +219,13 @@ $(function() {
 						html += '  <dt><a href="/stores/detail.php?id=' + store_id + '"><img src="' + image1 + '" alt="" /></a></dt>';
 						html += '  <dd><a href="/stores/detail.php?id=' + store_id + '"><strong>' + store_name + '</strong></a><br />';
 						html += category_small_name + '/' + region_name;
-						if (normal_point_status == '1') {
+						if (normal_point_status == '1' && is_point_selected_sort) {
+							html += '  <br />';
 							html += '  <strong class="pointtag">ポイント</strong>';
 							html += '  <strong class="clrred">' + normal_point + '</strong>';
 						}
-						if (event_point_status == '1') {
+						if (event_point_status == '1' && is_event_selected_sort) {
+							html += '  <br />';
 							html += '  <strong class="eventtag">イベント</strong>';
 							html += '  <strong class="clrgreen">' + event_point + '</strong>';
 						}
