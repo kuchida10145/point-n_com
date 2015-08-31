@@ -2066,7 +2066,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'コースID',
   `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
   `status_id` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'ステータス : 0：無効、1：有効',
-  `point_kind` tinyint(4) NOT NULL COMMENT 'ポイント種類 : 1：通常ポイント、2：イベントポイント、3：特別ポイント',
+  `point_kind` tinyint(4) NOT NULL COMMENT 'ポイント種類 : 0：ポイント区別なし、1：通常ポイント、2：イベントポイント、3：特別ポイント',
   `course_name` varchar(50) NOT NULL COMMENT 'コース名',
   `minutes` smallint(6) NOT NULL COMMENT '分',
   `price` mediumint(9) NOT NULL DEFAULT '0' COMMENT '料金',
