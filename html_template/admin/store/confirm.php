@@ -186,7 +186,14 @@
 							ショップデータ
 						</div>
 						<br>
-
+							<div class="control-group">
+								<label class="control-label" for="typeahead">残りポイント枠</label>
+								<div class="controls"><?php echo number_format(getParam($post,'point_limit'));?>Pt</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">月初めポイント付与数</label>
+								<div class="controls"><?php echo number_format(getParam($post,'base_point'));?>Pt</div>
+							</div>
 							<div class="control-group">
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">

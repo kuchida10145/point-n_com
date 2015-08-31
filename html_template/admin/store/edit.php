@@ -165,17 +165,17 @@
 								</div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'contract_telephone1'));?> <?php echo error_class(getParam($error, 'contract_telephone2'));?> <?php echo error_class(getParam($error, 'contract_telephone3'));?>">
+							<div class="control-group <?php echo error_class(getParam($error, 'contract_telephone'));?>">
 								<label class="control-label" for="typeahead">事務所電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="contract_telephone1" name="contract_telephone1" type="text" value="<?php echo getParam($post, 'contract_telephone1');?>">
-									<?php echo getParam($error, 'contract_telephone1');?>
+									<?php/* echo getParam($error, 'contract_telephone1');*/?>
 									-
 									<input placeholder="" id="contract_telephone2" name="contract_telephone2" type="text" value="<?php echo getParam($post, 'contract_telephone2');?>">
-									<?php echo getParam($error, 'contract_telephone2');?>
+									<?php/*  echo getParam($error, 'contract_telephone2');*/?>
 									-
 									<input placeholder="" id="contract_telephone3" name="contract_telephone3" type="text" value="<?php echo getParam($post, 'contract_telephone3');?>">
-									<?php echo getParam($error, 'contract_telephone3');?>
+									<?php/*  echo getParam($error, 'contract_telephone3');*/?>
 									<?php echo getParam($error, 'contract_telephone');?>
 								</div>
 							</div>
@@ -295,7 +295,24 @@
 							ショップデータ
 						</div>
 						<br>
-							
+							<div class="control-group <?php echo error_class(getParam($error, 'point_limit'));?>">
+								<label class="control-label" for="typeahead">残りポイント枠 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input type="text" name="point_limit" value="<?php echo getParam($post,'point_limit',0);?>"><br />
+									今月付与・発行できる残りポイント利用枠です。<br />
+									基本的に操作する必要はありませんが、何らかの理由で修正する必要が出た場合のみ修正することを推奨します。<br />
+									新規作成時・毎月1日になると自動で「月初めポイント付与数」の数値に設定されます。
+									<?php echo getParam($error, 'point_limit');?>
+								</div>
+							</div>
+							<div class="control-group <?php echo error_class(getParam($error, 'base_point'));?>">
+								<label class="control-label" for="typeahead">月初めポイント付与数 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<input type="text" name="base_point" value="<?php echo getParam($post,'base_point',0);?>"><br />
+									毎月1日になったら自動で残りポイント枠として付与するポイント数です。
+									<?php echo getParam($error, 'base_point');?>
+								</div>
+							</div>
 							<div class="control-group">
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">
@@ -404,17 +421,17 @@
 								</div>
 							</div>
 							
-							<div class="control-group <?php echo error_class(getParam($error, 'telephone1'));?> <?php echo error_class(getParam($error, 'telephone2'));?> <?php echo error_class(getParam($error, 'telephone3'));?>">
+							<div class="control-group <?php echo error_class(getParam($error, 'telephone'));?>">
 								<label class="control-label" for="typeahead">店舗または発エリア電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="telephone1" name="telephone1" type="text" value="<?php echo getParam($post, 'telephone1');?>">
-									<?php echo getParam($error, 'telephone1');?>
+									<?php/* echo getParam($error, 'telephone1');*/?>
 									-
 									<input placeholder="" id="telephone2" name="telephone2" type="text" value="<?php echo getParam($post, 'telephone2');?>">
-									<?php echo getParam($error, 'telephone2');?>
+									<?php/*  echo getParam($error, 'telephone2');*/?>
 									-
 									<input placeholder="" id="telephone3" name="telephone3" type="text" value="<?php echo getParam($post, 'telephone3');?>">
-									<?php echo getParam($error, 'telephone3');?>
+									<?php/*  echo getParam($error, 'telephone3');*/?>
 									<?php echo getParam($error, 'telephone');?>
 								</div>
 							</div>

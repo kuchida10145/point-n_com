@@ -79,7 +79,7 @@
 					</div>
 					<div class="box-content">
 						<p><button class="btn btn-large btn-primary" onClick="location.href='?m=edit&store_id=<?php echo getGet('store_id');?>'">新規追加</button></p>
-						<p>現在の利用可能枠はxxxポイント分です。<br />
+						<p>現在の利用可能枠は<strong><?php echo number_format($account_data['point_limit']);?></strong>ポイント分です。<br />
 						さらに利用枠を広げたい場合は、広げたいポイント数分の金額(1ポイント=1円）を入金後、「新規追加」から申請を行ってください。<br />
 						入金確認後に、金額に応じた応募枠を付与いたします。<br />
 						また、付与されたポイント枠は翌月に繰り越すことはできません。入金後余ってしまったポイント枠は返金の対象になります。
@@ -108,7 +108,7 @@
 							<td class="center"><?php echo getParam(add_limit_type(),$add_limit['add_type']);?></td>
 							<td class="center"><?php echo getParam(add_review_status(),$add_limit['review_status']);?></td>
 							<td class="center">
-								<?php if($add_limit['review_status'] == 0):?>
+								<?php if($add_limit['review_status'] == ADD_LIMIT_RST_REQ): /*申請の場合*/ ?>
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $add_limit['add_limit_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $add_limit['add_limit_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
 								<?php endif;?>

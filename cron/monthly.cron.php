@@ -1,5 +1,5 @@
+#!/usr/bin/php -q
 <?php
-#!/bin/usr/php
 
 /* 
  * 毎月1日に実行

@@ -134,6 +134,10 @@ class StoreCommonPage {
 			$this->manager->validation->setRule('contract_telephone',        'tel');
 			// 許可証の表示
 			$this->manager->validation->setRule('license',             'required');
+			
+			//ポイント関連
+			$this->manager->validation->setRule('point_limit','required|zero_moneyChk');
+			$this->manager->validation->setRule('base_point','required|plus_moneyChk');
 		}
 		// ユーザー名
 		$this->manager->validation->setRule('account_name',        'required|maxlength:50');
@@ -342,7 +346,7 @@ class StoreCommonPage {
 		// 画像1〜9
 		$images = array();
 		for ($i = 1; $i <= 9; $i++) {
-			if ($param['image' . $i] == '') {
+			if (getParam($param,'image' . $i) == '') {
 				continue;
 			}
 			$images[] = $param['image' . $i];

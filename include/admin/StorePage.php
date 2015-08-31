@@ -85,11 +85,17 @@ class StorePage extends AdminPage {
 		unset($param['telephone1']);
 		unset($param['telephone2']);
 		unset($param['telephone3']);
+		
+		//ポイント
+		$param['point_limit'] = $param['base_point'];
 
 		$id = $this->manager->db_manager->get($this->use_table)->insert($param);
 		if ($id === false) {
 			return false;
 		}
+		
+		//ポイント利用枠テーブルに追記
+		$id = $this->manager->db_manager->get('add_limit')->addBasePoint($id,$param['base_point']);
 
 		// 店ID
 		$update_param = array();
@@ -103,7 +109,7 @@ class StorePage extends AdminPage {
 		
 		// 画像1〜9
 		for ($i = 1; $i <= 9; $i++) {
-			if ($param['image' . $i] == '') {
+			if (getParam($param,'image' . $i) == '') {
 				continue;
 			}
 			$update_param = array();

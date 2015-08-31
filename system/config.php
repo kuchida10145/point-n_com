@@ -110,4 +110,15 @@ define('POINT_CODE_NUM_MAX' ,1000);//ポイントコード連番最大値
 define('POINT_CODE_NUM_MIN' ,1);//ポイントコード連番最小値
 
 
+/*----------------------------
+ * 利用枠追加・承認ステータス
+*----------------------------*/
+define('ADD_LIMIT_RST_REQ',0);//申請
+define('ADD_LIMIT_RST_AGR',1);//承認
+
+/*----------------------------
+ * 利用枠追加・支払方法
+*----------------------------*/
+define('ADD_LIMIT_TYPE_BEF',1);//前払い
+define('ADD_LIMIT_TYPE_AFT',2);//後払い
 
