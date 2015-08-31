@@ -28,6 +28,17 @@ function plus_moneyChk($key,$data){
 	}
 	return false;
 }
+/**
+ * 金額チェック(負の値は認めない）
+ */
+function zero_moneyChk($key,$data){
+	$money = getParam($data,$key);
+	
+	if(is_digit($money) && $money >= 0){
+		return true;
+	}
+	return false;
+}
 
 /**
  * 今月かどうかチェック(日付が今月の場合のみtrue）事前にrealdateでチェックしておくこと

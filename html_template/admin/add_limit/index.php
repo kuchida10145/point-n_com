@@ -102,7 +102,7 @@
 							<td class="center"><?php echo getParam(add_limit_type(),$add_limit['add_type']);?></td>
 							<td class="center"><?php echo getParam(add_review_status(),$add_limit['review_status']);?></td>
 							<td class="center">
-								<?php if($add_limit['review_status'] == 0):?>
+								<?php if($add_limit['review_status'] == ADD_LIMIT_RST_REQ): /*申請の場合*/?>
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $add_limit['add_limit_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $add_limit['add_limit_id'];?>"><i class="halflings-icon white trash"></i>削除</a>
 								<?php endif;?>

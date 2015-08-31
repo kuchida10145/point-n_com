@@ -95,8 +95,8 @@ class Add_limitPage extends MaintenancePage {
 		$account = $this->getAccount();
 		$store_id = $account['store_id'];
 		$param['store_id'] = $store_id;
-		$param['review_status']  = 0;//未承認
-		$param['add_type']       = 1;//前払い
+		$param['review_status']  = ADD_LIMIT_RST_REQ;//申請
+		$param['add_type']       = ADD_LIMIT_TYPE_BEF;//前払い
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
 
 	}

@@ -98,6 +98,20 @@ class Add_limitDbModel extends DbModel{
 		return $res['add_date'];
 	}
 	
+	/**
+	 * 利用枠分のデータを挿入
+	 */
+	public function addBasePoint($store_id,$base_point){
+		
+		$param['add_point']    = $base_point;
+		$param['store_id']      = $store_id;
+		$param['review_status'] = ADD_LIMIT_RST_AGR;
+		$param['add_type']      = ADD_LIMIT_TYPE_AFT;
+		$param['add_date']      = date('Y-m-d');
+		$param['memo']          = "基本利用枠付与";
+		return $this->insert($param);
+	}
+	
 	
 	/**
 	 * 毎月の利用枠分のデータを挿入（CRONで実行)
@@ -106,8 +120,11 @@ class Add_limitDbModel extends DbModel{
 		$regist_date = $update_date = date('Y-m-01 H:i:s');
 		$add_date    = date('Y-m-01');
 		$memo        = "基本利用枠付与";
+		$review_status = ADD_LIMIT_RST_AGR;
+		$add_type      = ADD_LIMIT_TYPE_AFT;
+		
 		$sql = "INSERT INTO add_limit (store_id,add_date,add_point,review_status,add_type,memo,regist_date,update_date) ";
-		$sql.= "(SELECT store_id,'{$add_date}',base_point,'1','2','{$memo}','{$regist_date}','{$update_date}' FROM store WHERE delete_flg = 0 )";
+		$sql.= "(SELECT store_id,'{$add_date}',base_point,'{$review_status}','{$add_type}','{$memo}','{$regist_date}','{$update_date}' FROM store WHERE delete_flg = 0 )";
 		$this->db->query($sql);
 	}
 
@@ -116,8 +133,8 @@ class Add_limitDbModel extends DbModel{
 	 * 指定の月の指定の店舗の前払い金合計を取得
 	 */
 	public function monthDepositPriceStoreId($year_month,$store_id){
-		
-		$sql ="SELECT sum(add_point) as deposit_price FROM {$this->table} WHERE store_id = '{$store_id}' AND add_type=1 AND add_date LIKE '{$year_month}-__'  GROUP BY store_id";
+		$add_type      = ADD_LIMIT_TYPE_BEF;
+		$sql ="SELECT sum(add_point) as deposit_price FROM {$this->table} WHERE store_id = '{$store_id}' AND add_type={$add_type} AND add_date LIKE '{$year_month}-__'  GROUP BY store_id";
 		if($res = $this->db->getData($sql)){
 			return $res['deposit_price'];
 		}
