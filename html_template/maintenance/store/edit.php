@@ -196,7 +196,18 @@
 							ショップデータ
 						</div>
 						<br>
-							
+							<div class="control-group">
+								<label class="control-label" for="fileInput">残りポイント枠</label>
+								<div class="controls"><strong><?php echo number_format($account_data['point_limit']);?></strong>Pt<br />
+								今月付与・発行できる残りポイント利用枠です。<br />
+								残りポイント枠を増やしたい場合は、「<a href="add_limit.php">利用枠管理</a>」にて追加をしてください。</div>
+							</div>
+						<div class="control-group">
+								<label class="control-label" for="fileInput">月初めポイント付与数</label>
+								<div class="controls"><strong><?php echo number_format($account_data['base_point']);?></strong>Pt<br />
+								毎月1日になったら自動で残りポイント枠として付与するポイント数です。
+								</div>
+							</div>
 							<div class="control-group">
 								<label class="control-label" for="fileInput">画像の登録</label>
 								<div class="controls">

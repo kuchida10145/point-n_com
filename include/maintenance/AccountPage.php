@@ -70,6 +70,7 @@ class AccountPage extends MaintenancePage {
 		$data['page_title'] = $this->page_title;
 		$data['page_type_text'] = '';
 		$data['system_message'] = $system_message;
+		$data['account_data'] = $this->manager->db_manager->get('store')->findById($account['store_id']);
 		$this->loadView('edit', $data);
 	}
 	
