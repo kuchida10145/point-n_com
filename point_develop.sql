@@ -2105,6 +2105,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `public_start_date` datetime DEFAULT NULL COMMENT '表示開始日時',
   `public_end_date` datetime DEFAULT NULL COMMENT '表示終了日時',
   `display_date` date NOT NULL COMMENT '表示日付',
+  `region_id` tinyint(4) NOT NULL COMMENT '地域ID',
   `title` varchar(100) NOT NULL COMMENT 'タイトル',
   `image1` varchar(100) DEFAULT NULL COMMENT '画像1 : 画像ファイル名',
   `image2` varchar(100) DEFAULT NULL COMMENT '画像2 : 画像ファイル名',
