@@ -47,6 +47,8 @@ class NoticePage extends MaintenancePage{
 	 * @return mixed
 	 */
 	protected function inseart_action($param){
+		$account = $this->getAccount();
+		$param['store_id'] = $account['store_id'];
 		$param = $this->inputToDbData($param);
 
 		$news_common = new NewsCommonPage();
@@ -91,6 +93,7 @@ class NoticePage extends MaintenancePage{
 	 */
 	protected function confirmAction(){
 		$post  = $this->getFormSession('form');
+
 		$data  = array();
 		//入力チェック
 		if(!$this->validation($post)){
