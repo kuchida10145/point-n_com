@@ -160,4 +160,13 @@ class Bill_actionDbModel extends DbModel{
 		
 		return $this->db->getData($sql);
 	}
+	
+	
+	public function findByStoreId_Month($store_id,$month){
+		$field = $this->getFieldText();
+		
+		$sql = "SELECT {$field} FROM {$this->table} WHERE store_id = '{$store_id}' AND regist_date LIKE '{$month}-__ __:__:__' ORDER BY regist_date Desc";
+		
+		return $this->db->getAllData($sql);
+	}
 }

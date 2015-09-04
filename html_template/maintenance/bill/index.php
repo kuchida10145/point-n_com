@@ -138,7 +138,62 @@
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
+				
+				
+				
+				
+				<?php if($bill):?>
+				<div class="row-fluid">
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求詳細</h2>
+						<div class="box-icon"><a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a></div>
+					</div>
+					<div class="box-content">
+						
+						<table class="table table-bordered table-hover table-condensed">
+							<tr>
+								<th width="200">日時</th>
+								<th>カテゴリー</th>
+								<th>ポイント</th>
+							</tr>
+							<?php foreach($bill_actions as $bill_action):?><tr>
+								<td width="200"><?php echo $bill_action['regist_date'];?></td>
+								<td><?php echo $bill_action['action_name'];?></td>
+								<td><?php
+									if($bill_action['cancel_flg'] == 1){
+										echo number_format($bill_action['total_price']);
+									}else{
+										echo '<span style="color:red">-'.number_format($bill_action['total_price'])."</span>";
+									}
+									?>
+								</td>
+							</tr>
+							<?php if($bill_action['use_point'] != 0):?>
+								<tr>
+									<td width="200"><?php echo $bill_action['regist_date'];?></td>
+									<td>予約時利用ポイント<?php if($bill_action['cancel_flg'] == 1):?>キャンセル<?php endif;?></td>
+									<td><?php
+										if($bill_action['cancel_flg'] == 1){
+											echo '<span style="color:red">-'.number_format($bill_action['use_point'])."</span>";
+										}else{
+											echo number_format($bill_action['use_point']);
+										}
+										?>
+									</td>
+								</tr>
+							<?php endif;?>
+							<?php endforeach;?>
+						</table>
+						
+						
+					</div>
+				</div><!--/span-->
+				</div><!--/row-->
+				<?php endif;?>
 			</div><!--/.fluid-container-->
+			
+			
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
 		</div><!--/#content.span10-->
