@@ -333,6 +333,7 @@ class ReservedDbModel extends DbModel{
 		$wheres[] = " reserved.delete_flg = 0 ";
 		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.store_id = store.store_id ";
+		$wheres[] = " user.user_id = reserved.user_id ";
 		$wheres[] = " reserved.status_id = 2 ";
 
 		//利用開始日
