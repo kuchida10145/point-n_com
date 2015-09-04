@@ -49,11 +49,11 @@ class ClaimPage extends MaintenancePage{
 		$point     = 0;
 		if(getGet('coupon') == 1){
 			$this->page_type_text = 'クーポン発行';
-			unset($get_param['coupon']);
 			$point = $this->manager->db_manager->get('reserved')->maintenanceGetPointCnt($account_id,$get);
 		}
 		else{
 			$this->page_type_text = 'ポイント利用';
+			unset($get_param['coupon']);
 			$point = $this->manager->db_manager->get('reserved')->maintenanceUsePointCnt($account_id,$get);
 		}
 
@@ -107,7 +107,9 @@ class ClaimPage extends MaintenancePage{
 	 * CSVダウンロード
 	 */
 	public function csvAction(){
-		$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($_GET,"",$this->order);
+		$account = $this->getAccount();
+		$account_id = $account['store_id'];
+		$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($account_id,$_GET,'',$this->order);
 		
 		$fields = array(
 			'予約No.',
