@@ -328,11 +328,11 @@ class StoreDbModel extends DbModel{
 			// 3：通常ポイント総額料金が高い順
 			3=>" ORDER BY c1.price DESC, c2.price DESC ",
 			// 4：通常ポイント総額料金が低い順
-			4=>" ORDER BY c1.price ASC, c2.price ASC ",
+			4=>" ORDER BY c1.price IS NULL ASC, c1.price ASC, c2.price IS NULL ASC, c2.price ASC ",
 			// 5：イベントポイント総額料金が高い順
 			5=>" ORDER BY c2.price DESC, c1.price DESC ",
 			// 6：イベントポイント総額料金が低い順
-			6=>" ORDER BY c2.price ASC, c1.price ASC ",
+			6=>" ORDER BY c2.price IS NULL ASC, c2.price ASC, c1.price IS NULL ASC, c1.price ASC ",
 			// 7：新着店舗
 			7=>" ORDER BY store.new_arrival DESC, store.regist_date DESC ",
 		);

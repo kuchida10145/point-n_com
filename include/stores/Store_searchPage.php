@@ -56,6 +56,7 @@ class Store_searchPage extends Page {
 		$news = ($news != null) ? $news : array();
 		
 		// 該当する条件の店舗を取得する
+		$post['sort'] = (!empty($post['sort'])) ? $post['sort'] : 1;
 		$store = $this->manager->db_manager->get('store');
 		$store->setNextPage(0, $this->page_cnt);
 		$store->setSortID($post['sort']);
