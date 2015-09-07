@@ -36,6 +36,7 @@ abstract class Page{
 		$this->manager->setHelper('validation');
 		//$this->device = $this->manager->device->getDevice();
 		$this->device = 'sp';
+		$this->checkLogin();
 	}
 	
 	public function errorAction(){
@@ -339,7 +340,7 @@ abstract class Page{
 
 		//クッキーに保存
 		$new_cookie = $new_auto[$auto_table."_id"].":".$new_auto['login_key'];
-		$this->manager->cookie->set($auto_table,$new_cookie);
+		$this->manager->cookie->set($auto_table,$new_cookie,time()+(3600*24*30));
 
 		return true;
 	}
@@ -383,7 +384,7 @@ abstract class Page{
 
 		//クッキーに保存
 		$new_cookie = $new_auto[$auto_table."_id"].":".$new_auto['login_key'];
-		$this->manager->cookie->set($auto_table,$new_cookie);
+		$this->manager->cookie->set($auto_table,$new_cookie,time()+(3600*24*30));
 		return true;
 	}
 
@@ -422,6 +423,21 @@ abstract class Page{
 		
 		//クッキーを削除
 		$this->manager->cookie->delete($auto_table);
+		return true;
+	}
+	
+	
+	/**
+	 * ログインされているかチェック
+	 *
+	 * @return bool
+	 */
+	protected function checkLogin(){
+		$this->autoLogin();
+		$account = $this->getAccount();
+		if(!$account){
+			return false;
+		}
 		return true;
 	}
 }

@@ -59,6 +59,7 @@ class IndexPage extends Page{
 			if($this->loginValidation($_POST)){
 				if($res = $this->manager->db_manager->get('user')->login(getPost('email'),getPost('login_pw'))){
 					$this->setAccount($res);
+					$this->setAutoLogin($res['user_id'],getPost('auto_login'));
 					redirect('index.html');
 				}
 				$system_message =$this->manager->message->get('front')->getMessage('edit_error');
