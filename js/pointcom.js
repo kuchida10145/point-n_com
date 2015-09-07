@@ -124,10 +124,13 @@ var pointcom = {
         })(marker));
 
         //近くのお店のマーカー        
-        for (i = 0; i < maxLocations; i++) {  
+        for (i = 0; i < maxLocations; i++) {
+            var label = i + 1;
+            label = label.toString();  
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(gMap.locations[i]['latitude'], gMap.locations[i]['longitude']),
-                map: map
+                label: label,
+                map: map,
             });
 
             google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -144,6 +147,7 @@ var pointcom = {
     {
       var ajaxUrl = window.location.href;
       var page_cnt = 1; //現在のページ数
+      var storePerPage = 20; //SQLクエリーと共通
 
       $(window).scroll(function(ev) {
 
@@ -166,6 +170,7 @@ var pointcom = {
                     if ( !(null === stores) ) {
 
                         var html = "";
+                        var label = (page_cnt - 1) * storePerPage + 1;
 
                         $.each(stores, function(i,store){
 
@@ -181,6 +186,7 @@ var pointcom = {
                             var normalPtValue  = store.normal_point;
                             var eventPtStatus  = store.event_point_status;
                             var eventPtValue   = store.event_point;
+                            textLabel = label.toString();
 
                             html += '<dl class="clearfix">';
                             html += '<a href="/stores/detail.php?id=' + storeId + '"></a>';
@@ -190,6 +196,7 @@ var pointcom = {
                             }
                             html += '</dt>';
                             html += '<dd>';
+                            html += '<span class="shop-number" style="padding-right:5px;">' + textLabel + '.</span>'
                             html += '<strong>' + name + '</strong><br />';
                             html += categ + '/' + region;
                             if ( "1" == normalPtStatus ) {
@@ -207,6 +214,8 @@ var pointcom = {
                             html += '住所：' + address1 + address2 + '<br />';
                             html += '</dd>';
                             html += '</dl>';
+
+                            label++;
                         });
 
                         $('.shoplist').append(html);

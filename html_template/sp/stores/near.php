@@ -79,7 +79,9 @@
 						<h3>検索結果一覧（全<?php echo $storesTotal; ?>件）</h3>
 						<div class="shoplist">
 
-							<?php foreach($list as $data) : ?>
+							<?php 
+							$label = 1;
+							foreach($list as $data) : ?>
 
 								<!--1件-->	
 								<dl class="clearfix">
@@ -91,6 +93,7 @@
 									</dt>
 									<dd>
 										<strong>
+											<span class="shop-number" style="padding-right:5px;"><?php echo $label; ?>.</span>
 											<?php echo getParam($data,'store_name');?>
 										</strong><br />
 										<?php echo getParam($data,'category_small_name');?>/<?php echo getParam($data,'region_name');?>
@@ -124,7 +127,9 @@
 								</dl>
 								<!--/1件-->
 
-							<?php endforeach;?>
+							<?php 
+							$label++;
+							endforeach;?>
 						</div><!-- /.shoplist -->
 
 						<?php //echo $pager_html; ?>
