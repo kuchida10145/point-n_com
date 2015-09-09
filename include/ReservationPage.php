@@ -89,8 +89,11 @@ class ReservationPage extends Page{
 
 		if(getPost('m') == 'confirm'){
 			$post = $_POST;
+
+			$dateErrorMsg = $this->CheckRservedDate($post['use_date']);
+
 			//入力チェック
-			if($this->Validation($post)){
+			if($this->Validation($post) && !$dateErrorMsg){
 				$form_data = array(
 						'coupon_id'     => $coupon_id,
 						'get_point'     => $couponData['point'],
@@ -114,12 +117,12 @@ class ReservationPage extends Page{
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
 			}
 			$error = $this->getValidationError();
+			if($dateErrorMsg) {
+				$error['use_date'] = $dateErrorMsg;
+			}
 		} else {
 			$post = $this->getFormSession('form');
 		}
-
-
-
 
 		//データ格納
 		$data['post']        = escapeHtml($post);
@@ -164,8 +167,11 @@ class ReservationPage extends Page{
 
 		if(getPost('m') == 'confirm'){
 			$post = $_POST;
+
+			$dateErrorMsg = $this->CheckRservedDate($post['use_date']);
+
 			//入力チェック
-			if($this->ValidationPointOnly($post)){
+			if($this->ValidationPointOnly($post) && !$dateErrorMsg){
 				// コース情報取得
 				if(!$courseData = $this->manager->db_manager->get('course')->findById($post['course_id'])){
 					$this->errorAction();
@@ -194,6 +200,9 @@ class ReservationPage extends Page{
 				redirect( '/reservation/confirm.php?tkn='.$this->token);
 			}
 			$error = $this->getValidationError();
+			if($dateErrorMsg) {
+				$error['use_date'] = $dateErrorMsg;
+			}
 		} else {
 			$post = $this->getFormSession('form');
 		}
@@ -375,7 +384,25 @@ class ReservationPage extends Page{
 		$this->manager->validation->setRule('telephone3','required|numeric|digit|pnumeric');
 		$this->manager->validation->setRule('use_point','isPnumeric');
 		$this->manager->validation->setRule('contract','checked');
+
 		return $this->manager->validation->run($param);
+	}
+
+	/**
+	 * 予約日時チェック
+	 * @param date $reserve_date 予約日時
+	 * @return string エラーメッセージ
+	 */
+	protected function CheckRservedDate($reserve_date) {
+		$dt = new DateTime();
+		$dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
+		$today = $dt->format('Y-m-d');
+
+		if(strtotime($reserve_date) < strtotime($today)) {
+			return '<span class="clrred"><br>過去の日付です</span>';
+		}
+
+		return "";
 	}
 
 	/**
