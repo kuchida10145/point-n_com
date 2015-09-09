@@ -32,7 +32,7 @@
 			<div id="mainbody" class="clearfix">
 				<!--コンテンツ-->
 				<div class="contents">
-					<h2>ポイントコード表示（確認）</h2>
+					<h2>ポイントコード一覧（確認）</h2>
 					<div class="pointhistory">
 						<?php if(!$point_codes):?>
 						データがありませんでした
@@ -42,12 +42,13 @@
 									<tr>
 										<td class="bg12">来店日</td>
 										<td class="bg12"> 利用店舗名</td>
-
+										<td class="bg12"></td>
 									</tr>
 									<?php foreach($point_codes as $point_code):?>
 									<tr>
 										<td><?php echo date('Y年m月d日 H:i',strtotime(getParam($point_code,'use_date')));?></td>
-										<td><a href="/mypage/point_code/detail.php?id=<?php echo $point_code['reserved_id'];?>"><?php echo getParam($point_code,'store_name');?></a></td>
+										<td><?php echo getParam($point_code,'store_name');?></td>
+										<td><a href="/mypage/point_code/detail.php?id=<?php echo getParam($point_code,'reserved_id');?>">ポイントコード表示</a></td>
 									</tr>
 									<?php endforeach;?>
 								</tbody>

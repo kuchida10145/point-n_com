@@ -43,12 +43,6 @@
 	</head>
 	<body id="register">
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
-		<div id="headmenberinfo" class="clearfix">
-			<p>会員No.<?php echo getParam($debug_account,'user_id');?> <?php echo getParam($debug_account,'nickname');?></p>
-			<ul>
-				<li>ポイント数 <strong><?php echo number_format(getParam($debug_account,'point'));?>PT</strong></li>
-			</ul>
-		</div>
 		<!--メイン全体-->
 		<div id="mainbodywrap">
 			<!--ページメイン部分-->
@@ -65,6 +59,11 @@
 									<tr>
 										<td class="bg12">来店日</td>
 										<td class="bg12"> 利用店舗名</td>
+										<td align="center" class="bg12"> ポイント<br />
+										ステータス<br />
+										未=未処理<br />
+										済=処理済<br />
+										★=特別PT</td>
 										<td align="center" class="bg08">ポイント<br />
 										利用</td>
 										<td align="center" class="bg18">ポイント<br />
@@ -73,7 +72,14 @@
 									<?php foreach($list as $data):?>
 									<tr>
 										<td><?php echo getParam($data,'reserved_date');?></td>
-										<td><a href="#"><?php echo getParam($data,'store_name');?></a></td>
+										<td><a href="/mypage/point_code/detail.php?id=<?php echo getParam($data,'reserved_id');?>"><?php echo getParam($data,'store_name');?></a></td>
+										<?php if(getParam($data,'status_id') == 1):?>
+											<td align="center" style="color:#ff0000;"><?php echo "未";?></td>
+										<?php elseif (getParam($data,'status_id') == 2):?>
+											<td align="center"><?php echo "済";?></td>
+										<?php elseif (getParam($data,'status_id') == 9):?>
+											<td align="center"><?php echo "★";?></td>
+										<?php endif;?>
 										<td align="center"><?php echo number_format(getParam($data,'use_point'));?>PT</td>
 										<td align="center"><?php echo number_format(getParam($data,'get_point'));?>PT</td>
 									</tr>
