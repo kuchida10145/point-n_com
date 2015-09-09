@@ -67,7 +67,7 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label">ご利用条件</label>
+								<label class="control-label">コース基本条件</label>
 								<div class="controls">
 									<?php echo $use_condition;?>
 								</div>
