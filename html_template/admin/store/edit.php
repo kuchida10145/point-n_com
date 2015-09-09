@@ -425,13 +425,13 @@
 								<label class="control-label" for="typeahead">店舗または発エリア電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<input placeholder="" id="telephone1" name="telephone1" type="text" value="<?php echo getParam($post, 'telephone1');?>">
-									<?php/* echo getParam($error, 'telephone1');*/?>
+									<?php //echo getParam($error, 'telephone1');?>
 									-
 									<input placeholder="" id="telephone2" name="telephone2" type="text" value="<?php echo getParam($post, 'telephone2');?>">
-									<?php/*  echo getParam($error, 'telephone2');*/?>
+									<?php  //echo getParam($error, 'telephone2');?>
 									-
 									<input placeholder="" id="telephone3" name="telephone3" type="text" value="<?php echo getParam($post, 'telephone3');?>">
-									<?php/*  echo getParam($error, 'telephone3');*/?>
+									<?php //echo getParam($error, 'telephone3');?>
 									<?php echo getParam($error, 'telephone');?>
 								</div>
 							</div>
