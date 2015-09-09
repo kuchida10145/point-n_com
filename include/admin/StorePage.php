@@ -85,7 +85,7 @@ class StorePage extends AdminPage {
 		unset($param['telephone1']);
 		unset($param['telephone2']);
 		unset($param['telephone3']);
-		
+
 		//ポイント
 		$param['point_limit'] = $param['base_point'];
 
@@ -93,20 +93,20 @@ class StorePage extends AdminPage {
 		if ($id === false) {
 			return false;
 		}
-		
+
 		//ポイント利用枠テーブルに追記
-		$id = $this->manager->db_manager->get('add_limit')->addBasePoint($id,$param['base_point']);
+		$this->manager->db_manager->get('add_limit')->addBasePoint($id,$param['base_point']);
 
 		// 店ID
 		$update_param = array();
 		$update_param['store_hex_id']  = sprintf("%04X", $id);
 		$this->manager->db_manager->get($this->use_table)->updateById($id, $update_param);
-		
+
 		// 許可証
 		$update_param = array();
 		$update_param['use_state'] = 1;
 		$this->manager->db_manager->get('temp_image')->updateByFileName($param['license'], $update_param);
-		
+
 		// 画像1〜9
 		for ($i = 1; $i <= 9; $i++) {
 			if (getParam($param,'image' . $i) == '') {
@@ -293,39 +293,39 @@ class StorePage extends AdminPage {
 
 		$this->loadView('confirm', $data);
 	}
-	
-	
-	
+
+
+
 	/**=========================================
 	 * ファイルアップロード周り
 	 *==========================================*/
 	/**
 	 * ファイルアップロード(AJAX)
-	 * 
+	 *
 	 */
 	public function file_uploadAction(){
 		$this->file_upload();
 	}
-	
+
 	/**
 	 * ファイルアップロード
-	 *  
+	 *
 	 */
 	protected function file_upload(){
 		$result['result'] = 'false';
 
 		$dir = UPLOAD_FILE_DIR;
-		
-		
-		
+
+
+
 		$new_file_name =$this->makeNewFileName($_FILES['file']['tmp_name'],$_FILES['file']['name']);
 
-		
+
 		if(!file_exists($dir)){
 			mkdir($dir);
 			chmod($dir, '0777');
 		}
-		
+
 		if($new_file_name === false){
 			$result['result'] = 'mime_error';
 		}
@@ -338,8 +338,8 @@ class StorePage extends AdminPage {
 		echo json_encode($result);
 		exit();
 	}
-	
-	
+
+
 	/***
 	 * アップロードするファイルの新しい名前を設定
 	 * PDF以外はfalseを返す
@@ -350,13 +350,13 @@ class StorePage extends AdminPage {
 	 */
 	protected function makeNewFileName($file,$file_name){
 		if (!file_exists($file)) return false;
-		
-		
+
+
 		$temps = explode('.',$file_name);
 		$mime = end($temps);
 		$base_name =md5(uniqid(rand(), true));
 		return $base_name.'.'.$mime;
-		
+
 	}
-	
+
 }
