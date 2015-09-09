@@ -99,7 +99,7 @@ class ReservedDbModel extends DbModel{
 
 		$fields = array();
 
-		$sql = "SELECT point_code FROM reserved WHERE store_id = {$store_id} ";
+		$sql = "SELECT point_code FROM reserved WHERE store_id = {$store_id} AND status_id <> ".RESERVE_ST_SP;
 		$sql.= " ORDER BY regist_date DESC ";
 
 		return $this->db->getData($sql);
@@ -670,7 +670,7 @@ class ReservedDbModel extends DbModel{
 	 */
 	public function pointHistorySelectSearch($id,$get,$limit,$order){
 		$sql = $this->pointHistorySelectSearchSqlBase($id,$get);
-		$sql = str_replace("##field##","reserved.reserved_date,store.store_name,reserved.use_point,reserved.get_point", $sql);
+		$sql = str_replace("##field##","reserved.reserved_id,reserved.status_id,reserved.reserved_date,store.store_name,reserved.use_point,reserved.get_point", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}
