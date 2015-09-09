@@ -110,6 +110,7 @@ class CouponDbModel extends DbModel{
 		SELECT
 			coupon.point,
 			coupon.point_kind,
+			course.use_condition as course_condition,
 			course.minutes as course_minutes,
 			course.price as course_price,
 			coupon.minutes as coupon_minutes,

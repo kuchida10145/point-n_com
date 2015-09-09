@@ -95,7 +95,11 @@
 									<p>
 										<strong><?php echo getParam($data,'coupon_name');?></strong>
 									</p>
-									<h4>ご利用条件</h4>
+									<h4>コース基本条件</h4>
+									<p>
+										<strong><?php echo getParam($coupon_esc[$id],'course_condition');?></strong>
+									</p>
+									<h4>クーポンご利用条件</h4>
 									<p>
 										<strong><?php echo getParam($coupon_esc[$id],'use_condition');?></strong>
 									</p>
