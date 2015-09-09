@@ -543,7 +543,6 @@ function point_kind(){
  */
 function point_data() {
 	return array(
-			0=>'0',
 			100=>'100',
 			200=>'200',
 			300=>'300',
@@ -677,7 +676,7 @@ function search_sortlist() {
 
 /**
  * 店舗検索結果一覧で指定した並べ替えが通常ポイントか
- * 
+ *
  * @param number $sort 指定した並べ替え
  * @return boolean true:通常ポイントである、false:通常ポイントではない
  */
@@ -685,7 +684,7 @@ function is_point_selected_sort($sort) {
 	if (empty($sort)) {
 		return true;
 	}
-	
+
 	switch ($sort) {
 	case 1:
 	case 3:
@@ -693,13 +692,13 @@ function is_point_selected_sort($sort) {
 	case 7:
 		return true;
 	}
-	
+
 	return false;
 }
 
 /**
  * 店舗検索結果一覧で指定した並べ替えがイベントポイントか
- * 
+ *
  * @param number $sort 指定した並べ替え
  * @return boolean true:イベントポイントである、false:イベントポイントではない
  */
@@ -707,7 +706,7 @@ function is_event_selected_sort($sort) {
 	if (empty($sort)) {
 		return true;
 	}
-	
+
 	switch ($sort) {
 	case 2:
 	case 5:
@@ -715,7 +714,7 @@ function is_event_selected_sort($sort) {
 	case 7:
 		return true;
 	}
-	
+
 	return false;
 }
 
