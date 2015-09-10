@@ -39,11 +39,11 @@
 <h3> 生年月日</h3>
 <input type="hidden" name="m" value="regist_confirm" />
 <p>
-<input name="birth-year" type="number" id="birth-year" min="1900" max="2015" value="<?php echo getParam($post, 'birth-year');?>" />
+<input name="birth-year" type="number" id="birth-year" min="1900" max="2015" placeholder="2015" value="<?php echo getParam($post, 'birth-year');?>" />
 年
-<input name="birth-month" type="number" id="birth-month" min="01" max="12" value="<?php echo getParam($post, 'birth-month');?>" /> 
+<input name="birth-month" type="number" id="birth-month" min="01" max="12" placeholder="01" value="<?php echo getParam($post, 'birth-month');?>" /> 
 月
-<input name="birth-day" type="number" id="birth-day" min="01" max="31" value="<?php echo getParam($post, 'birth-day');?>" />
+<input name="birth-day" type="number" id="birth-day" min="01" max="31" placeholder="01" value="<?php echo getParam($post, 'birth-day');?>" />
 日
 <?php echo getParam($error, 'birthday'); ?>
 </p>
