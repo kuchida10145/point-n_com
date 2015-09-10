@@ -568,6 +568,7 @@ text-overflow: ellipsis;
 	-moz-border-radius: 5px;		
 	border-radius: 5px;
 	padding:5px;
+
 }
 .selectedterms dd{
 	background:#ff9900;	
@@ -576,6 +577,8 @@ text-overflow: ellipsis;
 	display:inline-block;
 	padding:0 10px;
 	color:#fff;
+	margin:0 0 3px 0;
+
 }
 .selectedterms dd a{
 	color:#fff;
@@ -817,12 +820,12 @@ text-overflow: ellipsis;
 }
 .pointcode{
 	text-align:center;
-	font-size:250%;
+	font-size:200%;
 }
 .pointcode strong{
 	border:1px solid #ccc;
-	padding:5px 10px;
-	margin:0 2px;
+	padding:5px 5px;
+	margin:0px;
 
 	-moz-border-radius: 5px;		
 	border-radius: 5px;
