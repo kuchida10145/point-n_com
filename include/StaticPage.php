@@ -17,6 +17,7 @@ class StaticPage extends Page{
 			'storeadmin'=>'storeadmin',
 			'gaiyou'=>'gaiyou',
 			'kitei'=>'kitei',
+			'user_kitei'=>'signup/kitei',
 	);
 
 
