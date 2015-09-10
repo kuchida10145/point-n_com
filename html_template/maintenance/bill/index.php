@@ -159,9 +159,9 @@
 							</tr>
 							<?php foreach($bill_actions as $bill_action):?><tr>
 								<td width="200"><?php echo $bill_action['regist_date'];?></td>
-								<td><?php echo $bill_action['action_name'];?></td>
+								<td><?php echo reserved_status($bill_action);?><?php echo $bill_action['action_name'];?></td>
 								<td><?php
-									if($bill_action['cancel_flg'] == 1){
+									if($bill_action['data_type'] == 1){
 										echo number_format($bill_action['total_price']);
 									}else{
 										echo '<span style="color:red">-'.number_format($bill_action['total_price'])."</span>";
@@ -172,9 +172,9 @@
 							<?php if($bill_action['use_point'] != 0):?>
 								<tr>
 									<td width="200"><?php echo $bill_action['regist_date'];?></td>
-									<td>予約時利用ポイント<?php if($bill_action['cancel_flg'] == 1):?>キャンセル<?php endif;?></td>
+									<td>予約時利用ポイント<?php if($bill_action['data_type'] == 1):?>キャンセル<?php endif;?><?php if($bill_action['reserve_cancel'] == 1):?> <span style="color:red">キャンセル</span><?php endif;?></td>
 									<td><?php
-										if($bill_action['cancel_flg'] == 1){
+										if($bill_action['data_type'] == 1){
 											echo '<span style="color:red">-'.number_format($bill_action['use_point'])."</span>";
 										}else{
 											echo number_format($bill_action['use_point']);

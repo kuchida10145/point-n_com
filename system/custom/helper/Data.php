@@ -822,6 +822,25 @@ function calculate_bil_type_txt($total){
 	}
 }
 
+/**
+ * 請求詳細用　予約情報ステータス
+ * @param type $data
+ * @return string
+ */
+function reserved_status($data){
+	if(($data['action_type'] == 1 || $data['action_type'] == 2) && $data['data_type'] == 0){
+		
+		switch($data['reserved_status']){
+			case 0:
+				return '<span class="label label-important">キャンセル</span>';
+			case 1:
+				return '<span class="label label-success">未受理</span>';
+			case 2:
+				return '<span class="label label-warning">受理</span>';
+		}
+	}
+}
+
 
 /*-----------------------------------------------------------
  * 権限関連

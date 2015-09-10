@@ -17,7 +17,8 @@ class Bill_actionDbModel extends DbModel{
 			'commission',
 			'use_point',
 			'total_price',
-			'cancel_flg',
+			'data_type',
+			'reserved_status',
 			'regist_date',
 			'update_date',
 			'delete_flg'
@@ -49,21 +50,26 @@ class Bill_actionDbModel extends DbModel{
 	 * 予約ＩＤに該当するデータを元に、キャンセルデータを生成
 	 * 
 	 * @param type $reserved_id
+	 * @param type $reserved_status
 	 */
-	public function cancelByReservedId($reserved_id){
+	public function cancelByReservedId($reserved_id,$reserved_status){
 		
 		if($reserved_id == 0){ return false;}
 		if(!$bill_action = $this->getIssueByReservedId($reserved_id)){
 			 return false;
 		}
+		//元データのキャンセルフラグ立てる
+		$this->updateById($bill_action['bill_action_id'], array('reserved_status'=>$reserved_status));
+		
 		
 		$regist_date =$update_date = date('Y-m-d H:i:s');
 		
 		unset($bill_action['bill_action_id']);
-		$bill_action['regist_date'] = $regist_date;
-		$bill_action['update_date'] = $update_date;
-		$bill_action['cancel_flg']  = 1;
-		if($bill_action['action_type'] == 1){
+		$bill_action['regist_date']      = $regist_date;
+		$bill_action['update_date']      = $update_date;
+		$bill_action['data_type']        = 1;
+		$bill_action['reserved_status']  = $reserved_status;
+		if($bill_action['action_type']   ==   1){
 			$bill_action['action_name'] = '通常ポイントキャンセル';
 		}else{
 			$bill_action['action_name'] = 'イベントポイントキャンセル';
@@ -93,7 +99,8 @@ class Bill_actionDbModel extends DbModel{
 			'use_point'  => $use_point,
 			'commission' => $issue_point,
 			'total_price' => $issue_point+$issue_point,
-			'cancel_flg'  => 0,
+			'data_type'  => 0,
+			'reserved_status'=>$reserve['status_id']
 		);
 		
 		return $this->insert($param);
@@ -121,7 +128,8 @@ class Bill_actionDbModel extends DbModel{
 			'use_point'  => $use_point,
 			'commission' => 500,
 			'total_price'=> $issue_point+500,
-			'cancel_flg' => 0,
+			'data_type' => 0,
+			'reserved_status'=>$reserve['status_id']
 		);
 		
 		return $this->insert($param);
@@ -144,7 +152,7 @@ class Bill_actionDbModel extends DbModel{
 			'use_point'  => 0,
 			'commission' => 0,
 			'total_price' => $point,
-			'cancel_flg'  => 0,
+			'data_type'  => 0,
 		);
 		return $this->insert($param);
 	}
@@ -156,7 +164,7 @@ class Bill_actionDbModel extends DbModel{
 	 */
 	public function getIssueByReservedId($reserved_id){
 		$field = $this->getFieldText();
-		$sql = "SELECT {$field} FROM {$this->table} WHERE reserved_id = '{$reserved_id}' AND cancel_flg = 0 LIMIT 0,1 ";
+		$sql = "SELECT {$field} FROM {$this->table} WHERE reserved_id = '{$reserved_id}' AND data_type = 0 LIMIT 0,1 ";
 		
 		return $this->db->getData($sql);
 	}

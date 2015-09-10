@@ -243,6 +243,11 @@ class ReservePage extends MaintenancePage{
 		$updateParam = array(
 					'point'=>$res['point'] + $reservedInfo['get_point'],	// 保持ポイント計算
 				);
+		
+		//請求アクションを受理に変更
+		$bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id);
+		$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status'=>$reservedInfo['status_id']));
+		
 		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
 	}
 
@@ -271,7 +276,7 @@ class ReservePage extends MaintenancePage{
 		$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
 		$today       = date('Y-m-d');
 
-		$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
+		$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id,$reservedInfo['status_id']);
 		$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
 
 		//年月が同じ場合のみ利用枠を復旧

@@ -101,7 +101,7 @@ class BillDbModel extends DbModel{
 		
 		$total = $this->db->getData($sql);
 		
-		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND cancel_flg = 1 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND data_type = 1 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
 		$minus = $this->db->getData($sql);
 		
 		$param = array(
