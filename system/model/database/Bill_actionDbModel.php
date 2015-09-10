@@ -34,6 +34,13 @@ class Bill_actionDbModel extends DbModel{
 	public function issueByReservedId($reserved_id){
 		$manager = Management::getInstance();
 		$reserve = $manager->db_manager->get('reserved')->findById($reserved_id);
+		
+		//ポイントのみ利用の場合
+		if($reserve['coupon_id'] == 0){
+			if($reserve['use_point'] == 0){ return NULL;}
+			return $this->onlyUsePoint($reserve);
+		}
+		
 		$coupon  = $manager->db_manager->get('coupon')->findById($reserve['coupon_id']);
 		
 		//通常の場合
@@ -56,7 +63,7 @@ class Bill_actionDbModel extends DbModel{
 		
 		if($reserved_id == 0){ return false;}
 		if(!$bill_action = $this->getIssueByReservedId($reserved_id)){
-			 return false;
+			return false;
 		}
 		//元データのキャンセルフラグ立てる
 		$this->updateById($bill_action['bill_action_id'], array('reserved_status'=>$reserved_status));
@@ -71,8 +78,11 @@ class Bill_actionDbModel extends DbModel{
 		$bill_action['reserved_status']  = $reserved_status;
 		if($bill_action['action_type']   ==   1){
 			$bill_action['action_name'] = '通常ポイントキャンセル';
-		}else{
+		}elseif($bill_action['action_type']   ==   2){
 			$bill_action['action_name'] = 'イベントポイントキャンセル';
+		}
+		else{
+			$bill_action['action_name'] = 'ポイントのみ利用キャンセル';
 		}
 		return $this->insert($bill_action);
 	}
@@ -99,6 +109,35 @@ class Bill_actionDbModel extends DbModel{
 			'use_point'  => $use_point,
 			'commission' => $issue_point,
 			'total_price' => $issue_point+$issue_point,
+			'data_type'  => 0,
+			'reserved_status'=>$reserve['status_id']
+		);
+		
+		return $this->insert($param);
+	}
+	
+	/**
+	 * ポイントのみ利用の場合
+	 * 
+	 * @param array $reserve 予約情報
+	 * @return mixed false もしくは id
+	 */
+	private function onlyUsePoint($reserve){
+		$store_id    = $reserve['store_id'];
+		$reserved_id = $reserve['reserved_id'];
+		$issue_point = 0;
+		$use_point   = $reserve['use_point'];
+		$action_name = "ポイントのみ利用";
+		
+		$param = array(
+			'store_id'   => $store_id,
+			'reserved_id' => $reserved_id,
+			'action_name'=> $action_name,
+			'action_type'=> 0,
+			'issue_point'=> $issue_point,
+			'use_point'  => $use_point,
+			'commission' => $issue_point,
+			'total_price' => 0,
 			'data_type'  => 0,
 			'reserved_status'=>$reserve['status_id']
 		);

@@ -828,7 +828,7 @@ function calculate_bil_type_txt($total){
  * @return string
  */
 function reserved_status($data){
-	if(($data['action_type'] == 1 || $data['action_type'] == 2) && $data['data_type'] == 0){
+	if($data['action_type'] != 3 && $data['data_type'] == 0){
 		
 		switch($data['reserved_status']){
 			case 0:
