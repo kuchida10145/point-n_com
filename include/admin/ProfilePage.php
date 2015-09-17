@@ -44,6 +44,10 @@ class ProfilePage extends AdminPage {
 				$this->setAccount($account);
 				$this->setSystemMessage($this->manager->message->get('system')->getMessage('update_comp'));
 				
+				if($this->getIdPw()){
+					$this->saveIdPw(getPost('login_id'),getPost('login_password'),1);
+				}
+				
 				redirect('profile.php');
 			}
 			$system_message = $this->manager->message->get('system')->getMessage('edit_error');

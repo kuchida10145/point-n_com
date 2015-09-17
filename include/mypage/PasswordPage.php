@@ -60,6 +60,11 @@ class PasswordPage extends Page {
 				//古いログインセッションを削除
 				$this->unsetAutoLogin($user['user_id']);
 				$this->clearAccountSession();
+				
+				//パスワード自動保存している場合は、変更
+				if($this->getIdPw()){
+					$this->saveIdPw($user['email'],$post['newPw'],1);
+				}
 
 				//完了ページへリダイレクト
 				redirect('thanks.php');

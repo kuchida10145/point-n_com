@@ -331,7 +331,7 @@ class StoreCommonPage {
 		
 		// ステータス(1：準備中、2：運営中、9：停止中)
 		// ※ステータスが停止中はアップロードしたファイルを「2：使用不可」とする
-		$use_state = ($param['status_id'] == 9) ? 2 : 1;
+		$use_state = (getParam($param,'status_id') == 9) ? 2 : 1;
 		
 		if ($isAdmin) {
 			// 許可証
@@ -355,7 +355,7 @@ class StoreCommonPage {
 			$this->manager->db_manager->get('temp_image')->updateByFileName($param['image' . $i], $update_param);
 		}
 		for ($i = 1; $i <= 9; $i++) {
-			if ($param['cur_image' . $i] == '') {
+			if (getParam($param,'cur_image' . $i) == '') {
 				continue;
 			}
 			if (!in_array($param['cur_image' . $i], $images)) {

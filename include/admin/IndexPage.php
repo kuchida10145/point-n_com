@@ -86,6 +86,12 @@ class IndexPage extends AdminPage{
 	protected function loginAction(){
 		$system_message = array();
 		$error = array();
+		$auto_pw = "";
+		$post = array();
+		
+		//クッキー処理
+		$account = $this->getIdPw();
+		
 		if(getPost('m') == 'login'){
 
 			//入力検証
@@ -93,7 +99,7 @@ class IndexPage extends AdminPage{
 				//ログイン処理
 				if($res = $this->manager->db_manager->get('account')->login(getPost('login_id'),getPost('login_password'))){
 					$this->setAccount($res);
-					$this->setAutoLogin($res['account_id'],getPost('auto_login'));
+					$this->saveIdPw(getPost('login_id'),getPost('login_password'),getPost('auto_login'));
 					redirect('index.php');
 					exit();
 				}
@@ -103,10 +109,23 @@ class IndexPage extends AdminPage{
 			}else{
 				$error = $this->getValidationError();
 			}
+			if(getPost('auto_login')==1){
+				$auto_pw = 1;
+			}
+			$post = $_POST;
+		}
+		else{
+			$post['login_id'] = getParam($account, 'id');
+			$post['login_password'] = getParam($account, 'pw');
+			if($account){
+				$auto_pw = 1;
+			}
 		}
 
 		$data['system_message'] = $system_message;
-		$data['error'] = $error;
+		$data['error']   = $error;
+		$data['post']    = escapeHtml($post);
+		$data['auto_pw'] = $auto_pw;
 		$this->loadView('login', $data);
 	}
 

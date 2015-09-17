@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 	
 	<!-- start: Meta -->
@@ -65,17 +65,17 @@
 							
 							<div class="input-prepend" title="Username">
 								<span class="add-on"><i class="halflings-icon user"></i></span>
-								<input class="input-large span10" name="login_id" id="username" type="text" placeholder="ユーザーID"/>
+								<input class="input-large span10" name="login_id" id="username" value="<?php echo getParam($post,'login_id');?>" type="text" placeholder="ユーザーID"/>
 							</div>
 							<div class="clearfix"></div>
 
 							<div class="input-prepend" title="Password">
 								<span class="add-on"><i class="halflings-icon lock"></i></span>
-								<input class="input-large span10" name="login_password" id="password" type="password" placeholder="パスワード"/>
+								<input class="input-large span10" name="login_password" id="password" type="password" value="<?php echo getParam($post,'login_password');?>" placeholder="パスワード"/>
 							</div>
 							<div class="clearfix"></div>
 							
-							<label class="remember" for="remember"><input type="checkbox" id="remember" value="1" name="auto_login" />
+							<label class="remember" for="remember"><input type="checkbox" id="remember" value="1" name="auto_login" <?php if($auto_pw!=''):?>checked="checked"<?php endif;?> />
 パスワードを保存する</label>
 
 							<div class="button-login">	

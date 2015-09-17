@@ -39,11 +39,11 @@
 </p>
 <h4>パスワード</h4>
 <p>
-	<input type="password" name="password" style="width:95%;" />
+	<input type="password" name="password" value="<?php echo getParam($post,'password');?>" style="width:95%;" />
 </p>
 <p class="alncenter">
 	<label>
-<input type="checkbox" type="checkbox" id="remember" value="1" name="auto_login" />
+		<input type="checkbox" type="checkbox" id="remember" value="1" name="auto_login" <?php if($auto_pw != ''):?>checked="checked"<?php endif;?> />
 パスワードを保存する</label>
 </p>
 </form>
