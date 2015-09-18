@@ -40,19 +40,19 @@
 
 					<!--<a class="quick-button span2" href="#"> <i class="icon-th-large"></i><p>エリアマスター管理1</p></a>
 					<a class="quick-button span2" href="#"> <i class="icon-tasks"></i><p>ジャンルマスター管理</p></a>-->
-					<a class="quick-button span2" href="store.php"> <i class="icon-flag"></i><p>店舗情報管理</p></a>
-					<a class="quick-button span2" href="news.php"> <i class="icon-list-alt"></i><p>今日のニュース管理</p></a>
-					<a class="quick-button span2" href="notice.php"> <i class="icon-bullhorn"></i><p>お知らせ情報管理</p></a>
-					<a class="quick-button span2" href="user.php"> <i class="icon-user"></i><p>ユーザー管理</p></a>
+					<a class="quick-button span2" href="store.php"> <i class="icon-flag"></i><p>店舗情報管理<br />　</p></a>
+					<a class="quick-button span2" href="news.php"> <i class="icon-list-alt"></i><p>今日のニュース管理<br />　</p></a>
+					<a class="quick-button span2" href="notice.php"> <i class="icon-bullhorn"></i><p>POINT.COMからの<br />お知らせ情報管理</p></a>
+					<a class="quick-button span2" href="user.php"> <i class="icon-user"></i><p>ユーザー管理<br />　</p></a>
 
-					<a class="quick-button span2" href="claim.php"> <i class="icon-edit"></i><p>ポイント利用履歴</p></a>
-					<a class="quick-button span2" href="bill.php"> <i class="icon-money"></i><p>請求処理</p></a>
+					<a class="quick-button span2" href="claim.php"> <i class="icon-edit"></i><p>ポイント利用履歴<br />　</p></a>
+					<a class="quick-button span2" href="bill.php"> <i class="icon-money"></i><p>請求管理<br />　</p></a>
 					
 					<div class="clearfix"></div>
 				</div>
 				<div class="box-content">
-					<a class="quick-button span2" href="automail.php"> <i class="icon-envelope"></i><p>自動返信メール管理</p></a>
-					<a class="quick-button span2" href="account.php"> <i class="icon-user"></i><p>アカウント設定</p></a>
+					<a class="quick-button span2" href="automail.php"> <i class="icon-envelope"></i><p>自動返信メール管理<br />　</p></a>
+					<a class="quick-button span2" href="account.php"> <i class="icon-user"></i><p>アカウント設定<br />　</p></a>
 					 <div class="clearfix"></div>
 				</div>
 

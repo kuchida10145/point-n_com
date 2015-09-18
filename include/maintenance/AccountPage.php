@@ -12,7 +12,7 @@ class AccountPage extends MaintenancePage {
 	protected $use_table   = 'store';
 	protected $session_key = 'store';
 	protected $use_confirm = true;
-	protected $page_title = 'アカウント管理';
+	protected $page_title = 'アカウント設定';
 	
 	protected function indexAction() {
 		$data = array();

@@ -11,7 +11,7 @@ class ClaimPage extends MaintenancePage{
 	protected $use_table   = 'claim';
 	protected $session_key = 'claim';
 	protected $use_confirm = true;
-	protected $page_title = '請求管理';
+	protected $page_title = 'ポイント利用履歴';
 
 	
 	/**

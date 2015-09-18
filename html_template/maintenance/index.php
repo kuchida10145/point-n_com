@@ -39,15 +39,15 @@
 				<div class="box-content">
 					<a class="quick-button span2" href="notice.php">
 						<i class="icon-flag"></i>
-						<p>お知らせ情報登録</p>
+						<p>お店からのお知らせ管理</p>
 					</a>
 					<a class="quick-button span2" href="course.php">
 						<i class="icon-random"></i>
-						<p>コース情報登録</p>
+						<p>コース情報管理</p>
 					</a>
 					<a class="quick-button span2" href="coupon.php">
 						<i class="icon-money"></i>
-						<p>クーポン発行</p>
+						<p>クーポン管理</p>
 					</a>
 					<a class="quick-button span2" href="reserve.php">
 						<i class="icon-tags"></i>
@@ -59,7 +59,7 @@
 					</a>
 					<a class="quick-button span2" href="add_limit.php">
 						<i class="icon-edit"></i>
-						<p>ポイント利用枠</p>
+						<p>利用枠管理</p>
 					</a>
 					
 					<div class="clearfix"></div>
@@ -73,7 +73,7 @@
 					</a>
 					 <a class="quick-button span2" href="bill.php">
 						<i class="icon-money"></i>
-						<p>請求処理</p>
+						<p>請求管理</p>
 					</a>
 					<a class="quick-button span2" href="account.php">
 						<i class="icon-user"></i>

@@ -11,7 +11,7 @@ class CoursePage extends MaintenancePage{
 	protected $use_table   = 'course';
 	protected $session_key = 'course';
 	protected $use_confirm = true;
-	protected $page_title = 'コース情報登録';
+	protected $page_title = 'コース情報管理';
 
 	/**
 	 * 入力チェック
