@@ -41,8 +41,8 @@
 <div class="selectedterms">
 <dl>
 <dt>選んだ条件</dt>
-<?php if (!empty($research_link)) : ?>
-<dd><a href="./genre.php<?php echo $research_link; ?>" class="block alncenter">カテゴリを選び直す</a></dd><br>
+<?php if (!empty($get_back_param)) : ?>
+<dd><a href="./genre.php<?php echo $get_back_param; ?>" class="block alncenter">カテゴリを選び直す</a></dd><br>
 <?php endif; ?>
 <dd><a href="<?php echo $back_link; ?><?php echo $get_back_param; ?>" class="block alncenter">条件変更</a></dd>
 <dd><?php echo $condition_category_large_name; ?></dd>
