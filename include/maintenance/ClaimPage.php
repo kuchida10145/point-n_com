@@ -63,6 +63,10 @@ class ClaimPage extends MaintenancePage{
 		$this->manager->pager->setHtmlType( array() ,'admin');
 		$this->manager->pager->initialize($pager_param);
 		$pager_html = $this->manager->pager->create();
+		
+		if(getParam($get_param,'coupon')){
+			unset($get_param['coupon']);
+		}
 
 		$data['list']           = $list;
 		$data['pager_html']     = $pager_html;
