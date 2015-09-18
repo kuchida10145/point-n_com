@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>店舗からのニュース｜ポイント.com</title>
+<title>お店からのお知らせ｜ポイント.com</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/../../common/header_meta.php';?>
@@ -23,7 +23,7 @@
 
 <!--コンテンツ-->
 <div class="contents">
-	<h2>店舗からのニュース</h2>
+	<h2>お店からのお知らせ</h2>
 	<?php if(!$notice_list):?>
 	<p>現在お知らせはありません</p>
 	<?php else:?>
@@ -37,6 +37,7 @@
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
+		<input type="hidden" id="newscount" value="10"></input>
 	</div>
 	<?php endif;?>
 
@@ -72,12 +73,12 @@ $(function() {
             height = $window.height(),
             scrollTop = $window.scrollTop(),
             documentHeight = $(document).height();
+        var newscount = document.getElementById("newscount").value;
         if (documentHeight === height + scrollTop) {
-			
             //page++;
 			$.ajax({
 				type: "GET",
-				url: "/stores/news.php?m=next&next="+page_cnt+"&sid=<?php echo getGet('sid');?>",
+				url: "/stores/news.php?m=next&next="+newscount+"&sid=<?php echo getGet('sid');?>",
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){
@@ -96,15 +97,17 @@ $(function() {
 						html+='	<a href="news_detail.php?id='+notice_id+'">'+title+'</a></dd>';
 						html+='</dl>';
 					}
-					
+					var newscount = document.getElementById("newscount").value;
+					newscount =  parseInt(newscount) + parseInt(10);
+					document.getElementById("newscount").value = newscount;
 					$('.shoplist').append(html);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					//page--;
-					
+
 				}
 			});
-			
+
         }
     });
 });

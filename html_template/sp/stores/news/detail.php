@@ -14,10 +14,10 @@
     $('.photoslide').slick({
 dots: true,
   infinite: false,
-  speed: 300 
+  speed: 300
     });
   });
- 
+
 </script>
 </head>
 <body id="register">
@@ -35,9 +35,9 @@ dots: true,
 <div id="mainbody" class="clearfix">
 <!--コンテンツ-->
 <div class="contents">
-	<h2>POINT.COMからのお知らせ</h2>
+	<h2>お店からのお知らせ</h2>
 	<h3><?php echo $notice_data['title'];?></h3>
-	
+
 	<?php if($images):?>
 	<!-- start:スライド写真-->
 	<div class="photoslide">
@@ -49,7 +49,7 @@ dots: true,
 	</div>
 	<!-- end:スライド写真 -->
 	<?php endif;?>
-	
+
 	<p><?php echo $notice_data['body'];?></p>
 	<p><a href="/stores/news.php?sid=<?php echo $notice_data['store_id'];?>" class="linkbtn block alncenter">一覧へ戻る</a></p>
 
