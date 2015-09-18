@@ -79,7 +79,7 @@
 					</div>
 					<div class="box-content">
 						<p><button class="btn btn-large btn-primary" onClick="location.href='?m=edit&store_id=<?php echo getGet('store_id');?>'">新規追加</button></p>
-						<p>現在の利用可能枠は<strong><?php echo number_format($account_data['point_limit']);?></strong>ポイント分です。<br />
+						<p>現在の利用可能枠は<strong style="font-size: 150%"><?php echo number_format($account_data['point_limit']);?></strong>ポイント分です。<br />
 						さらに利用枠を広げたい場合は、広げたいポイント数分の金額(1ポイント=1円）を入金後、「新規追加」から申請を行ってください。<br />
 						入金確認後に、金額に応じた応募枠を付与いたします。<br />
 						また、付与されたポイント枠は翌月に繰り越すことはできません。入金後余ってしまったポイント枠は返金の対象になります。
