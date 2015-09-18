@@ -53,6 +53,7 @@ class ReservedDbModel extends DbModel{
 		$sql = "SELECT store_name,reserved_id,use_date FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
 		$sql.= " user_id = {$user_id} AND ";
 		$sql.= " reserved.status_id=1";
+		$sql.= " ORDER BY reserved.regist_date Desc";
 		//$sql.= " reserved.status_id=1 AND  ";
 		//$sql.= " use_date <= '{$today}' ";
 		//print $sql;
