@@ -74,9 +74,9 @@
 							<span class="clrred">新登場!</span>
 						<?php endif;?>
 					</p>
+					<?php if($coupon != NULL):?>
 					<div class="pointinfobox">
 						<h3>ポイント情報</h3>
-						<?php if($coupon != NULL):?>
 							<?php foreach($coupon as $id=>$data):?>
 								<div class="box03">
 									<p>
@@ -114,20 +114,26 @@
 									</p>
 								</div>
 							<?php endforeach;?>
-						<?php endif;?>
-						<div class="box03">
-							<p>「ポイントのみ」利用しての予約が可能です。<br />
-							1,000ポイントから利用が可能です。</p>
-							<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
-							を利用して予約する</a></p>
+							<div class="box03">
+								<p>「ポイントのみ」利用しての予約が可能です。<br />
+								1,000ポイントから利用が可能です。</p>
+								<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
+								を利用して予約する</a></p>
+							</div>
 						</div>
-					</div>
+					<?php endif;?>
 					<h3><a href="news.php?sid=<?php echo getParam($store,'store_id');?>" class="newslistbtn">一覧をみる</a>お店からのお知らせ</h3>
 					<div class="newslist">
+						<?php if($notice):?>
 						<ul>
 							<li><a href="news_detail.php?id=<?php echo getParam($notice,'notice_id');?>"><?php echo getParam($notice,'display_date');?><br />
 							<?php echo getParam($notice,'title');?></a></li>
 							<li></li>
+						</ul>
+						<?php else:?>
+						<?php endif;?>
+						<ul>
+							<li>　現在お知らせはありません</li>
 						</ul>
 					</div>
 					<?php if($image):?>
