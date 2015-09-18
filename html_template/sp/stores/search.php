@@ -40,7 +40,10 @@
 <div class="contents">
 <div class="selectedterms">
 <dl>
-<dt>選んだ条件<?php if (!empty($research_link)) : ?>　<a href="./genre.php<?php echo $research_link; ?>">カテゴリを選び直す</a><?php endif; ?></dt>
+<dt>選んだ条件</dt>
+<?php if (!empty($research_link)) : ?>
+<dd><a href="./genre.php<?php echo $research_link; ?>" class="block alncenter">カテゴリを選び直す</a></dd><br>
+<?php endif; ?>
 <dd><a href="<?php echo $back_link; ?><?php echo $get_back_param; ?>" class="block alncenter">条件変更</a></dd>
 <dd><?php echo $condition_category_large_name; ?></dd>
 <dd><?php echo $condition_redion_name; ?></dd>
@@ -123,7 +126,7 @@
 				</strong>
 			<?php endif;?>
 			<?php echo getParam($data, 'title'); ?><br />
-			<?php 
+			<?php
 				echo (is_delivery(getParam($data, 'type_of_industry_id'))) ? '発エリア：' : '店舗住所：';
 				echo getParam($data, 'address1') . getParam($data, 'address2');
 			?>
@@ -183,7 +186,7 @@ $(function() {
 			get_param += "&area_key_ids="+area_key_ids;
 			get_param += "&keyword="+keyword;
 			get_param += "&sort="+sort;
-			
+
 			$.ajax({
 				type: "GET",
 				url: "/stores/search.php?m=next&next="+page_cnt+get_param,
@@ -234,7 +237,7 @@ $(function() {
 						html += '  </dd>';
 						html += '</dl>';
 					}
-					
+
 					$('.shoplist').append(html);
 					$("#cur_shops").html(res.cur_shops);
 				},
