@@ -58,7 +58,12 @@ class NoticeDbModel extends DbModel{
 	public function getNoticeList($store_id,$start_page,$get_page){
 		$store_id = $this->escape_string($store_id);
 		$sql = "SELECT notice_id,display_date,title,image1,image2,image3 FROM {$this->table} WHERE ";
-		$sql.= "store_id = '{$store_id}' AND ";
+		if($store_id == 0){
+			$sql.= "(store_id IS NULL OR store_id = '{$store_id}') AND ";
+		}
+		else{
+			$sql.= "store_id = '{$store_id}' AND ";
+		}
 		$sql.= "delete_flg = 0 AND ";
 		$sql.= "public = 1 AND ";
 		$sql.= "public_start_date < NOW() AND ";
