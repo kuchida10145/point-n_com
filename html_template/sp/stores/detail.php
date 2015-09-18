@@ -105,10 +105,10 @@
 									</p>
 									<p>
 										<?php if(getParam($data,'point_kind') == 1):?>
-											<a class="linkbtn block alncenter" onclick="MoveCheck01(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
+											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
 											を獲得して予約する</a>
 										<?php elseif(getParam($data,'point_kind') == 2):?>
-											<a class="linkbtn block alncenter" onclick="MoveCheck02(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
+											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
 											を獲得して予約する</a>
 										<?php endif;?>
 									</p>
@@ -192,22 +192,28 @@
 					<?php endif; ?>
 				<?php endif; ?>
 
-					<script language="JavaScript" type="text/javascript">
-						<!--
-						function MoveCheck01(id) {
-							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
-							if( res == true ) {
-								window.location = "../reservation/index.php?coupon_id="+id;
-							}
-
+					<script type="text/javascript">
+						function MoveCheck(id) {
+							//page++;
+							$.ajax({
+								type: 'GET',
+								url: '/stores/detail.php?m=pcheck&cid='+ id,
+								dataType: 'json',
+								success: function(res){
+									if(res=='true'){
+										var val = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
+										if( val == true ) {
+											window.location = "../reservation/index.php?coupon_id="+id;
+										}
+									} else {
+										confirm("クーポンの発行上限に達したため、\n予約を行うことができません。");
+									}
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									confirm(XMLHttpRequest);
+								}
+							});
 						}
-						function MoveCheck02(id) {
-							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
-							if( res == true ) {
-								window.location = "../reservation/index.php?coupon_id="+id;
-							}
-						}
-						// -->
 					</script>
 				</div>
 			<!--/コンテンツ-->

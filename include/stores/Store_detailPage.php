@@ -26,6 +26,12 @@ class Store_detailPage extends Page{
 	 *
 	 */
 	public function indexAction(){
+		// Ajax
+		if(getGet('m')=='pcheck'){
+			$this->pcheckAjax();
+			exit();
+		}
+
 		$account = $this->getAccount();
 		$user_id = getParam($account,'user_id');
 		$pager_html = '';
@@ -100,6 +106,25 @@ class Store_detailPage extends Page{
 		$data['system_message'] = $system_message;
 
 		$this->loadView('index', $data);
+	}
+
+	/**
+	 * ポイントチェックAjax
+	 * @param $coupon クーポン情報
+	 */
+	public function pcheckAjax(){
+		$coupon_id = getGet('cid');
+		$res = 'true';
+		// クーポンデータ
+		$coupon = $this->manager->db_manager->get('coupon')->findById($coupon_id);
+		// 店舗データ
+		$store = $this->manager->db_manager->get('store')->findById($coupon['store_id']);
+
+		if($store['point_limit'] < $coupon['point']){
+			$res = 'false';
+		}
+
+		echo json_encode($res);
 	}
 
 	/**
