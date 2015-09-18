@@ -6,18 +6,18 @@
 include_once(dirname(__FILE__) . '/../common/Page.php');
 
 class Store_searchPage extends Page {
-	
+
 	protected $id = 0;/* ID */
 	protected $session_key = 'store_search';
 	protected $use_confirm = false;
 	protected $page_title = '検索結果一覧';
 	protected $page_cnt = 10;
 	protected $debug = false;
-	
+
 	protected $view = array(
 			'index'     => 'stores/search',
 	);
-	
+
 	/**
 	 * 検索結果一覧
 	 *
@@ -26,7 +26,7 @@ class Store_searchPage extends Page {
 		$post = array();
 		$error = array();
 		$get_data = array();
-		
+
 		if (getGet('m') == 'next') {
 			$this->nextAjax();
 			exit();
@@ -44,19 +44,19 @@ class Store_searchPage extends Page {
 			$post['keyword']            = getGet('keyword');
 			$post['sort']               = getGet('sort');
 		}
-		
+
 		$category_small_ids = (is_array($post['category_small_ids'])) ? $post['category_small_ids'] : explode(",", $post['category_small_ids']);
 		$post['category_small_ids'] = implode(",", $category_small_ids);
 		$area_key_ids               = (is_array($post['area_key_ids'])) ? $post['area_key_ids'] : explode(",", $post['area_key_ids']);
 		$post['area_key_ids']       = implode(",", $area_key_ids);
-		
+
 		// 今日のニュースを１件取得する
 		$region_id = getGet('region_id');
 		$news = $this->manager->db_manager->get('news')->getNewsList($region_id,0, 1);
 		$news = ($news != null) ? $news : array();
-		
+
 		// 該当する条件の店舗を取得する
-		$post['sort'] = (!empty($post['sort'])) ? $post['sort'] : 1;
+		$post['sort'] = (!empty($post['sort'])) ? $post['sort'] : 7;
 		$store = $this->manager->db_manager->get('store');
 		$store->setNextPage(0, $this->page_cnt);
 		$store->setSortID($post['sort']);
@@ -67,7 +67,7 @@ class Store_searchPage extends Page {
 		}
 		$shops = ($shops != null) ? $shops : array();
 		$shops = $this->changeListData($shops, true);
-		
+
 		// リンクパラメータを作成する
 		$get_data['category_large_id']  = $post['category_large_id'];
 		$get_data['region_id']          = $post['region_id'];
@@ -82,7 +82,7 @@ class Store_searchPage extends Page {
 		$get_back_param = createLinkParam($get_data);
 		$get_data['keyword']            = $post['keyword'];
 		$get_param = createLinkParam($get_data);
-		
+
 		// 条件変更のリンク先を決定する
 		if ($get_data['region_id'] == "" || $get_data['category_large_id'] == "") {
 			$back_link = '/';
@@ -93,7 +93,7 @@ class Store_searchPage extends Page {
 		} else {
 			$back_link = '/stores/area.php';
 		}
-		
+
 		$data['post'] = escapeHtml($post);
 		$data['error'] = $error;
 		$data['action_link'] = $get_param;
@@ -133,12 +133,13 @@ class Store_searchPage extends Page {
 		$data['shop_list']      = $shops;
 		$data['total']          = $total;
 		$data['debug']          = $this->debug;
+
 		$this->loadView('index', $data);
 	}
-	
+
 	/**
 	 * 検索結果Ajax
-	 * 
+	 *
 	 */
 	public function nextAjax() {
 		$res['result']      = 'false';
@@ -164,12 +165,12 @@ class Store_searchPage extends Page {
 		if ($this->debug) {
 			$res['sql'] = $store->getLastQuerySQL();
 		}
-		echo json_encode($res);		
+		echo json_encode($res);
 	}
-	
+
 	/**
 	 * 一覧用データ変換(HTMLエスケープも実行)
-	 * 
+	 *
 	 * @param array $datas
 	 * @param boolean $is_escape_html
 	 * @return NULL|array
@@ -178,21 +179,21 @@ class Store_searchPage extends Page {
 		if (!$datas) {
 			return null;
 		}
-		
+
 		foreach ($datas as $data_key => $data) {
 			if ($data['image1'] == "") {
 				$data['image1'] = '/img/no_image_shop.gif';
 			} else {
 				$data['image1'] = '/files/images/' . $data['image1'];
 			}
-			
+
 			if ($is_escape_html) {
 				$data = escapeHtml($data);
 			}
-			
+
 			$datas[$data_key] = $data;
 		}
-		
+
 		return $datas;
 	}
 }
