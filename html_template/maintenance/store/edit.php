@@ -127,6 +127,20 @@
 							</div>
 
 							<div class="control-group">
+								<label class="control-label" for="typeahead">担当者電話番号</label>
+								<div class="controls">
+									<?php echo getParam($post, 'owner_telephone1');?>
+									-
+									<?php echo getParam($post, 'owner_telephone2');?>
+									-
+									<?php echo getParam($post, 'owner_telephone3');?>
+								</div>
+								<input type="hidden" id="owner_telephone1" name="owner_telephone1" value="<?php echo getParam($post, 'owner_telephone1', '');?>">
+								<input type="hidden" id="owner_telephone2" name="owner_telephone2" value="<?php echo getParam($post, 'owner_telephone2', '');?>">
+								<input type="hidden" id="owner_telephone3" name="owner_telephone3" value="<?php echo getParam($post, 'owner_telephone3', '');?>">
+							</div>
+
+							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
 								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 								<input type="hidden" id="license" name="license" value="<?php echo getParam($post, 'license', '');?>">
