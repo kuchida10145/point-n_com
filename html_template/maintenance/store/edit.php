@@ -10,7 +10,7 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-		
+
 		<div class="container-fluid-full">
 		<div class="row-fluid">
 		<!-- start: Main Menu -->
@@ -22,7 +22,7 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
+
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
@@ -35,11 +35,11 @@
 					<li><a href="course.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
 					<li><a href="#"><?php echo $page_type_text;?></a></li>
 				</ul>
-				
+
 				<h1><?php echo $page_title;?></h1>
-				
+
 				<?php echo $system_message;?>
-				
+
 				<div class="row-fluid">
 					<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -48,7 +48,7 @@
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 						</div>
 					</div>
-					
+
 					<div class="box-content">
 						<form class="form-horizontal" action="" method="post">
 							<input type="hidden" value="account" name="m">
@@ -58,25 +58,25 @@
 								<div class="controls"><?php echo getParam($post, 'regist_date', '新規登録時に自動入力');?></div>
 								<input type="hidden" id="regist_date" name="regist_date" value="<?php echo getParam($post, 'regist_date', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="">店ID</label>
 								<div class="controls"><?php echo getParam($post, 'store_hex_id', '新規登録時に自動入力');?></div>
 								<input type="hidden" id="store_hex_id" name="store_hex_id" value="<?php echo getParam($post, 'store_hex_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">店舗名</label>
 								<div class="controls"><?php echo getParam($post,'store_name');?></div>
 								<input type="hidden" id="store_name" name="store_name" value="<?php echo getParam($post, 'store_name', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="selectError3">業種</label>
 								<div class="controls"><?php echo getParam(store_type_of_industry(), getParam($post, 'type_of_industry_id'));?></div>
 								<input type="hidden" id="type_of_industry_id" name="type_of_industry_id" value="<?php echo getParam($post, 'type_of_industry_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">事業所郵便番号</label>
 								<div class="controls">
@@ -111,7 +111,7 @@
 								</div>
 								<input type="hidden" id="contract_address2" name="contract_address2" value="<?php echo getParam($post, 'contract_address2', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">事業所電話番号</label>
 								<div class="controls">
@@ -125,13 +125,13 @@
 								<input type="hidden" id="contract_telephone2" name="contract_telephone2" value="<?php echo getParam($post, 'contract_telephone2', '');?>">
 								<input type="hidden" id="contract_telephone3" name="contract_telephone3" value="<?php echo getParam($post, 'contract_telephone3', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="fileInput">許可証の表示</label>
 								<div class="controls"><?php echo create_image_uploaded(getParam($post, 'license'), 'license', 'display');?></div>
 								<input type="hidden" id="license" name="license" value="<?php echo getParam($post, 'license', '');?>">
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'account_name'));?>">
 								<label class="control-label" for="typeahead">ユーザー名 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -139,7 +139,7 @@
 									<?php echo getParam($error, 'account_name');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'login_id'));?>">
 								<label class="control-label" for="typeahead">ログインID <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -147,7 +147,7 @@
 									<?php echo getParam($error, 'login_id');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'login_password'));?>">
 								<label class="control-label" for="typeahead">ログインPW <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -155,43 +155,43 @@
 									<?php echo getParam($error,'login_password');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第1エリア(都道府県)</label>
 								<div class="controls"><?php echo getParam(prefectures_master(), getParam($post, 'area_first_prefectures_id'));?></div>
 								<input type="hidden" id="area_first_prefectures_id" name="area_first_prefectures_id" value="<?php echo getParam($post, 'area_first_prefectures_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">ジャンルマスター</label>
 								<div class="controls"><?php echo getParam(category_large(), getParam($post, 'category_large_id'));?></div>
 								<input type="hidden" id="category_large_id" name="category_large_id" value="<?php echo getParam($post, 'category_large_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">中カテゴリー</label>
 								<div class="controls"><?php echo getParam(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'category_midium_id'));?></div>
 								<input type="hidden" id="category_midium_id" name="category_midium_id" value="<?php echo getParam($post, 'category_midium_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">小カテゴリー</label>
 								<div class="controls"><?php echo getParam(category_small(getParam($post, 'category_midium_id')), getParam($post, 'category_small_id'));?></div>
 								<input type="hidden" id="category_small_id" name="category_small_id" value="<?php echo getParam($post, 'category_small_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第2エリア</label>
 								<div class="controls"><?php echo getParam(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))), getParam($post, 'area_second_id'));?></div>
 								<input type="hidden" id="area_second_id" name="area_second_id" value="<?php echo getParam($post, 'area_second_id', '');?>">
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">第3エリア</label>
 								<div class="controls"><?php echo getParam(area_third(getParam($post, 'area_second_id')), getParam($post, 'area_third_id'));?></div>
 								<input type="hidden" id="area_third_id" name="area_third_id" value="<?php echo getParam($post, 'area_third_id', '');?>">
 							</div>
-							
+
 						<div class="box-header" data-original-title="">
 							ショップデータ
 						</div>
@@ -240,29 +240,29 @@
 									<?php echo getParam($error,'image9');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group hidden-phone <?php echo error_class(getParam($error, 'introduction'));?>">
-								<label class="control-label" for="textarea2">お店からのお知らせ</label>
+								<label class="control-label" for="textarea2">店舗アピールポイント</label>
 								<div class="controls">
 									<textarea class="ckeditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
 									<?php echo getParam($error, 'introduction');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'latitude'));?> <?php echo error_class(getParam($error, 'longitude'));?>">
 								<label class="control-label" for="typeahead">位置情報 <span class="label label-important">必須</span></label>
 								<div class="controls">
-									緯度<input placeholder="" id="latitude" name="latitude" type="text" value="<?php echo getParam($post, 'latitude');?>"> 
+									緯度<input placeholder="" id="latitude" name="latitude" type="text" value="<?php echo getParam($post, 'latitude');?>">
 									<?php echo getParam($error, 'latitude');?>
 									経度<input placeholder="" id="longitude" name="longitude" type="text" value="<?php echo getParam($post, 'longitude');?>">
 									<?php echo getParam($error, 'longitude');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'zip_code1'));?> <?php echo error_class(getParam($error, 'zip_code2'));?> <?php echo error_class(getParam($error, 'zip_code'));?>">
 								<label class="control-label" for="typeahead">郵便番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
-									<input placeholder="" id="zip_code1" name="zip_code1" type="text" value="<?php echo getParam($post, 'zip_code1');?>"> 
+									<input placeholder="" id="zip_code1" name="zip_code1" type="text" value="<?php echo getParam($post, 'zip_code1');?>">
 									<?php echo getParam($error, 'zip_code1');?>
 									-
 									<input placeholder="" id="zip_code2" name="zip_code2" type="text" value="<?php echo getParam($post, 'zip_code2');?>">
@@ -270,7 +270,7 @@
 									<?php echo getParam($error, 'zip_code');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'prefectures_id'));?>">
 								<label class="control-label" for="selectError3">都道府県 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -282,8 +282,8 @@
 									</select>
 									<?php echo getParam($error, 'prefectures_id');?>
 								</div>
-							</div>  
-							
+							</div>
+
 							<div class="control-group <?php echo error_class(getParam($error, 'address1'));?>">
 								<label class="control-label" for="typeahead">市町村番地 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -291,7 +291,7 @@
 									<?php echo getParam($error, 'address1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'address2'));?>">
 								<label class="control-label" for="typeahead">マンション/ビル名</label>
 								<div class="controls">
@@ -299,7 +299,7 @@
 									<?php echo getParam($error, 'address2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'business_hours'));?>">
 								<label class="control-label" for="typeahead">営業時間 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -307,7 +307,7 @@
 									<?php echo getParam($error, 'business_hours');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'holiday'));?>">
 								<label class="control-label" for="typeahead">休日 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -315,7 +315,7 @@
 									<?php echo getParam($error, 'holiday');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'telephone1'));?> <?php echo error_class(getParam($error, 'telephone2'));?> <?php echo error_class(getParam($error, 'telephone3'));?>">
 								<label class="control-label" for="typeahead">電話番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -330,15 +330,15 @@
 									<?php echo getParam($error, 'telephone');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official1'));?>">
 								<label class="control-label" for="typeahead">公式サイト1</label>
 								<div class="controls">
 									<input placeholder="" id="url_official1" name="url_official1" type="text" class="input-block-level" value="<?php echo getParam($post, 'url_official1');?>">
 									<?php echo getParam($error, 'url_official1');?>
 								</div>
-							</div>   
-							
+							</div>
+
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official2'));?>">
 								<label class="control-label" for="typeahead">公式サイト2</label>
 								<div class="controls">
@@ -346,7 +346,7 @@
 									<?php echo getParam($error, 'url_official2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official3'));?>">
 								<label class="control-label" for="typeahead">公式サイト3</label>
 								<div class="controls">
@@ -354,7 +354,7 @@
 									<?php echo getParam($error, 'url_official3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'url_official4'));?>">
 								<label class="control-label" for="typeahead">公式サイト4</label>
 								<div class="controls">
@@ -362,7 +362,7 @@
 									<?php echo getParam($error, 'url_official4');?>
 								</div>
 							</div>
-							
+
 						<?php for ($os_index = 1; $os_index <= 5; $os_index++) : ?>
 							<div class="control-group <?php echo error_class(getParam($error, 'url_outside' . $os_index));?>">
 								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?></label>
@@ -371,7 +371,7 @@
 									<?php echo getParam($error, 'url_outside' . $os_index);?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'link_text_outside' . $os_index));?>">
 								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?>リンクテキスト</label>
 								<div class="controls">
@@ -380,12 +380,12 @@
 								</div>
 							</div>
 						<?php endfor; ?>
-							
+
 						<div class="box-header" data-original-title="">
 							その他
 						</div>
 						<br>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'representative_sei'));?> <?php echo error_class(getParam($error, 'representative_mei'));?>">
 								<label class="control-label" for="typeahead">担当者名 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -395,7 +395,7 @@
 									<?php echo getParam($error, 'representative_mei');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'representative_email'));?> <?php echo error_class(getParam($error, 'representative_email_confirm'));?> <?php echo error_class(getParam($error, 'representative_email_both'));?>">
 								<label class="control-label" for="typeahead">メールアドレス <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -407,7 +407,7 @@
 									<?php echo getParam($error, 'representative_email_both');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'reserved_email'));?> <?php echo error_class(getParam($error, 'reserved_email_confirm'));?> <?php echo error_class(getParam($error, 'reserved_email_both'));?>">
 								<label class="control-label" for="typeahead">予約受信メールアドレス <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -419,12 +419,12 @@
 									<?php echo getParam($error, 'reserved_email_both');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>銀行1</strong></label>
 								<div class="controls"></div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_name1'));?>">
 								<label class="control-label" for="typeahead">銀行名 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -432,7 +432,7 @@
 									<?php echo getParam($error, 'bank_name1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'branch_name1'));?>">
 								<label class="control-label" for="typeahead">支店名 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -440,7 +440,7 @@
 									<?php echo getParam($error, 'branch_name1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind1'));?> <?php echo error_class(getParam($error, 'bank_account_number1'));?>">
 								<label class="control-label" for="typeahead">口座番号 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -455,7 +455,7 @@
 									<?php echo getParam($error, 'bank_account_number1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder1'));?>">
 								<label class="control-label" for="typeahead">口座名義人 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -463,12 +463,12 @@
 									<?php echo getParam($error, 'bank_account_holder1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>銀行2</strong></label>
 								<div class="controls"></div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_name2'));?>">
 								<label class="control-label" for="typeahead">銀行名</label>
 								<div class="controls">
@@ -476,7 +476,7 @@
 									<?php echo getParam($error, 'bank_name2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'branch_name2'));?>">
 								<label class="control-label" for="typeahead">支店名</label>
 								<div class="controls">
@@ -484,7 +484,7 @@
 									<?php echo getParam($error, 'branch_name2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind2'));?>">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -499,7 +499,7 @@
 									<?php echo getParam($error, 'bank_account_number2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder2'));?>">
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
@@ -507,12 +507,12 @@
 									<?php echo getParam($error, 'bank_account_holder2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>銀行3</strong></label>
 								<div class="controls"></div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_name3'));?>">
 								<label class="control-label" for="typeahead">銀行名</label>
 								<div class="controls">
@@ -520,7 +520,7 @@
 									<?php echo getParam($error, 'bank_name3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'branch_name3'));?>">
 								<label class="control-label" for="typeahead">支店名</label>
 								<div class="controls">
@@ -528,7 +528,7 @@
 									<?php echo getParam($error, 'branch_name3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_kind3'));?>">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -543,7 +543,7 @@
 									<?php echo getParam($error, 'bank_account_number3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'bank_account_holder3'));?>">
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
@@ -551,12 +551,12 @@
 									<?php echo getParam($error, 'bank_account_holder3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead"><strong>ゆうちょ銀行</strong></label>
 								<div class="controls"></div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'jpbank_symbol1'));?> <?php echo error_class(getParam($error, 'jpbank_symbol2'));?>">
 								<label class="control-label" for="typeahead">記号</label>
 								<div class="controls">
@@ -567,7 +567,7 @@
 									<?php echo getParam($error, 'jpbank_symbol2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group <?php echo error_class(getParam($error, 'jpbank_account_number'));?>">
 								<label class="control-label" for="typeahead">番号</label>
 								<div class="controls">
@@ -575,7 +575,7 @@
 									<?php echo getParam($error, 'jpbank_account_number');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group" <?php echo error_class(getParam($error, 'jpbank_account_holder'));?>>
 								<label class="control-label" for="typeahead">口座名義人</label>
 								<div class="controls">
@@ -583,7 +583,7 @@
 									<?php echo getParam($error, 'jpbank_account_holder');?>
 								</div>
 							</div>
-							
+
 							<div class="form-actions">
 								<button class="btn btn-primary" type="submit">保存</button>
 								<button type="button" onclick="location.href='index.php'" class="btn">戻る</button>
@@ -592,14 +592,14 @@
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-			
+
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-		
+
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-	
+
 	<div class="clearfix"></div>
 	<footer>
 		<p>
@@ -609,10 +609,10 @@
 	<!-- start: JavaScript-->
 	<?php include_once dirname(__FILE__).'/../common/footer_javascript.php';?>
 	<!-- end: JavaScript-->
-	
+
 	<script>
 	$(function(){
-		
+
 		$('#image1').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image1'});
 		$('#image2').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image2'});
 		$('#image3').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image3'});
@@ -622,7 +622,7 @@
 		$('#image7').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image7'});
 		$('#image8').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image8'});
 		$('#image9').imageUpload({url:'/maintenance/account.php?m=image_upload',name:'image9'});
-		
+
 	});
 	</script>
 </body>
