@@ -382,7 +382,6 @@ function non_select_item() {
 function bank_kind() {
 	return array(
 		1=>"普通",
-		2=>"口座",
 		3=>"当座",
 	);
 }
@@ -829,7 +828,7 @@ function calculate_bil_type_txt($total){
  */
 function reserved_status($data){
 	if($data['action_type'] != 3 && $data['data_type'] == 0){
-		
+
 		switch($data['reserved_status']){
 			case 0:
 				return '<span class="label label-important">キャンセル</span>';
