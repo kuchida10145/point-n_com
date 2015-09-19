@@ -141,9 +141,10 @@ class ReservePage extends MaintenancePage{
 		//リスト取得
 		if($max_cnt > 0){
 			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order,$cancell_flg = 0);
-			//リストを出力用のデータに変換
-			$list = $this->dbToListData($list);
 		}
+
+		//リストを出力用のデータに変換
+		$list = $this->dbToListData($list);
 
 		//システムメッセージ
 
