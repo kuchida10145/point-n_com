@@ -141,10 +141,9 @@ class ReservePage extends MaintenancePage{
 		//リスト取得
 		if($max_cnt > 0){
 			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order,$cancell_flg = 0);
+			//リストを出力用のデータに変換
+			$list = $this->dbToListData($list);
 		}
-
-		//リストを出力用のデータに変換
-		$list = $this->dbToListData($list);
 
 		//システムメッセージ
 
@@ -243,7 +242,7 @@ class ReservePage extends MaintenancePage{
 		$updateParam = array(
 					'point'=>$res['point'] + $reservedInfo['get_point'],	// 保持ポイント計算
 				);
-		
+
 		//請求アクションを受理に変更
 		if($bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id)){
 			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status'=>$reservedInfo['status_id']));
@@ -287,7 +286,7 @@ class ReservePage extends MaintenancePage{
 				$this->setAccount($account);
 			}
 		}
-		
+
 		return $user_res;
 	}
 }
