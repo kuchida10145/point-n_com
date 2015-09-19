@@ -131,10 +131,10 @@
 							<li></li>
 						</ul>
 						<?php else:?>
-						<?php endif;?>
 						<ul>
 							<li>　現在お知らせはありません</li>
 						</ul>
+						<?php endif;?>
 					</div>
 					<?php if($image):?>
 						<div class="photoslide">
