@@ -149,7 +149,7 @@
 						<tr>
 							<th>住所</th>
 							<td><?php echo getParam($store,'address1');?><?php echo getParam($store,'address2');?><br />
-							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn2">MAPを表示する</a></td>
+							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">MAPを表示する</a></td>
 						</tr>
 						<tr>
 							<th>営業時間</th>
@@ -157,8 +157,11 @@
 						</tr>
 						<tr>
 							<th>電話番号</th>
-							<td><?php echo getParam($store,'telephone');?><br />
-							<a href="tel:<?php echo getParam($store,'telephone');?>" class="linkbtn2">お店に電話する</a></td>
+							<td>
+								<a href="tel:<?php echo getParam($store,'telephone');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">
+									お店に電話する（<?php echo getParam($store,'telephone');?>）
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<th>休日</th>
