@@ -5,28 +5,28 @@
  */
 
 class StoreCommonPage {
-	
+
 	/** @var Management */
 	protected $manager = null;
-	
+
 	/**
 	 * コンストラクタ
-	 * 
+	 *
 	 * @param Management $manager Management クラスのインスタンス
 	 */
 	public function __construct($manager = null) {
 		$this->setManager($manager);
 	}
-	
+
 	/**
 	 * Management インスタンスの設定
-	 * 
+	 *
 	 * @param Management $manager
 	 */
 	public function setManager($manager) {
 		$this->manager = $manager;
 	}
-	
+
 	/**
 	 * ＤＢデータから入力用データへ変換
 	 *
@@ -61,6 +61,11 @@ class StoreCommonPage {
 		$data['contract_telephone1'] = isset($telephone[0]) ? $telephone[0] : "";
 		$data['contract_telephone2'] = isset($telephone[1]) ? $telephone[1] : "";
 		$data['contract_telephone3'] = isset($telephone[2]) ? $telephone[2] : "";
+		// 担当者電話番号
+		$telephone = explode("-", $data['owner_telephone']);
+		$data['owner_telephone1'] = isset($telephone[0]) ? $telephone[0] : "";
+		$data['owner_telephone2'] = isset($telephone[1]) ? $telephone[1] : "";
+		$data['owner_telephone3'] = isset($telephone[2]) ? $telephone[2] : "";
 		// 現在の画像１〜９
 		for ($i = 1; $i <= 9; $i++) {
 			$data['cur_image' . $i] = $data['image' . $i];
@@ -101,10 +106,10 @@ class StoreCommonPage {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * 入力値チェック
-	 * 
+	 *
 	 * @param array $param
 	 * @param boolean $isUpdate
 	 * @param boolean $isAdmin
@@ -132,9 +137,15 @@ class StoreCommonPage {
 			$this->manager->validation->setRule('contract_telephone3',       'required|numeric');
 			$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
 			$this->manager->validation->setRule('contract_telephone',        'tel');
+			// 担当者電話番号
+			$this->manager->validation->setRule('owner_telephone1',       'numeric');
+			$this->manager->validation->setRule('owner_telephone2',       'numeric');
+			$this->manager->validation->setRule('owner_telephone3',       'numeric');
+			$param['owner_telephone'] = $param['owner_telephone1'] . "-" . $param['owner_telephone2'] . "-" . $param['owner_telephone3'];
+			$this->manager->validation->setRule('owner_telephone',        'tel');
 			// 許可証の表示
 			$this->manager->validation->setRule('license',             'required');
-			
+
 			//ポイント関連
 			$this->manager->validation->setRule('point_limit','required|zero_moneyChk');
 			$this->manager->validation->setRule('base_point','required|plus_moneyChk');
@@ -260,13 +271,13 @@ class StoreCommonPage {
 			// 口座名義人
 			$this->manager->validation->setRule('jpbank_account_holder', 'required|maxlength:50');
 		}
-		
+
 		return $this->manager->validation->run($param);
 	}
-	
+
 	/**
 	 * 第1エリアマスターの第1エリアIDを導出する
-	 * 
+	 *
 	 * @param array $param パラメータ
 	 * @return number
 	 */
@@ -295,10 +306,10 @@ class StoreCommonPage {
 		}
 		return $area_first_id;
 	}
-	
+
 	/**
 	 * 更新処理
-	 * 
+	 *
 	 * @param array $param 更新用パラメータ
 	 * @param string $primary_key プライマリーキー
 	 * @param string $update_table 更新テーブル
@@ -319,6 +330,8 @@ class StoreCommonPage {
 			$param['contract_zip_code'] = $param['contract_zip_code1'] . $param['contract_zip_code2'];
 			// 契約電話番号
 			$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
+			// 担当者電話番号
+			$param['owner_telephone'] = $param['owner_telephone1'] . "-" . $param['owner_telephone2'] . "-" . $param['owner_telephone3'];
 		}
 		// 郵便番号
 		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
@@ -328,11 +341,16 @@ class StoreCommonPage {
 		if ($id === false) {
 			return false;
 		}
-		
+
 		// ステータス(1：準備中、2：運営中、9：停止中)
 		// ※ステータスが停止中はアップロードしたファイルを「2：使用不可」とする
+<<<<<<< HEAD
 		$use_state = ($param['status_id'] == 9) ? 2 : 1;
 		
+=======
+		$use_state = (getParam($param,'status_id') == 9) ? 2 : 1;
+
+>>>>>>> 2448c8cf6a8dd7993bd7017801cde6cfac467540
 		if ($isAdmin) {
 			// 許可証
 			$update_param = array();
@@ -342,7 +360,7 @@ class StoreCommonPage {
 				delete_file($param['cur_license']);
 			}
 		}
-		
+
 		// 画像1〜9
 		$images = array();
 		for ($i = 1; $i <= 9; $i++) {
@@ -362,7 +380,7 @@ class StoreCommonPage {
 				delete_file($param['cur_image' . $i]);
 			}
 		}
-		
+
 		// 店舗のお知らせでアップロードしたファイルの使用不可制御
 		$notice_list = $this->manager->db_manager->get('notice')->getListByStoreID($primary_key);
 		if (is_array($notice_list)) {
@@ -381,10 +399,10 @@ class StoreCommonPage {
 				$this->manager->db_manager->get('temp_image')->updateByFileName($notice_image, $update_param);
 			}
 		}
-		
+
 		// .htaccess ファイルを生成してアップロードファイルの使用可否制御
 		set_cannot_use_file();
-		
+
 		// 銀行
 		$bank_data = $this->manager->db_manager->get('bank_account')->searchForStoreId($primary_key);
 		for ($i = 1; $i <= 3; $i++) {
@@ -408,7 +426,7 @@ class StoreCommonPage {
 				$this->manager->db_manager->get('bank_account')->insert($bank_param);
 			}
 		}
-		
+
 		// ゆうちょ銀行
 		$bank_data = $this->manager->db_manager->get('jpbank_account')->searchForStoreId($primary_key);
 		if ($param['jpbank_account_holder'] != "") {
@@ -430,10 +448,10 @@ class StoreCommonPage {
 				$this->manager->db_manager->get('jpbank_account')->updateById($bank_data[0]['bank_account_id'], $jpbank_param);
 			}
 		}
-		
+
 		return $id;
 	}
-	
+
 	/**
 	 * 画像アップロード（AJAX)
 	 */
@@ -449,7 +467,7 @@ class StoreCommonPage {
 			$result['result'] = 'result';
 			$result['image_name'] = $new_file_name;
 			$result['base_dir']   = UPLOAD_IMG_URL;
-			
+
 			$this->manager->db_manager->get('temp_image')->insert(array('dir_path'=>$dir, 'file_name'=>$new_file_name));
 		}
 		echo json_encode($result);

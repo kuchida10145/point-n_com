@@ -76,6 +76,11 @@ class StorePage extends AdminPage {
 		unset($param['contract_telephone1']);
 		unset($param['contract_telephone2']);
 		unset($param['contract_telephone3']);
+		// 担当者電話番号
+		$param['owner_telephone'] = $param['owner_telephone1'] . "-" . $param['owner_telephone2'] . "-" . $param['owner_telephone3'];
+		unset($param['owner_telephone1']);
+		unset($param['owner_telephone2']);
+		unset($param['owner_telephone3']);
 		// 郵便番号
 		$param['zip_code'] = $param['zip_code1'] . $param['zip_code2'];
 		unset($param['zip_code1']);

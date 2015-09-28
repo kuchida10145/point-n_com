@@ -47,6 +47,7 @@ class StoreDbModel extends DbModel{
 			'address2',
 			'business_hours',
 			'telephone',
+			'owner_telephone',
 			'holiday',
 			'contract_zip_code',
 			'contract_prefectures_id',

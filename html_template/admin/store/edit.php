@@ -180,6 +180,21 @@
 								</div>
 							</div>
 
+							<div class="control-group <?php echo error_class(getParam($error, 'owner_telephone'));?>">
+								<label class="control-label" for="typeahead">担当者電話番号</label>
+								<div class="controls">
+									<input placeholder="" id="owner_telephone1" name="owner_telephone1" type="text" value="<?php echo getParam($post, 'owner_telephone1');?>">
+									<?php //echo getParam($error, 'contract_telephone1');?>
+									-
+									<input placeholder="" id="owner_telephone2" name="owner_telephone2" type="text" value="<?php echo getParam($post, 'owner_telephone2');?>">
+									<?php //echo getParam($error, 'contract_telephone2');?>
+									-
+									<input placeholder="" id="owner_telephone3" name="owner_telephone3" type="text" value="<?php echo getParam($post, 'owner_telephone3');?>">
+									<?php //echo getParam($error, 'contract_telephone3');?>
+									<?php echo getParam($error, 'owner_telephone');?>
+								</div>
+							</div>
+
 							<div class="control-group <?php echo error_class(getParam($error, 'license'));?>">
 								<label class="control-label" for="fileInput">許可証の表示 <span class="label label-important">必須</span></label>
 								<div class="controls">
