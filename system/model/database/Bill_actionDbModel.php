@@ -189,8 +189,8 @@ class Bill_actionDbModel extends DbModel{
 			'action_type'=> 3,
 			'issue_point'=> $point,
 			'use_point'  => 0,
-			'commission' => 0,
-			'total_price' => $point,
+			'commission' => $point,
+			'total_price' => $point*2,
 			'data_type'  => 0,
 		);
 		return $this->insert($param);
