@@ -47,21 +47,71 @@
 					<div class="box-content">
 						<form class="form-horizontal" method="get">
 							<input type="hidden" value="<?php echo getGet('store_id');?>" name="store_id">
-						<div class="control-group">
-							<label for="" class="control-label">期間</label>
-							<div class="controls">
-								<select name="year" class="input-small">
-									<?php for($i = date('Y') ; $i >= 2015; $i--):?>
-									<option value="<?php echo $i;?>" <?php echo _check_selected($i,getGet('year'));?>><?php echo $i;?>年</option>
-									<?php endfor;?>
-								</select>
-								<select name="month" class="input-small">
-									<?php for($i = 1 ; $i <= 12; $i++):?>
-									<option value="<?php echo sprintf('%02d',$i);?>" <?php echo _check_selected(sprintf('%02d',$i),getGet('month'));?>><?php echo $i;?>月</option>
-									<?php endfor;?>
-								</select>
+							<div class="control-group">
+								<label for="" class="control-label">期間</label>
+								<div class="controls">
+									<select name="year" class="input-small">
+										<?php for($i = date('Y') ; $i >= 2015; $i--):?>
+										<option value="<?php echo $i;?>" <?php echo _check_selected($i,getGet('year',date('Y')));?>><?php echo $i;?>年</option>
+										<?php endfor;?>
+									</select>
+									<select name="month" class="input-small">
+										<?php for($i = 1 ; $i <= 12; $i++):?>
+										<option value="<?php echo sprintf('%02d',$i);?>" <?php echo _check_selected(sprintf('%02d',$i),getGet('month',date('m')));?>><?php echo $i;?>月</option>
+										<?php endfor;?>
+									</select>
+								</div>
 							</div>
-						</div>
+							<div class="control-group">
+								<label for="" class="control-label">店舗名</label>
+								<div class="controls">
+									<input type="text" name="store_name" value="<?php echo escapeHtml(getGet('store_name'));?>">
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">エリア</label>
+								<div class="controls">
+									<select id="region_id" name="region_id" class="input-small">
+										<option value=""></option>
+										<?php foreach(region_master() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('region_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">ステータス</label>
+								<div class="controls">
+									<select id="" name="pay_status">
+										<option value=""></option>
+										<?php foreach(pay_status() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('pay_status'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">業種</label>
+								<div class="controls">
+									<select id="type_of_industry_id" name="type_of_industry_id">
+										<option value=""></option>
+										<?php foreach(store_type_of_industry() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('type_of_industry_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">ジャンル</label>
+								<div class="controls">
+									<select id="category_large_id" name="category_large_id">
+										<option value=""></option>
+										<?php foreach(category_large() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet( 'category_large_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
 						<div class="form-actions">
 							<button type="submit" class="btn btn-primary">検索</button>
 							<button type="reset" class="btn" onclick="location.href='bill.php'">リセット</button>

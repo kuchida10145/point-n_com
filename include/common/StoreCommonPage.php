@@ -344,13 +344,8 @@ class StoreCommonPage {
 
 		// ステータス(1：準備中、2：運営中、9：停止中)
 		// ※ステータスが停止中はアップロードしたファイルを「2：使用不可」とする
-<<<<<<< HEAD
-		$use_state = ($param['status_id'] == 9) ? 2 : 1;
-		
-=======
 		$use_state = (getParam($param,'status_id') == 9) ? 2 : 1;
-
->>>>>>> 2448c8cf6a8dd7993bd7017801cde6cfac467540
+		
 		if ($isAdmin) {
 			// 許可証
 			$update_param = array();

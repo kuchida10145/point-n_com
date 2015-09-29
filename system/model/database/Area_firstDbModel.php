@@ -54,4 +54,32 @@ class Area_firstDbModel extends DbModel{
 		}
 		return $where;
 	}
+	
+	
+	
+	/**
+	 * 請求絞込みに必要なエリアIDを取得（地域IDにヒットする）
+	 * @param int $region_id 地域ID
+	 * @param int $category_large_id ジャンルマスターID
+	 * @return array
+	 */
+	public function areaFirstForBillSearchByRegionId($region_id,$category_large_id=''){
+		$region_id         = $this->escape_string($region_id);
+		$category_large_id = $this->escape_string($category_large_id);
+		$sql = "SELECT area_first_id FROM {$this->table} WHERE region_id = '$region_id' ";
+		if($category_large_id != ''){
+			$sql = " AND category_large_id = '$category_large_id' ";
+		}
+		
+		if($res = $this->db->getAllData($sql)){
+			$ids = array();
+			foreach($res as $val){
+				$ids[] = $val['area_first_id'];
+			}
+			
+			return $ids;
+		}
+		
+		return NULL;
+	}
 }

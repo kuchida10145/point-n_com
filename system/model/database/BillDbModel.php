@@ -152,4 +152,122 @@ class BillDbModel extends DbModel{
 		
 		return $this->updateById($bill['bill_id'],$param);
 	}
+	
+	
+	
+	
+	
+	/**
+	 * 検索結果最大取得件数（管理者用）
+	 * @param array $get
+	 * @return int
+	 */
+	public function adminSearchMaxCnt($get=array()){
+		$sql = $this->adminSearchSqlBase($get);
+		$sql = str_replace("##field##",' count(bill.'.$this->primary_key.') as cnt ', $sql);
+		if($res = $this->db->getData($sql)){
+			return $res['cnt'];
+		}
+		return 0;
+	}
+
+
+	/**
+	 * 検索結果一覧（管理者用）
+	 * @param array $get
+	 * @param string $limit リミット句
+	 * @param order $order オーダー句
+	 * @return array:
+	 */
+	public function adminSearch($get,$limit,$order){
+		$sql = $this->adminSearchSqlBase($get);
+		
+		$field = "bill.".implode(',bill.',$this->getField()).",store.store_name";
+		$field = str_replace("bill.store_name,","",$field);
+		
+		$sql = str_replace("##field##",$field, $sql);
+		$sql = $sql." {$order} {$limit}";
+
+		return $this->db->getAllData($sql);
+	}
+
+
+	protected function adminSearchSqlBase($get){
+
+		//フィールドは各メソッド内で変換
+		$where = $this->adminSearchWhere($get);
+		$sql = "SELECT ##field## FROM {$this->table},store {$where}";
+
+		return $sql;
+	}
+	
+	/**
+	 * WHERE句生成（管理者用）
+	 *
+	 * @param array $get
+	 * @return string
+	 */
+	protected function adminSearchWhere($get){
+
+		$wheres = array();
+		$wheres[] = " bill.store_id = store.store_id ";
+		//支払いステータス
+		if(getParam($get,'pay_status') != ''){
+			$pay_status = $this->escape_string(getParam($get,'pay_status'));
+			$wheres[] = " bill.pay_status = '{$pay_status}' ";
+		}
+
+		//業種（大カテゴリ
+		
+		if(getParam($get,'category_large_id') != ''  && is_string(getParam($get,'category_large_id'))){
+			$category_large_id = $this->escape_string(getParam($get,'category_large_id'));
+			$wheres[] = " store.category_large_id = '{$category_large_id}' ";
+		}
+		//業種（中カテゴリ
+		if(getParam($get,'type_of_industry_id') != ''  && is_string(getParam($get,'type_of_industry_id'))){
+			$type_of_industry_id = $this->escape_string(getParam($get,'type_of_industry_id'));
+			$wheres[] = " store.type_of_industry_id = '{$type_of_industry_id}' ";
+		}
+		
+		//エリア
+		if(getParam($get,'region_id') != ''  && is_string(getParam($get,'region_id'))){
+			$region_id         = getParam($get,'region_id');
+			$category_large_id = getParam($get,'category_large_id');
+			$manager = Management::getInstance();
+			$area_first_ids = $manager->db_manager->get('area_first')->areaFirstForBillSearchByRegionId($region_id,$category_large_id);
+			
+			if(!$area_first_ids){
+				$wheres[] = " store.area_fist = '9999' ";
+			}
+			else{
+				//１件のみの場合
+				if(count($area_first_ids) == 1){
+					$wheres[] = " store.area_first_id = '{$area_first_ids[0]}' ";
+				}
+				else{
+					$ids_str = implode(',',$area_first_ids);
+					$wheres[] = " store.area_first_id IN ({$ids_str} ) ";
+				}
+			}
+			
+			
+		}
+		
+		//店舗名
+		if(getParam($get,'store_name') != '' && getParam($get,'store_name')){
+			$store_name = $this->escape_string(getParam($get,'store_name'));
+			$wheres[] = " store.store_name LIKE '%{$store_name}%' ";
+		}
+		
+		//期間
+		$date = getParam($get,'year',date('Y'))."-".getParam($get, 'month',date('m'));
+		
+		$wheres[] = " bill.bill_month = '$date' ";
+
+		
+
+		$where = " WHERE ".implode(' AND ',$wheres);
+
+		return $where;
+	}
 }
