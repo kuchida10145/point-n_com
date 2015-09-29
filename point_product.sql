@@ -2077,6 +2077,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `price` mediumint(9) NOT NULL DEFAULT '0' COMMENT '料金',
   `use_condition` text COMMENT '利用条件',
   `rank` tinyint(4) DEFAULT NULL COMMENT 'ランク順',
+  `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'ポイントのみ利用 : 0：予約不可、1：予約可能',
   `regist_date` datetime NOT NULL COMMENT '登録日時',
   `update_date` datetime NOT NULL COMMENT '変更日時',
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
