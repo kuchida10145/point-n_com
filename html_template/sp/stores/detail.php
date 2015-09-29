@@ -149,7 +149,7 @@
 						<tr>
 							<th>住所</th>
 							<td><?php echo getParam($store,'address1');?><?php echo getParam($store,'address2');?><br />
-							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">MAPを表示する</a></td>
+							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn" style="font-size: 90%;padding:5px 31px 5px 31px;">MAPを表示する</a></td>
 						</tr>
 						<tr>
 							<th>営業時間</th>
@@ -158,9 +158,8 @@
 						<tr>
 							<th>電話番号</th>
 							<td>
-								<a href="tel:<?php echo getParam($store,'telephone');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">
-									お店に電話する（<?php echo getParam($store,'telephone');?>）
-								</a>
+								<p><button class="linkbtn block alncenter" style="font-size: 90%;padding:5px 5px 5px 5px;width: 150px;" onclick="tellCheck(<?php echo getParam($store,'telephone');?>);">お店に電話する<br />
+								<span style="font-size: 1.4em; color: #000280;"><?php echo getParam($store,'telephone');?></span></button></p>
 							</td>
 						</tr>
 						<tr>
@@ -168,6 +167,37 @@
 							<td><?php echo getParam($store,'holiday');?></td>
 						</tr>
 					</table>
+				<?php
+					$official_urls = array();
+					for ($i = 1; $i <= 4; $i++) {
+						if (getParam($store, 'url_official' . $i)!= '') {
+							$link_text = getParam($store, 'store_name') . '公式サイト：' . $i;
+							$official_urls[] = array(
+								'url'       => getParam($store, 'url_outside' . $i),
+								'link_text' => $link_text
+							);
+						}
+					}
+					$is_plural = count($official_urls) > 1 ? true : false;
+				?>
+				<?php if (count($official_urls) > 0) :?>
+					<h3>店舗公式サイト</h3>
+					<?php if ($is_plural) : ?>
+					<div class="btn2block">
+					<p class="fixHeight clearfix">
+					<?php else : ?>
+					<p>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php foreach ($official_urls as $official_url) : ?>
+					<a href="<?php echo $official_url['url']; ?>" class="linkbtn5 block alncenter" target="_blank"><?php echo $official_url['link_text']; ?></a>
+				<?php endforeach; ?>
+				<?php if (count($official_urls) > 0) :?>
+					</p>
+					<?php if ($is_plural) : ?>
+					</div>
+					<?php endif; ?>
+				<?php endif; ?>
 				<?php
 					$outside_urls = array();
 					for ($i = 1; $i <= 5; $i++) {
@@ -222,6 +252,14 @@
 									confirm(XMLHttpRequest);
 								}
 							});
+						}
+
+						function tellCheck(telephone) {
+							var val = confirm("お店にPoint.comを見ましたと伝えて下さい。");
+							if( val == true ) {
+								window.location = "tel:"+telephone;
+								return;
+							}
 						}
 					</script>
 				</div>
