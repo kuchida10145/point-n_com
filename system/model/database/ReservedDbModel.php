@@ -672,7 +672,7 @@ class ReservedDbModel extends DbModel{
 	 */
 	public function pointHistorySelectSearch($id,$get,$limit,$order){
 		$sql = $this->pointHistorySelectSearchSqlBase($id,$get);
-		$sql = str_replace("##field##","reserved.reserved_id,reserved.status_id,reserved.reserved_date,store.store_name,reserved.use_point,reserved.get_point", $sql);
+		$sql = str_replace("##field##","reserved.reserved_id,reserved.status_id,reserved.use_date,reserved.reserved_date,store.store_name,reserved.use_point,reserved.get_point", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}

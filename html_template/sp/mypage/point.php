@@ -68,7 +68,7 @@
 									</tr>
 									<?php foreach($list as $data):?>
 									<tr>
-										<td><?php echo getParam($data,'reserved_date');?></td>
+										<td><?php echo getParam($data,'use_date');?></td>
 										<td><a href="/mypage/point_code/detail.php?id=<?php echo getParam($data,'reserved_id');?>"><?php echo getParam($data,'store_name');?></a></td>
 										<?php if(getParam($data,'status_id') == 1):?>
 											<td align="center" style="color:#ff0000;"><?php echo "未";?></td>
