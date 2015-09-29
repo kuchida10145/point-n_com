@@ -362,7 +362,7 @@
 							</div>
 
 							<div class="control-group hidden-phone <?php echo error_class(getParam($error, 'introduction'));?>">
-								<label class="control-label" for="textarea2">お店からのお知らせ</label>
+								<label class="control-label" for="textarea2">店舗アピールポイント</label>
 								<div class="controls">
 									<textarea class="ckeditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
 									<?php echo getParam($error, 'introduction');?>

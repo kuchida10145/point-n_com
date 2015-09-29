@@ -103,9 +103,9 @@ class Special_point extends MaintenancePage{
 	 *
 	 */
 	protected function indexAction(){
-		
+
 		$account = $this->getAccount();
-		
+
 		$account_id = getParam($account,'store_id');
 		$pager_html = '';
 		$get        = $_GET;
@@ -161,18 +161,16 @@ class Special_point extends MaintenancePage{
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
 
-
 		//limit句生成
-		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
+		$limit = $this->manager->db_manager->get('user')->createLimit(getGet('page'),$this->page_cnt);
 
 		//最大件数取得
-		$max_cnt = $this->manager->db_manager->get($this->use_table)->specialPointSelectSearchMaxCnt($account_id,$get);
+		$max_cnt = $this->manager->db_manager->get('user')->adminSearchMaxCnt($get);
 
 		//リスト取得
 		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get($this->use_table)->specialPointSelectSearch($account_id,$get,$limit,$this->order);
+			$list    = $this->manager->db_manager->get('user')->adminSearch($get,$limit,$this->order);
 		}
-
 
 		//リストを出力用のデータに変換
 		$list = $this->dbToListData($list);
@@ -211,31 +209,31 @@ class Special_point extends MaintenancePage{
 
 		//POST送信があった場合
 		if(getPost('m') == 'confirm'){
-			
+
 			$regist_date = date('Y-m-d H:i:s');
 			$post['regist_date'] = $regist_date;
 			$year_month = date('Y-m',strtotime($regist_date));
-			
+
 			//請求処理
 			$account = $this->getAccount();
-			
+
 			//ポイント枠を消費
 			if($this->manager->db_manager->get('store')->usePointLimit($account['store_id'],$post['point']) !== false){
-			
+
 				$result_flg = $this->inseart_action($post);		// 予約情報更新
 				if($result_flg !== false){
 					$result_flg = $this->user_update_action($post);	// ユーザテーブル更新
 
-					
+
 					$this->manager->db_manager->get('bill_action')->issueSpecialPoint($account['store_id'],$post['point']);
 					$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
-					
+
 					$store = $this->manager->db_manager->get('store')->findById($account['store_id']);
-					
+
 					$this->setAccount($store);
 				}
-				
-				
+
+
 				$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 
 				if($result_flg !== false){

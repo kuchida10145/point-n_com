@@ -42,10 +42,12 @@ class IndexPage extends Page{
 	 * ログインページ
 	 *
 	 */
+	/*
 	public function loginAction(){
 
 		$error = array();
 		$system_message = '';
+		$login_pw = '';
 
 
 		//既にログイン済みの場合
@@ -53,25 +55,35 @@ class IndexPage extends Page{
 			redirect('index.html');
 		}
 
+		
+		//クッキー処理
+		$this->manager->setCore('cookie');
+		$login_pw = $this->manager->cookie->get('pw_user');
+		
 		//ログイン処理
 		if(getPost('m') == 'login'){
 
 			if($this->loginValidation($_POST)){
 				if($res = $this->manager->db_manager->get('user')->login(getPost('email'),getPost('login_pw'))){
 					$this->setAccount($res);
-					$this->setAutoLogin($res['user_id'],getPost('auto_login'));
+					$this->setPassword($_POST['password'],getPost('auto_login'));
 					redirect('index.html');
 				}
 				$system_message =$this->manager->message->get('front')->getMessage('edit_error');
 			}
 			$error = $this->getValidationError();
 		}
+		else{
+			
+		}
 
 		$data = array();
 		$data['error'] = $error;
 		$data['system_message'] = $system_message;
+		$data['login_pw'] = $login_pw;
 		$this->loadView('login', $data);
 	}
+	 */
 
 
 

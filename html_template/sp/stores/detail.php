@@ -74,9 +74,9 @@
 							<span class="clrred">新登場!</span>
 						<?php endif;?>
 					</p>
+					<?php if($coupon != NULL):?>
 					<div class="pointinfobox">
 						<h3>ポイント情報</h3>
-						<?php if($coupon != NULL):?>
 							<?php foreach($coupon as $id=>$data):?>
 								<div class="box03">
 									<p>
@@ -105,30 +105,36 @@
 									</p>
 									<p>
 										<?php if(getParam($data,'point_kind') == 1):?>
-											<a class="linkbtn block alncenter" onclick="MoveCheck01(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
+											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
 											を獲得して予約する</a>
 										<?php elseif(getParam($data,'point_kind') == 2):?>
-											<a class="linkbtn block alncenter" onclick="MoveCheck02(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
+											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
 											を獲得して予約する</a>
 										<?php endif;?>
 									</p>
 								</div>
 							<?php endforeach;?>
-						<?php endif;?>
-						<div class="box03">
-							<p>「ポイントのみ」利用しての予約が可能です。<br />
-							1,000ポイントから利用が可能です。</p>
-							<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
-							を利用して予約する</a></p>
+							<div class="box03">
+								<p>「ポイントのみ」利用しての予約が可能です。<br />
+								1,000ポイントから利用が可能です。</p>
+								<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
+								を利用して予約する</a></p>
+							</div>
 						</div>
-					</div>
+					<?php endif;?>
 					<h3><a href="news.php?sid=<?php echo getParam($store,'store_id');?>" class="newslistbtn">一覧をみる</a>お店からのお知らせ</h3>
 					<div class="newslist">
+						<?php if($notice):?>
 						<ul>
 							<li><a href="news_detail.php?id=<?php echo getParam($notice,'notice_id');?>"><?php echo getParam($notice,'display_date');?><br />
 							<?php echo getParam($notice,'title');?></a></li>
 							<li></li>
 						</ul>
+						<?php else:?>
+						<ul>
+							<li>　現在お知らせはありません</li>
+						</ul>
+						<?php endif;?>
 					</div>
 					<?php if($image):?>
 						<div class="photoslide">
@@ -143,7 +149,7 @@
 						<tr>
 							<th>住所</th>
 							<td><?php echo getParam($store,'address1');?><?php echo getParam($store,'address2');?><br />
-							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn2">MAPを表示する</a></td>
+							<a href="<?php echo "http://maps.google.com/maps?q=".getParam($store,'latitude').','.getParam($store,'longitude');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">MAPを表示する</a></td>
 						</tr>
 						<tr>
 							<th>営業時間</th>
@@ -151,8 +157,11 @@
 						</tr>
 						<tr>
 							<th>電話番号</th>
-							<td><?php echo getParam($store,'telephone');?><br />
-							<a href="tel:<?php echo getParam($store,'telephone');?>" class="linkbtn2">お店に電話する</a></td>
+							<td>
+								<a href="tel:<?php echo getParam($store,'telephone');?>" class="linkbtn" style="font-size: 90%;padding:5px 5px 5px 5px;">
+									お店に電話する（<?php echo getParam($store,'telephone');?>）
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<th>休日</th>
@@ -192,22 +201,28 @@
 					<?php endif; ?>
 				<?php endif; ?>
 
-					<script language="JavaScript" type="text/javascript">
-						<!--
-						function MoveCheck01(id) {
-							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
-							if( res == true ) {
-								window.location = "../reservation/index.php?coupon_id="+id;
-							}
-
+					<script type="text/javascript">
+						function MoveCheck(id) {
+							//page++;
+							$.ajax({
+								type: 'GET',
+								url: '/stores/detail.php?m=pcheck&cid='+ id,
+								dataType: 'json',
+								success: function(res){
+									if(res=='true'){
+										var val = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
+										if( val == true ) {
+											window.location = "../reservation/index.php?coupon_id="+id;
+										}
+									} else {
+										confirm("クーポンの発行上限に達したため、\n予約を行うことができません。");
+									}
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									confirm(XMLHttpRequest);
+								}
+							});
 						}
-						function MoveCheck02(id) {
-							var res = confirm("店舗へ予約電話はお済みですか?\n先にお電話で予約をして下さい。");
-							if( res == true ) {
-								window.location = "../reservation/index.php?coupon_id="+id;
-							}
-						}
-						// -->
 					</script>
 				</div>
 			<!--/コンテンツ-->

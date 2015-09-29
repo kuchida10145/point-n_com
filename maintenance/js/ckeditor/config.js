@@ -45,6 +45,11 @@ config.toolbar = [
 	//{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
 	{ name: 'others', items: [ '-' ] },
 ];
+config.coreStyles_italic  =
+{
+        element : 'span',
+        styles : { 'font-style' : 'italic' }
+};
 
 
 };

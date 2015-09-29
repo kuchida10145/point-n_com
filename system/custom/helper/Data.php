@@ -382,7 +382,6 @@ function non_select_item() {
 function bank_kind() {
 	return array(
 		1=>"普通",
-		2=>"口座",
 		3=>"当座",
 	);
 }
@@ -819,6 +818,25 @@ function calculate_bil_type_txt($total){
 	}
 	else{
 		return '請求・払い戻し無し';
+	}
+}
+
+/**
+ * 請求詳細用　予約情報ステータス
+ * @param type $data
+ * @return string
+ */
+function reserved_status($data){
+	if($data['action_type'] != 3 && $data['data_type'] == 0){
+
+		switch($data['reserved_status']){
+			case 0:
+				return '<span class="label label-important">キャンセル</span>';
+			case 1:
+				return '<span class="label label-success">未受理</span>';
+			case 2:
+				return '<span class="label label-warning">受理</span>';
+		}
 	}
 }
 

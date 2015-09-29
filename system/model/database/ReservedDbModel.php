@@ -53,6 +53,7 @@ class ReservedDbModel extends DbModel{
 		$sql = "SELECT store_name,reserved_id,use_date FROM reserved,store WHERE store.store_id = reserved.store_id AND ";
 		$sql.= " user_id = {$user_id} AND ";
 		$sql.= " reserved.status_id=1";
+		$sql.= " ORDER BY reserved.regist_date Desc";
 		//$sql.= " reserved.status_id=1 AND  ";
 		//$sql.= " use_date <= '{$today}' ";
 		//print $sql;
@@ -392,7 +393,7 @@ class ReservedDbModel extends DbModel{
 	 */
 	public function maintenanceRserveSearch($id,$get,$limit,$order,$cancell_flg){
 		$sql = $this->maintenanceReserveSearchSqlBase($id,$get,$cancell_flg);
-		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,reserved.reserved_name,coupon_name,get_point,use_point", $sql);
+		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,reserved.reserved_name,reserved.coupon_name,get_point,use_point,coupon.point_kind", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}
@@ -407,7 +408,7 @@ class ReservedDbModel extends DbModel{
 	protected function maintenanceReserveSearchSqlBase($id,$get,$cancell_flg){
 		//フィールドは各メソッド内で変換
 		$where = $this->maintenanceReserveSearchWhere($id,$get,$cancell_flg);
-		$sql = "SELECT ##field## FROM {$this->table},user  {$where}";
+		$sql = "SELECT ##field## FROM {$this->table},user,coupon  {$where}";
 		return $sql;
 	}
 
@@ -425,6 +426,7 @@ class ReservedDbModel extends DbModel{
 		$wheres[] = " reserved.delete_flg = 0 ";
 		$wheres[] = " reserved.store_id = '{$id}' ";
 		$wheres[] = " reserved.user_id = user.user_id ";
+		$wheres[] = " reserved.coupon_id = coupon.coupon_id ";
 		if($cancell_flg) {
 			$wheres[] = " reserved.status_id = '".RESERVE_ST_INV."'";
 		} else {

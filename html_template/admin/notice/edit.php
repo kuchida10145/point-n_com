@@ -74,8 +74,8 @@
 								<div class="box-header" data-original-title="">
 									情報
 								</div> <br>
-								<div class="control-group">
-									<label class="control-label" for="date03">表示日付</label>
+								<div class="control-group <?php echo error_class(getParam($error, 'display_date'));?>">
+									<label class="control-label" for="date03">表示日付 <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<input type="text" class="input-xlarge datepicker" id="date03" name="display_date" value="<?php echo getParam($post, 'display_date') != 0 ? getParam($post, 'display_date') : ''; ?>">
 										</br>※入力した日付がタイトルと共にwebサイト上に表示されます。

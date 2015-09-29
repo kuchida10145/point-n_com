@@ -89,7 +89,7 @@
 									<?php echo getParam(store_type_of_industry(), getParam($post, 'type_of_industry_id'));?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">事業所郵便番号</label>
 								<div class="controls">
@@ -119,7 +119,7 @@
 									<?php echo getParam($post, 'contract_address2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">事業所電話番号</label>
 								<div class="controls">
@@ -130,7 +130,7 @@
 									<?php echo getParam($post, 'contract_telephone3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">担当者電話番号</label>
 								<div class="controls">
@@ -250,7 +250,7 @@
 							</div>
 
 							<div class="control-group hidden-phone">
-								<label class="control-label" for="textarea2">お店からのお知らせ</label>
+								<label class="control-label" for="textarea2">店舗アピールポイント</label>
 								<div class="controls">
 									<?php echo $introduction;?>
 								</div>
@@ -354,7 +354,7 @@
 									<?php echo getParam($post, 'url_outside' . $os_index);?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">外部サイト<?php echo $os_index; ?>リンクテキスト</label>
 								<div class="controls">
@@ -362,7 +362,7 @@
 								</div>
 							</div>
 						<?php endfor; ?>
-							
+
 						<div class="box-header" data-original-title="">
 							その他
 						</div>
@@ -401,14 +401,14 @@
 									<?php echo getParam($post, 'bank_name1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">支店名</label>
 								<div class="controls">
 									<?php echo getParam($post, 'branch_name1');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -434,14 +434,14 @@
 									<?php echo getParam($post, 'bank_name2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">支店名</label>
 								<div class="controls">
 									<?php echo getParam($post, 'branch_name2');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">
@@ -467,14 +467,14 @@
 									<?php echo getParam($post, 'bank_name3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">支店名</label>
 								<div class="controls">
 									<?php echo getParam($post, 'branch_name3');?>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label" for="typeahead">口座番号</label>
 								<div class="controls">

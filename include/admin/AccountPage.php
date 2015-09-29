@@ -83,7 +83,14 @@ class AccountPage extends AdminPage{
 		else{
 			unset($param['login_password']);
 		}
-		return $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
+		$bool = $this->manager->db_manager->get($this->use_table)->updateById($this->id,$param);
+		$account = $this->getAccount();
+		if($bool && $this->id == $account['account_id']){
+			//パスワード自動保存している場合は、変更
+			if($this->getIdPw()){
+				$this->saveIdPw($param['login_id'],decodePassword($param['login_password']),1);
+			}
+		}
 	}
 }
 

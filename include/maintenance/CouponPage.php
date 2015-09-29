@@ -11,7 +11,7 @@ class CouponPage extends MaintenancePage{
 	protected $use_table   = 'coupon';
 	protected $session_key = 'coupon';
 	protected $use_confirm = true;
-	protected $page_title = 'クーポン情報登録';
+	protected $page_title = 'クーポン管理';
 
 
 	/**
@@ -268,10 +268,10 @@ class CouponPage extends MaintenancePage{
 		$data = $this->getEditCommon();
 		//表示用データ
 		if($this->getFormSession('p') == '1') {
-			$data['page_title'] = 'クーポン情報登録';
+			$data['page_title'] = 'クーポン管理';
 			$data['claim_msg']	= '※ クーポンが1度使用される毎に、ポイント数+500円の使用料金が発生します。<br/>例) 1,000Pのクーポンを5組が使用した場合、7,500円の使用料金が発生します。';
 		} else {
-			$data['page_title']     ='イベントクーポン情報登録';
+			$data['page_title']     ='イベントクーポン管理';
 			$data['claim_msg']	= '※ イベントクーポンが1度使用される毎に、ポイント数*2の使用料金が発生します。<br/>例) 1,000Pのイベントクーポンを5組が使用した場合、10,000円の使用料金が発生します。';
 		}
 		$data['post'] = escapeHtml($post);

@@ -12,7 +12,7 @@ class AccountPage extends MaintenancePage {
 	protected $use_table   = 'store';
 	protected $session_key = 'store';
 	protected $use_confirm = true;
-	protected $page_title = 'アカウント管理';
+	protected $page_title = 'アカウント設定';
 	
 	protected function indexAction() {
 		$data = array();
@@ -46,7 +46,7 @@ class AccountPage extends MaintenancePage {
 				);
 				
 				foreach ($update_fields as $field_name) {
-					$upd_data[$field_name] = $post[$field_name];
+					$upd_data[$field_name] = getParam($post,$field_name);
 				}
 				
 				$this->update_action($upd_data);
@@ -123,7 +123,16 @@ class AccountPage extends MaintenancePage {
 		$param = $this->inputToDbData($param);
 		
 		$store_common = new StoreCommonPage($this->manager);
-		return $store_common->update_action($param, $this->id, $this->use_table,false);
+		$bool = $store_common->update_action($param, $this->id, $this->use_table,false);
+		
+		$account = $this->getAccount();
+		if($bool){
+			//パスワード自動保存している場合は、変更
+			if($this->getIdPw()){
+				$this->saveIdPw($param['login_id'],$param['login_password'],1);
+			}
+		}
+		return $bool;
 	}
 	
 	/**

@@ -283,16 +283,7 @@ abstract class Page{
 
 
 
-
-	/**
-	 * 自動ログイン処理
-	 * @return boolean
-	 */
-	protected function autoLogin(){
-		if($account = $this->getAccount()){
-			return true;
-		}
-
+	protected function getAccountTable(){
 		switch($this->account_type){
 			case 'user':
 				$account_table = 'user';
@@ -304,6 +295,27 @@ abstract class Page{
 				$account_table = 'store';
 				break ;
 		}
+		
+		return $account_table;
+	}
+	
+	
+	
+	
+	
+	
+	
+
+	/**
+	 * 自動ログイン処理
+	 * @return boolean
+	 */
+	protected function autoLogin(){
+		if($account = $this->getAccount()){
+			return true;
+		}
+
+		$account_table = $this->getAccountTable();
 		//自動ログイン用テーブル
 		$auto_table = "autologin_{$account_table}";
 		//プライマリーキー取得
@@ -344,8 +356,90 @@ abstract class Page{
 
 		return true;
 	}
+	
+	
+	
+	protected function saveIdPw($id,$pw,$auto_flg){
+		$account_table = $this->getAccountTable();
+		
+		//自動ログイン用テーブル
+		$auto_table = "idpw_{$account_table}";
+		
+		//クッキー処理
+		$this->manager->setCore('cookie');
+		if($auto_flg != 1){
+			$this->manager->cookie->delete($auto_table);
+			return true;
+		}
+		
+		$id = encodePassword($id);
+		$pw = encodePassword($pw);
+
+		
+		//クッキーに保存
+		//$new_cookie = $id.":".$pw;//print $new_cookie;
+		
+		$new_cookie=json_encode(array('id'=>$id,'pw'=>$pw));
+		$this->manager->cookie->set($auto_table,$new_cookie,time()+(3600*24*30));
+		//print_r($_COOKIE);
+		return true;
+	}
+	
+	protected function getIdPw(){
+		$account_table = $this->getAccountTable();
+		
+		//自動ログイン用テーブル
+		$auto_table = "idpw_{$account_table}";
+		
+		//クッキー処理
+		$this->manager->setCore('cookie');
+		
+		$data = $this->manager->cookie->get($auto_table);
+		if(!$data){
+			return array();
+		}
+		$data = json_decode($data,true);
+		$data['id'] = decodePassword($data['id']);
+		$data['pw'] = decodePassword($data['pw']);
+		return $data;
+	}
 
 
+	/**
+	 * 自動ログイン設定
+	 *
+	 * @param int $pw パスワード
+	 * @param int $auto_flg 自動ログインフラグ 0:しない 1:する
+	 * @return boolean
+	 */
+	protected function setPassword($pw,$auto_flg){
+		
+
+		$account_table = $this->getAccountTable();
+		
+		//自動ログイン用テーブル
+		$auto_table = "pw_{$account_table}";
+		
+		//クッキー処理
+		$this->manager->setCore('cookie');
+		if($auto_flg != 1){
+			$this->manager->cookie->delete($auto_table);
+			return true;
+		}
+		
+		
+		
+		
+
+		
+		
+		//クッキーに保存
+		$new_cookie = $pw;
+		$this->manager->cookie->set($auto_table,$new_cookie,time()+(3600*24*30));
+		return true;
+	}
+	
+	
 	/**
 	 * 自動ログイン設定
 	 *
@@ -359,17 +453,8 @@ abstract class Page{
 			return true;
 		}
 
-		switch($this->account_type){
-			case 'user':
-				$account_table = 'user';
-				break ;
-			case 'admin':
-				$account_table = 'account';
-				break ;
-			case 'maintenance':
-				$account_table = 'store';
-				break ;
-		}
+		$account_table = $this->getAccountTable();
+		
 		//自動ログイン用テーブル
 		$auto_table = "autologin_{$account_table}";
 		//プライマリーキー取得
@@ -398,17 +483,7 @@ abstract class Page{
 	protected function unsetAutoLogin($id){
 		
 		
-		switch($this->account_type){
-			case 'user':
-				$account_table = 'user';
-				break ;
-			case 'admin':
-				$account_table = 'account';
-				break ;
-			case 'maintenance':
-				$account_table = 'store';
-				break ;
-		}
+		$account_table = $this->getAccountTable();
 		
 		
 		//クッキー処理
@@ -433,7 +508,7 @@ abstract class Page{
 	 * @return bool
 	 */
 	protected function checkLogin(){
-		$this->autoLogin();
+		//$this->autoLogin();
 		$account = $this->getAccount();
 		if(!$account){
 			return false;

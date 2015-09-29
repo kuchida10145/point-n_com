@@ -463,15 +463,19 @@ class ReservationPage extends Page{
 			$year_month = date('Y-m',strtotime($param['reserved_date']));
 			//請求アクションに追加
 			$bill_action_id = $this->manager->db_manager->get('bill_action')->issueByReservedId($reserved_id);
-			$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id);
+			
+			//ポイントの発行・ポイントの利用があった場合
+			if($bill_action_id){
+				$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id);
 
-			//ポイント利用枠からマイナス
-			if($bill_action['total_price'] > 0){
-				//失敗時は limit を返す
-				if( false === $this->manager->db_manager->get('store')->usePointLimit($courseData['store_id'],$bill_action['total_price'])){
-					$this->manager->db_manager->get('bill_action')->deleteCompById($bill_action_id);
-					$this->manager->db_manager->get($this->use_table)->deleteCompById($reserved_id);
-					$reserved_id = 'limit';//上限に達した
+				//ポイント利用枠からマイナス
+				if($bill_action['total_price'] > 0){
+					//失敗時は limit を返す
+					if( false === $this->manager->db_manager->get('store')->usePointLimit($courseData['store_id'],$bill_action['total_price'])){
+						$this->manager->db_manager->get('bill_action')->deleteCompById($bill_action_id);
+						$this->manager->db_manager->get($this->use_table)->deleteCompById($reserved_id);
+						$reserved_id = 'limit';//上限に達した
+					}
 				}
 			}
 

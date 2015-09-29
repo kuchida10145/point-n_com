@@ -50,6 +50,7 @@
 				<!--コンテンツ-->
 				<div class="contents">
 					<h2>ポイント履歴</h2>
+					<strong>（ステータス説明：未=未処理/済=処理済/★=特別PT/キ=キャンセル）</strong>
 					<div class="pointhistory">
 						<?php if(!$list):?>
 						データがありませんでした
@@ -59,11 +60,7 @@
 									<tr>
 										<td class="bg12">来店日</td>
 										<td class="bg12"> 利用店舗名</td>
-										<td align="center" class="bg12"> ポイント<br />
-										ステータス<br />
-										未=未処理<br />
-										済=処理済<br />
-										★=特別PT</td>
+										<td align="center" class="bg12">ステータス<br />
 										<td align="center" class="bg08">ポイント<br />
 										利用</td>
 										<td align="center" class="bg18">ポイント<br />
@@ -79,6 +76,8 @@
 											<td align="center"><?php echo "済";?></td>
 										<?php elseif (getParam($data,'status_id') == 9):?>
 											<td align="center"><?php echo "★";?></td>
+										<?php elseif (getParam($data,'status_id') == 0):?>
+											<td align="center" style="color:#ff0000;"><?php echo "キ";?></td>
 										<?php endif;?>
 										<td align="center"><?php echo number_format(getParam($data,'use_point'));?>PT</td>
 										<td align="center"><?php echo number_format(getParam($data,'get_point'));?>PT</td>

@@ -11,7 +11,7 @@ class ClaimPage extends MaintenancePage{
 	protected $use_table   = 'claim';
 	protected $session_key = 'claim';
 	protected $use_confirm = true;
-	protected $page_title = '請求管理';
+	protected $page_title = 'ポイント利用履歴';
 
 	
 	/**
@@ -63,6 +63,10 @@ class ClaimPage extends MaintenancePage{
 		$this->manager->pager->setHtmlType( array() ,'admin');
 		$this->manager->pager->initialize($pager_param);
 		$pager_html = $this->manager->pager->create();
+		
+		if(getParam($get_param,'coupon')){
+			unset($get_param['coupon']);
+		}
 
 		$data['list']           = $list;
 		$data['pager_html']     = $pager_html;

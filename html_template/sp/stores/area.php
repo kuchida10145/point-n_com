@@ -50,7 +50,10 @@
 
 <div class="selectedterms">
 <dl>
-<dt>選んだ条件<?php if (!empty($research_link)) : ?>　<a href="./genre.php<?php echo $research_link; ?>">カテゴリを選び直す</a><?php endif; ?></dt>
+<dt>選んだ条件</dt>
+<?php if (!empty($action_link)) : ?>
+<dd><a href="./genre.php<?php echo $action_link; ?>" class="block alncenter">カテゴリを選び直す</a></dd><br>
+<?php endif; ?>
 <dd><a href="/stores/genre.php<?php echo $action_link; ?>" class="block alncenter">条件変更</a></dd>
 <dd><?php echo $condition_category_large_name; ?></dd>
 <dd><?php echo $condition_redion_name; ?></dd>
@@ -65,8 +68,8 @@
 <!--コンテンツ-->
 
 <div class="contents">
-<h2 style="margin:-10px -10px 0 -10px;"><?php if ($delivery) { echo '発'; } ?>エリアを探す 
-<?php 
+<h2 style="margin:-10px -10px 0 -10px;"><?php if ($delivery) { echo '発'; } ?>エリアを探す
+<?php
 	$err_messages = array();
 	if (getParam($error, 'area_first') != "") {
 		$err_messages[] = getParam($error, 'area_first');
@@ -88,7 +91,7 @@
 <?php $js_areas = array(); ?>
 <?php if (count($areas) > 0) : ?>
 <dl>
-<?php 
+<?php
 	$area_first_id = "";
 	$area_second_id = "";
 	$area_third_id = "";
@@ -185,25 +188,25 @@ Copyright 2015 POINT.COM All Rights Reserved
 <!--/スライド-->
 
 <script type="text/javascript">
-	
+
 	function area_check_action(check_id) {
 		if ($('#' + check_id).prop('checked')) {
 			checked = true;
 		} else {
 			checked = false;
 		}
-		
+
 		area_check_list = <?php echo json_encode($js_areas); ?>;
 		if (!(check_id in area_check_list)) {
 			return;
 		}
-		
+
 		list = area_check_list[check_id];
 		for (i = 0; i < list.length; i++) {
 			$('#' + list[i]).prop('checked', checked);
 		}
 	}
-	
+
 </script>
 
 </body>

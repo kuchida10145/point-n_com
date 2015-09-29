@@ -12,7 +12,7 @@ class NewsPage extends AdminPage {
 	protected $use_table   = 'news';
 	protected $session_key = 'news';
 	protected $use_confirm = true;
-	protected $page_title = '今日のニュース';
+	protected $page_title = '今日のニュース管理';
 
 	/**
 	 * 入力チェック

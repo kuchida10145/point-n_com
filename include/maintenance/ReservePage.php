@@ -243,6 +243,11 @@ class ReservePage extends MaintenancePage{
 		$updateParam = array(
 					'point'=>$res['point'] + $reservedInfo['get_point'],	// 保持ポイント計算
 				);
+
+		//請求アクションを受理に変更
+		if($bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id)){
+			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status'=>$reservedInfo['status_id']));
+		}
 		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
 	}
 
@@ -266,20 +271,23 @@ class ReservePage extends MaintenancePage{
 		$year_month = date('Y-m');
 
 
-		$bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id);
+		//ポイント関連の増減が発生した場合
+		if($bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id)){
 
-		$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
-		$today       = date('Y-m-d');
+			$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
+			$today       = date('Y-m-d');
 
-		$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id);
-		$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
+			$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id,$reservedInfo['status_id']);
+			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
 
-		//年月が同じ場合のみ利用枠を復旧
-		if($today == $action_date){
-			$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$bill_action['total_price']);
-			$account = $this->manager->db_manager->get('store')->findById($account['store_id']);
-			$this->setAccount($account);
+			//年月が同じ場合のみ利用枠を復旧
+			if($today == $action_date){
+				$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$bill_action['total_price']);
+				$account = $this->manager->db_manager->get('store')->findById($account['store_id']);
+				$this->setAccount($account);
+			}
 		}
+
 		return $user_res;
 	}
 }
