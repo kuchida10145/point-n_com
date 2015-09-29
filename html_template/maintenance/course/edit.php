@@ -75,6 +75,17 @@
 								</div>
 							</div>
 
+							<div class="control-group">
+								<label class="control-label" for="control-label">ポイントのみ利用 <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<select name="point_only_flg">
+										<?php foreach(point_only_flg_val() as $val=>$label):?>
+											<option value="<?php echo $val;?>" <?php echo _check_selected($val, getParam($post,'point_only_flg'));?>><?php echo $label;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+
 							<div class="control-group <?php echo error_class(getParam($error,'use_condition'));?>">
 								<label class="control-label" for="use_condition">コース基本条件 <span class="label label-important">必須</span></label>
 								<div class="controls">

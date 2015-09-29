@@ -55,6 +55,7 @@
 							<th>コース名</th>
 							<th>利用時間（分）</th>
 							<th>利用料金（円）</th>
+							<th>ポイントのみ利用</th>
 							<th>&nbsp;</th>
 						</tr>
 						</thead>
@@ -64,6 +65,11 @@
 							<td class="center"><?php echo $course_data['course_name'];?></td>
 							<td class="center"><?php echo $course_data['minutes'];?></td>
 							<td class="center"><?php echo number_format($course_data['price']);?></td>
+							<td class="center">
+								<?php
+									echo ($course_data['point_only_flg'] ? '◯' : '×');
+								?>
+							</td>
 							<td class="center">
 								<a class="btn btn-info" href="?m=edit&id=<?php echo $course_data['course_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
 								<a class="btn btn-danger" href="#myModal" role="button" class="btn" data-toggle="modal" data-id="<?php echo $course_data['course_id'];?>"><i class="halflings-icon white trash"></i>削除</a>

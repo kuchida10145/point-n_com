@@ -525,6 +525,18 @@ function coupon_list($store_id){
 }
 
 /**
+ * ポイントのみ利用フラグ
+ *
+ * @return array
+ */
+function point_only_flg_val(){
+	return array(
+			0=>'ポイントのみで予約不可',
+			1=>'ポイントのみで予約可能',
+	);
+}
+
+/**
  * ポイント種類
  *
  * @return array

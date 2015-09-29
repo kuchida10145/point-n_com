@@ -67,6 +67,13 @@
 							</div>
 
 							<div class="control-group">
+								<label class="control-label" for="typeahead">ポイントのみ利用</label>
+								<div class="controls">
+									<?php echo getParam(point_only_flg_val(),$post['point_only_flg']);?>
+								</div>
+							</div>
+
+							<div class="control-group">
 								<label class="control-label">コース基本条件</label>
 								<div class="controls">
 									<?php echo $use_condition;?>
