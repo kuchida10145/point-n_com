@@ -12,6 +12,7 @@ class ReservePage extends MaintenancePage{
 	protected $session_key = 'reserve';
 	protected $use_confirm = true;
 	protected $page_title = '予約管理';
+	protected $order = ' ORDER BY reserved.use_date DESC ';
 
 	/**
 	 * ビューテンプレートの設定

@@ -47,11 +47,19 @@
 						<div class="box-content">
 							<form class="form-horizontal" method="get">
 								<div class="control-group">
-									<label class="control-label" for="date01">日付</label>
+									<label class="control-label" for="date01">予約日</label>
 									<div class="controls">
-										<input type="text" class="input-xlarge datepicker" id="date01" name="date_start" value="<?php echo getGet('date_start');?>" readonly="readonly">
+										<input type="text" class="input-xlarge datepicker" id="date01" name="date_start" value="<?php echo getGet('date_start');?>">
 										～
-										<input type="text" class="input-xlarge datepicker" id="date02" name="date_end" value="<?php echo getGet('date_end');?>" readonly="readonly">
+										<input type="text" class="input-xlarge datepicker" id="date02" name="date_end" value="<?php echo getGet('date_end');?>">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="use_date_start">来店日</label>
+									<div class="controls">
+										<input type="text" class="input-xlarge datepicker" id="use_date_start" name="use_date_start" value="<?php echo getGet('use_date_start');?>">
+										～
+										<input type="text" class="input-xlarge datepicker" id="use_date_end" name="use_date_end" value="<?php echo getGet('use_date_end');?>">
 									</div>
 								</div>
 								<div class="control-group">
@@ -94,6 +102,7 @@
 									<th>ポイントコード</th>
 							        <th>予約処理</th>
 							        <th>予約日</th>
+							        <th>来店日</th>
 							        <th>会員No.</th>
 									<th>予約名(ニックネーム名)</th>
 							        <th>予約　クーポン名</th>
@@ -112,6 +121,7 @@
 									<?php else:?>
 										<td class="center"><span class="label label-large label-warning">完了</span></td>
 									<?php endif;?>
+									<td class="center"><?php echo $reserve_data['reserved_date'];?></td>
 									<td class="center"><?php echo $reserve_data['use_date'];?></td>
 									<td><?php echo $reserve_data['user_id'];?></td>
 									<td class="center"><strong><?php echo $reserve_data['reserved_name'];?></strong>(<?php echo $reserve_data['nickname'];?>)</td>

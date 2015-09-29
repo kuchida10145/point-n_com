@@ -60,6 +60,7 @@
 									<th>ポイントコード</th>
 							        <th>予約処理</th>
 							        <th>予約日</th>
+							        <th>来店日</th>
 							        <th>会員No.</th>
 									<th>予約名(ニックネーム名)</th>
 							        <th>予約　クーポン名</th>
@@ -74,6 +75,7 @@
 								<tr>
 									<td class="center"><?php echo $reserve_data['point_code'];?></td>
 									<td class="center"><span class="label label-large label-dabger">取消</span></td>
+									<td class="center"><?php echo $reserve_data['reserved_date'];?></td>
 									<td class="center"><?php echo $reserve_data['use_date'];?></td>
 									<td><?php echo $reserve_data['user_id'];?></td>
 									<td class="center"><strong><?php echo $reserve_data['reserved_name'];?></strong>(<?php echo $reserve_data['nickname'];?>)</td>

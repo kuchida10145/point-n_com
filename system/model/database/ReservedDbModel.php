@@ -393,7 +393,7 @@ class ReservedDbModel extends DbModel{
 	 */
 	public function maintenanceRserveSearch($id,$get,$limit,$order,$cancell_flg){
 		$sql = $this->maintenanceReserveSearchSqlBase($id,$get,$cancell_flg);
-		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,use_date,reserved.user_id,user.nickname,reserved.reserved_name,reserved.coupon_name,get_point,use_point,coupon.point_kind", $sql);
+		$sql = str_replace("##field##","reserved_id,point_code,reserved.status_id,reserved.reserved_date,use_date,reserved.user_id,user.nickname,reserved.reserved_name,reserved.coupon_name,get_point,use_point,coupon.point_kind", $sql);
 		$sql = $sql." {$order} {$limit}";
 		return $this->db->getAllData($sql);
 	}
@@ -438,15 +438,27 @@ class ReservedDbModel extends DbModel{
 			$wheres[] = " reserved.status_id = '{$status_id}' ";
 		}
 
-		//利用開始日
+		//予約日Start
 		if(getParam($get,'date_start') != ''  && is_string(getParam($get,'date_start'))){
 			$date_start = $this->escape_string(getParam($get,'date_start'));
+			$wheres[] = " reserved.reserved_date >= '{$date_start}' ";
+		}
+
+		//予約日End
+		if(getParam($get,'date_end') != ''  && is_string(getParam($get,'date_end'))){
+			$date_end = $this->escape_string(getParam($get,'date_end'));
+			$wheres[] = " reserved.reserved_date <= '{$date_end}' ";
+		}
+
+		//来店日Start
+		if(getParam($get,'use_date_start') != ''  && is_string(getParam($get,'use_date_start'))){
+			$date_start = $this->escape_string(getParam($get,'use_date_start'));
 			$wheres[] = " reserved.use_date >= '{$date_start}' ";
 		}
 
-		//利用終了日
-		if(getParam($get,'date_end') != ''  && is_string(getParam($get,'date_end'))){
-			$date_end = $this->escape_string(getParam($get,'date_end'));
+		//来店日End
+		if(getParam($get,'use_date_end') != ''  && is_string(getParam($get,'use_date_end'))){
+			$date_end = $this->escape_string(getParam($get,'use_date_end'));
 			$wheres[] = " reserved.use_date <= '{$date_end}' ";
 		}
 
