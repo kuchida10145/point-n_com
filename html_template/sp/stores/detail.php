@@ -105,7 +105,7 @@
 									</p>
 									<p>
 										<?php if(getParam($data,'point_kind') == 1):?>
-											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「通常ポイント」<br />
+											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「ポイント」<br />
 											を獲得して予約する</a>
 										<?php elseif(getParam($data,'point_kind') == 2):?>
 											<a class="linkbtn block alncenter" onclick="MoveCheck(<?php echo getParam($data,'coupon_id');?>);">「イベントポイント」<br />
