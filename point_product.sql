@@ -1177,6 +1177,10 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `deposit_price` int(11) NOT NULL DEFAULT '0' COMMENT '前払い金',
   `issue_point_cancel` int(11) DEFAULT '0' COMMENT 'キャンセルされた発行ポイント',
   `use_point_cancel` int(11) DEFAULT '0' COMMENT '利用されたポイントキャンセル',
+  `normal_point` int(11) NOT NULL DEFAULT '0' COMMENT '通常ポイント発行',
+  `event_point` int(11) NOT NULL DEFAULT '0' COMMENT 'イベントポイント発行',
+  `special_point` int(11) NOT NULL DEFAULT '0' COMMENT '特別ポイント',
+  `total_commission` int(11) NOT NULL DEFAULT '0' COMMENT '利用手数料合計',
   `adjust_price` int(11) NOT NULL DEFAULT '0' COMMENT '調整費',
   `pay_status` char(1) NOT NULL DEFAULT '0' COMMENT '支払い状況 : 0:未確定 1:未入金 2:入金済み',
   `memo` text COMMENT 'メモ',
@@ -2045,7 +2049,7 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   `point_kind` tinyint(4) NOT NULL COMMENT 'ポイント種類 : 1：通常ポイント、2：イベントポイント、3：特別ポイント',
   `coupon_name` varchar(50) NOT NULL COMMENT 'クーポン名',
   `minutes` smallint(6) NOT NULL COMMENT '分',
-  `price` mediumint(9) DEFAULT 0 NOT NULL COMMENT '料金',
+  `price` mediumint(9) NOT NULL DEFAULT '0' COMMENT '料金',
   `point` int(11) NOT NULL COMMENT 'ポイント : ユーザーがサービス利用後に獲得するポイント',
   `use_condition` text COMMENT '利用条件',
   `public_start_date` datetime DEFAULT NULL COMMENT '表示開始日時',
@@ -2443,7 +2447,3 @@ CREATE TABLE IF NOT EXISTS `user_hash` (
   `delete_flg` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ : 0：未削除、1：削除済み',
   PRIMARY KEY (`user_hash_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ユーザーハッシュ' AUTO_INCREMENT=1 ;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

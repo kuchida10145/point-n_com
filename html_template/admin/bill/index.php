@@ -86,12 +86,11 @@
 						<tr>
 							<th>年月</th>
 							<th>店舗名</th>
-							<th>発行Ｐ</th>
-							<th>利用Ｐ</th>
-							<th>発行Ｐキャンセル</th>
-							<th>利用Ｐキャンセル</th>
-							<th>前払い</th>
-							<th>調整</th>
+							<th>ポイント発行</th>
+							<th>イベントポイント発行</th>
+							<th>利用ポイント発行</th>
+							<th>特別ポイント発行</th>
+							<th>利用手数料</th>
 							<th>処理</th>
 							<th>合計</th>
 							<th>&nbsp;</th>
@@ -102,12 +101,11 @@
 						<tr>
 							<td class="center"><?php echo $bill['bill_month'];?></td>
 							<td class="center"><?php echo $bill['store_name'];?></td>
-							<td class="center"><?php echo number_format($bill['issue_point']);?></td>
-							<td class="center">-<?php echo number_format($bill['use_point']);?></td>
-							<td class="center">-<?php echo number_format($bill['issue_point_cancel']);?></td>
-							<td class="center"><?php echo number_format($bill['use_point_cancel']);?></td>
-							<td class="center">-<?php echo number_format($bill['deposit_price']);?></td>
-							<td class="center"><?php echo number_format($bill['adjust_price']);?></td>
+							<td class="center"><?php echo number_format($bill['normal_point']);?></td>
+							<td class="center"><?php echo number_format($bill['event_point']);?></td>
+							<td class="center"><?php echo number_format($bill['use_point']);?></td>
+							<td class="center"><?php echo number_format($bill['special_point']);?></td>
+							<td class="center"><?php echo number_format($bill['total_commission']);?></td>
 							<td class="center"><?php echo getParam(pay_status(),$bill['pay_status']);?></td>
 							<td class="center"><?php echo number_format(calculate_bil($bill));?></td>
 							<td class="center">

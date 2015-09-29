@@ -17,6 +17,10 @@ class BillDbModel extends DbModel{
 			'deposit_price',
 			'issue_point_cancel',
 			'use_point_cancel',
+			'normal_point',
+			'event_point',
+			'special_point',
+			'total_commission',
 			'adjust_price',
 			'memo',
 			'pay_status',
@@ -97,19 +101,54 @@ class BillDbModel extends DbModel{
 		
 		$bill = $this->findByMonthStoreId($year_month,$store_id);
 		
-		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		//発行ポイント総数
+		$base_sql = "SELECT IFNULL(SUM(total_price), 0) as total_price,IFNULL(sum(use_point), 0) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND ##replace## regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		$sql = str_replace('##replace##', '', $base_sql);
+		if(!$total = $this->db->getData($sql)){
+			$total = array('total_price' => 0,'use_point' => 0 );
+		}
 		
-		$total = $this->db->getData($sql);
+		//キャンセル料金
+		$sql = str_replace('##replace##', ' data_type = 1 AND ', $base_sql);
+		if(!$minus = $this->db->getData($sql)){
+			$minus = array('total_price' => 0,'use_point' => 0 );
+		}
 		
-		$sql ="SELECT sum(total_price) as total_price,sum(use_point) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND cancel_flg = 1 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
-		$minus = $this->db->getData($sql);
+		//通常ポイント総数
+		$base_sql ="SELECT IFNULL(SUM(issue_point), 0) as point,IFNULL(SUM(commission), 0) as commission FROM bill_action WHERE store_id = '{$store_id}' AND action_type=##type## AND data_type = 0 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
+		$sql = str_replace('##type##', '1', $base_sql);
+		print $sql;
+		if(!$normal = $this->db->getData($sql)){
+			$normal = array('point'=>0,'commission'=>0);
+		}
+		
+		//イベントポイント総数
+		$sql = str_replace('##type##', '2', $base_sql);
+		if(!$event = $this->db->getData($sql)){
+			$event = array('point'=>0,'commission'=>0);
+		}
+		//特別ポイント総数
+		$sql = str_replace('##type##', '3', $base_sql);
+		if(!$special = $this->db->getData($sql)){
+			$special = array('point'=>0,'commission'=>0);
+		}
+		
+		$normal_point  = $normal['point'];
+		$event_point   = $event['point'];
+		$special_point = $special['point'];
+		$commission    = $normal['commission'] + $event['commission'] + $special['commission'];
 		
 		$param = array(
-			'issue_point'     =>$total['total_price']-$minus['total_price'],
-			'use_point'       =>$total['use_point']-$minus['use_point'],
-			'use_point_cancel'=>$minus['use_point'],
-			'issue_point_cancel'   =>$minus['total_price'],
+			'issue_point'        =>$total['total_price']-$minus['total_price'],
+			'use_point'          =>$total['use_point']-$minus['use_point'],
+			'use_point_cancel'   =>$minus['use_point'],
+			'issue_point_cancel' =>$minus['total_price'],
+			'normal_point'       => $normal_point,
+			'event_point'        => $event_point,
+			'special_point'      => $special_point,
+			'total_commission'   => $commission,
 		);
+		
 		
 		return $this->updateById($bill['bill_id'],$param);
 	}
