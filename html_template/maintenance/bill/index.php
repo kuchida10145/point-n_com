@@ -80,6 +80,7 @@
 						<?php if(!$bill):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
+						<button class="btn btn-large btn-info" style="margin-bottom: 10px" onClick="location.href='?m=csv&year=<?php echo getGet('year');?>&month=<?php echo getGet('month');?>'">CSVダウンロード</button>
 						<table class="table table-bordered table-hover table-condensed">
 							<tr>
 								<th width="250">年月</th>
