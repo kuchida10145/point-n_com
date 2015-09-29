@@ -72,7 +72,7 @@
 									<?php echo getParam($post, 'use_persons');?>
 									人
 								</p>
-							<h3><span class="clrred">※</span> 利用日</h3>
+							<h3><span class="clrred">※</span> 来店日</h3>
 								<p>
 									<?php echo getParam($post, 'use_date');?>
 							<h3><span class="clrred">※</span> 利用時間（到着時刻）</h3>

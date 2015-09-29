@@ -330,7 +330,7 @@ class ReservationPage extends Page{
 		//予約日
 		$reserved_date = new DateTime($post['reserved_date']);
 
-		//利用日
+		//来店日
 		$date = new DateTime($post['use_date']);
 
 
@@ -463,7 +463,7 @@ class ReservationPage extends Page{
 			$year_month = date('Y-m',strtotime($param['reserved_date']));
 			//請求アクションに追加
 			$bill_action_id = $this->manager->db_manager->get('bill_action')->issueByReservedId($reserved_id);
-			
+
 			//ポイントの発行・ポイントの利用があった場合
 			if($bill_action_id){
 				$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id);

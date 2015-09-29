@@ -118,7 +118,7 @@
 							<thead>
 								<tr>
 									<th>予約No.</th>
-									<th>利用日</th>
+									<th>来店日</th>
 									<th>店舗名</th>
 									<th>会員番号</th>
 									<th>ユーザーID</th>

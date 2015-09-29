@@ -104,7 +104,7 @@
 					    					<td><?php echo getParam($post, 'use_persons');?>　人</td>
 										</tr>
 										<tr>
-											<th>利用日</th>
+											<th>来店日</th>
 					    					<td><?php echo $use_date;?></td>
 										</tr>
 										<tr>

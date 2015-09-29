@@ -90,9 +90,9 @@
 									人
 									<?php echo getParam($error, 'use_persons'); ?>
 								</p>
-							<h3><span class="clrred">※</span> 利用日</h3>
+							<h3><span class="clrred">※</span> 来店日</h3>
 								<p>
-									<input name="use_date" id="date_from" class="w80p fltleft" value="<?php echo getParam($post, 'use_date');?>" title="利用日" type="text" readonly="readonly"><a class="calenderbox"  onclick="$('#date_from').focus();"><span class="icon-calendar"></span></a>
+									<input name="use_date" id="date_from" class="w80p fltleft" value="<?php echo getParam($post, 'use_date');?>" title="来店日" type="text" readonly="readonly"><a class="calenderbox"  onclick="$('#date_from').focus();"><span class="icon-calendar"></span></a>
 								<br /><?php echo getParam($error, 'use_date'); ?><br />
 							<h3><span class="clrred">※</span> 利用時間（到着時刻）</h3>
 								<p>

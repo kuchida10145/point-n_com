@@ -53,8 +53,8 @@ class ClaimPage extends AdminPage{
 			$this->page_type_text = 'ポイント利用';
 			$point = $this->manager->db_manager->get('reserved')->adminUsePointCnt($get);
 		}
-		
-		
+
+
 
 		//ページャ生成
 		$pager_param['per_cnt'] = $this->page_cnt;
@@ -72,7 +72,7 @@ class ClaimPage extends AdminPage{
 		$data['get_query'] = http_build_query($get_param);
 		$this->loadView('index', $data);
 	}
-	
+
 	/**
 	 * ＤＢデータから一覧用データへ変換
 	 *
@@ -88,9 +88,9 @@ class ClaimPage extends AdminPage{
 		}
 		return $data;
 	}
-	
-	
-	
+
+
+
 	//入力画面は使わせない
 	public function editAction() {
 		$this->errorPage();
@@ -99,24 +99,24 @@ class ClaimPage extends AdminPage{
 	public function deleteAction() {
 		$this->errorPage();
 	}
-	
-	
+
+
 	/**
 	 * CSVダウンロード
 	 */
 	public function csvAction(){
 		$list    = $this->manager->db_manager->get('reserved')->adminClaimSearch($_GET,"",$this->order);
-		
+
 		$fields = array(
 			'予約No.',
-			'利用日',
+			'来店日',
 			'店舗名',
 			'会員番号',
 			'ユーザーID',
 			'ニックネーム名',
 			'クーポン名',
 		);
-		
+
 		if(getGet('coupon') == 1){
 			$fields[] = 'クーポン発行';
 			$key = 'get_point';
@@ -125,12 +125,12 @@ class ClaimPage extends AdminPage{
 			$fields[] = 'ポイント利用';
 			$key = 'use_point';
 		}
-		
-		
+
+
 		//CSV生成
 		$fp = fopen('php://temp', 'r+b');
 		fputcsv($fp, $fields);
-		
+
 		foreach($list as $val) {
 			$claim = array();
 			$claim[] = $val['reserved_id'];
@@ -146,12 +146,12 @@ class ClaimPage extends AdminPage{
 		rewind($fp);
 		$tmp = str_replace(PHP_EOL, "\r\n", stream_get_contents($fp));
 		$csv= mb_convert_encoding($tmp, 'SJIS-win', 'UTF-8');
-		
+
 		//ダウンロード
 		$fileName = "pref_" . date("YmdHis") . ".csv";
 		header('Content-Type: application/octet-stream');
 		header('Content-Disposition: attachment; filename=' . $fileName);
 		echo $csv;
-		
+
 	}
 }
