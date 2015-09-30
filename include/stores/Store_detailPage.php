@@ -66,6 +66,8 @@ class Store_detailPage extends Page{
 
 		//クーポンデータ取得
 		$coupon = $this->manager->db_manager->get('coupon')->storeCouponDetailSearch($store_id);
+		//コースデータ取得
+		$course = $this->manager->db_manager->get('course')->courseList($store_id);
 		//お知らせ取得(1件のみ)
 		$notice = $this->manager->db_manager->get('notice')->getNoticeList($store_id, 0, 1);
 		//お気に入り
@@ -97,6 +99,7 @@ class Store_detailPage extends Page{
 		$image = $this->dbToListData($image);
 		$data['image']    		= $image;
 		$data['coupon']         = $coupon;
+		$data['course']         = $course;
 		$data['notice']         = $notice['0'];
 		$data['favorite']       = $favorite;
 		$data['pager_html']     = $pager_html;

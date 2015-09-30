@@ -114,12 +114,14 @@
 									</p>
 								</div>
 							<?php endforeach;?>
-							<div class="box03">
-								<p>「ポイントのみ」利用しての予約が可能です。<br />
-								1,000ポイントから利用が可能です。</p>
-								<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
-								を利用して予約する</a></p>
-							</div>
+							<?php if(count($course)):?>
+								<div class="box03">
+									<p>「ポイントのみ」利用しての予約が可能です。<br />
+									1,000ポイントから利用が可能です。</p>
+									<p><a href="../reservation/index.php?store_id=<?php echo getParam($store,'store_id');?>" class="linkbtn block alncenter">「ポイントのみ」<br />
+									を利用して予約する</a></p>
+								</div>
+							<?php endif;?>
 						</div>
 					<?php endif;?>
 					<h3><a href="news.php?sid=<?php echo getParam($store,'store_id');?>" class="newslistbtn">一覧をみる</a>お店からのお知らせ</h3>

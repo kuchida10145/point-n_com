@@ -29,7 +29,7 @@ class CourseDbModel extends DbModel{
 	 * @param string $point_kind ポイント種別
 	 * @return array
 	 */
-	public function courseList($store_id,$point_kind){
+	public function courseList($store_id,$point_kind = NULL){
 		$store_id = $this->escape_string($store_id);
 		$field = $this->getFieldText();
 
