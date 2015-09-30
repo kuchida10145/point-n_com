@@ -56,7 +56,7 @@ class Store_searchPage extends Page {
 		$news = ($news != null) ? $news : array();
 
 		// 該当する条件の店舗を取得する
-		$post['sort'] = (!empty($post['sort'])) ? $post['sort'] : 7;
+		$post['sort'] = (!empty($post['sort'])) ? $post['sort'] : 0;
 		$store = $this->manager->db_manager->get('store');
 		$store->setNextPage(0, $this->page_cnt);
 		$store->setSortID($post['sort']);
@@ -65,6 +65,12 @@ class Store_searchPage extends Page {
 		if ($this->debug) {
 			$data['sql'] = $store->getLastQuerySQL();
 		}
+
+		// ランダム表示
+		if($post['sort'] == 0) {
+			$shops = $this->shopShuffle($shops);
+		}
+
 		$shops = ($shops != null) ? $shops : array();
 		$shops = $this->changeListData($shops, true);
 
@@ -135,6 +141,34 @@ class Store_searchPage extends Page {
 		$data['debug']          = $this->debug;
 
 		$this->loadView('index', $data);
+	}
+
+	/**
+	 * 検索結果並べ替え
+	 * @param  array() $shop_list
+	 * @return array() $shuffle_array
+	 */
+	public function shopShuffle($shop_list) {
+		$shuffle_array = array();
+		$escape_array = array();
+		$return_list = array();
+
+		foreach ($shop_list as $id=>$shop_data) {
+			if(!$shop_data['normal_point'] && !$shop_data['event_point']) {
+				$escape_array[] = $shop_data;
+			} else {
+				$shuffle_array[] = $shop_data;
+			}
+		}
+
+		shuffle($escape_array);
+		shuffle($shuffle_array);
+
+		foreach ($escape_array as $shop_data) {
+			$shuffle_array[] = $shop_data;
+		}
+
+		return $shuffle_array;
 	}
 
 	/**

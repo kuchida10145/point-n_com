@@ -257,7 +257,7 @@ class ReservationPage extends Page{
 			$year_month = date('Y-m');
 			$courseData = $this->manager->db_manager->get('course')->findById($form_data['course_id']);
 			//DB処理
-			$resrved_id = $this->inseart_action($form_data);	//予約情報登録
+			$resrved_id = $this->insert_action($form_data);	//予約情報登録
 
 			//予約に失敗した場合
 			if(!$resrved_id){
@@ -429,7 +429,7 @@ class ReservationPage extends Page{
 	 * @param array $param 更新用パラメータ
 	 * @return mixed
 	 */
-	protected function inseart_action($param){
+	protected function insert_action($param){
 		//ログインチェック
 		if(!$this->checkDBAccount()){
 			//フォームセッション削除
@@ -440,8 +440,13 @@ class ReservationPage extends Page{
 		if($param['get_point'] != '0') {
 			$couponData = $this->manager->db_manager->get('coupon')->findById($this->getFormSession('coupon_id'));
 			$param['coupon_id'] = $couponData['coupon_id'];
+			$param['reserve_kind'] = $couponData['point_kind'];
 			$param['coupon_name'] = $couponData['coupon_name'];
 			$param['use_condition'] = $couponData['use_condition'];
+		}
+
+		if($param['course_id'] && $param['coupon_id'] == NULL) {
+			$param['reserve_kind'] = 3;
 		}
 
 		$account = $this->getAccount();

@@ -675,6 +675,7 @@ function reservation_list($max_count) {
  */
 function search_sortlist() {
 	return array(
+		0=>'選択してください',
 		1=>'ポイントが高い順',
 		2=>'イベントポイントが高い順',
 		3=>'ポイント総額料金が高い順',

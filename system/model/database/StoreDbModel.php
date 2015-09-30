@@ -335,7 +335,7 @@ class StoreDbModel extends DbModel{
 			// 6：イベントポイント総額料金が低い順
 			6=>" ORDER BY c2.price IS NULL ASC, c2.price ASC, c1.price IS NULL ASC, c1.price ASC ",
 			// 7：新着店舗
-			7=>" ORDER BY store.new_arrival DESC, store.regist_date DESC ",
+			7=>" ORDER BY c1.price IS NULL ASC, c2.price IS NULL ASC, store.new_arrival DESC, store.regist_date DESC ",
 		);
 		if (isset($orderby[$sort_id])) {
 			return $orderby[$sort_id];

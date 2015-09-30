@@ -126,10 +126,12 @@
 									<td><?php echo $reserve_data['user_id'];?></td>
 									<td class="center"><strong><?php echo $reserve_data['reserved_name'];?></strong>(<?php echo $reserve_data['nickname'];?>)</td>
 									<td class="center"><?php echo $reserve_data['coupon_name'];?></td>
-									<?php if($reserve_data['point_kind'] == "1"):?>
+									<?php if($reserve_data['reserve_kind'] == "1"):?>
 										<td class="center">ポイント</td>
-									<?php elseif($reserve_data['point_kind'] == "2"):?>
+									<?php elseif($reserve_data['reserve_kind'] == "2"):?>
 										<td class="center">イベント</td>
+									<?php elseif($reserve_data['reserve_kind'] == "3"):?>
+										<td class="center">ポイントのみ利用</td>
 									<?php else:?>
 										<td class="center">特別</td>
 									<?php endif;?>
