@@ -2273,6 +2273,8 @@ CREATE TABLE IF NOT EXISTS `reserved` (
   `store_id` mediumint(9) NOT NULL COMMENT '店舗ID',
   `user_id` bigint(20) NOT NULL COMMENT 'ユーザーID : 会員番号',
   `coupon_id` bigint(20) DEFAULT NULL COMMENT 'クーポンID',
+  `course_id` bigint(20) DEFAULT NULL COMMENT 'コースID',
+  `reserve_kind` tinyint(4) DEFAULT NULL COMMENT '予約種別 : 1：ポイント、2：イベント、3：ポイントのみ利用',
   `point_code` char(7) DEFAULT NULL COMMENT 'ポイントコード(予約No) : 上位４桁：16進数の店ID\r\n下位３桁：001?999の連番(クーポンID)',
   `status_id` tinyint(4) NOT NULL COMMENT 'ステータス : 0：無効(予約取消)、1：未処理(予約済み)、2：処理完了(予約受理)',
   `course_name` varchar(50) DEFAULT NULL COMMENT 'コース名',
