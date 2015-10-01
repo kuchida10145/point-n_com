@@ -107,6 +107,7 @@
 									<label class="control-label" for="textarea2">本文 <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<textarea class="ckeditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
+										<?php echo textarea_caution_msg();?>
 										<?php echo getParam($error,'body');?>
 									</div>
 								</div>

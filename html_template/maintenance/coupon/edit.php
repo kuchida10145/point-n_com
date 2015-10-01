@@ -149,6 +149,7 @@
 								<label class="control-label" for="use_condition">ご利用条件 <span class="label label-important">必須</span></label>
 								<div class="controls">
 									<textarea class="ckeditor" name="use_condition" id="use_condition" rows="3"><?php echo getParam($post,'use_condition');?></textarea>
+									<?php echo textarea_caution_msg();?>
 									<?php echo getParam($error,'use_condition');?>
 								</div>
 							</div>

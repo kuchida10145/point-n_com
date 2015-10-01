@@ -365,6 +365,7 @@
 								<label class="control-label" for="textarea2">店舗アピールポイント</label>
 								<div class="controls">
 									<textarea class="ckeditor" id="introduction" name="introduction" rows="3"><?php echo getParam($post, 'introduction');?></textarea>
+									<?php echo textarea_caution_msg();?>
 									<?php echo getParam($error, 'introduction');?>
 								</div>
 							</div>

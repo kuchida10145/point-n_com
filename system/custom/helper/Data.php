@@ -864,3 +864,14 @@ function permission_kind(){
 	);
 }
 
+/**
+ * テキストエリア注意文
+ * @return string
+ */
+function textarea_caution_msg(){
+	return "<strong>
+			※幅の広い図を挿入すると、スマートフォンで閲覧した際に表示が崩れる場合がございます。<br>
+			表示が崩れる場合は、図の幅を縮めてください。
+			</strong>";
+}
+

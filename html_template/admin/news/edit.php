@@ -94,8 +94,8 @@
 										<?php echo getParam($error,'region_id');?>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="control-group">
 									<label class="control-label" for="typeahead">タイトル</label>
 									<div class="controls">
@@ -121,6 +121,7 @@
 									<label class="control-label" for="textarea2">本文</label>
 									<div class="controls">
 										<textarea class="ckeditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
+										<?php echo textarea_caution_msg();?>
 										<?php echo getParam($error,'body');?>
 									</div>
 								</div>
