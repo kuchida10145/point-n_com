@@ -35,7 +35,44 @@
 				</ul>
 				<h1><?php echo $page_title;?></h1>
 				<?php echo $system_message;?>
-				
+				<!-- 検索フォーム-->
+				<div class="row-fluid">
+					<div class="box span12">
+						<div class="box-header" data-original-title>
+							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+							<form class="form-horizontal" method="get">
+								
+								<div class="control-group">
+								<label for="" class="control-label">期間</label>
+								<div class="controls">
+									<select name="year" class="input-small">
+										<option value=""></option>
+										<?php for($i = date('Y') ; $i >= 2015; $i--):?>
+										<option value="<?php echo $i;?>" <?php echo _check_selected($i,getGet('year'));?>><?php echo $i;?>年</option>
+										<?php endfor;?>
+									</select>
+									<select name="month" class="input-small">
+										<option value=""></option>
+										<?php for($i = 1 ; $i <= 12; $i++):?>
+										<option value="<?php echo sprintf('%02d',$i);?>" <?php echo _check_selected(sprintf('%02d',$i),getGet('month'));?>><?php echo $i;?>月</option>
+										<?php endfor;?>
+									</select>
+								</div>
+							</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary">検索</button>
+									<button type="reset" class="btn" onclick="location.href='?m=index'">リセット</button>
+								</div>
+							</form>
+						</div>
+					</div><!--/span-->
+				</div><!--/row-->
+				<!-- /検索フォーム -->
 				<div class="row-fluid">
 				<div class="box span12">
 					<div class="box-header" data-original-title>

@@ -69,6 +69,12 @@
 								</div>
 							</div>
 							<div class="control-group">
+								<label for="" class="control-label">店舗名ID</label>
+								<div class="controls">
+									<input type="text" name="store_hex_id" value="<?php echo escapeHtml(getGet('store_hex_id'));?>">
+								</div>
+							</div>
+							<div class="control-group">
 								<label for="" class="control-label">エリア</label>
 								<div class="controls">
 									<select id="region_id" name="region_id" class="input-small">

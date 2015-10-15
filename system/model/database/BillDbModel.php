@@ -315,9 +315,15 @@ class BillDbModel extends DbModel{
 		
 		$wheres[] = " bill.bill_month = '$date' ";
 		
+		//店舗ID
+		if(getParam($get,'store_hex_id')!=''){
+			$store_hex_id = $this->escape_string(getParam($get,'store_hex_id'));
+			$wheres[] = "store.store_hex_id = '{$store_hex_id}'";
+		}
+		
 		
 		//検索条件が指定されていない場合
-		if(getParam($get,'store_name') == '' && getParam($get,'region_id') == '' && getParam($get,'pay_status') == '' && getParam($get,'category_large_id') == '' && getParam($get,'type_of_industry_id') == ''){
+		if(getParam($get,'store_name') == '' && getParam($get,'region_id') == '' && getParam($get,'pay_status') == '' && getParam($get,'category_large_id') == '' && getParam($get,'type_of_industry_id') == '' && getParam($get,'store_hex_id') == ''){
 			$wheres[] = "bill.bill_id = '-1' ";
 		}
 
@@ -325,6 +331,40 @@ class BillDbModel extends DbModel{
 
 		$where = " WHERE ".implode(' AND ',$wheres);
 
+		return $where;
+	}
+	
+	
+	
+	/*==========================================================================================
+	 * 店舗用共通処理
+	 *
+	 *==========================================================================================*/
+
+
+	/**
+	 * WHERE句生成（店舗用）
+	 * @param int $id 店舗ＩＤ
+	 * @param array $get
+	 * @return string
+	 */
+	protected function maintenanceSearchWhere($id,$get){
+		$wheres = array();
+		$wheres[] = " store_id = '{$id}' AND delete_flg = 0 ";
+		
+		//期間
+		if(getParam($get,'year') != ''){
+			
+			if(getParam($get, 'month') == ''){
+				$date = getParam($get,'year')."-";
+				$wheres[] = " bill_month LIKE '{$date}__' ";
+			}else{
+				$date = getParam($get,'year')."-".getParam($get, 'month');
+				$wheres[] = " bill_month = '$date' ";
+			}
+		}
+		
+		$where = " WHERE ".  implode(' AND ', $wheres);
 		return $where;
 	}
 }
