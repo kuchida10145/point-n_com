@@ -12,22 +12,41 @@ class BillDbModel extends DbModel{
 			'bill_month',
 			'store_id',
 			'store_name',
-			'issue_point',
-			'use_point',
 			'deposit_price',
-			'issue_point_cancel',
-			'use_point_cancel',
-			'normal_point',
-			'event_point',
-			'special_point',
-			'total_commission',
 			'adjust_price',
-			'memo',
 			'pay_status',
+			'memo',
+			'n_point',
+			'n_point_commission',
+			'n_point_n',
+			'n_point_n_commission',
+			'e_point',
+			'e_point_commission',
+			'e_point_n',
+			'e_point_n_commission',
+			'sp_point',
+			'sp_point_commission',
+			'use_n_point',
+			'use_n_point_n',
+			'use_e_point',
+			'use_e_point_n',
+			'use_point',
+			'use_point_n',
+			'n_point_cancel',
+			'n_point_cancel_commission',
+			'e_point_cancel',
+			'e_point_cancel_commission',
+			'use_n_point_cancel',
+			'use_e_point_cancel',
+			'use_point_cancel',
 			'regist_date',
 			'update_date',
+			'delete_flg'
+
 		);
 	}
+	
+	
 	
 	/**
 	 * 店舗側の月別請求データ取得
@@ -37,9 +56,7 @@ class BillDbModel extends DbModel{
 		$bill_month = date('Y-m',strtotime($year.'-'.$month));
 		$field = $this->getFieldText();
 		$sql = "SELECT {$field} FROM {$this->table} WHERE store_id = '{$store_id}' AND bill_month = '{$bill_month}' LIMIT 0,1";
-		
 		return $this->db->getData($sql);
-		
 	}
 
 	/**
@@ -56,28 +73,33 @@ class BillDbModel extends DbModel{
 	 * クーポンが発行された場合
 	 * @param $point ポイント
 	 */
+	/*
 	public function addIssue_point($store_id,$point){
 		$this_month = date('Y-m');
 		$update_date = date('Y-m-d H:i:s');
 		$sql = "UPDATE bill SET issue_point = issue_point+{$point},update_date = '{$update_date}' WHERE store_id = '{$store_id}' AND  bill_month = '{$this_month}' ";
 		return $this->db->query($sql);
 	}
-	
+	*/
 	/**
 	 * ポイント利用で予約があった場合
 	 * @param $point ポイント
 	 */
+	/*
 	public function addUse_point($store_id,$point){
 		$this_month = date('Y-m');
 		$update_date = date('Y-m-d H:i:s');
 		$sql = "UPDATE bill SET use_point = use_point+{$point},update_date = '{$update_date}' WHERE store_id = '{$store_id}' AND  bill_month = '{$this_month}' ";
 		return $this->db->query($sql);
 	}
+	 * 
+	 */
 	
 	/**
 	 * 前月以前の予約でキャンセルあった場合
 	 * @param $point ポイント
 	 */
+	/*
 	public function addBefore_cancel($store_id,$point){
 		$this_month = date('Y-m');
 		$update_date = date('Y-m-d H:i:s');
@@ -85,6 +107,8 @@ class BillDbModel extends DbModel{
 		return $this->db->query($sql);
 	}
 	
+	 * 
+	 */
 	
 	public function findByMonthStoreId($year_month,$store_id){
 		$field = $this->getFieldText();
@@ -93,11 +117,35 @@ class BillDbModel extends DbModel{
 		return $this->db->getData($sql);
 	}
 	
+	/**
+	 * 指定の店舗の指定年月の料金計算
+	 */
+	public function monthTotalBillByStoreId($year_month,$store_id){
+		
+		//請求データ取得
+		$bill = $this->findByMonthStoreId($year_month,$store_id);
+		
+		$manager = Management::getInstance();
+		$bill_action  = $manager->db_manager->get('bill_action')->getYearMonthPointSumByStoreId($store_id,$year_month);
+		$none_accept  = $manager->db_manager->get('bill_action')->getNoneAcceptYearMonthPointSumByStoreId($store_id,$year_month);
+		
+		$bill_action['n_point_n']            = $none_accept['n_point'];
+		$bill_action['n_point_n_commission'] = $none_accept['n_point_commission'];
+		$bill_action['e_point_n']            = $none_accept['e_point'];
+		$bill_action['e_point_n_commission'] = $none_accept['e_point_commission'];
+		$bill_action['use_n_point_n']        = $none_accept['use_n_point'];
+		$bill_action['use_e_point_n']        = $none_accept['use_e_point'];
+		$bill_action['use_point_n']          = $none_accept['use_point'];
+		
+		return $this->updateById($bill['bill_id'], $bill_action);
+		
+	}
+	
 	
 	/**
 	 * 指定年月の発行料金計
 	 */
-	public function monthTotalBillByStoreId($year_month,$store_id){
+	public function monthTotalBillByStoreId_dummy($year_month,$store_id){
 		
 		$bill = $this->findByMonthStoreId($year_month,$store_id);
 		
@@ -163,6 +211,9 @@ class BillDbModel extends DbModel{
 	 * @return int
 	 */
 	public function adminSearchMaxCnt($get=array()){
+		if(getParam($get,'search') != true){
+			return 0;
+		}
 		$sql = $this->adminSearchSqlBase($get);
 		$sql = str_replace("##field##",' count(bill.'.$this->primary_key.') as cnt ', $sql);
 		if($res = $this->db->getData($sql)){
@@ -263,6 +314,12 @@ class BillDbModel extends DbModel{
 		$date = getParam($get,'year',date('Y'))."-".getParam($get, 'month',date('m'));
 		
 		$wheres[] = " bill.bill_month = '$date' ";
+		
+		
+		//検索条件が指定されていない場合
+		if(getParam($get,'store_name') == '' && getParam($get,'region_id') == '' && getParam($get,'pay_status') == '' && getParam($get,'category_large_id') == '' && getParam($get,'type_of_industry_id') == ''){
+			$wheres[] = "bill.bill_id = '-1' ";
+		}
 
 		
 

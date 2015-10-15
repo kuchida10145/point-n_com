@@ -335,6 +335,7 @@ abstract class AdminPage extends Page{
 			}
 
 			if($result_flg !== false){
+				$this->unsetFormSession('form');
 				redirect($this->use_table.'.php');
 			}
 			$this->unsetSystemMessage();

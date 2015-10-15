@@ -445,7 +445,7 @@ class ReservationPage extends Page{
 			$param['use_condition'] = $couponData['use_condition'];
 		}
 
-		if($param['course_id'] && $param['coupon_id'] == NULL) {
+		if($param['course_id'] && getParam($param,'coupon_id',NULL) == NULL) {
 			$param['reserve_kind'] = 3;
 		}
 
@@ -473,10 +473,11 @@ class ReservationPage extends Page{
 			if($bill_action_id){
 				$bill_action    = $this->manager->db_manager->get('bill_action')->findById($bill_action_id);
 
+				$bill_total = $bill_action['n_point']+$bill_action['n_point_commission']+$bill_action['e_point']+$bill_action['e_point_commission'];
 				//ポイント利用枠からマイナス
-				if($bill_action['total_price'] > 0){
+				if($bill_total > 0){
 					//失敗時は limit を返す
-					if( false === $this->manager->db_manager->get('store')->usePointLimit($courseData['store_id'],$bill_action['total_price'])){
+					if( false === $this->manager->db_manager->get('store')->usePointLimit($courseData['store_id'],$bill_total)){
 						$this->manager->db_manager->get('bill_action')->deleteCompById($bill_action_id);
 						$this->manager->db_manager->get($this->use_table)->deleteCompById($reserved_id);
 						$reserved_id = 'limit';//上限に達した

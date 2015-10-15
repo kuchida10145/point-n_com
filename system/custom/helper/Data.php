@@ -839,17 +839,14 @@ function calculate_bil_type_txt($total){
  * @param type $data
  * @return string
  */
-function reserved_status($data){
-	if($data['action_type'] != 3 && $data['data_type'] == 0){
-
-		switch($data['reserved_status']){
-			case 0:
-				return '<span class="label label-important">キャンセル</span>';
-			case 1:
-				return '<span class="label label-success">未受理</span>';
-			case 2:
-				return '<span class="label label-warning">受理</span>';
-		}
+function reserved_status($status_id){
+	switch($status_id){
+		case 0:
+			return '<span class="label label-important">キャンセル</span>';
+		case 1:
+			return '<span class="label label-success">未受理</span>';
+		case 2:
+			return '<span class="label label-warning">受理</span>';
 	}
 }
 
@@ -875,3 +872,107 @@ function textarea_caution_msg(){
 			</strong>";
 }
 
+
+/**
+ * 発行ポイントと使用ポイントの合計
+ * @param array $bill
+ * @param string $type
+ * @return int
+ */
+function cal_point_total($bill,$type="admin"){
+	//発行ポイント
+	$issue_total = $bill['n_point']+$bill['n_point_commission']+$bill['e_point']+$bill['e_point_commission']+$bill['sp_point']+$bill['sp_point_commission'];
+	
+	//使用ポイント
+	$use_point   = $bill['use_n_point']+$bill['use_e_point']+$bill['use_point'];
+	
+	
+	//合計
+	$total = ($issue_total+$bill['adjust_price'])-$use_point-$bill['deposit_price'];
+	
+	
+	
+	
+	if($type!="admin"){
+		if($total > 0){
+			return 0-$total;
+		}
+		return abs($total);
+		
+	}
+	return $total;
+}
+/**
+ * キャンセルの合計
+ * @param array $bill
+ * @param string $type
+ * @return int
+ */
+function cal_cancel_total($bill,$type="admin"){
+	//発行ポイント
+	$issue_total = $bill['n_point_cancel']+$bill['n_point_cancel_commission']+$bill['e_point_cancel']+$bill['e_point_cancel_commission'];
+	//使用ポイント
+	$use_point   = $bill['use_n_point_cancel']+$bill['use_e_point_cancel']+$bill['use_point_cancel'];
+	
+	$total = $issue_total-$use_point;
+	
+	if($type=="admin"){
+		if($total > 0){
+			return 0-$total;
+		}
+		return abs($total);
+	}
+	return $total;
+}
+
+/**
+ * 未受理の合計
+ * @param array $bill
+ * @param string $type
+ * @return int
+ */
+function cal_none_total($bill,$type="admin"){
+	//発行ポイント
+	$issue_total = $bill['n_point_n']+$bill['n_point_n_commission']+$bill['e_point_n']+$bill['e_point_n_commission'];
+	//使用ポイント
+	$use_point   = $bill['use_n_point_n']+$bill['use_e_point_n']+$bill['use_point_n'];
+	$total = $issue_total+$use_point;
+	
+	if($type=="admin"){
+		if($total > 0){
+			return 0-$total;
+		}
+		return abs($total);
+	}
+	return $total;
+}
+
+/**
+ * プラスのタグ表示
+ * @param type $price
+ * @return type
+ */
+function plus_tag($price){
+	$price = abs($price);
+	return '<span style="color:blue;">＋'.number_format($price).'</span>';
+}
+/**
+ * マイナスのタグ表示
+ * @param type $price
+ * @return type
+ */
+function minus_tag($price){
+	$price = abs($price);
+	return '<span style="color:red;">▲'.number_format($price).'</span>';
+}
+/**
+ * トータルのタグ表示
+ * @param type $price
+ * @return type
+ */
+function total_tag($price){
+	if($price < 0){
+		return minus_tag($price);
+	}
+	return plus_tag($price);
+}

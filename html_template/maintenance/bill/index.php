@@ -34,183 +34,98 @@
 					<li><a href="#"><?php echo $page_title;?></a></li>
 				</ul>
 				<h1><?php echo $page_title;?></h1>
-				<!-- 検索フォーム-->
-				<div class="row-fluid">
-					<div class="box span12">
-						<div class="box-header" data-original-title>
-							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
-							<div class="box-icon">
-								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
-							</div>
-						</div>
-					<div class="box-content">
-						<form class="form-horizontal" method="get">
-							<input type="hidden" value="<?php echo getGet('store_id');?>" name="store_id">
-						<div class="control-group">
-							<label for="" class="control-label">期間</label>
-							<div class="controls">
-								<select name="year" class="input-small">
-									<?php for($i = date('Y') ; $i >= 2015; $i--):?>
-									<option value="<?php echo $i;?>" <?php echo _check_selected($i,getGet('year'));?>><?php echo $i;?>年</option>
-									<?php endfor;?>
-								</select>
-								<select name="month" class="input-small">
-									<?php for($i = 1 ; $i <= 12; $i++):?>
-									<option value="<?php echo sprintf('%02d',$i);?>" <?php echo _check_selected(sprintf('%02d',$i),getGet('month'));?>><?php echo $i;?>月</option>
-									<?php endfor;?>
-								</select>
-							</div>
-						</div>
-						<div class="form-actions">
-							<button type="submit" class="btn btn-primary">検索</button>
-							<button type="reset" class="btn" onclick="location.href='bill.php'">リセット</button>
-						</div>
-                        </form>
-                    </div>
-					</div><!--/span-->
-				</div><!--/row-->
-				<!-- /検索フォーム -->
+				<?php echo $system_message;?>
+				
 				<div class="row-fluid">
 				<div class="box span12">
 					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求</h2>
+						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求一覧</h2>
 						<div class="box-icon"><a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a></div>
 					</div>
 					<div class="box-content">
-						<?php if(!$bill):?>
+						<?php if(!$list):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
-						<button class="btn btn-large btn-info" style="margin-bottom: 10px" onClick="location.href='?m=csv&year=<?php echo getGet('year');?>&month=<?php echo getGet('month');?>'">CSVダウンロード</button>
-						<table class="table table-bordered table-hover table-condensed">
-							<tr>
-								<th width="250">年月</th>
-								<td><?php echo str_replace('-','年',$bill['bill_month']);?>月</td>
-							</tr>
-							<tr>
-								<th>支払い状況</th>
-								<td><?php echo getParam(pay_status(),$bill['pay_status']);?></td>
-							</tr>
-							<tr>
-								<th>請求種別</th>
-								<td><?php echo calculate_bil_type_txt($total);?></td>
-							</tr>
-							<tr>
-								<th>発行ポイント</th>
-								<td>￥<span style="color: red">-<?php echo number_format($bill['issue_point']);?></span></td>
-							</tr>
-							<tr>
-								<th>予約時利用ポイント</th>
-								<td>￥<span style="color: blue"><?php echo number_format($bill['use_point']);?></span></td>
-							</tr>
-							<tr>
-								<th>発行ポイントキャンセル</th>
-								<td>￥<span style="color: blue"><?php echo number_format($bill['issue_point_cancel']);?></span></td>
-							</tr>
-							<tr>
-								<th>予約時利用ポイントキャンセル</th>
-								<td>￥<span style="color: red"><?php echo number_format($bill['use_point_cancel']);?></span></td>
-							</tr>
-							<tr>
-								<th>前払い増加利用枠</th>
-								<td>￥<span style="color: blue"><?php echo number_format($bill['deposit_price']);?></span></td>
-							</tr>
-							<tr>
-								<th>調整金額</th>
-								<td>￥<?php echo price_color_label($bill['adjust_price']);?></td>
-							</tr>
-							<tr>
-								<th>メモ・備考</th>
-								<td><?php echo str_replace("\r\n","<br />\r\n",$bill['memo']);?></td>
-							</tr>
-							<tr>
-								<th>合計金額</th>
-								<td>￥<strong style="font-size:140%"><?php echo price_color_label($total);?></strong>（<?php echo calculate_bil_type_txt($total);?>）</td>
-							</tr>
-							
-						</table>
-						<strong>※発行ポイント：</strong>ポイント利用枠を消費して発行されたポイントの金額です。請求の対象になります。<br />
-						<strong>※予約時利用ポイント：</strong>お客様がポイントを利用して予約したときに発生する払い戻しの金額です。<br />
-						<strong>※発行ポイントキャンセル：</strong>キャンセルになった場合に発生する払い戻しの金額です。<br />
-						<strong>※予約時利用ポイントキャンセル：</strong>お客様がポイントを利用して予約しキャンセルになった場合に発生します。請求の対象になります。<br />
-						<strong>※前払い増加利用枠：</strong>前払いでお支払いいただいたポイント利用枠の金額です。払い戻しの対象になります。<br />
-						<strong>※調整金額：</strong>何らかの理由で払い戻し・請求が発生した場合に、御社と弊社の話し合いの元設定されます。<br />
 						
+						<?php foreach($list as $data):?>
+						<table class="table table-striped table-bordered table-hover table-condensed">
+						<thead>
+						<tr>
+							<th width="150"><?php echo str_replace("-","年",$data['bill_month']);?>月</th>
+							<th>ポイント</th>
+							<th>ポイント<br >手数料</th>
+							<th>イベント<br>ポイント</th>
+							<th>イベント<br>ポイント<br>手数料</th>
+							<th>特別<br>ポイント</th>
+							<th>特別<br>ポイント<br>手数料</th>
+							<th>使用された<br>ポイント<br>(ポイント)</th>
+							<th>使用された<br>ポイント<br>(イベント)</th>
+							<th>使用された<br>ポイント<br>(ポイントのみ)</th>
+							<th>前払い</th>
+							<th>調整</th>
+							<th>処理</th>
+							<th>合計&nbsp;
+								<a class="btn btn-info" href="?m=display&id=<?php echo $data['bill_id'];?>">詳細</a></th>
+						</tr>
+						</thead>
+						
+							<tr>
+								<td>&nbsp;</td>
+								<td><?php echo minus_tag($data['n_point']);?></td>
+								<td><?php echo minus_tag($data['n_point_commission']);?></td>
+								<td><?php echo minus_tag($data['e_point']);?></td>
+								<td><?php echo minus_tag($data['e_point_commission']);?></td>
+								<td><?php echo minus_tag($data['sp_point']);?></td>
+								<td><?php echo minus_tag($data['sp_point_commission']);?></td>
+								<td><?php echo plus_tag($data['use_n_point']);?></td>
+								<td><?php echo plus_tag($data['use_e_point']);?></td>
+								<td><?php echo plus_tag($data['use_point']);?></td>
+								<td><?php echo plus_tag($data['deposit_price']);?></td>
+								<td><?php echo total_tag((0-$data['adjust_price']));?></td>
+								<td><?php echo getParam(pay_status(),$data['pay_status']);?></td>
+								<td><?php echo total_tag(cal_point_total($data,'maintenance'));?></td>
+							</tr>
+							<tr>
+								<th>キャンセル</th>
+								<td><?php echo plus_tag($data['n_point_cancel']);?></td>
+								<td><?php echo plus_tag($data['n_point_cancel_commission']);?></td>
+								<td><?php echo plus_tag($data['e_point_cancel']);?></td>
+								<td><?php echo plus_tag($data['e_point_cancel_commission']);?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo minus_tag($data['use_n_point_cancel']);?></td>
+								<td><?php echo minus_tag($data['use_e_point_cancel']);?></td>
+								<td><?php echo minus_tag($data['use_point_cancel']);?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo total_tag(cal_cancel_total($data,'maintenance'));?></td>
+							</tr>
+							<tr>
+								<th>未受理</th>
+								<td><?php echo $data['n_point_n'];?></td>
+								<td><?php echo $data['n_point_n_commission'];?></td>
+								<td><?php echo $data['e_point_n'];?></td>
+								<td><?php echo $data['e_point_n_commission'];?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo $data['use_n_point_n'];?></td>
+								<td><?php echo $data['use_e_point_n'];?></td>
+								<td><?php echo $data['use_point_n'];?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo number_format(cal_none_total($data,'maintenance'));?></td>
+							</tr>
+						
+						</tbody>
+						</table>
+						<?php endforeach;?>
 						<?php endif;?>
 					</div>
 				</div><!--/span-->
 				</div><!--/row-->
-				
-				
-				
-				
-				<?php if($bill):?>
-				<div class="row-fluid">
-				<div class="box span12">
-					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon align-justify"></i><span class="break"></span>請求詳細</h2>
-						<div class="box-icon"><a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a></div>
-					</div>
-					<div class="box-content">
-						
-						<table class="table table-bordered table-hover table-condensed">
-							<tr>
-								<th width="200">日時</th>
-								<th>カテゴリー</th>
-								<th>ポイント</th>
-							</tr>
-							<?php foreach($bill_actions as $bill_action):?>
-							<?php if($bill_action['total_price'] != 0 ):?>
-							<tr>
-								<td width="200"><?php echo $bill_action['regist_date'];?></td>
-								<td><?php echo reserved_status($bill_action);?><?php echo $bill_action['action_name'];?></td>
-								<td><?php
-									if($bill_action['data_type'] == 1){
-										echo number_format($bill_action['total_price']);
-									}else{
-										echo '<span style="color:red">-'.number_format($bill_action['total_price'])."</span>";
-									}
-									?>
-								</td>
-							</tr>
-								<?php if($bill_action['use_point'] != 0 ):?>
-									<tr>
-										<td width="200"><?php echo $bill_action['regist_date'];?></td>
-										<td><?php echo reserved_status($bill_action);?>予約時利用ポイント<?php if($bill_action['data_type'] == 1):?>キャンセル<?php endif;?></td>
-										<td><?php
-											if($bill_action['data_type'] == 1){
-												echo '<span style="color:red">-'.number_format($bill_action['use_point'])."</span>";
-											}else{
-												echo number_format($bill_action['use_point']);
-											}
-											?>
-										</td>
-									</tr>
-								<?php endif;?>
-							<?php else:?>
-							<tr>
-								<td width="200"><?php echo $bill_action['regist_date'];?></td>
-								<td><?php echo reserved_status($bill_action);?><?php echo $bill_action['action_name'];?></td>
-								<td><?php
-									if($bill_action['data_type'] == 1){
-										echo '<span style="color:red">-'.number_format($bill_action['use_point'])."</span>";
-									}else{
-										echo number_format($bill_action['use_point']);
-									}
-									?>
-								</td>
-							</tr>
-							<?php endif;?>
-							<?php endforeach;?>
-						</table>
-						
-						
-					</div>
-				</div><!--/span-->
-				</div><!--/row-->
-				<?php endif;?>
 			</div><!--/.fluid-container-->
-			
-			
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
 		</div><!--/#content.span10-->

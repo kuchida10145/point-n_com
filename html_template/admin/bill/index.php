@@ -112,6 +112,7 @@
 									</select>
 								</div>
 							</div>
+							<input type="hidden" value="true" name="search">
 						<div class="form-actions">
 							<button type="submit" class="btn btn-primary">検索</button>
 							<button type="reset" class="btn" onclick="location.href='bill.php'">リセット</button>
@@ -131,40 +132,80 @@
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
+						<p><a class="btn btn-info" href="?<?php echo $csv_url;?>"><i class="halflings-icon white edit"></i>CSVダウンロード</a></p>
+						<?php foreach($list as $data):?>
 						<table class="table table-striped table-bordered table-hover table-condensed">
 						<thead>
 						<tr>
-							<th>年月</th>
-							<th>店舗名</th>
-							<th>ポイント発行</th>
-							<th>イベントポイント発行</th>
-							<th>利用ポイント発行</th>
-							<th>特別ポイント発行</th>
-							<th>利用手数料</th>
+							<th width="150"><?php echo $data['store_name'];?></th>
+							<th>ポイント</th>
+							<th>ポイント<br >手数料</th>
+							<th>イベント<br>ポイント</th>
+							<th>イベント<br>ポイント<br>手数料</th>
+							<th>特別<br>ポイント</th>
+							<th>特別<br>ポイント<br>手数料</th>
+							<th>使用された<br>ポイント<br>(ポイント)</th>
+							<th>使用された<br>ポイント<br>(イベント)</th>
+							<th>使用された<br>ポイント<br>(ポイントのみ)</th>
+							<th>前払い</th>
+							<th>調整</th>
 							<th>処理</th>
-							<th>合計</th>
-							<th>&nbsp;</th>
+							<th>合計&nbsp;
+								<a class="btn btn-info" href="?m=edit&id=<?php echo $data['bill_id'];?>"><i class="halflings-icon white edit"></i>編集</a></th>
 						</tr>
 						</thead>
 						<tbody>
-						<?php foreach($list as $bill):?>
-						<tr>
-							<td class="center"><?php echo $bill['bill_month'];?></td>
-							<td class="center"><?php echo $bill['store_name'];?></td>
-							<td class="center"><?php echo number_format($bill['normal_point']);?></td>
-							<td class="center"><?php echo number_format($bill['event_point']);?></td>
-							<td class="center"><?php echo number_format($bill['use_point']);?></td>
-							<td class="center"><?php echo number_format($bill['special_point']);?></td>
-							<td class="center"><?php echo number_format($bill['total_commission']);?></td>
-							<td class="center"><?php echo getParam(pay_status(),$bill['pay_status']);?></td>
-							<td class="center"><?php echo number_format(calculate_bil($bill));?></td>
-							<td class="center">
-								<a class="btn btn-info" href="?m=edit&id=<?php echo $bill['bill_id'];?>"><i class="halflings-icon white edit"></i>編集</a>
-								</td>
-						</tr>
-						<?php endforeach;?>
+							<tr>
+								<td>&nbsp;</td>
+								<td><?php echo plus_tag($data['n_point']);?></td>
+								<td><?php echo plus_tag($data['n_point_commission']);?></td>
+								<td><?php echo plus_tag($data['e_point']);?></td>
+								<td><?php echo plus_tag($data['e_point_commission']);?></td>
+								<td><?php echo plus_tag($data['sp_point']);?></td>
+								<td><?php echo plus_tag($data['sp_point_commission']);?></td>
+								<td><?php echo minus_tag($data['use_n_point']);?></td>
+								<td><?php echo minus_tag($data['use_e_point']);?></td>
+								<td><?php echo minus_tag($data['use_point']);?></td>
+								<td><?php echo minus_tag($data['deposit_price']);?></td>
+								<td><?php echo total_tag($data['adjust_price']);?></td>
+								<td><?php echo getParam(pay_status(),$data['pay_status']);?></td>
+								<td><?php echo total_tag(cal_point_total($data));?></td>
+							</tr>
+							<tr>
+								<th>キャンセル</th>
+								<td><?php echo minus_tag($data['n_point_cancel']);?></td>
+								<td><?php echo minus_tag($data['n_point_cancel_commission']);?></td>
+								<td><?php echo minus_tag($data['e_point_cancel']);?></td>
+								<td><?php echo minus_tag($data['e_point_cancel_commission']);?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo plus_tag($data['use_n_point_cancel']);?></td>
+								<td><?php echo plus_tag($data['use_e_point_cancel']);?></td>
+								<td><?php echo plus_tag($data['use_point_cancel']);?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo total_tag(cal_cancel_total($data));?></td>
+							</tr>
+							<tr>
+								<th>未受理</th>
+								<td><?php echo $data['n_point_n'];?></td>
+								<td><?php echo $data['n_point_n_commission'];?></td>
+								<td><?php echo $data['e_point_n'];?></td>
+								<td><?php echo $data['e_point_n_commission'];?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo $data['use_n_point_n'];?></td>
+								<td><?php echo $data['use_e_point_n'];?></td>
+								<td><?php echo $data['use_point_n'];?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><?php echo number_format(cal_none_total($data));?></td>
+							</tr>
 						</tbody>
 						</table>
+						<?php endforeach;?>
 						<?php endif;?>
 					</div>
 				</div><!--/span-->

@@ -209,7 +209,8 @@ class Special_point extends MaintenancePage{
 
 		//POST送信があった場合
 		if(getPost('m') == 'confirm'){
-
+			$user_name = $post['nickname'];
+			$user_id   = $post['user_id'];
 			$regist_date = date('Y-m-d H:i:s');
 			$post['regist_date'] = $regist_date;
 			$year_month = date('Y-m',strtotime($regist_date));
@@ -218,14 +219,14 @@ class Special_point extends MaintenancePage{
 			$account = $this->getAccount();
 
 			//ポイント枠を消費
-			if($this->manager->db_manager->get('store')->usePointLimit($account['store_id'],$post['point']) !== false){
+			if($this->manager->db_manager->get('store')->usePointLimit($account['store_id'],$post['point']*2) !== false){
 
 				$result_flg = $this->inseart_action($post);		// 予約情報更新
 				if($result_flg !== false){
 					$result_flg = $this->user_update_action($post);	// ユーザテーブル更新
 
 
-					$this->manager->db_manager->get('bill_action')->issueSpecialPoint($account['store_id'],$post['point']);
+					$this->manager->db_manager->get('bill_action')->issueSpecialPoint($account['store_id'],$post['point'],"[会員番号:{$user_id}]{$user_name}");
 					$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
 
 					$store = $this->manager->db_manager->get('store')->findById($account['store_id']);

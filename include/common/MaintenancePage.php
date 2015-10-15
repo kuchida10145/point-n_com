@@ -15,7 +15,7 @@ abstract class MaintenancePage extends AdminPage{
 	protected $account_type = 'maintenance';
 
 
-	/* @var Management */
+	/** @var Management */
 	protected $manager   = NULL;
 
 	/**

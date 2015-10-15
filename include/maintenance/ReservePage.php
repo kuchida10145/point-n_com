@@ -246,8 +246,10 @@ class ReservePage extends MaintenancePage{
 				);
 
 		//請求アクションを受理に変更
-		if($bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id)){
-			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status'=>$reservedInfo['status_id']));
+		if($bill_action = $this->manager->db_manager->get('bill_action')->getNotAcceptByReservedId($reserved_id)){
+			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status_id'=>$reservedInfo['status_id']));
+			$year_mont = date('Y-m',strtotime($bill_action['regist_date']));
+			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_mont,$reservedInfo['store_id']);
 		}
 		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
 	}
@@ -273,7 +275,7 @@ class ReservePage extends MaintenancePage{
 
 
 		//ポイント関連の増減が発生した場合
-		if($bill_action = $this->manager->db_manager->get('bill_action')->getIssueByReservedId($reserved_id)){
+		if($bill_action = $this->manager->db_manager->get('bill_action')->getNotAcceptByReservedId($reserved_id)){
 
 			$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
 			$today       = date('Y-m-d');
@@ -283,7 +285,8 @@ class ReservePage extends MaintenancePage{
 
 			//年月が同じ場合のみ利用枠を復旧
 			if($today == $action_date){
-				$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$bill_action['total_price']);
+				$total_price = $bill_action['n_point'] + $bill_action['n_point_commission']+ $bill_action['e_point'] + $bill_action['e_point_commission'];
+				$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$total_price);
 				$account = $this->manager->db_manager->get('store')->findById($account['store_id']);
 				$this->setAccount($account);
 			}

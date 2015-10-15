@@ -69,40 +69,52 @@
 								</div>
 							</div>
                             <div class="control-group">
-								<label class="control-label" for="typeahead">発行P</label>
+								<label class="control-label" for="typeahead">発行ポイント</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['issue_point']);?>円分
+									<span style="color:blue"><?php echo number_format($bill_data['issue_point']);?>円分</span>
+								</div>
+							</div>
+							 <div class="control-group">
+								<label class="control-label" for="typeahead">発行ポイント手数料</label>
+								<div class="controls">
+									<span style="color:blue"><?php echo number_format($bill_data['issue_commission']);?>円分</span>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">利用P</label>
+								<label class="control-label" for="typeahead">利用ポイント</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['use_point']);?>円分
+									<span style="color:red"><?php echo number_format($bill_data['use_total']);?>円分</span>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">発行Pキャンセル</label>
+								<label class="control-label" for="typeahead">発行ポイントキャンセル</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['issue_point_cancel']);?>円分
+									<span style="color:red"><?php echo number_format($bill_data['cancel_point']);?>円分</span>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="typeahead">利用Pキャンセル</label>
+								<label class="control-label" for="typeahead">発行ポイント手数料<br />キャンセル</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['use_point_cancel']);?>円分
+									<span style="color:red"><?php echo number_format($bill_data['cancel_point']);?>円分</span>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">利用ポイントキャンセル</label>
+								<div class="controls">
+									<span style="color:blue"><?php echo number_format($bill_data['use_total_cancel']);?>円分</span>
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="typeahead">前払い</label>
 								<div class="controls">
-									<?php echo number_format($bill_data['deposit_price']);?>円
+									<span style="color:red"><?php echo number_format($bill_data['deposit_price']);?>円</span>
 								</div>
 							</div>
 							
 							<div class="control-group">
 								<label class="control-label" for="typeahead">調整</label>
 								<div class="controls">
-									<?php echo number_format(getParam($post, 'adjust_price',0));?>円
+									<span style="color:<?php if(getParam($post, 'adjust_price',0) < 0): echo'red'; else: echo 'blue'; endif;?>"><?php echo number_format(getParam($post, 'adjust_price',0));?>円</span>
 								</div>
 							</div>
                             <div class="control-group">
@@ -154,19 +166,29 @@
 	<?php include_once dirname(__FILE__).'/../common/footer_javascript.php';?>
 	<script type="text/javascript">
 	$(function(){
-		var issue_point   = <?php echo $bill_data['issue_point'];?>;
-		var use_point     = <?php echo $bill_data['use_point'];?>;
-		var before_cancel = <?php echo $bill_data['before_cancel'];?>;
-		var deposit_price = <?php echo $bill_data['deposit_price'];?>;
 		var adjust_price = parseInt(<?php echo $post['adjust_price'];?>);
-		
+		var issue_point        = <?php echo $bill_data['issue_point'];?>;
+		var use_point          = <?php echo $bill_data['use_total'];?>;
+		var issue_point_cancel = <?php echo $bill_data['cancel_point'];?>;
+		var use_point_cancel = <?php echo $bill_data['use_total_cancel'];?>;
+		var deposit_price      = <?php echo $bill_data['deposit_price'];?>;
+		var cancel_commission  = <?php echo $bill_data['cancel_commission'];?>;
+		var issue_commission   = <?php echo $bill_data['issue_commission'];?>;
 		function calculate(){
 			
 			//払い戻し合計
-			var return_price = use_point+before_cancel+deposit_price;
-			var total = issue_point-return_price+adjust_price;
+			var return_price = use_point+issue_point_cancel+deposit_price+cancel_commission;
+			var total = issue_commission+issue_point-return_price+adjust_price+use_point_cancel;
+			var number_format = separate(total);
 			
-			$('#total_price').html(separate(total)+"円");
+			if(total < 0){
+				number_format = '<span style="color:red">'+number_format+'円</span>';
+			}
+			else{
+				number_format = '<span style="color:blue">'+number_format+'円</span>';
+			}
+			
+			$('#total_price').html(number_format);
 			
 		}
 		calculate();
