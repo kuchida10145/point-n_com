@@ -137,12 +137,16 @@ class StoreCommonPage {
 			$this->manager->validation->setRule('contract_telephone3',       'required|numeric');
 			$param['contract_telephone'] = $param['contract_telephone1'] . "-" . $param['contract_telephone2'] . "-" . $param['contract_telephone3'];
 			$this->manager->validation->setRule('contract_telephone',        'tel');
-			// 担当者電話番号
-			$this->manager->validation->setRule('owner_telephone1',       'numeric');
-			$this->manager->validation->setRule('owner_telephone2',       'numeric');
-			$this->manager->validation->setRule('owner_telephone3',       'numeric');
-			$param['owner_telephone'] = $param['owner_telephone1'] . "-" . $param['owner_telephone2'] . "-" . $param['owner_telephone3'];
-			$this->manager->validation->setRule('owner_telephone',        'tel');
+			if(	(!isset($param['owner_telephone1']) || $param['owner_telephone1'] != "") ||
+				(!isset($param['owner_telephone2']) || $param['owner_telephone2'] != "") ||
+				(!isset($param['owner_telephone3']) || $param['owner_telephone3'] != "")	) {
+				// 担当者電話番号
+				$this->manager->validation->setRule('owner_telephone1',       'numeric');
+				$this->manager->validation->setRule('owner_telephone2',       'numeric');
+				$this->manager->validation->setRule('owner_telephone3',       'numeric');
+				$param['owner_telephone'] = $param['owner_telephone1'] . "-" . $param['owner_telephone2'] . "-" . $param['owner_telephone3'];
+				$this->manager->validation->setRule('owner_telephone',        'tel');
+			}
 			// 許可証の表示
 			$this->manager->validation->setRule('license',             'required');
 
@@ -345,7 +349,7 @@ class StoreCommonPage {
 		// ステータス(1：準備中、2：運営中、9：停止中)
 		// ※ステータスが停止中はアップロードしたファイルを「2：使用不可」とする
 		$use_state = (getParam($param,'status_id') == 9) ? 2 : 1;
-		
+
 		if ($isAdmin) {
 			// 許可証
 			$update_param = array();
