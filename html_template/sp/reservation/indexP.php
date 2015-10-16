@@ -73,7 +73,7 @@
 							<p>
 								<select name="course_id">
 								<option value="" data-id="">選択してください。</option>
-								<?php foreach(course_list($store_id) as $cor_num=>$cor_val):?>
+								<?php foreach(course_list($store_id, 1) as $cor_num=>$cor_val):?>
 										<option value="<?php echo $cor_num;?>" data-id="<?php echo number_format(getParam($course_price, $cor_num));?>"<?php echo _check_selected($cor_num, getParam($post,'use_persons'));?>><?php echo $cor_val;?></option>
 								<?php endforeach;?>
 								</select>

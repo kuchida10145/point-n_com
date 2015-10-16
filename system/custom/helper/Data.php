@@ -414,11 +414,11 @@ function course_status_label(){
  * @param string $point_kind
  * @return array
  */
-function course_list($store_id, $point_kind=NULL){
+function course_list($store_id, $point_only = NULL){
 	$manager = Management::getInstance();
 	$returnArray = array();
 	//コース一覧取得
-	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	$list = $manager->db_manager->get('course')->courseList($store_id, $point_only);
 
 	foreach ($list as $key=>$val){
 		$returnArray[$val['course_id']] = $val['course_name'];
@@ -431,11 +431,11 @@ function course_list($store_id, $point_kind=NULL){
  * @param string $point_kind
  * @return array
  */
-function course_price($store_id, $point_kind=NULL){
+function course_price($store_id,$point_only = NULL){
 	$manager = Management::getInstance();
 	$returnArray = array();
 	//コース一覧取得
-	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	$list = $manager->db_manager->get('course')->courseList($store_id, $point_only);
 	foreach ($list as $key=>$val){
 		$returnArray[$val['course_id']] = $val['price'];
 	}
@@ -448,11 +448,11 @@ function course_price($store_id, $point_kind=NULL){
  * @param string $point_kind
  * @return array
  */
-function course_minutes($store_id, $point_kind=NULL){
+function course_minutes($store_id, $point_only = NULL){
 	$manager = Management::getInstance();
 	$returnArray = array();
 	//コース一覧取得
-	$list = $manager->db_manager->get('course')->courseList($store_id,$point_kind);
+	$list = $manager->db_manager->get('course')->courseList($store_id, $point_only);
 	foreach ($list as $key=>$val){
 		$returnArray[$val['course_id']] = $val['minutes'];
 	}
