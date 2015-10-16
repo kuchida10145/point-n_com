@@ -112,6 +112,7 @@ class Special_point extends MaintenancePage{
 		$list       = array();
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
+		$this->order = "order by reserved.reserved_date desc";
 
 		//limit句生成
 		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
@@ -209,6 +210,7 @@ class Special_point extends MaintenancePage{
 
 		//POST送信があった場合
 		if(getPost('m') == 'confirm'){
+
 			$user_name = $post['nickname'];
 			$user_id   = $post['user_id'];
 			$regist_date = date('Y-m-d H:i:s');
@@ -219,14 +221,14 @@ class Special_point extends MaintenancePage{
 			$account = $this->getAccount();
 
 			//ポイント枠を消費
-			if($this->manager->db_manager->get('store')->usePointLimit($account['store_id'],$post['point']*2) !== false){
+			if($this->manager->db_manager->get('store')->usePointLimit($account['store_id'],$post['sp_point']*2) !== false){
 
 				$result_flg = $this->inseart_action($post);		// 予約情報更新
 				if($result_flg !== false){
 					$result_flg = $this->user_update_action($post);	// ユーザテーブル更新
 
 
-					$this->manager->db_manager->get('bill_action')->issueSpecialPoint($account['store_id'],$post['point'],"[会員番号:{$user_id}]{$user_name}");
+					$this->manager->db_manager->get('bill_action')->issueSpecialPoint($account['store_id'],$post['sp_point'],"[会員番号:{$user_id}]{$user_name}");
 					$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
 
 					$store = $this->manager->db_manager->get('store')->findById($account['store_id']);
@@ -234,13 +236,15 @@ class Special_point extends MaintenancePage{
 					$this->setAccount($store);
 				}
 
-
 				$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 
 				if($result_flg !== false){
 					redirect('special_point.php');
 				}
 				$this->unsetSystemMessage();
+			} else {
+				$this->setSystemMessage($this->manager->message->get('system')->getMessage('point_error'));
+				redirect('special_point.php');
 			}
 		}
 
@@ -249,6 +253,7 @@ class Special_point extends MaintenancePage{
 		$data['post']  = escapeHtml($post);
 		$data['page_title']     =$this->page_title;
 		$data['page_type_text'] =$this->page_type_text;
+		$data['system_message'] = $this->getSystemMessage();
 		$this->loadView('confirm', $data);
 	}
 
@@ -269,7 +274,7 @@ class Special_point extends MaintenancePage{
 	 *
 	 */
 	protected function validation($param){
-		$this->manager->validation->setRule('point','selected');
+		$this->manager->validation->setRule('sp_point','selected');
 		return $this->manager->validation->run($param);
 	}
 
@@ -284,7 +289,7 @@ class Special_point extends MaintenancePage{
 		$param['store_id'] = $account['store_id'];
 		$param['status_id'] = RESERVE_ST_SP;
 		$param['use_point'] = '0';
-		$param['get_point'] = getParam(specialPoint_data(),$param['point']);
+		$param['get_point'] = getParam(specialPoint_data(),$param['sp_point']);
 		$param['reserved_date'] = date("Y-m-d H:i:s");
 		$param['use_date'] = date("Y-m-d H:i:s");
 		return $this->manager->db_manager->get($this->use_table)->insert($param);
@@ -300,7 +305,7 @@ class Special_point extends MaintenancePage{
 		$param = $this->inputToDbData($param);
 		// 保持ポイント取得
 		$res =$this->manager->db_manager->get('user')->findById($param['user_id']);
-		$param['point'] = $res['point'] + getParam(specialPoint_data(),$param['point']);
+		$param['point'] = $res['point'] + getParam(specialPoint_data(),$param['sp_point']);
 		return $this->manager->db_manager->get('user')->updateById($this->id,$param);
 	}
 }

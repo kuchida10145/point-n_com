@@ -72,9 +72,9 @@
 								<div class="control-group">
 									<label class="control-label" for="selectError3">付与ポイント</label>
 									<div class="controls">
-										<select name="point">
+										<select name="sp_point">
 										<?php foreach(specialPoint_data() as $point_num=>$point_val):?>
-											<option value="<?php echo $point_num;?>" <?php echo _check_selected($point_num, getParam($post,'point'));?>><?php echo $point_val;?></option>
+											<option value="<?php echo $point_num;?>" <?php echo _check_selected($point_num, getParam($post,'sp_point'));?>><?php echo $point_val;?></option>
 										<?php endforeach;?>
 										</select>
 										PT

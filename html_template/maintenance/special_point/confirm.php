@@ -67,9 +67,9 @@
 								<div class="control-group">
 									<label class="control-label" for="selectError3">付与ポイント</label>
 									<div class="controls">
-										<?php echo getParam(specialPoint_data(),$post['point']);?>
+										<?php echo getParam(specialPoint_data(),$post['sp_point']);?>
 										PT
-										<input type="hidden" value="<?php echo getParam(specialPoint_data(),$post['point']);?>" name="point">
+										<input type="hidden" value="<?php echo getParam(specialPoint_data(),$post['sp_point']);?>" name="sp_point">
 									</div>
 									<div class="form-actions">
 										<button class="btn btn-primary" type="submit">保存</button>

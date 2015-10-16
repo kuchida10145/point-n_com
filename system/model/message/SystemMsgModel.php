@@ -10,6 +10,7 @@ class SystemMsgModel extends MsgModel
 	{
 		$message = array(
 			'edit_error'           => '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><i class="halflings-icon info-sign"></i> 入力内容に誤りがあります。</div>',
+			'point_error'          => '<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">×</button><i class="halflings-icon info-sign"></i> ポイントが不足しています。</div>',
 			'update_comp'          => '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button><i class="halflings-icon info-sign"></i> 更新が完了いたしました。</div>',
 			'insert_comp'          => '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button><i class="halflings-icon info-sign"></i> 登録が完了いたしました。</div>',
 			'delete_comp'          => '<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button><i class="halflings-icon info-sign"></i> 削除が完了いたしました。</div>',
