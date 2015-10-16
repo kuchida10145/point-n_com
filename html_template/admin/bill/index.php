@@ -140,19 +140,19 @@
 						<?php else:?>
 						<p><a class="btn btn-info" href="?<?php echo $csv_url;?>"><i class="halflings-icon white edit"></i>CSVダウンロード</a></p>
 						<?php foreach($list as $data):?>
-						<table class="table table-striped table-bordered table-hover table-condensed">
+						<table class="table table-striped table-bordered table-condensed">
 						<thead>
 						<tr>
 							<th width="150"><?php echo $data['store_name'];?></th>
 							<th>ポイント</th>
-							<th>ポイント<br >手数料</th>
+							<th style="background: #ffe4e1">ポイント<br >手数料</th>
 							<th>イベント<br>ポイント</th>
-							<th>イベント<br>ポイント<br>手数料</th>
+							<th style="background: #ffe4e1">イベント<br>ポイント<br>手数料</th>
 							<th>特別<br>ポイント</th>
-							<th>特別<br>ポイント<br>手数料</th>
-							<th>使用された<br>ポイント<br>(ポイント)</th>
-							<th>使用された<br>ポイント<br>(イベント)</th>
-							<th>使用された<br>ポイント<br>(ポイントのみ)</th>
+							<th style="background: #ffe4e1">特別<br>ポイント<br>手数料</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(ポイント)</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(イベント)</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(ポイントのみ)</th>
 							<th>前払い</th>
 							<th>調整</th>
 							<th>処理</th>
@@ -164,14 +164,14 @@
 							<tr>
 								<td>&nbsp;</td>
 								<td><?php echo plus_tag($data['n_point']);?></td>
-								<td><?php echo plus_tag($data['n_point_commission']);?></td>
+								<td style="background: #ffe4e1"><?php echo plus_tag($data['n_point_commission']);?></td>
 								<td><?php echo plus_tag($data['e_point']);?></td>
-								<td><?php echo plus_tag($data['e_point_commission']);?></td>
+								<td style="background: #ffe4e1"><?php echo plus_tag($data['e_point_commission']);?></td>
 								<td><?php echo plus_tag($data['sp_point']);?></td>
-								<td><?php echo plus_tag($data['sp_point_commission']);?></td>
-								<td><?php echo minus_tag($data['use_n_point']);?></td>
-								<td><?php echo minus_tag($data['use_e_point']);?></td>
-								<td><?php echo minus_tag($data['use_point']);?></td>
+								<td style="background: #ffe4e1"><?php echo plus_tag($data['sp_point_commission']);?></td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($data['use_n_point']);?></td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($data['use_e_point']);?></td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($data['use_point']);?></td>
 								<td><?php echo minus_tag($data['deposit_price']);?></td>
 								<td><?php echo total_tag($data['adjust_price']);?></td>
 								<td><?php echo getParam(pay_status(),$data['pay_status']);?></td>
@@ -180,14 +180,14 @@
 							<tr>
 								<th>キャンセル</th>
 								<td><?php echo minus_tag($data['n_point_cancel']);?></td>
-								<td><?php echo minus_tag($data['n_point_cancel_commission']);?></td>
+								<td style="background: #ffe4e1"><?php echo minus_tag($data['n_point_cancel_commission']);?></td>
 								<td><?php echo minus_tag($data['e_point_cancel']);?></td>
-								<td><?php echo minus_tag($data['e_point_cancel_commission']);?></td>
+								<td style="background: #ffe4e1"><?php echo minus_tag($data['e_point_cancel_commission']);?></td>
 								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td><?php echo plus_tag($data['use_n_point_cancel']);?></td>
-								<td><?php echo plus_tag($data['use_e_point_cancel']);?></td>
-								<td><?php echo plus_tag($data['use_point_cancel']);?></td>
+								<td style="background: #ffe4e1">&nbsp;</td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($data['use_n_point_cancel']);?></td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($data['use_e_point_cancel']);?></td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($data['use_point_cancel']);?></td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
@@ -196,14 +196,14 @@
 							<tr>
 								<th>未受理</th>
 								<td><?php echo $data['n_point_n'];?></td>
-								<td><?php echo $data['n_point_n_commission'];?></td>
+								<td style="background: #ffe4e1"><?php echo $data['n_point_n_commission'];?></td>
 								<td><?php echo $data['e_point_n'];?></td>
-								<td><?php echo $data['e_point_n_commission'];?></td>
+								<td style="background: #ffe4e1"><?php echo $data['e_point_n_commission'];?></td>
 								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-								<td><?php echo $data['use_n_point_n'];?></td>
-								<td><?php echo $data['use_e_point_n'];?></td>
-								<td><?php echo $data['use_point_n'];?></td>
+								<td style="background: #ffe4e1">&nbsp;</td>
+								<td style="background: #f0f8ff"><?php echo $data['use_n_point_n'];?></td>
+								<td style="background: #f0f8ff"><?php echo $data['use_e_point_n'];?></td>
+								<td style="background: #f0f8ff"><?php echo $data['use_point_n'];?></td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>

@@ -937,13 +937,13 @@ function cal_none_total($bill,$type="admin"){
 	//使用ポイント
 	$use_point   = $bill['use_n_point_n']+$bill['use_e_point_n']+$bill['use_point_n'];
 	$total = $issue_total+$use_point;
-	
+	/*
 	if($type=="admin"){
 		if($total > 0){
 			return 0-$total;
 		}
 		return abs($total);
-	}
+	}*/
 	return $total;
 }
 
