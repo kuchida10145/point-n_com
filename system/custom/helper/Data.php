@@ -518,8 +518,10 @@ function coupon_list($store_id){
 	//クーポン一覧取得
 	$list = $manager->db_manager->get('coupon')->couponList($store_id);
 
-	foreach ($list as $key=>$val){
-		$returnArray[$val['coupon_id']] = $val['coupon_name'];
+	if($list) {
+		foreach ($list as $key=>$val){
+			$returnArray[$val['coupon_id']] = $val['coupon_name'];
+		}
 	}
 	return $returnArray;
 }
