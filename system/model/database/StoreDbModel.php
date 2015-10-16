@@ -355,6 +355,7 @@ class StoreDbModel extends DbModel{
 	 * @return string
 	 */
 	protected function adminSearchWhere($get) {
+
 		$wheres = array();
 		$wheres[] = " delete_flg = 0 ";
 
@@ -376,16 +377,28 @@ class StoreDbModel extends DbModel{
 			$wheres[] = " store_name LIKE '%{$store_name}%' ";
 		}
 
+		// 店舗IDが設定されている場合
+		if (getParam($get, 'store_hex_id') != '' && is_string(getParam($get,'store_hex_id'))) {
+			$store_hex_id = $this->escape_string(getParam($get, 'store_hex_id'));
+			$wheres[] = " store_hex_id LIKE '%{$store_hex_id}%' ";
+		}
+
+		// 都道府県が設定されている場合
+		if (getParam($get, 'prefectures_id') != '' && is_string(getParam($get,'prefectures_id'))) {
+			$prefectures_id = $this->escape_string(getParam($get, 'prefectures_id'));
+			$wheres[] = " prefectures_id = '{$prefectures_id}' ";
+		}
+
 		// 業種が設定されている場合
-		if (is_array(getParam($get,'type_of_industry_id'))) {
-			$type_of_industry_ids = array();
-			foreach (getParam($get,'type_of_industry_id') as $val) {
-				if (!is_digit($val)) { continue; }
-				$type_of_industry_ids[] = $val;
-			}
-			if (count($type_of_industry_ids) > 0) {
-				$wheres[] = " type_of_industry_id IN(" . implode(',', $type_of_industry_ids) . ") ";
-			}
+		if (getParam($get, 'type_of_industry_id') != '' && is_string(getParam($get,'type_of_industry_id'))) {
+			$type_of_industry_id = $this->escape_string(getParam($get, 'type_of_industry_id'));
+			$wheres[] = " type_of_industry_id = '{$type_of_industry_id}' ";
+		}
+
+		// ジャンルが設定されている場合
+		if (getParam($get, 'category_large_id') != '' && is_string(getParam($get,'category_large_id'))) {
+			$category_large_id = $this->escape_string(getParam($get, 'category_large_id'));
+			$wheres[] = " category_large_id = '{$category_large_id}' ";
 		}
 
 		// 新着店舗が設定されている場合

@@ -129,7 +129,6 @@ abstract class AdminPage extends Page{
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
 
-
 		//limit句生成
 		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
 

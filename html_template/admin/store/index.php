@@ -36,6 +36,7 @@
 				<h1><?php echo $page_title;?></h1>
 				<?php echo $system_message;?>
 				<!-- 検索フォーム-->
+<!--
 				<div class="row-fluid">
 					<div class="box span12">
 						<div class="box-header" data-original-title>
@@ -108,6 +109,112 @@
 								<button type="submit" class="btn btn-primary">検索</button>
 								<button type="button" class="btn" onclick="location.href='store.php'">リセット</button>
 							</div>
+                        </form>
+                    </div>
+					</div>
+				</div>
+-->
+				<div class="row-fluid">
+					<div class="box span12">
+						<div class="box-header" data-original-title>
+							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							</div>
+						</div>
+					<div class="box-content">
+						<form class="form-horizontal" method="get">
+							<div class="control-group">
+								<label class="control-label" for="selectError3">WEBサービス</label>
+								<div class="controls">
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('status_id'));?>></span><div class="btn btn-success">運営中</div>
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="1" type="checkbox" <?php echo _check_checked(1, getGet('status_id'));?>></span><div class="btn btn-warning">準備中</div>
+									</label>
+									<label class="checkbox inline">
+										<span class="checked"><input id="status_id" name="status_id[]" value="9" type="checkbox" <?php echo _check_checked(9, getGet('status_id'));?>></span><div class="btn btn-danger">停止中</div>
+									</label>
+								</div>
+							</div>
+							<input type="hidden" value="<?php echo getGet('store_id');?>" name="store_id">
+							<div class="control-group">
+								<label for="" class="control-label">店舗名</label>
+								<div class="controls">
+									<input type="text" name="store_name" value="<?php echo escapeHtml(getGet('store_name'));?>">
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">店舗名ID</label>
+								<div class="controls">
+									<input type="text" name="store_hex_id" value="<?php echo escapeHtml(getGet('store_hex_id'));?>">
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">都道府県</label>
+								<div class="controls">
+									<select id="prefectures_id" name="prefectures_id" class="input-small">
+										<option value=""></option>
+										<?php foreach(prefectures_master() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('prefectures_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">業種</label>
+								<div class="controls">
+									<select id="type_of_industry_id" name="type_of_industry_id">
+										<option value=""></option>
+										<?php foreach(store_type_of_industry() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('type_of_industry_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">ジャンル</label>
+								<div class="controls">
+									<select id="category_large_id" name="category_large_id">
+										<option value=""></option>
+										<?php foreach(category_large() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet( 'category_large_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">新着店舗</label>
+								<div class="controls">
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="1" <?php echo _check_checked(1, getGet('new_arrival'));?>> 新着店のみ
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="0" <?php echo _check_checked(0, getGet('new_arrival'));?>> 既存店のみ
+									</label>
+									<label class="radio inline">
+										<input type="radio" name="new_arrival" value="2" <?php echo _check_checked(2, getGet('new_arrival'));?>> すべて
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="date01">入会日</label>
+								<div class="controls">
+									<input type="text" name="regist_start" class="input-xlarge" value="<?php echo escapeHtml(getGet('regist_start'));?>">
+									～
+									<input type="text" name="regist_end" class="input-xlarge" value="<?php echo escapeHtml(getGet('regist_end'));?>">
+									<script type="text/javascript">
+										$(function(){$("[name=regist_start]").datepicker({"dateFormat":"yy-mm-dd"});});
+										$(function(){$("[name=regist_end]").datepicker({"dateFormat":"yy-mm-dd"});});
+									</script>
+								</div>
+							</div>
+							<input type="hidden" value="true" name="search">
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary">検索</button>
+							<button type="reset" class="btn" onclick="location.href='bill.php'">リセット</button>
+						</div>
                         </form>
                     </div>
 					</div><!--/span-->
