@@ -32,6 +32,10 @@ class Store_searchPage extends Page {
 			exit();
 		} else if (getGet('m') == 'search_keyword') {
 			$post = $_GET;
+
+			$post['category_midium_id'] = "";
+			$post['category_small_ids'] = "";
+			$post['area_key_ids']       = "";
 		} else if (getGet('m') == 'search_sort') {
 			$post = $_GET;
 		} else {
