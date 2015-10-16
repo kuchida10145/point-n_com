@@ -24,6 +24,7 @@ class ReservePage extends MaintenancePage{
 				'indexCancell'=>'maintenance/'.$this->use_table.'/indexCancell',
 				'edit'        =>'maintenance/'.$this->use_table.'/edit',
 				'confirm'     =>'maintenance/'.$this->use_table.'/confirm',
+				'confirm_del'     =>'maintenance/'.$this->use_table.'/confirm_del',
 				'thanks'      =>'maintenance/'.$this->use_table.'/thanks',
 				'error'       =>'maintenance/error',
 				'token_error' =>'maintenance/token_error',
@@ -64,13 +65,20 @@ class ReservePage extends MaintenancePage{
 					$this->page_type_text = '一覧';
 					break;
 
-					//編集ページの場合
+				//編集ページの場合
 				case 'edit':
 					break;
 
-					//確認画面
+				//確認画面(受理)
 				case 'confirm':
+					$this->page_type_text = '確認';
 					break;
+
+				//確認画面(取消)
+				case 'confirm_del':
+					$this->page_type_text = '確認';
+					break;
+
 				//予約取消一覧画面
 				case 'indexCancell':
 					$this->page_type_text = '一覧';
@@ -215,6 +223,36 @@ class ReservePage extends MaintenancePage{
 		$data['system_message'] = $system_message;
 
 		$this->loadView('indexCancell', $data);
+	}
+
+	/**
+	 * 予約受理確認ページ
+	 *
+	 */
+	protected function confirmAction(){
+		$get        = $_GET;
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
+		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+		$data['page_title'] = $this->page_title;
+		$data['page_type_text'] = $this->page_type_text;
+		$data['reservedInfo'] = $reservedInfo;
+		$data['user'] = $user;
+		$this->loadView('confirm', $data);
+	}
+
+	/**
+	 * 予約取消確認ページ
+	 *
+	 */
+	protected function confirm_delAction(){
+		$get        = $_GET;
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
+		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+		$data['page_title'] = $this->page_title;
+		$data['page_type_text'] = $this->page_type_text;
+		$data['reservedInfo'] = $reservedInfo;
+		$data['user'] = $user;
+		$this->loadView('confirm_del', $data);
 	}
 
 	/**
