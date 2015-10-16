@@ -48,7 +48,9 @@
 					<div class="box-content">
 						<form class="form-horizontal" method="get">
 							<p>
-	                   			<a class="btn btn-large btn-primary" href="?m=index">予約リスト</a>
+								<button class="btn btn-large btn-warning" type="submit" name="status_id" value="2">予約処理完了</button>
+	                   			<button class="btn btn-large btn-success" type="submit" name="status_id" value="1">予約未処理</button>
+	                   			<a class="btn btn-large btn-danger" href="#">予約取消リスト</a>
 							</p>
 						</form>
 						<?php if(!$list):?>
@@ -59,8 +61,8 @@
 								<tr>
 									<th>ポイントコード</th>
 							        <th>予約処理</th>
-							        <th>予約日</th>
 							        <th>来店日</th>
+							        <th>予約日</th>
 							        <th>会員No.</th>
 									<th>予約名(ニックネーム名)</th>
 							        <th>予約　クーポン名</th>
@@ -75,14 +77,14 @@
 								<tr>
 									<td class="center"><?php echo $reserve_data['point_code'];?></td>
 									<td class="center"><span class="label label-large label-dabger">取消</span></td>
-									<td class="center"><?php echo $reserve_data['reserved_date'];?></td>
 									<td class="center"><?php echo $reserve_data['use_date'];?></td>
+									<td class="center"><?php echo $reserve_data['reserved_date'];?></td>
 									<td><?php echo $reserve_data['user_id'];?></td>
 									<td class="center"><strong><?php echo $reserve_data['reserved_name'];?></strong>(<?php echo $reserve_data['nickname'];?>)</td>
 									<td class="center"><?php echo $reserve_data['coupon_name'];?></td>
-									<?php if($reserve_data['point_kind'] == "1"):?>
+									<?php if($reserve_data['reserve_kind'] == "1"):?>
 										<td class="center">ポイント</td>
-									<?php elseif($reserve_data['point_kind'] == "2"):?>
+									<?php elseif($reserve_data['reserve_kind'] == "2"):?>
 										<td class="center">イベント</td>
 									<?php else:?>
 										<td class="center">特別</td>
