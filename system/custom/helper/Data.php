@@ -531,8 +531,8 @@ function coupon_list($store_id){
  */
 function point_only_flg_val(){
 	return array(
-			0=>'ポイントのみで予約不可',
-			1=>'ポイントのみで予約可能',
+			0=>'表示しない',
+			1=>'表示する',
 	);
 }
 
@@ -882,23 +882,23 @@ function textarea_caution_msg(){
 function cal_point_total($bill,$type="admin"){
 	//発行ポイント
 	$issue_total = $bill['n_point']+$bill['n_point_commission']+$bill['e_point']+$bill['e_point_commission']+$bill['sp_point']+$bill['sp_point_commission'];
-	
+
 	//使用ポイント
 	$use_point   = $bill['use_n_point']+$bill['use_e_point']+$bill['use_point'];
-	
-	
+
+
 	//合計
 	$total = ($issue_total+$bill['adjust_price'])-$use_point-$bill['deposit_price'];
-	
-	
-	
-	
+
+
+
+
 	if($type!="admin"){
 		if($total > 0){
 			return 0-$total;
 		}
 		return abs($total);
-		
+
 	}
 	return $total;
 }
@@ -913,9 +913,9 @@ function cal_cancel_total($bill,$type="admin"){
 	$issue_total = $bill['n_point_cancel']+$bill['n_point_cancel_commission']+$bill['e_point_cancel']+$bill['e_point_cancel_commission'];
 	//使用ポイント
 	$use_point   = $bill['use_n_point_cancel']+$bill['use_e_point_cancel']+$bill['use_point_cancel'];
-	
+
 	$total = $issue_total-$use_point;
-	
+
 	if($type=="admin"){
 		if($total > 0){
 			return 0-$total;

@@ -76,7 +76,7 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="control-label">ポイントのみ利用 <span class="label label-important">必須</span></label>
+								<label class="control-label" for="control-label">ポイントのみで予約するに表示しますか？<span class="label label-important">必須</span></label>
 								<div class="controls">
 									<select name="point_only_flg">
 										<?php foreach(point_only_flg_val() as $val=>$label):?>

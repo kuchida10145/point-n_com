@@ -67,7 +67,7 @@
 							</div>
 
 							<div class="control-group">
-								<label class="control-label" for="typeahead">ポイントのみ利用</label>
+								<label class="control-label" for="typeahead">ポイントのみで予約するに表示しますか？</label>
 								<div class="controls">
 									<?php echo getParam(point_only_flg_val(),$post['point_only_flg']);?>
 								</div>
