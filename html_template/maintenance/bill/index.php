@@ -152,9 +152,13 @@
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
 								<td>&nbsp;</td>
-								<td><?php echo number_format(cal_none_total($data,'maintenance'));?></td>
+								<td>&nbsp;</td>
 							</tr>
-						
+							<tr>
+								<th colspan="13" style="text-align: right">合計</th>
+								
+								<td><?php echo total_tag(cal_cancel_total($data,'maintenance')+cal_point_total($data,'maintenance'));?></td>
+							</tr>
 						</tbody>
 						</table>
 						<?php endforeach;?>
