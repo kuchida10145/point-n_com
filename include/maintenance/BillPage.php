@@ -222,52 +222,47 @@ class BillPage extends MaintenancePage {
 
    
 
+   /**
+	 * 一覧画面の共通データを取得
+	 *
+	 * @param array $data 格納用変数
+	 * @return array
+	 */
+	protected function getIndexCommon($data = array()){
+		$get =$_GET;
+		$get['m']='csv';
+		$data['csv_url'] = http_build_query($get);
+		return $data;
+	}
+	
    protected function csvAction(){
-		//日付初期値
-		if(!getGet('year')){
-			$_GET['year'] = date('Y');
-		}
-		if(!getGet('month')){
-			$_GET['month'] = date('m');
-		}
 		
 		$account = $this->getAccount();
-		$year_month = getGet('year')."-".sprintf('%02d',getGet('month'));
-		
-		
-		$bill         = $this->manager->db_manager->get('bill')->getBillForStore($account['store_id'],getGet('year'),getGet('month'));
-		
-		if(!$bill){
-			$this->errorPage();
+		$account_id = getParam($account,'store_id');
+		$pager_html = '';
+		$get        = $_GET;
+		$list       = array();
+		$system_message = $this->getSystemMessage();
+		$this->unsetSystemMessage();
+
+
+		//limit句生成
+		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
+
+		//最大件数取得
+		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceSearchMaxCnt($account_id,$get);
+
+		//リスト取得
+		if($max_cnt > 0){
+			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceSearch($account_id,$get,$limit,$this->order);
+		}
+		else{
+			exit();
 		}
 		
-		$bill_actions = $this->manager->db_manager->get('bill_action')->findByStoreId_Month($account['store_id'],$year_month);
-		$total = calculate_bil_store($bill);
-		
-		$csv[] = array('年月','支払い状況','請求種別','発行ポイント','予約時利用ポイント','発行ポイントキャンセル','予約時利用ポイントキャンセル','前払い増加利用枠','調整金額','メモ','金額');
-		$csv[] = array(
-			str_replace('-','年',$bill['bill_month'])."月",
-			getParam(pay_status(),$bill['pay_status']),
-			calculate_bil_type_txt($total),
-			"-".number_format($bill['issue_point']),
-			number_format($bill['use_point']),
-			number_format($bill['issue_point_cancel']),
-			number_format($bill['use_point_cancel']),
-			number_format($bill['deposit_price']),
-			$bill['adjust_price'],
-			$bill['memo'],
-			$total,
-		);
+		$this->manager->setCore('bill');
+		$this->manager->bill->createCsv($list,'maintenance');
 		
 		
-		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename='.$year_month.'.csv');
-
-		$stream = fopen('php://output', 'w');
-
-		foreach($csv as $row){
-			mb_convert_variables('SJIS-win', 'UTF-8', $row);
-			fputcsv($stream, $row);
-		}
 	}
 }

@@ -83,7 +83,7 @@
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
-						
+						<p><a class="btn btn-info" href="?<?php echo $csv_url;?>"><i class="halflings-icon white edit"></i>CSVダウンロード</a></p>
 						<?php foreach($list as $data):?>
 						<table class="table table-striped table-bordered table-condensed">
 						<thead>
