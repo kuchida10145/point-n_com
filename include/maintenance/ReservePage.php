@@ -24,7 +24,8 @@ class ReservePage extends MaintenancePage{
 				'indexCancell'=>'maintenance/'.$this->use_table.'/indexCancell',
 				'edit'        =>'maintenance/'.$this->use_table.'/edit',
 				'confirm'     =>'maintenance/'.$this->use_table.'/confirm',
-				'confirm_del'     =>'maintenance/'.$this->use_table.'/confirm_del',
+				'confirm_del' =>'maintenance/'.$this->use_table.'/confirm_del',
+				'confirm_remand' =>'maintenance/'.$this->use_table.'/confirm_remand',
 				'thanks'      =>'maintenance/'.$this->use_table.'/thanks',
 				'error'       =>'maintenance/error',
 				'token_error' =>'maintenance/token_error',
@@ -132,6 +133,13 @@ class ReservePage extends MaintenancePage{
 				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'reserved_id'), RESERVE_ST_FIN);
 				if($dbFlg !== false){
 					$dbFlg = $this->user_update_action(getParam($get,'reserved_id'));
+				}
+			}
+			// 差戻ボタン
+			elseif(getParam($get,'type') == 'remand'  && is_string(getParam($get,'type'))){
+				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'reserved_id'), RESERVE_ST_YET);
+				if($dbFlg !== false){
+					$dbFlg = $this->user_remand_action(getParam($get,'reserved_id'));
 				}
 			}
 		}
@@ -256,6 +264,22 @@ class ReservePage extends MaintenancePage{
 	}
 
 	/**
+	 * 予約差戻確認ページ
+	 *
+	 */
+	protected function confirm_remandAction(){
+		$get        = $_GET;
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
+		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+		$data['page_title'] = $this->page_title;
+		$data['page_type_text'] = $this->page_type_text;
+		$data['reservedInfo'] = $reservedInfo;
+		$data['user'] = $user;
+		$this->loadView('confirm_remand', $data);
+	}
+
+
+	/**
 	 * 一覧画面の共通データを取得
 	 *
 	 * @param array $data 格納用変数
@@ -331,5 +355,29 @@ class ReservePage extends MaintenancePage{
 		}
 
 		return $user_res;
+	}
+
+	/**
+	 * 更新処理（予約差戻）
+	 *
+	 * @param number $reserved_id 予約ID
+	 * @return mixed
+	 */
+	protected function user_remand_action($reserved_id){
+		//DBデータ取得
+		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
+		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
+
+		$updateParam = array(
+				'point'=>$res['point'] - $reservedInfo['get_point'],	// 保持ポイント計算
+		);
+
+		//請求アクションを未受理に変更
+		if($bill_action = $this->manager->db_manager->get('bill_action')->getAcceptByReservedId($reserved_id)){
+			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status_id'=>$reservedInfo['status_id']));
+			$year_mont = date('Y-m',strtotime($bill_action['regist_date']));
+			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_mont,$reservedInfo['store_id']);
+		}
+		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
 	}
 }

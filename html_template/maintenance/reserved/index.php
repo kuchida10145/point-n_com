@@ -142,6 +142,10 @@
 											<a class="btn btn-info" href="?m=confirm&reserved_id=<?php echo $reserve_data['reserved_id'];?>">受理</a>
 											<a class="btn btn-danger" href="?m=confirm_del&reserved_id=<?php echo $reserve_data['reserved_id'];?>">取消</a>
 										</td>
+									<?php elseif($reserve_data['status_id'] == "2"):?>
+										<td class="center">
+											<a class="btn btn-default" href="?m=confirm_remand&reserved_id=<?php echo $reserve_data['reserved_id'];?>">差戻</a>
+										</td>
 									<?php else:?>
 										<td class="center">&nbsp;</td>
 									<?php endif;?>
