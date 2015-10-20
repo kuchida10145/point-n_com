@@ -101,6 +101,9 @@ class StorePage extends AdminPage {
 
 		//ポイント利用枠テーブルに追記
 		$this->manager->db_manager->get('add_limit')->addBasePoint($id,$param['base_point']);
+		
+		//請求データ生成
+		$this->manager->db_manager->get('bill')->addThisMonthBillByStoreId($id);
 
 		// 店ID
 		$update_param = array();

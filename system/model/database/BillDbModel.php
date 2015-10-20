@@ -70,6 +70,18 @@ class BillDbModel extends DbModel{
 	}
 	
 	/**
+	 * 指定の店舗の請求でーたを生成
+	 * 
+	 */
+	public function addThisMonthBillByStoreId($store_id){
+		$regist_date = $update_date = date('Y-m-d H:i:s');
+		$this_month = date('Y-m');
+		
+		$sql = "INSERT INTO bill (store_id,store_name,bill_month,regist_date,update_date) (SELECT store_id,store_name,'{$this_month}','{$regist_date}','{$update_date}' FROM store WHERE store_id = '{$store_id}' AND delete_flg = 0 )";
+		$this->db->query($sql);
+	}
+	
+	/**
 	 * クーポンが発行された場合
 	 * @param $point ポイント
 	 */
