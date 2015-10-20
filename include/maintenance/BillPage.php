@@ -90,10 +90,42 @@ class BillPage extends MaintenancePage {
 		$data['use_points_cancel'] = array();
 		$data['use_point_total']        = 0;
 		$data['use_point_cancel_total'] = 0;
-	   
-		if($res = $this->manager->db_manager->get('bill_action')->getMonthDataByStoreId($bill['store_id'],$bill['bill_month'])){
+		
+		$date = getGet('sdate',date('Y-m-d'));
+		//$bill = array();
+		
+		//その日の合計用
+		$bill['n_point']            = 0;
+		$bill['n_point_commission'] = 0;
+		$bill['n_point_n']            = 0;
+		$bill['n_point_n_commission'] = 0;
+		$bill['n_point_cancel']       = 0;
+		$bill['n_point_cancel_commission'] = 0;
+		$bill['e_point']            = 0;
+		$bill['e_point_commission'] = 0;
+		$bill['e_point_n']            = 0;
+		$bill['e_point_n_commission'] = 0;
+		$bill['e_point_cancel']       = 0;
+		$bill['e_point_cancel_commission'] = 0;
+		$bill['sp_point']            = 0;
+		$bill['sp_point_commission'] = 0;
+		
+		$bill['use_n_point']   = 0;
+		$bill['use_n_point_n'] = 0;
+		$bill['use_e_point']   = 0;
+		$bill['use_e_point_n'] = 0;
+		$bill['use_point']     = 0;
+		$bill['use_point_n']   = 0;
+		$bill['use_n_point_cancel']   = 0;
+		$bill['use_e_point_cancel']   = 0;
+		$bill['use_point_cancel']   = 0;
+		$bill['adjust_price'] = 0;
+		$bill['deposit_price'] = 0;
+		
+		if($res = $this->manager->db_manager->get('bill_action')->getDateDataByStoreId($bill['store_id'],$date)){
 			foreach($res as $val){
 				$temp = array();
+				$bill =$this->calBill($bill,$val);
 				//--発行ポイント--
 				//通常ポイント
 				if($val['n_point'] > 0){
@@ -215,9 +247,50 @@ class BillPage extends MaintenancePage {
 		
 	   
 		$data['page_title']     =$this->page_title;
-
+		$data['bill']           = $bill;
 		$data['page_type_text'] =$this->page_type_text;
 		$this->loadView('display', $data);
+   }
+   
+   /**
+    * 請求の合計値を求める
+    * @param type $bill
+    * @param type $val
+    * @return type
+    */
+   private function calBill($bill,$val){
+		
+		
+		
+		$bill['n_point']            += $val['n_point'];
+		$bill['n_point_commission'] += $val['n_point_commission'];
+		$bill['n_point_cancel']       += $val['n_point_cancel'];
+		$bill['n_point_cancel_commission'] += $val['n_point_cancel_commission'];
+		$bill['e_point']            += $val['e_point'];
+		$bill['e_point_commission'] += $val['e_point_commission'];
+		$bill['e_point_cancel']       += $val['e_point_cancel'];
+		$bill['e_point_cancel_commission'] += $val['e_point_cancel_commission'];
+		$bill['sp_point']            += $val['sp_point'];
+		$bill['sp_point_commission'] += $val['sp_point_commission'];
+		$bill['use_n_point']   += $val['use_n_point'];
+		$bill['use_e_point']   += $val['use_e_point'];
+		$bill['use_point']     += $val['use_point'];
+		$bill['use_n_point_cancel']   += $val['use_n_point_cancel'];
+		$bill['use_e_point_cancel']   += $val['use_e_point_cancel'];
+		$bill['use_point_cancel']     += $val['use_point_cancel'];
+		//未受理の場合
+		if($val['reserved_status_id'] == RESERVE_ST_YET){
+			$bill['n_point_n']            += $val['n_point'];
+			$bill['n_point_n_commission'] += $val['n_point_commission'];
+			$bill['e_point_n']            += $val['e_point'];
+			$bill['e_point_n_commission'] += $val['e_point_commission'];
+			$bill['use_n_point_n'] += $val['use_n_point'];
+			$bill['use_e_point_n'] += $val['use_e_point'];
+			$bill['use_point_n']   += $val['use_point'];
+		}
+		
+		
+	   return $bill;
    }
 
    

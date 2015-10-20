@@ -35,6 +35,35 @@
 				</ul>
 				<h1><?php echo $page_title;?></h1>
 				
+				<!-- 検索フォーム-->
+				<div class="row-fluid">
+					<div class="box span12">
+						<div class="box-header" data-original-title>
+							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
+							<div class="box-icon">
+								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+							<form class="form-horizontal" method="get">
+								<input type="hidden" name="m" value="display">
+								<input type="hidden" name="id" value="<?php echo escapeHtml(getGet('id'));?>">
+								<div class="control-group">
+								<label for="" class="control-label">期間</label>
+								<div class="controls">
+									<input type="text" class="input-xlarge datepicker" id="date03" name="sdate" value="<?php echo escapeHtml(getGet('sdate',date('Y-m-d'))); ?>">
+										
+								</div>
+							</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary">検索</button>
+									<button type="reset" class="btn" onclick="location.href='?m=index'">リセット</button>
+								</div>
+							</form>
+						</div>
+					</div><!--/span-->
+				</div><!--/row-->
+				<!-- /検索フォーム -->
 				
 				<div class="row-fluid">
 				<div class="box span12">
@@ -43,6 +72,72 @@
 						<div class="box-icon"><a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a></div>
 					</div>
 					<div class="box-content">
+						
+						<table class="table table-striped table-bordered table-condensed">
+						<thead>
+						<tr>
+							<th width="150"> </th>
+							<th>ポイント</th>
+							<th style="background: #ffe4e1">ポイント<br >手数料</th>
+							<th>イベント<br>ポイント</th>
+							<th style="background: #ffe4e1">イベント<br>ポイント<br>手数料</th>
+							<th>特別<br>ポイント</th>
+							<th style="background: #ffe4e1">特別<br>ポイント<br>手数料</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(ポイント)</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(イベント)</th>
+							<th style="background: #f0f8ff">使用された<br>ポイント<br>(ポイントのみ)</th>
+							<th>合計&nbsp;</th>
+						</tr>
+						</thead>
+						
+							<tr>
+								<td>&nbsp;</td>
+								<td><?php echo minus_tag($bill['n_point']);?></td>
+								<td style="background: #ffe4e1"><?php echo minus_tag($bill['n_point_commission']);?></td>
+								<td><?php echo minus_tag($bill['e_point']);?></td>
+								<td style="background: #ffe4e1"><?php echo minus_tag($bill['e_point_commission']);?></td>
+								<td><?php echo minus_tag($bill['sp_point']);?></td>
+								<td style="background: #ffe4e1"><?php echo minus_tag($bill['sp_point_commission']);?></td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($bill['use_n_point']);?></td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($bill['use_e_point']);?></td>
+								<td style="background: #f0f8ff"><?php echo plus_tag($bill['use_point']);?></td>
+								<td><?php echo total_tag(cal_point_total($bill,'maintenance'));?></td>
+							</tr>
+							<tr>
+								<th>キャンセル</th>
+								<td><?php echo plus_tag($bill['n_point_cancel']);?></td>
+								<td style="background: #ffe4e1"><?php echo plus_tag($bill['n_point_cancel_commission']);?></td>
+								<td><?php echo plus_tag($bill['e_point_cancel']);?></td>
+								<td style="background: #ffe4e1"><?php echo plus_tag($bill['e_point_cancel_commission']);?></td>
+								<td>&nbsp;</td>
+								<td style="background: #ffe4e1">&nbsp;</td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($bill['use_n_point_cancel']);?></td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($bill['use_e_point_cancel']);?></td>
+								<td style="background: #f0f8ff"><?php echo minus_tag($bill['use_point_cancel']);?></td>
+								<td><?php echo total_tag(cal_cancel_total($bill,'maintenance'));?></td>
+							</tr>
+							<tr>
+								<th>未受理</th>
+								<td><?php echo $bill['n_point_n'];?></td>
+								<td style="background: #ffe4e1"><?php echo $bill['n_point_n_commission'];?></td>
+								<td><?php echo $bill['e_point_n'];?></td>
+								<td style="background: #ffe4e1"><?php echo $bill['e_point_n_commission'];?></td>
+								<td>&nbsp;</td>
+								<td style="background: #ffe4e1">&nbsp;</td>
+								<td style="background: #f0f8ff"><?php echo $bill['use_n_point_n'];?></td>
+								<td style="background: #f0f8ff"><?php echo $bill['use_e_point_n'];?></td>
+								<td style="background: #f0f8ff"><?php echo $bill['use_point_n'];?></td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<th colspan="10" style="text-align: right">合計</th>
+								
+								<td><?php echo total_tag(cal_cancel_total($bill,'maintenance')+cal_point_total($bill,'maintenance'));?></td>
+							</tr>
+						</tbody>
+						</table>
+						
+						
 						<h3>ポイント発行</h3>
 						<table class="table table-bordered table-hover table-condensed">
 							<tr>

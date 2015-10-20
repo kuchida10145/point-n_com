@@ -39,9 +39,14 @@ class Bill_actionDbModel extends DbModel{
 
 	public function getMonthDataByStoreId($store_id,$year_month){
 		$field = $this->getFieldText();
-
 		$sql = "SELECT {$field} FROM {$this->table} WHERE store_id = '{$store_id}' AND regist_date LIKE '{$year_month}-__ __:__:__' ORDER BY regist_date DESC";
-
+		return $this->db->getAllData($sql);
+	}
+	
+	public function getDateDataByStoreId($store_id,$date){
+		$date = $this->escape_string($date);
+		$field = $this->getFieldText();
+		$sql = "SELECT {$field} FROM {$this->table} WHERE store_id = '{$store_id}' AND regist_date LIKE '{$date} __:__:__' ORDER BY regist_date DESC";
 		return $this->db->getAllData($sql);
 	}
 
