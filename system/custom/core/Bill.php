@@ -51,15 +51,21 @@ class Bill{
 		foreach ($datas as $data){
 			
 			$fields = array();
-			$total = cal_point_total($data)+cal_cancel_total($data);
+			$total = cal_point_total($data,$type)+cal_cancel_total($data,$type);
 			if( $total == 0 ){
 				$pay_text = "払い戻し・支払い無し";
 			}
 			else if($total > 0){
 				$pay_text = "支払い";
+				if($type != 'admin'){
+					$pay_text = "払い戻し";
+				}
 			}
 			else{
 				$pay_text = "払い戻し";
+				if($type != 'admin'){
+					$pay_text = "支払い";
+				}
 			}
 			
 			$fields[] = str_replace('-','年',$data['bill_month'])."月";//年月
