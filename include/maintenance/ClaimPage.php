@@ -26,7 +26,7 @@ class ClaimPage extends MaintenancePage{
 		$list       = array();
 		$system_message = $this->getSystemMessage();
 		$this->unsetSystemMessage();
-
+		$order = "order by use_date DESC";
 
 		//limit句生成
 		$limit = $this->manager->db_manager->get('reserved')->createLimit(getGet('page'),$this->page_cnt);
@@ -36,7 +36,7 @@ class ClaimPage extends MaintenancePage{
 
 		//リスト取得
 		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($account_id,$get,$limit,$this->order);
+			$list    = $this->manager->db_manager->get('reserved')->maintenanceClaimSearch($account_id,$get,$limit,$order);
 		}
 
 
@@ -48,11 +48,11 @@ class ClaimPage extends MaintenancePage{
 		$get_param = $_GET;
 		$point     = 0;
 		if(getGet('coupon') == 1){
-			$this->page_type_text = 'クーポン発行ポイント';
+			$this->page_type_text = '発行したポイント';
 			$point = $this->manager->db_manager->get('reserved')->maintenanceGetPointCnt($account_id,$get);
 		}
 		else{
-			$this->page_type_text = '予約時利用ポイント';
+			$this->page_type_text = '使用されたポイント';
 			unset($get_param['coupon']);
 			$point = $this->manager->db_manager->get('reserved')->maintenanceUsePointCnt($account_id,$get);
 		}
