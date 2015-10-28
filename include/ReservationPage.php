@@ -132,7 +132,7 @@ class ReservationPage extends Page{
 		$data['course_name'] = escapeHtml($courseData['course_name']);
 		$data['store_name']  = escapeHtml($storeData['store_name']);
 		$data['price']       = number_format($couponData['price']);
-		$data['point_list']  = $this->getUsePoint($account['point']);
+		$data['point_list']  = $this->getUsePoint($account['point'],false);
 
 		if(getGet('back') == 'confirm') {
 			$system_message = $this->manager->message->get('front_'.$this->device)->getMessage('point_error');
@@ -212,7 +212,7 @@ class ReservationPage extends Page{
 		$data['store_id']     = $storeData['store_id'];
 		$data['store_name']   = $storeData['store_name'];
 		$data['course_price'] = course_price($storeData['store_id']);
-		$data['point_list']  = $this->getUsePoint($account['point']);
+		$data['point_list']  = $this->getUsePoint($account['point'],true);
 
 		if(getGet('back') == 'confirm') {
 			$system_message = $this->manager->message->get('front_'.$this->device)->getMessage('point_error');
@@ -398,7 +398,7 @@ class ReservationPage extends Page{
 		$dt->setTimezone(new DateTimeZone('Asia/Tokyo'));
 		$today = $dt->format('Y-m-d');
 
-		if(strtotime($reserve_date) < strtotime($today)) {
+		if($reserve_date && (strtotime($reserve_date) < strtotime($today))) {
 			return '<span class="clrred"><br>過去の日付です</span>';
 		}
 
@@ -418,7 +418,7 @@ class ReservationPage extends Page{
 		$this->manager->validation->setRule('telephone1','required|numeric|digit|pnumeric');
 		$this->manager->validation->setRule('telephone2','required|numeric|digit|pnumeric');
 		$this->manager->validation->setRule('telephone3','required|numeric|digit|pnumeric');
-		$this->manager->validation->setRule('use_point','isPnumeric');
+		$this->manager->validation->setRule('use_point','selected');
 		$this->manager->validation->setRule('contract','checked');
 		return $this->manager->validation->run($param);
 	}
@@ -557,12 +557,15 @@ class ReservationPage extends Page{
 
 	/**
 	 * 利用ポイントデータ取得
-	 *
+	 * @param array $userPoint ユーザ保持ポイントリスト
+	 * @param bool  $pointOnlyFlg ポイントのみ利用予約フラグ
 	 */
-	private function getUsePoint($userPoint) {
+	private function getUsePoint($userPoint, $pointOnlyFlg) {
 		$pointArray = array();
 		foreach (use_point_data() as $point=>$value) {
-			if($userPoint >= $point || $point == 1) {
+			if($pointOnlyFlg && $value === '0') {
+				$pointArray[""] = '選択してください。';
+			} elseif($userPoint >= $point || $point == 1) {
 				$pointArray[$point] = $value;
 			}
 		}
