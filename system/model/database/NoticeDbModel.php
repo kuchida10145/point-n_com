@@ -23,10 +23,10 @@ class NoticeDbModel extends DbModel{
 			'delete_flg'
 		);
 	}
-	
+
 	/**
 	 * 店舗IDに対応するお知らせ一覧を取得する
-	 * 
+	 *
 	 * @param int $store_id 店舗ID
 	 * @return array
 	 */
@@ -46,7 +46,7 @@ class NoticeDbModel extends DbModel{
 		$sql .= "   AND delete_flg = 0 ";
 		return $this->db->getAllData($sql);
 	}
-	
+
 	/**
 	 * 一覧用データ取得
 	 *
@@ -68,7 +68,7 @@ class NoticeDbModel extends DbModel{
 		$sql.= "public = 1 AND ";
 		$sql.= "public_start_date < NOW() AND ";
 		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL) ";
-		$sql.= " ORDER BY public_start_date DESC ";
+		$sql.= " ORDER BY public_start_date DESC , regist_date DESC ";
 		$sql.= "LIMIT {$start_page},{$get_page}";
 		return $this->db->getAllData($sql);
 	}
