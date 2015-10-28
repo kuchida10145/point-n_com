@@ -545,8 +545,8 @@ function point_only_flg_val(){
  */
 function point_kind(){
 	return array(
-			1=>'クーポン',
-			2=>'イベント',
+			1=>'ポイントコース',
+			2=>'イベントコース',
 	);
 }
 /**
