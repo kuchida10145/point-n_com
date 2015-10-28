@@ -48,11 +48,11 @@ class ClaimPage extends MaintenancePage{
 		$get_param = $_GET;
 		$point     = 0;
 		if(getGet('coupon') == 1){
-			$this->page_type_text = 'クーポン発行';
+			$this->page_type_text = 'クーポン発行ポイント';
 			$point = $this->manager->db_manager->get('reserved')->maintenanceGetPointCnt($account_id,$get);
 		}
 		else{
-			$this->page_type_text = '(受理済)';
+			$this->page_type_text = '予約時利用ポイント';
 			unset($get_param['coupon']);
 			$point = $this->manager->db_manager->get('reserved')->maintenanceUsePointCnt($account_id,$get);
 		}

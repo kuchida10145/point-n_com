@@ -78,8 +78,8 @@
 							<div style="clear:both;">
 								<div class="span8">
 									<p>
-										<button class="btn btn-large btn-info" onClick="location.href='claim.php<?php echo $get_query!='' ? '?'.$get_query:'';?>'">ポイント利用</button>
-										<button class="btn btn-large btn-warning" onClick="location.href='claim.php?coupon=1<?php echo $get_query!='' ? '&'.$get_query:'';?>'">クーポン発行</button>
+										<button class="btn btn-large btn-info" onClick="location.href='claim.php<?php echo $get_query!='' ? '?'.$get_query:'';?>'">使用されたポイント</button>
+										<button class="btn btn-large btn-warning" onClick="location.href='claim.php?coupon=1<?php echo $get_query!='' ? '&'.$get_query:'';?>'">発行したポイント</button>
 									</p>
 								</div>
 								<div class="span4">　<?php if($list):?><p style="font-size:16px;padding-top:10px;text-align:right;"><strong>csvファイル </strong><a href="claim.php?m=csv&<?php echo $get_query;?>" class="btn btn-large btn-danger">ダウンロード</button></a><?php endif;?></div>
@@ -92,7 +92,7 @@
 							<div style="clear:both;">
 								<div class="span8"></div>
 								<div class="span4"><p style="font-size:16px;text-align:right;">
-										<strong><?php if(getGet('coupon') == 1):?>クーポン発行<?php else:?>ポイント利用<?php endif;?> 総合計　<?php echo $point;?>PT</strong>
+										<strong><?php if(getGet('coupon') == 1):?>発行したポイント<?php else:?>使用されたポイント<?php endif;?> 総合計　<?php echo $point;?>PT</strong>
 								</p></div>
 							</div>
 							<table class="table table-striped table-bordered table-hover table-condensed">
@@ -106,9 +106,9 @@
 									<th>ニックネーム名</th>
 									<th>クーポン名</th>
 									<?php if(getGet('coupon') == 1):?>
-									<th style="background-color:#FFC40D">クーポン発行</th>
+									<th style="background-color:#FFC40D">発行したポイント</th>
 									<?php else:?>
-									<th style="background-color:#5bc0de">ポイント利用</th>
+									<th style="background-color:#5bc0de">使用されたポイント</th>
 									<?php endif;?>
 								</tr>
 							</thead>
