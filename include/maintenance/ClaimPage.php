@@ -52,7 +52,7 @@ class ClaimPage extends MaintenancePage{
 			$point = $this->manager->db_manager->get('reserved')->maintenanceGetPointCnt($account_id,$get);
 		}
 		else{
-			$this->page_type_text = 'ポイント利用';
+			$this->page_type_text = '(受理済)';
 			unset($get_param['coupon']);
 			$point = $this->manager->db_manager->get('reserved')->maintenanceUsePointCnt($account_id,$get);
 		}
