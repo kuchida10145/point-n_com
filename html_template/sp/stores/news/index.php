@@ -41,7 +41,9 @@
 		<input type="hidden" id="pagecount" value="<?php echo $page_cnt;?>"></input>
 	</div>
 	<?php endif;?>
-
+	<div>
+		<img src="/img/loading-icon.gif" id="loading" alt="loading" />
+	</div>
 
 </div>
 <!--/コンテンツ-->

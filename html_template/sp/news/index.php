@@ -39,7 +39,9 @@
 		<?php endforeach;?>
 	</div>
 	<?php endif;?>
-
+	<div>
+		<img src="/img/loading-icon.gif" id="loading" alt="loading" style="display: none; text-aline: center;"/>
+	</div>
 
 </div>
 <!--/コンテンツ-->
@@ -73,8 +75,9 @@ $(function() {
             height = $window.height(),
             scrollTop = $window.scrollTop(),
             documentHeight = $(document).height();
+        	//document.getElementById("loading").style.display = 'none';
         if (documentHeight === height + scrollTop) {
-			
+        	document.getElementById("loading").style.display = 'block';
             page_cnt++;
 			$.ajax({
 				type: "GET",
@@ -97,15 +100,13 @@ $(function() {
 						html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
 						html+='</dl>';
 					}
-					
 					$('.shoplist').append(html);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					page_cnt--;
-					
+
 				}
 			});
-			
         }
     });
 });
