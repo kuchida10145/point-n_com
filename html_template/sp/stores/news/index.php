@@ -37,7 +37,8 @@
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
-		<input type="hidden" id="newscount" value="10"></input>
+		<input type="hidden" id="newscount" value="<?php echo $page_cnt;?>"></input>
+		<input type="hidden" id="pagecount" value="<?php echo $page_cnt;?>"></input>
 	</div>
 	<?php endif;?>
 
@@ -97,8 +98,8 @@ $(function() {
 						html+='	<a href="news_detail.php?id='+notice_id+'">'+title+'</a></dd>';
 						html+='</dl>';
 					}
-					var newscount = document.getElementById("newscount").value;
-					newscount =  parseInt(newscount) + parseInt(10);
+					var pagecount = document.getElementById("pagecount").value;
+					newscount =  parseInt(newscount) + parseInt(pagecount);
 					document.getElementById("newscount").value = newscount;
 					$('.shoplist').append(html);
 				},
