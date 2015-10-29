@@ -13,6 +13,7 @@ class NoticePage extends MaintenancePage{
 	protected $session_key = 'notice';
 	protected $use_confirm = true;
 	protected $page_title = 'お店からのお知らせ管理';
+	protected $order = ' ORDER BY public_start_date DESC , regist_date DESC ';
 
 	/**
 	 * 入力チェック
