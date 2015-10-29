@@ -13,6 +13,7 @@ class NewsPage extends AdminPage {
 	protected $session_key = 'news';
 	protected $use_confirm = true;
 	protected $page_title = '今日のニュース管理';
+	protected $order = ' ORDER BY display_date DESC , public_start_date DESC , regist_date DESC ';
 
 	/**
 	 * 入力チェック
@@ -27,7 +28,7 @@ class NewsPage extends AdminPage {
 
 		return $this->manager->validation->run($param);
 	}
-	
+
 	/**
 	 * ＤＢデータから入力用データへ変換
 	 *
@@ -38,7 +39,7 @@ class NewsPage extends AdminPage {
 		$news_common = new NewsCommonPage();
 		return $news_common->dbToInputData($data, $this->id);
 	}
-	
+
 	/**
 	 * 新規登録処理
 	 *
@@ -47,11 +48,11 @@ class NewsPage extends AdminPage {
 	 */
 	protected function inseart_action($param){
 		$param = $this->inputToDbData($param);
-		
+
 		$news_common = new NewsCommonPage();
 		return $news_common->insert_action($param, $this->use_table);
 	}
-	
+
 	/**
 	 * 更新処理
 	 *
@@ -60,11 +61,11 @@ class NewsPage extends AdminPage {
 	 */
 	protected function update_action($param){
 		$param = $this->inputToDbData($param);
-		
+
 		$news_common = new NewsCommonPage();
 		return $news_common->update_action($param, $this->id, $this->use_table);
 	}
-	
+
 	/**
 	 * 入力用データからＤＢデータへ変換
 	 * insert_actionやupdate_actionをオーバーライドしparentで呼び出した時、オーバーライド内にも書くと２回実行されるので注意
@@ -75,7 +76,7 @@ class NewsPage extends AdminPage {
 	protected function inputToDbData($data){
 		return $data;
 	}
-	
+
 	/**
 	 * 画像アップロード（AJAX)
 	 */
