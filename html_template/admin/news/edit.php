@@ -74,16 +74,16 @@
 								<div class="box-header" data-original-title="">
 									情報
 								</div> <br>
-								<div class="control-group">
-									<label class="control-label" for="date03">表示日付</label>
+								<div class="control-group <?php echo error_class(getParam($error, 'display_date'));?>">
+									<label class="control-label" for="date03">表示日付 <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<input type="text" class="input-xlarge datepicker" id="date03" name="display_date" value="<?php echo getParam($post, 'display_date');?>">
-										</br>※入力した日付がタイトルと共にwebサイト上に表示されます。
-										<?php echo getParam($error,'display_date');?>
+										</br><?php echo getParam($error,'display_date');?>
+										※入力した日付がタイトルと共にwebサイト上に表示されます。
 									</div>
 								</div>
-								<div class="control-group">
-									<label class="control-label" for="date03">対象エリア</label>
+								<div class="control-group <?php echo error_class(getParam($error, 'region_id'));?>">
+									<label class="control-label" for="date03">対象エリア <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<select name="region_id">
 											<option value="">選択してください</option>
@@ -96,8 +96,8 @@
 								</div>
 
 
-								<div class="control-group">
-									<label class="control-label" for="typeahead">タイトル</label>
+								<div class="control-group <?php echo error_class(getParam($error, 'title'));?>">
+									<label class="control-label" for="typeahead">タイトル <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<input placeholder="" id="input" name="title" type="text" class="input-block-level" value="<?php echo getParam($post, 'title');?>">
 										<?php echo getParam($error,'title');?>
@@ -117,12 +117,12 @@
 										<?php echo getParam($error,'image3');?>
 									</div>
 								</div>
-								<div class="control-group">
-									<label class="control-label" for="textarea2">本文</label>
+								<div class="control-group <?php echo error_class(getParam($error, 'body'));?>">
+									<label class="control-label" for="textarea2">本文 <span class="label label-important">必須</span></label>
 									<div class="controls">
 										<textarea class="ckeditor" id="textarea2" rows="3" name="body"><?php echo getParam($post, 'body');?></textarea>
-										<?php echo textarea_caution_msg();?>
 										<?php echo getParam($error,'body');?>
+										<?php echo textarea_caution_msg();?>
 									</div>
 								</div>
 								<div class="control-group">

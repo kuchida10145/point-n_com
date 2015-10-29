@@ -13,6 +13,7 @@ class NoticePage extends AdminPage {
 	protected $session_key = 'notice';
 	protected $use_confirm = true;
 	protected $page_title = 'POINT.COMからのお知らせ管理';
+	protected $order = ' ORDER BY display_date DESC , public_start_date DESC , regist_date DESC ';
 
 	/**
 	 * 入力チェック
