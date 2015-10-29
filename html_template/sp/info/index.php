@@ -37,6 +37,8 @@
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
+		<input type="hidden" id="infocount" value="<?php echo $page_cnt;?>"></input>
+		<input type="hidden" id="pagecount" value="<?php echo $page_cnt;?>"></input>
 	</div>
 	<?php endif;?>
 
@@ -66,23 +68,25 @@ Copyright 2015 POINT.COM All Rights Reserved
 <script type="text/javascript">
 
 $(function() {
-	var page_cnt = 0;
     $(window).scroll(function(ev) {
         var $window = $(ev.currentTarget),
             height = $window.height(),
             scrollTop = $window.scrollTop(),
             documentHeight = $(document).height();
+        var infocount = document.getElementById("infocount").value;
+
         if (documentHeight === height + scrollTop) {
-			
+
             //page++;
 			$.ajax({
 				type: "GET",
-				url: "/news/?m=next&next="+page_cnt,
+				url: "/info/?m=next&next="+infocount,
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){
 						return;
 					}
+
 					var html = "";
 					for(var i = 0; i < res.pages.length; i++){
 						var page = res.pages[i];
@@ -96,15 +100,17 @@ $(function() {
 						html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
 						html+='</dl>';
 					}
-					
+					var pagecount = document.getElementById("pagecount").value;
+					infocount =  parseInt(infocount) + parseInt(pagecount);
+					document.getElementById("infocount").value = infocount;
 					$('.shoplist').append(html);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					//page--;
-					
+
 				}
 			});
-			
+
         }
     });
 });

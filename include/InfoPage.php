@@ -25,41 +25,43 @@ class InfoPage extends Page{
 	public function indexAction(){
 		$data =array();
 		$store_id =0;
-		
+
 		if(getGet('m')=='next'){
 			$this->nextAjax();
 			exit();
 		}
 		$data['info_list'] =  $this->changeListData($this->manager->db_manager->get('notice')->getNoticeList($store_id,0,$this->page_cnt));
+		$data['page_cnt'] =  $this->page_cnt;
 		$this->loadView('index', $data);
 	}
 
-	
-	
+
+
 	/**
 	 * お知らせAjax
-	 * 
+	 *
 	 */
 	public function nextAjax(){
 		$next = getGet('next');
 		$store_id =0;
 		$res['result'] = 'false';
+
 		if($pages = $this->manager->db_manager->get('notice')->getNoticeList($store_id,$next,$this->page_cnt)){
 			$res['result'] = 'true';
 		}
 		$res['pages'] = $this->changeListData($pages);
-		echo json_encode($res);		
+		echo json_encode($res);
 	}
-	
+
 	/**
 	 * 一覧用データ変換(HTMLエスケープも実行)
 	 */
 	private function changeListData($datas){
-		
+
 		if(!$datas){
 			return NULL;
 		}
-		
+
 		foreach($datas as $data_key => $data){
 			$data['display_date'] = date('Y/m/d',strtotime($data['display_date']));
 			//画像周り
@@ -68,8 +70,8 @@ class InfoPage extends Page{
 			}else{
 				$data['image1']       = '/files/images/'.$data['image1'];
 			}
-			
-			
+
+
 			$data =escapeHtml($data);
 			$datas[$data_key] = $data;
 		}
@@ -87,17 +89,17 @@ class InfoPage extends Page{
 			$this->errorPage();
 			exit();
 		}
-		
+
 		//店舗ＩＤが0以外の場合はエラー
 		if($res['store_id'] != 0){
 			$this->errorPage();
 			exit();
 		}
-		
+
 		//エスケープ
 		$res = escapeHtml($res);
 		$res['body'] = decodeHtml($res['body']);
-		
+
 		//画像
 		$images= array();
 		for($i = 1; $i <= 3; $i++){
@@ -105,13 +107,13 @@ class InfoPage extends Page{
 				$images[] = $res['image'.$i];
 			}
 		}
-		
+
 		$data['images'] = $images;
 		$data['info_data'] = $res;
 		$this->loadView('detail', $data);
 	}
 
 
-	
+
 }
 

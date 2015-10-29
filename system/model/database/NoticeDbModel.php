@@ -68,8 +68,9 @@ class NoticeDbModel extends DbModel{
 		$sql.= "public = 1 AND ";
 		$sql.= "public_start_date < NOW() AND ";
 		$sql.= "(public_end_date > NOW() OR public_end_date IS NULL) ";
-		$sql.= " ORDER BY public_start_date DESC , regist_date DESC ";
+		$sql.= " ORDER BY display_date DESC , public_start_date DESC , regist_date DESC ";
 		$sql.= "LIMIT {$start_page},{$get_page}";
+
 		return $this->db->getAllData($sql);
 	}
 
