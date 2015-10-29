@@ -104,10 +104,10 @@
 								<thead>
 									<tr>
 										<th>ステータス</th>
-										<th>日付</th>
+										<th>表示日付</th>
 										<th>タイトル</th>
-										<th>表示開始日</th>
-										<th>表示終了日</th>
+										<th>公開開始日</th>
+										<th>公開終了日</th>
 										<th>&nbsp;</th>
 									</tr>
 								</thead>
