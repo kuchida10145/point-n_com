@@ -72,10 +72,10 @@ $(function() {
         var $window = $(ev.currentTarget),
             height = $window.height(),
             scrollTop = $window.scrollTop(),
-            documentHeight = $(document).height();
+            documentHeight = $(document).height() - 150;
         var infocount = document.getElementById("infocount").value;
 
-        if (documentHeight === height + scrollTop) {
+        if (documentHeight < height + scrollTop) {
 
             //page++;
 			$.ajax({

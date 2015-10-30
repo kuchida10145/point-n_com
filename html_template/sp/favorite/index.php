@@ -50,7 +50,7 @@
 										<strong class="eventtag">イベント</strong><strong class="clrgreen"><?php echo number_format(getParam($data,'event_point'));?>PT</strong><br />
 									<?php endif;?>
 									<?php echo getParam($data,'title');?><br />
-									<?php 
+									<?php
 										echo (is_delivery(getParam($data, 'type_of_industry_id'))) ? '発エリア：' : '店舗住所：';
 										echo getParam($data, 'address1') . getParam($data, 'address2');
 									?>
@@ -81,8 +81,8 @@
 		        var $window = $(ev.currentTarget),
 		            height = $window.height(),
 		            scrollTop = $window.scrollTop(),
-		            documentHeight = $(document).height();
-		        if (documentHeight === height + scrollTop) {
+		            documentHeight = $(document).height() - 150;
+		        if (documentHeight < height + scrollTop) {
 					page_cnt++;
 					user_id  = $("#user_id").val();
 					keyword  = $("#keyword").val();

@@ -39,9 +39,6 @@
 		<?php endforeach;?>
 	</div>
 	<?php endif;?>
-	<div>
-		<img src="/img/loading-icon.gif" id="loading" alt="loading" style="display: none; text-aline: center;"/>
-	</div>
 
 </div>
 <!--/コンテンツ-->
@@ -66,19 +63,16 @@ Copyright 2015 POINT.COM All Rights Reserved
 <?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
 <!-- /スライド-->
 <script type="text/javascript">
-
 $(function() {
 	var page_cnt = 0;
 	var region_id = <?php echo getGet('region_id');?>;
-    $(window).scroll(function(ev) {
-        var $window = $(ev.currentTarget),
-            height = $window.height(),
-            scrollTop = $window.scrollTop(),
-            documentHeight = $(document).height();
-        	//document.getElementById("loading").style.display = 'none';
-        if (documentHeight === height + scrollTop) {
-        	document.getElementById("loading").style.display = 'block';
-            page_cnt++;
+	$(window).scroll(function(ev) {
+		var $window = $(ev.currentTarget),
+			height = $window.height(),
+			scrollTop = $window.scrollTop(),
+			documentHeight = $(document).height() - 150;
+		if (documentHeight < height + scrollTop) {
+			page_cnt++;
 			$.ajax({
 				type: "GET",
 				url: "/news/?m=next&region_id="+region_id+"&next="+page_cnt,
@@ -104,7 +98,6 @@ $(function() {
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					page_cnt--;
-
 				}
 			});
         }

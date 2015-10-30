@@ -169,8 +169,8 @@ $(function() {
         var $window = $(ev.currentTarget),
             height = $window.height(),
             scrollTop = $window.scrollTop(),
-            documentHeight = $(document).height();
-        if (documentHeight === height + scrollTop) {
+            documentHeight = $(document).height() - 150;
+        if (documentHeight < height + scrollTop) {
         	page_cnt++;
 			category_large_id  = $("#category_large_id").val();
 			region_id          = $("#region_id").val();
