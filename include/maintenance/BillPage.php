@@ -6,7 +6,7 @@
 include_once dirname(__FILE__).'/../common/MaintenancePage.php';
 
 class BillPage extends MaintenancePage {
-	
+
 	protected $id = 0;/* ID */
 	protected $use_table   = 'bill';
 	protected $session_key = 'bill';
@@ -21,9 +21,10 @@ class BillPage extends MaintenancePage {
 	protected function setView(){
 		parent::setView();
 		$this->view['display'] = 'maintenance/'.$this->use_table.'/display';
+		$this->view['makepdf'] = 'maintenance/'.$this->use_table.'/makepdf';
 	}
-	
-	
+
+
 	/*
 	protected  function indexAction() {
 		//日付初期値
@@ -33,11 +34,11 @@ class BillPage extends MaintenancePage {
 		if(!getGet('month')){
 			$_GET['month'] = date('m');
 		}
-		
+
 		$account = $this->getAccount();
 		$year_month = getGet('year')."-".sprintf('%02d',getGet('month'));
-		
-		
+
+
 		$data['bill']         = $this->manager->db_manager->get('bill')->getBillForStore($account['store_id'],getGet('year'),getGet('month'));
 		$data['bill_actions'] = $this->manager->db_manager->get('bill_action')->findByStoreId_Month($account['store_id'],$year_month);
 		$data['total'] = calculate_bil_store($data['bill']);
@@ -47,53 +48,53 @@ class BillPage extends MaintenancePage {
 		$this->loadView('index', $data);
 	}
 	*/
-	
+
 	protected function displayAction(){
 		$account = $this->getAccount();
 		//請求データがない　OR 店舗IDが一致しないとエラー
 		if(!($bill = $this->manager->db_manager->get('bill')->findById(getGet('id'))) || $bill['store_id'] != $account['store_id']){
 			$this->errorAction();
 		}
-	  
+
 		//通常ポイント取得
 		$data['n_points']        = array();
 		$data['n_points_cancel'] = array();
 		$data['n_point_total']        = 0;
 		$data['n_point_cancel_total'] = 0;
-	  
+
 		//イベントポイント取得
 		$data['e_points']        = array();
 		$data['e_points_cancel'] = array();
 		$data['e_point_total']        = 0;
 		$data['e_point_cancel_total'] = 0;
-	  
+
 		//特別ポイント取得
 		$data['sp_points']        = array();
 		$data['sp_point_total']   = 0;
-		
-	  
+
+
 		//使用されたポイント取得
 		$data['use_n_points']        = array();
 		$data['use_n_points_cancel'] = array();
 		$data['use_n_point_total']        = 0;
 		$data['use_n_point_cancel_total'] = 0;
-	  
-	  
+
+
 		//使用されたポイント(イベント)取得
 		$data['use_e_points']        = array();
 		$data['use_e_points_cancel'] = array();
 		$data['use_e_point_total']        = 0;
 		$data['use_e_point_cancel_total'] = 0;
-	  
+
 		//使用されたポイント(イベント)取得
 		$data['use_points']        = array();
 		$data['use_points_cancel'] = array();
 		$data['use_point_total']        = 0;
 		$data['use_point_cancel_total'] = 0;
-		
+
 		$date = getGet('sdate',date('Y-m-d'));
 		//$bill = array();
-		
+
 		//その日の合計用
 		$bill['n_point']            = 0;
 		$bill['n_point_commission'] = 0;
@@ -109,7 +110,7 @@ class BillPage extends MaintenancePage {
 		$bill['e_point_cancel_commission'] = 0;
 		$bill['sp_point']            = 0;
 		$bill['sp_point_commission'] = 0;
-		
+
 		$bill['use_n_point']   = 0;
 		$bill['use_n_point_n'] = 0;
 		$bill['use_e_point']   = 0;
@@ -121,7 +122,7 @@ class BillPage extends MaintenancePage {
 		$bill['use_point_cancel']   = 0;
 		$bill['adjust_price'] = 0;
 		$bill['deposit_price'] = 0;
-		
+
 		if($res = $this->manager->db_manager->get('bill_action')->getDateDataByStoreId($bill['store_id'],$date)){
 			foreach($res as $val){
 				$temp = array();
@@ -221,7 +222,7 @@ class BillPage extends MaintenancePage {
 					$data['sp_point_total']+=$temp['total'];
 					$data['sp_points'][] = $temp;
 				}
-				
+
 				//使用されたポイント(ポイントのみ）
 				else if($val['use_point'] > 0){
 					$temp['point']      = $val['use_point'];
@@ -243,15 +244,60 @@ class BillPage extends MaintenancePage {
 			}
 		}
 		unset($res);
-		
-		
-	   
+
+
+
 		$data['page_title']     =$this->page_title;
 		$data['bill']           = $bill;
 		$data['page_type_text'] =$this->page_type_text;
 		$this->loadView('display', $data);
    }
-   
+
+   protected function makepdfAction(){
+		$account = $this->getAccount();
+		$account_id = getParam($account,'store_id');
+		$pager_html = '';
+		$get        = $_GET;
+		$list       = array();
+		$system_message = $this->getSystemMessage();
+		$this->unsetSystemMessage();
+
+
+		//limit句生成
+		$limit = $this->manager->db_manager->get($this->use_table)->createLimit(getGet('page'),$this->page_cnt);
+
+		//最大件数取得
+		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceSearchMaxCnt($account_id,$get);
+
+		//リスト取得
+		if($max_cnt > 0){
+			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceSearch($account_id,$get,$limit,$this->order);
+		}
+
+
+		//リストを出力用のデータに変換
+		$list = $this->dbToListData($list);
+
+
+		//システムメッセージ
+
+		//ページャ生成
+		$data = $this->getIndexCommon();
+		$pager_param['per_cnt'] = $this->page_cnt;
+		$pager_param['all_cnt'] = $max_cnt;
+		$this->manager->pager->setHtmlType( array() ,'admin');
+		$this->manager->pager->initialize($pager_param);
+		$pager_html = $this->manager->pager->create();
+
+		$data['list']           = $list;
+		$data['pager_html']     = $pager_html;
+		$data['page_title']     =$this->page_title;
+
+		$data['page_type_text'] =$this->page_type_text;
+		$data['system_message'] = $system_message;
+		$this->loadView('makepdf', $data);
+   }
+
    /**
     * 請求の合計値を求める
     * @param type $bill
@@ -259,9 +305,9 @@ class BillPage extends MaintenancePage {
     * @return type
     */
    private function calBill($bill,$val){
-		
-		
-		
+
+
+
 		$bill['n_point']            += $val['n_point'];
 		$bill['n_point_commission'] += $val['n_point_commission'];
 		$bill['n_point_cancel']       += $val['n_point_cancel'];
@@ -288,12 +334,12 @@ class BillPage extends MaintenancePage {
 			$bill['use_e_point_n'] += $val['use_e_point'];
 			$bill['use_point_n']   += $val['use_point'];
 		}
-		
-		
+
+
 	   return $bill;
    }
 
-   
+
 
    /**
 	 * 一覧画面の共通データを取得
@@ -307,9 +353,9 @@ class BillPage extends MaintenancePage {
 		$data['csv_url'] = http_build_query($get);
 		return $data;
 	}
-	
+
    protected function csvAction(){
-		
+
 		$account = $this->getAccount();
 		$account_id = getParam($account,'store_id');
 		$pager_html = '';
@@ -332,10 +378,10 @@ class BillPage extends MaintenancePage {
 		else{
 			exit();
 		}
-		
+
 		$this->manager->setCore('bill');
 		$this->manager->bill->createCsv($list,'maintenance');
-		
-		
+
+
 	}
 }

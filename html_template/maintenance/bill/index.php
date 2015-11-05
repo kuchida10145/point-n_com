@@ -83,12 +83,12 @@
 						<?php if(!$list):?>
 						<p>データがありませんでした</p>
 						<?php else:?>
-						<p><a class="btn btn-info" href="?<?php echo $csv_url;?>"><i class="halflings-icon white edit"></i>CSVダウンロード</a></p>
-						<?php foreach($list as $data):?>
+						<!-- <p><a class="btn btn-info" href="?<?php echo $csv_url;?>"><i class="halflings-icon white edit"></i>CSVダウンロード</a></p> -->
+						<?php foreach($list as $id=>$data):?>
 						<table class="table table-striped table-bordered table-condensed">
 						<thead>
 						<tr>
-							<th width="150"><?php echo str_replace("-","年",$data['bill_month']);?>月</th>
+							<th width="150"><a class="btn btn-info" href="?m=makepdf&data_no=<?php echo $id;?>"><i class="halflings-icon white edit"></i>PDFダウンロード</a><br><?php echo str_replace("-","年",$data['bill_month']);?>月</th>
 							<th>ポイント</th>
 							<th style="background: #ffe4e1">ポイント<br >手数料</th>
 							<th>イベント<br>ポイント</th>
