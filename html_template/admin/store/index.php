@@ -173,16 +173,22 @@
 									</select>
 								</div>
 							</div>
-							<div class="control-group <?php echo error_class(getParam($error, 'category_midium_id'));?>">
-								<label class="control-label" for="typeahead">中カテゴリー <span class="label label-important">必須</span></label>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">中カテゴリー</label>
 								<div class="controls">
 									<select id="category_midium_id" name="category_midium_id">
-										<option value="">選択してください</option>
-										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
+										<option value=""></option>
+										<?php
+											if(getParam($post, 'category_large_id') != "") {
+												$delivery_val = (getParam($post, 'category_large_id') == 1) ? 1 : 0;
+											} else {
+												$delivery_val = "";
+											}
+										?>
+										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'prefectures_id'), $delivery_val) as $val_key => $val_name):?>
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
-									<?php echo getParam($error, 'category_midium_id');?>
 								</div>
 							</div>
 							<div class="control-group">
@@ -286,12 +292,12 @@
 	<script>
 	$(function(){
 		$('#prefectures_id').change(function() {
-			$('#prefectures_id').changeUpperItem({
+			$('#prefectures_id').changeSearchUpperItem({
 				url:'/admin/store.php?m=change_search_upper_item',
 				name:'prefectures_id'});
 		});
 		$('#category_large_id').change(function() {
-			$('#category_large_id').changeUpperItem({
+			$('#category_large_id').changeSearchUpperItem({
 				url:'/admin/store.php?m=change_search_upper_item',
 				name:'category_large_id'});
 		});
