@@ -22,7 +22,7 @@ class NoticePage extends MaintenancePage{
 	protected function validation($param){
 
 		$this->manager->validation->setRule('title','required|maxlength:50');
-// 		$this->manager->validation->setRule('display_date','required|dateformat|realdate');
+ 		$this->manager->validation->setRule('display_date','required|dateformat|realdate');
 // 		$this->manager->validation->setRule('public_start_date','dateformat|realdate');
 // 		$this->manager->validation->setRule('public_end_date','dateformat|realdate');
 		$this->manager->validation->setRule('body','required');
