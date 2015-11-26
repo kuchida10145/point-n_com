@@ -129,7 +129,8 @@ class ReservePage extends MaintenancePage{
 
 					if($dbFlg) {
 						//メール送付
-						$this->sendUserMail($this->getAccount(), "10");
+						$user = $this->manager->db_manager->get('user')->findById(getParam($get,'user_id'));		//ユーザ情報
+						$this->sendUserMail($user, "10");
 					}
 				}
 			}

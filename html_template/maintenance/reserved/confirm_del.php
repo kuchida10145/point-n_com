@@ -120,7 +120,7 @@
 							</div>
 
 							<div class="form-actions">
-								<a class="btn btn-danger" href="?m=index&type=cancel&reserved_id=<?php echo getParam($reservedInfo,'reserved_id');?>">取消</a>
+								<a class="btn btn-danger" href="?m=index&type=cancel&reserved_id=<?php echo getParam($reservedInfo,'reserved_id');?>&user_id=<?php echo getParam($reservedInfo,'user_id');?>">取消</a>
 								<a class="btn" href="?m=index">戻る</a>
 							</div>
 						</form>
