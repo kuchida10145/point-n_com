@@ -401,6 +401,12 @@ class StoreDbModel extends DbModel{
 			$wheres[] = " category_large_id = '{$category_large_id}' ";
 		}
 
+		// 中ジャンルが設定されている場合
+		if (getParam($get, 'category_midium_id') != '' && is_string(getParam($get,'category_midium_id'))) {
+			$category_midium_id = $this->escape_string(getParam($get, 'category_midium_id'));
+			$wheres[] = " category_midium_id = '{$category_midium_id}' ";
+		}
+
 		// 新着店舗が設定されている場合
 		if (getParam($get, 'new_arrival') != "" && is_digit(getParam($get, 'new_arrival'))) {
 			$new_arrival = $this->escape_string(getParam($get, 'new_arrival'));

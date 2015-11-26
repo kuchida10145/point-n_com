@@ -259,13 +259,9 @@ class StorePage extends AdminPage {
 			// 中カテゴリー
 			$result['category_midium'] = category_midium($category_large_id, $prefectures_id, $is_delivery);
 		} else {
-			$array_delivery = array();
-			$array_no_delivery = array();
-
 			// 中カテゴリー
-			$array_delivery = category_midium($category_large_id, $prefectures_id, 0);
-			$array_no_delivery = category_midium($category_large_id, $prefectures_id, 1);
-			$result['category_midium'] = array_merge($array_delivery, $array_no_delivery);
+			$array = category_midium_deli_all($category_large_id, $prefectures_id);
+			$result['category_midium'] = $array;
 		}
 
 		echo json_encode($result);

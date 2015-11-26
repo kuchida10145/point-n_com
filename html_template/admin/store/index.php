@@ -178,15 +178,8 @@
 								<div class="controls">
 									<select id="category_midium_id" name="category_midium_id">
 										<option value=""></option>
-										<?php
-											if(getParam($post, 'category_large_id') != "") {
-												$delivery_val = (getParam($post, 'category_large_id') == 1) ? 1 : 0;
-											} else {
-												$delivery_val = "";
-											}
-										?>
-										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'prefectures_id'), $delivery_val) as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
+										<?php foreach(category_midium_deli_all(getGet('category_large_id'), getGet('prefectures_id')) as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('category_midium_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

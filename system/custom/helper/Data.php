@@ -178,6 +178,37 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 }
 
 /**
+ * 中カテゴリー(デリバリー区分なし)
+ *
+ * @param number $category_large_id
+ * @param number $prefectures_id
+ * @return array
+ */
+function category_midium_deli_all($category_large_id = 0, $prefectures_id = 0) {
+	$list = array();
+	$manager = Management::getInstance();
+	$record  = $manager->db_manager->get('prefectures_master')->findById($prefectures_id);
+	if ($record == null) {
+		return $list;
+	}
+	$region_id = $record['region_id'];
+
+	$records_del = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, 0);
+	$records_del = ($records_del != null) ? $records_del : array();
+	foreach ($records_del as $record) {
+		$list[$record['category_midium_id']] = $record['category_midium_name'];
+	}
+
+	$records_del_all = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, 1);
+	$records_del_all = ($records_del_all != null) ? $records_del_all : array();
+	foreach ($records_del_all as $record) {
+		$list[$record['category_midium_id']] = $record['category_midium_name'];
+	}
+
+	return $list;
+}
+
+/**
  * 中カテゴリー（カスタマー用）
  *
  * @param number $category_large_id
