@@ -16,8 +16,15 @@ $fpdi->setSourceFile(dirname(__FILE__).'/../../../include/makePdf/fpdi/tmp/bill_
 $iIndex = $fpdi->importPage(1);
 $fpdi->useTemplate($iIndex);
 
-$fpdi->SetFont("msgothic003", "", 13);
+$fpdi->SetFont("msgothic003", "B", 24);
+$fpdi->Text(5.0,15.0,"請求月：");
+$bill_month = $list["bill_month"];
+$fpdi->Text(45.0,15.0, $bill_month);
+$fpdi->Text(5.0,29.0,"請求店舗：");
+$store_name = $list["store_name"];
+$fpdi->Text(45.0,29.0, $store_name);
 
+$fpdi->SetFont("msgothic003", "", 16);
 // 請求メイン
 // 数値固定
 $y = 105.0;
@@ -278,9 +285,9 @@ if($list["pay_status"] == 0) {
 $fpdi->Cell($cellX, $cellY, $view_text, 0, 0, 'R');
 
 // 合計メイン
-$total_main = 	$list["n_point"] + $list["n_point_commission"] 
-			+ $list["e_point"] + $list["e_point_commission"] + $list["sp_point"] 
-			+ $list["sp_point_commission"] - $list["use_n_point"] - $list["use_e_point"] - $list["use_point"] 
+$total_main = 	$list["n_point"] + $list["n_point_commission"]
+			+ $list["e_point"] + $list["e_point_commission"] + $list["sp_point"]
+			+ $list["sp_point_commission"] - $list["use_n_point"] - $list["use_e_point"] - $list["use_point"]
 			- $list["deposit_price"] - $list["adjust_price"];
 
 if($total_main >= 0) {
@@ -298,7 +305,7 @@ $fpdi->Cell($cellX, $cellY, $kigou_view, 0, 0, 'R');
 
 
 // 合計キャンセル
-$total_cancel = 	$list["use_point_cancel"] + $list["use_n_point_cancel"] + $list["use_e_point_cancel"] 
+$total_cancel = 	$list["use_point_cancel"] + $list["use_n_point_cancel"] + $list["use_e_point_cancel"]
 					- $list["n_point_cancel"] - $list["n_point_cancel_commission"] - $list["e_point_cancel"] - $list["e_point_cancel_commission"];
 
 if($total_cancel >= 0) {
@@ -329,7 +336,8 @@ $fpdi->SetXY($x, $kigou_y + 48);
 $fpdi->Cell($cellX, $cellY, $kigou_view, 0, 0, 'R');
 
 // ダウンロード
-$file_name = 'test.pdf';
+
+$file_name = $bill_month."_ID_".$list["store_id"].".pdf";
 $fpdi->Output($file_name, 'D');
 
 return;
