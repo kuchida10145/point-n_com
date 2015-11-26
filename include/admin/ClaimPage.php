@@ -11,7 +11,7 @@ class ClaimPage extends AdminPage{
 	protected $use_table   = 'claim';
 	protected $session_key = 'claim';
 	protected $use_confirm = true;
-	protected $page_title = 'ポイント利用履歴';
+	protected $page_title = 'ポイント利用履歴（受理済）';
 
 
 	/**

@@ -61,7 +61,7 @@
 						<i class="icon-edit"></i>
 						<p>利用枠管理</p>
 					</a>
-					
+
 					<div class="clearfix"></div>
 				</div>
 
@@ -69,7 +69,7 @@
 				 <div class="box-content">
 					<a class="quick-button span2" href="claim.php">
 						<i class="icon-edit"></i>
-						<p>ポイント利用履歴</p>
+						<p>ポイント利用履歴（受理済）</p>
 					</a>
 					 <a class="quick-button span2" href="bill.php">
 						<i class="icon-money"></i>
