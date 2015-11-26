@@ -126,6 +126,11 @@ class ReservePage extends MaintenancePage{
 				$dbFlg = $this->manager->db_manager->get('reserved')->updateStatusid(getParam($get,'reserved_id'), RESERVE_ST_INV);
 				if($dbFlg !== false){
 					$dbFlg = $this->user_update_action_cancel(getParam($get,'reserved_id'));
+
+					if($dbFlg) {
+						//メール送付
+						$this->sendUserMail($this->getAccount(), "10");
+					}
 				}
 			}
 			// 受理ボタン
@@ -379,5 +384,20 @@ class ReservePage extends MaintenancePage{
 			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_mont,$reservedInfo['store_id']);
 		}
 		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
+	}
+
+	/**
+	 * ユーザへメール送信
+	 * @param $userData	ユーザデータ
+	 * @param $mailId	送信するメールID
+	 */
+	private function sendUserMail($userData, $mailId) {
+		$mail = $this->manager->db_manager->get('automail')->findById($mailId);
+		//メール用データ
+		$mail_data['nickname'] = $userData['nickname'];
+		$mail = create_mail_data($mail,$mail_data);
+		$mail['to'] = $userData['email'];
+		$this->manager->mailer->setMailData($mail);
+		$this->manager->mailer->sendMail();
 	}
 }

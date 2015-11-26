@@ -11,11 +11,11 @@
 	<!-- start: Header -->
 	<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 	<!-- start: Header -->
-	
+
 		<div class="container-fluid-full">
 		<div class="row-fluid">
         <!-- start: Main Menu -->
-		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>	
+		<?php include_once dirname(__FILE__).'/../common/main_menu.php';?>
 		<!-- end: Main Menu -->
 			<noscript>
 				<div class="alert alert-block span10">
@@ -23,27 +23,27 @@
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
+
 			<!-- start: Content -->
 			<!--********** コンテンツはここから **********-->
 			<div id="content" class="span10">
 				<ul class="breadcrumb">
 					<li>
 						<i class="icon-home"></i>
-						<a href="index.php">Home</a> 
+						<a href="index.php">Home</a>
 						<i class="icon-angle-right"></i>
 					</li>
 					<li><a href="account.php"><?php echo $page_title;?></a><i class="icon-angle-right"></i></li>
 					<li><a href="#"><?php echo $page_type_text;?></a></li>
-					
-					
+
+
 				</ul>
 
-				
-				<h1><?php echo $page_title;?></h1>           
- 
+
+				<h1><?php echo $page_title;?></h1>
+
 				<?php echo $system_message;?>
-            
+
 				<div class="row-fluid">
 					<div class="box span12">
 					<div class="box-header" data-original-title>
@@ -52,7 +52,7 @@
 							<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 						</div>
 					</div>
-						
+
 					<div class="box-content">
 						<form class="form-horizontal" action="?m=edit&tkn=<?php echo getGet('tkn');?>" method="post">
 							<input type="hidden" value="edit" name="m">
@@ -91,9 +91,9 @@
 									<?php echo getParam($error,'return_path');?>
 								</div>
 							</div>
-							
-							
-                                  
+
+
+
 							<div class="control-group <?php echo error_class(getParam($error,'body'));?>">
 								<label class="control-label" for="selectError3">本文 <span class="label label-important">必須</span></label>
 								<div class="controls">
@@ -101,13 +101,13 @@
 									<?php echo getParam($error,'body');?>
 								</div>
 							</div>
-                            
-							
-                             
-                              
+
+
+
+
                             <div class="form-actions">
 								<button class="btn btn-primary" type="submit">確認画面へ</button>
-								<button type="button" onclick="location.href='account.php'" class="btn">戻る</button>
+								<button type="button" onclick="location.href='automail.php'" class="btn">戻る</button>
 							</div>
 						</form>
 					</div>
@@ -117,11 +117,11 @@
 			</div><!--/.fluid-container-->
 			<!-- end: Content -->
 			<!--********** コンテンツはここまで **********-->
-			
+
 		</div><!--/#content.span10-->
 		</div><!--/fluid-row-->
-		
-		
+
+
 	<div class="clearfix"></div>
 	<footer>
 		<p>
