@@ -43,7 +43,7 @@
 
 <script type="text/javascript">
 	function allNonCheckCategorySmall() {
-<?php 
+<?php
 		echo "var small_ids = [" . implode(",", $category_small_ids) . "];";
 ?>
 		for (i = 0; i < small_ids.length; i++) {
@@ -51,7 +51,7 @@
 		}
 	}
 	function allHideCategorySmall() {
-<?php 
+<?php
 		echo "var midium_ids = [" . implode(",", $category_midium_ids) . "];";
 ?>
 		for (i = 0; i < midium_ids.length; i++) {
@@ -63,7 +63,7 @@
 		$("#category_small_list_id_" + category_small_id).show();
 	}
 	function allInactiveCategoryMidium() {
-<?php 
+<?php
 		echo "var midium_ids = [" . implode(",", $category_midium_ids) . "];";
 ?>
 		for (i = 0; i < midium_ids.length; i++) {
@@ -77,7 +77,7 @@
 		$("#category_midium_id_" + category_midium_id).addClass("active");
 		$("#category_midium_id").val(category_midium_id);
 		$("#delivery").hide();
-<?php 
+<?php
 		echo "var midium_ids_for_delivery = [" . implode(",", $category_midium_ids_for_delivery) . "];";
 ?>
 		for (i = 0; i < midium_ids_for_delivery.length; i++) {
@@ -108,7 +108,7 @@
 <?php // 中カテゴリー ?>
 <div class="genrelist">
 	<p class="fixHeight" style="width: 100%">
-		<?php foreach (category_midium_for_customer(getParam($post, 'category_large_id'), getParam($post, 'region_id')) as $val_key => $val_name) : ?>
+		<?php foreach (category_midium_for_front(getParam($post, 'category_large_id'), getParam($post, 'region_id')) as $val_key => $val_name) : ?>
 		<?php 	$active = (getParam($post, 'category_midium_id') == $val_key) ? ' class="active" ' : ''; ?>
 		<a href="javascript:void(0);" id="category_midium_id_<?php echo $val_key; ?>" onclick="activeCategoryMidium(<?php echo $val_key; ?>);" <?php echo $active; ?>><?php echo $val_name; ?></a>
 		<?php endforeach; ?>

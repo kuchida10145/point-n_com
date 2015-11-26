@@ -228,6 +228,28 @@ function category_midium_for_customer($category_large_id, $region_id, $delivery 
 }
 
 /**
+ * 中カテゴリー（フロント表示用）
+ * ※小カテゴリが存在しない中カテゴリは表示しないようにする
+ *
+ * @param number $category_large_id
+ * @param number $region_id
+ * @param number $delivery
+ * @return array
+ */
+function category_midium_for_front($category_large_id, $region_id, $delivery = null) {
+	$list = array();
+	$manager = Management::getInstance();
+	$records = $manager->db_manager->get('category_midium')->categoryList($category_large_id, $region_id, $delivery);
+	$records = ($records != null) ? $records : array();
+	foreach ($records as $record) {
+		if($manager->db_manager->get('category_small')->categoryListCustomer($record['category_midium_id'])) {
+			$list[$record['category_midium_id']] = $record['category_midium_name'];
+		}
+	}
+	return $list;
+}
+
+/**
  * 小カテゴリー
  *
  * @param number $category_midium_id
