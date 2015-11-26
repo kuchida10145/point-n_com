@@ -163,17 +163,6 @@
 								</div>
 							</div>
 							<div class="control-group">
-								<label for="" class="control-label">業種</label>
-								<div class="controls">
-									<select id="type_of_industry_id" name="type_of_industry_id">
-										<option value=""></option>
-										<?php foreach(store_type_of_industry() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('type_of_industry_id'));?>><?php echo $val_name;?></option>
-										<?php endforeach;?>
-									</select>
-								</div>
-							</div>
-							<div class="control-group">
 								<label class="control-label">ジャンル</label>
 								<div class="controls">
 									<select id="category_large_id" name="category_large_id">
@@ -182,6 +171,18 @@
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet( 'category_large_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
+								</div>
+							</div>
+							<div class="control-group <?php echo error_class(getParam($error, 'category_midium_id'));?>">
+								<label class="control-label" for="typeahead">中カテゴリー <span class="label label-important">必須</span></label>
+								<div class="controls">
+									<select id="category_midium_id" name="category_midium_id">
+										<option value="">選択してください</option>
+										<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+									<?php echo getParam($error, 'category_midium_id');?>
 								</div>
 							</div>
 							<div class="control-group">
@@ -281,5 +282,20 @@
 	<!-- start:一覧画面共通処理 -->
 	<?php include_once dirname(__FILE__).'/../common/list_common.php';?>
 	<!-- end:一覧画面共通処理 -->
+
+	<script>
+	$(function(){
+		$('#prefectures_id').change(function() {
+			$('#prefectures_id').changeUpperItem({
+				url:'/admin/store.php?m=change_search_upper_item',
+				name:'prefectures_id'});
+		});
+		$('#category_large_id').change(function() {
+			$('#category_large_id').changeUpperItem({
+				url:'/admin/store.php?m=change_search_upper_item',
+				name:'category_large_id'});
+		});
+	});
+	</script>
 </body>
 </html>

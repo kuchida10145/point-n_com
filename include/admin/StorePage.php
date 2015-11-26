@@ -101,7 +101,7 @@ class StorePage extends AdminPage {
 
 		//ポイント利用枠テーブルに追記
 		$this->manager->db_manager->get('add_limit')->addBasePoint($id,$param['base_point']);
-		
+
 		//請求データ生成
 		$this->manager->db_manager->get('bill')->addThisMonthBillByStoreId($id);
 
@@ -230,6 +230,42 @@ class StorePage extends AdminPage {
 				// 第３エリア
 				$result['area_third'] = array(0=>non_select_item());
 			}
+		}
+
+		echo json_encode($result);
+		exit();
+	}
+
+	/**
+	 * 【店舗情報検索】中カテゴリのリスト取得（AJAX）
+	 * - 業種（大カテゴリが1の場合：業種は1、2、大カテゴリが2、3の場合：業種は3）
+	 * - 大カテゴリー(ジャンルマスター)
+	 */
+	protected function change_search_upper_itemAction(){
+		$result['result'] = 'result';
+
+		// 中カテゴリー
+		$result['category_midium'] = array();
+
+		$category_large_id   = $_POST['category_large_id'];
+		$prefectures_id      = $_POST['prefectures_id'];
+		$is_host = false;
+		if ($category_large_id > 1) {
+			// 業種およびジャンルマスターが風俗以外の場合
+			$is_host = true;
+		}
+		if ($is_host) {
+			$is_delivery = 0;
+			// 中カテゴリー
+			$result['category_midium'] = category_midium($category_large_id, $prefectures_id, $is_delivery);
+		} else {
+			$array_delivery = array();
+			$array_no_delivery = array();
+
+			// 中カテゴリー
+			$array_delivery = category_midium($category_large_id, $prefectures_id, 0);
+			$array_no_delivery = category_midium($category_large_id, $prefectures_id, 1);
+			$result['category_midium'] = array_merge($array_delivery, $array_no_delivery);
 		}
 
 		echo json_encode($result);
