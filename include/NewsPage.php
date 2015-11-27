@@ -25,7 +25,7 @@ class NewsPage extends Page{
 	 */
 	public function indexAction(){
 		$data =array();
-		
+
 		if(getGet('m')=='next'){
 			$this->nextAjax();
 			exit();
@@ -35,7 +35,7 @@ class NewsPage extends Page{
 		$this->loadView('index', $data);
 	}
 
-	
+
 	/**
 	 * 今日のニュースのエリア
 	 */
@@ -43,31 +43,32 @@ class NewsPage extends Page{
 		$data = array();
 		$this->loadView('area', $data);
 	}
-	
+
 	/**
 	 * お知らせAjax
-	 * 
+	 *
 	 */
 	public function nextAjax(){
-		$next = getGet('next');
+		$next = getGet('next') * $this->page_cnt;
+		$next_end = (getGet('next') + 1) * $this->page_cnt;
 		$res['result'] = 'false';
 		$region_id = getGet('region_id');
 		if($pages = $this->manager->db_manager->get('news')->getNewsList($region_id,$next,$this->page_cnt)){
 			$res['result'] = 'true';
 		}
 		$res['pages'] = $this->changeListData($pages);
-		echo json_encode($res);		
+		echo json_encode($res);
 	}
-	
+
 	/**
 	 * 一覧用データ変換(HTMLエスケープも実行)
 	 */
 	private function changeListData($datas){
-		
+
 		if(!$datas){
 			return NULL;
 		}
-		
+
 		foreach($datas as $data_key => $data){
 			$data['display_date'] = date('Y/m/d',strtotime($data['display_date']));
 			//画像周り
@@ -76,8 +77,8 @@ class NewsPage extends Page{
 			}else{
 				$data['image1']       = '/files/images/'.$data['image1'];
 			}
-			
-			
+
+
 			$data =escapeHtml($data);
 			$datas[$data_key] = $data;
 		}
@@ -95,11 +96,11 @@ class NewsPage extends Page{
 			$this->errorPage();
 			exit();
 		}
-		
+
 		//エスケープ
 		$res = escapeHtml($res);
 		$res['body'] = decodeHtml($res['body']);
-		
+
 		//画像
 		$images= array();
 		for($i = 1; $i <= 3; $i++){
@@ -107,13 +108,13 @@ class NewsPage extends Page{
 				$images[] = $res['image'.$i];
 			}
 		}
-		
+
 		$data['images'] = $images;
 		$data['news_data'] = $res;
 		$this->loadView('detail', $data);
 	}
 
 
-	
+
 }
 

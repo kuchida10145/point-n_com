@@ -21,6 +21,13 @@
 <!--ページメイン部分-->
 <div id="mainbody" class="clearfix">
 
+<!--
+<div id="loader">
+	<img src="/img/loading-icon.gif" width="300" height="300" alt="Loading..." />
+</div>
+<div id="fade"></div>
+ -->
+
 <!--コンテンツ-->
 <div class="contents">
 	<h2>今日のニュース</h2>
@@ -37,6 +44,7 @@
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
+		<input type="hidden" id="pagecount" value="0"></input>
 	</div>
 	<?php endif;?>
 
@@ -63,6 +71,7 @@ Copyright 2015 POINT.COM All Rights Reserved
 <?php include_once dirname(__FILE__).'/../common/slide_contents.php';?>
 <!-- /スライド-->
 <script type="text/javascript">
+
 $(function() {
 	var page_cnt = 0;
 	var region_id = <?php echo getGet('region_id');?>;
@@ -70,9 +79,9 @@ $(function() {
 		var $window = $(ev.currentTarget),
 			height = $window.height(),
 			scrollTop = $window.scrollTop(),
-			documentHeight = $(document).height() - 150;
+			documentHeight = $(document).height() - 50;
 		if (documentHeight < height + scrollTop) {
-			page_cnt++;
+			page_cnt = Number(document.getElementById("pagecount").value) + 1;
 			$.ajax({
 				type: "GET",
 				url: "/news/?m=next&region_id="+region_id+"&next="+page_cnt,
@@ -81,20 +90,34 @@ $(function() {
 					if(res.result=='false'){
 						return;
 					}
-					var html = "";
-					for(var i = 0; i < res.pages.length; i++){
-						var page = res.pages[i];
-						var news_id = page.news_id;
-						var image1  = page.image1;
-						var title  = page.title;
-						var display_date  = page.display_date;
-						html+='<dl class="clearfix">';
-						html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
-						html+='	<dd> '+display_date+'<br />';
-						html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
-						html+='</dl>';
-					}
-					$('.shoplist').append(html);
+
+					var loading_html = "";
+					loading_html+='<div id="loading">';
+					loading_html+='<dl class="clearfix">';
+					loading_html+='	<dt><img src="/img/loading-icon.gif" alt="loading" /></dt>';
+					loading_html+='	<dd><br />読み込み中</dd>';
+					loading_html+='</dl>';
+					loading_html+='</div>';
+					$('.shoplist').append(loading_html);
+
+					setTimeout(function() {
+						document.getElementById("loading").style.display = "none";
+						var html = "";
+						for(var i = 0; i < res.pages.length; i++){
+							var page = res.pages[i];
+							var news_id = page.news_id;
+							var image1  = page.image1;
+							var title  = page.title;
+							var display_date  = page.display_date;
+							html+='<dl class="clearfix">';
+							html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
+							html+='	<dd> '+display_date+'<br />';
+							html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
+							html+='</dl>';
+						}
+						$('.shoplist').append(html);
+					}, 1500);
+					document.getElementById("pagecount").value = page_cnt;
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					page_cnt--;

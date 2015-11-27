@@ -37,8 +37,7 @@
 		</dl>
 		<!--/1件-->
 		<?php endforeach;?>
-		<input type="hidden" id="infocount" value="<?php echo $page_cnt;?>"></input>
-		<input type="hidden" id="pagecount" value="<?php echo $page_cnt;?>"></input>
+		<input type="hidden" id="pagecount" value="0"></input>
 	</div>
 	<?php endif;?>
 
@@ -68,46 +67,53 @@ Copyright 2015 POINT.COM All Rights Reserved
 <script type="text/javascript">
 
 $(function() {
+	var page_cnt = 0;
     $(window).scroll(function(ev) {
         var $window = $(ev.currentTarget),
             height = $window.height(),
             scrollTop = $window.scrollTop(),
-            documentHeight = $(document).height() - 150;
-        var infocount = document.getElementById("infocount").value;
-
+            documentHeight = $(document).height() - 50;
         if (documentHeight < height + scrollTop) {
-
-            //page++;
+        	page_cnt = Number(document.getElementById("pagecount").value) + 1;
 			$.ajax({
 				type: "GET",
-				url: "/info/?m=next&next="+infocount,
+				url: "/info/?m=next&next="+page_cnt,
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){
 						return;
 					}
 
-					var html = "";
-					for(var i = 0; i < res.pages.length; i++){
-						var page = res.pages[i];
-						var news_id = page.news_id;
-						var image1  = page.image1;
-						var title  = page.title;
-						var display_date  = page.display_date;
-						html+='<dl class="clearfix">';
-						html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
-						html+='	<dd> '+display_date+'<br />';
-						html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
-						html+='</dl>';
-					}
-					var pagecount = document.getElementById("pagecount").value;
-					infocount =  parseInt(infocount) + parseInt(pagecount);
-					document.getElementById("infocount").value = infocount;
-					$('.shoplist').append(html);
+					var loading_html = "";
+					loading_html+='<div id="loading">';
+					loading_html+='<dl class="clearfix">';
+					loading_html+='	<dt><img src="/img/loading-icon.gif" alt="loading" /></dt>';
+					loading_html+='	<dd><br />読み込み中</dd>';
+					loading_html+='</dl>';
+					loading_html+='</div>';
+					$('.shoplist').append(loading_html);
+
+					setTimeout(function() {
+						document.getElementById("loading").style.display = "none";
+						var html = "";
+						for(var i = 0; i < res.pages.length; i++){
+							var page = res.pages[i];
+							var news_id = page.news_id;
+							var image1  = page.image1;
+							var title  = page.title;
+							var display_date  = page.display_date;
+							html+='<dl class="clearfix">';
+							html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
+							html+='	<dd> '+display_date+'<br />';
+							html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
+							html+='</dl>';
+						}
+						$('.shoplist').append(html);
+					}, 1500);
+					document.getElementById("pagecount").value = page_cnt;
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					//page--;
-
+					page_cnt--;
 				}
 			});
 

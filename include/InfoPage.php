@@ -42,11 +42,12 @@ class InfoPage extends Page{
 	 *
 	 */
 	public function nextAjax(){
-		$next = getGet('next');
+		$next = getGet('next') * $this->page_cnt;
+		$next_end = (getGet('next') + 1) * $this->page_cnt;
 		$store_id =0;
 		$res['result'] = 'false';
 
-		if($pages = $this->manager->db_manager->get('notice')->getNoticeList($store_id,$next,$this->page_cnt)){
+		if($pages = $this->manager->db_manager->get('notice')->getNoticeList($store_id,$next,$next_end)){
 			$res['result'] = 'true';
 		}
 		$res['pages'] = $this->changeListData($pages);

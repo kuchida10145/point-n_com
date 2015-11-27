@@ -33,7 +33,6 @@ class NewsDbModel extends DbModel{
 	 * @return array 詳細データ複数件
 	 */
 	public function getNewsList($region_id,$start_page,$get_page){
-		$start_page = $start_page*$get_page;
 		$sql = "SELECT news_id,display_date,title,image1,image2,image3 FROM {$this->table} WHERE ";
 		$sql.= "delete_flg = 0 AND ";
 		$sql.= "public = 1 AND ";
