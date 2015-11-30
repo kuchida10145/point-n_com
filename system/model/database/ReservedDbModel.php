@@ -200,29 +200,25 @@ class ReservedDbModel extends DbModel{
 			$store_name = $this->escape_string(getParam($get, 'store_name'));
 			$wheres[] = " store.store_name LIKE '%{$store_name}%' ";
 		}
-		//利用開始日
-		if(getParam($get,'use_start') != ''  && is_string(getParam($get,'use_start'))){
-			$use_start = $this->escape_string(getParam($get,'use_start'));
-			$wheres[] = " reserved.use_date > '{$use_start}' ";
+		//店舗ID
+		if(getParam($get,'store_hex_id') != ''  && is_string(getParam($get,'store_hex_id'))){
+			$store_hex_id = $this->escape_string(getParam($get,'store_hex_id'));
+			$wheres[] = " store.store_hex_id = '{$store_hex_id}' ";
 		}
-
-		//利用終了日
-		if(getParam($get,'use_end') != ''  && is_string(getParam($get,'use_end'))){
-			$use_end = $this->escape_string(getParam($get,'use_end'));
-			$wheres[] = " reserved.use_date < '{$use_end}' ";
+		//都道府県ID
+		if(getParam($get,'prefectures_id') != ''  && is_string(getParam($get,'prefectures_id'))){
+			$prefectures_id = $this->escape_string(getParam($get,'prefectures_id'));
+			$wheres[] = " store.prefectures_id = '{$prefectures_id}' ";
 		}
-
-
-		//業種
-		if(is_array(getParam($get,'type_of_industry_id'))){
-			$type_of_industry_ids = array();
-			foreach(getParam($get,'type_of_industry_id') as $val){
-				if(!is_digit($val)){ continue;}
-				$type_of_industry_ids[] = $val;
-			}
-			if(count($type_of_industry_ids) > 0){
-				$wheres[] = " store.type_of_industry_id IN(".implode(',',$type_of_industry_ids).") ";
-			}
+		//ジャンル
+		if(getParam($get,'category_large_id') != ''  && is_string(getParam($get,'category_large_id'))){
+			$category_large_id = $this->escape_string(getParam($get,'category_large_id'));
+			$wheres[] = " store.category_large_id = '{$category_large_id}' ";
+		}
+		//中ジャンル
+		if(getParam($get,'category_midium_id') != ''  && is_string(getParam($get,'category_midium_id'))){
+			$category_midium_id = $this->escape_string(getParam($get,'category_midium_id'));
+			$wheres[] = " store.category_midium_id = '{$category_midium_id}' ";
 		}
 
 		//クーポン発行

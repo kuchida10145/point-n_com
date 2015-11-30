@@ -154,4 +154,36 @@ class ClaimPage extends AdminPage{
 		echo $csv;
 
 	}
+
+	/**
+	 * 【店舗情報検索】中カテゴリのリスト取得（AJAX）
+	 * - 業種（大カテゴリが1の場合：業種は1、2、大カテゴリが2、3の場合：業種は3）
+	 * - 大カテゴリー(ジャンルマスター)
+	 */
+	protected function change_search_upper_itemAction(){
+		$result['result'] = 'result';
+
+		// 中カテゴリー
+		$result['category_midium'] = array();
+
+		$category_large_id   = $_POST['category_large_id'];
+		$prefectures_id      = $_POST['prefectures_id'];
+		$is_host = false;
+		if ($category_large_id > 1) {
+			// 業種およびジャンルマスターが風俗以外の場合
+			$is_host = true;
+		}
+		if ($is_host) {
+			$is_delivery = 0;
+			// 中カテゴリー
+			$result['category_midium'] = category_midium($category_large_id, $prefectures_id, $is_delivery);
+		} else {
+			// 中カテゴリー
+			$array = category_midium_deli_all($category_large_id, $prefectures_id);
+			$result['category_midium'] = $array;
+		}
+
+		echo json_encode($result);
+		exit();
+	}
 }

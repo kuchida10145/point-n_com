@@ -37,7 +37,6 @@
 				<?php echo $system_message;?>
 				<!-- 検索フォーム-->
 				<div class="row-fluid">
-
 					<div class="box span12">
 						<div class="box-header" data-original-title>
 							<h2><i class="halflings-icon search"></i><span class="break"></span>絞込み検索</h2>
@@ -45,47 +44,61 @@
 								<a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
 							</div>
 						</div>
-						<div class="box-content">
-							<form class="form-horizontal" method="get" action="">
-								<div class="control-group">
-									<label class="control-label" for="selectError3">業種</label>
-									<div class="controls">
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="1" type="checkbox" <?php echo _check_checked(1, getGet('type_of_industry_id'));?>></span> 店舗型風俗
-										</label>
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="2" type="checkbox" <?php echo _check_checked(2, getGet('type_of_industry_id'));?>></span> 無店舗型風俗
-										</label>
-										<label class="checkbox inline">
-											<span class="checked"><input name="type_of_industry_id[]" value="3" type="checkbox" <?php echo _check_checked(3, getGet('type_of_industry_id'));?>></span> ホスト・ガールズウォーター
-										</label>
-									</div>
+					<div class="box-content">
+						<form class="form-horizontal" method="get">
+							<input type="hidden" value="<?php echo getGet('store_id');?>" name="store_id">
+							<div class="control-group">
+								<label for="" class="control-label">店舗名</label>
+								<div class="controls">
+									<input type="text" name="store_name" value="<?php echo escapeHtml(getGet('store_name'));?>">
 								</div>
-								<div class="control-group">
-									<label class="control-label" for="typeahead">店舗名</label>
-									<div class="controls">
-										<input placeholder="" value="<?php echo escapeHtml(getGet('store_name'));?>" name="store_name" id="input" type="text">
-									</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">店舗名ID</label>
+								<div class="controls">
+									<input type="text" name="store_hex_id" value="<?php echo escapeHtml(getGet('store_hex_id'));?>">
 								</div>
-								<div class="control-group">
-									<label class="control-label" for="date01">日付</label>
-									<div class="controls">
-										<input type="text" name="use_start" class="input-xlarge "  value="<?php echo escapeHtml(getGet('use_start'));?>">
-										～
-										<input type="text" name="use_end" class="input-xlarge" value="<?php echo escapeHtml(getGet('use_end'));?>">
-										<script type="text/javascript">
-											$(function(){$("[name=use_start]").datepicker({"dateFormat":"yy-mm-dd"});});
-											$(function(){$("[name=use_end]").datepicker({"dateFormat":"yy-mm-dd"});});
-										</script>
-									</div>
+							</div>
+							<div class="control-group">
+								<label for="" class="control-label">都道府県</label>
+								<div class="controls">
+									<select id="prefectures_id" name="prefectures_id" class="input-small">
+										<option value=""></option>
+										<?php foreach(prefectures_master() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('prefectures_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
-
-								<div class="form-actions">
-									<button type="submit" class="btn btn-primary">検索</button>
-									<button type="button" onclick="location.href='claim.php'" class="btn">リセット</button>
+							</div>
+							<div class="control-group">
+								<label class="control-label">ジャンル</label>
+								<div class="controls">
+									<select id="category_large_id" name="category_large_id">
+										<option value=""></option>
+										<?php foreach(category_large() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet( 'category_large_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
 								</div>
-                            </form>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">中カテゴリー</label>
+								<div class="controls">
+									<select id="category_midium_id" name="category_midium_id">
+										<option value=""></option>
+										<?php foreach(category_midium_deli_all(getGet('category_large_id'), getGet('prefectures_id')) as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('category_midium_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<input type="hidden" value="true" name="search">
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary">検索</button>
+							<button type="reset" class="btn" onclick="location.href='claim.php'">リセット</button>
 						</div>
+                        </form>
+                    </div>
 					</div><!--/span-->
 				</div><!--/row-->
 				<!-- /検索フォーム -->
@@ -170,5 +183,19 @@
 	<?php include_once dirname(__FILE__).'/../common/list_common.php';?>
 	<!-- end:一覧画面共通処理 -->
 
+	<script>
+	$(function(){
+		$('#prefectures_id').change(function() {
+			$('#prefectures_id').changeSearchUpperItem({
+				url:'/admin/claim.php?m=change_search_upper_item',
+				name:'prefectures_id'});
+		});
+		$('#category_large_id').change(function() {
+			$('#category_large_id').changeSearchUpperItem({
+				url:'/admin/claim.php?m=change_search_upper_item',
+				name:'category_large_id'});
+		});
+	});
+	</script>
 </body>
 </html>

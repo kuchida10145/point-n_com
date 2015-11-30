@@ -97,12 +97,12 @@
 								</div>
 							</div>
 							<div class="control-group">
-								<label for="" class="control-label">業種</label>
+								<label for="" class="control-label">都道府県</label>
 								<div class="controls">
-									<select id="type_of_industry_id" name="type_of_industry_id">
+									<select id="prefectures_id" name="prefectures_id" class="input-small">
 										<option value=""></option>
-										<?php foreach(store_type_of_industry() as $val_key => $val_name):?>
-										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('type_of_industry_id'));?>><?php echo $val_name;?></option>
+										<?php foreach(prefectures_master() as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('prefectures_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -114,6 +114,17 @@
 										<option value=""></option>
 										<?php foreach(category_large() as $val_key => $val_name):?>
 										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet( 'category_large_id'));?>><?php echo $val_name;?></option>
+										<?php endforeach;?>
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="typeahead">中ジャンル</label>
+								<div class="controls">
+									<select id="category_midium_id" name="category_midium_id">
+										<option value=""></option>
+										<?php foreach(category_midium_deli_all(getGet('category_large_id'), getGet('prefectures_id')) as $val_key => $val_name):?>
+										<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getGet('category_midium_id'));?>><?php echo $val_name;?></option>
 										<?php endforeach;?>
 									</select>
 								</div>
@@ -210,7 +221,7 @@
 							</tr>
 							<tr>
 								<th colspan="13" style="text-align: right">合計</th>
-								
+
 								<td><?php echo total_tag(cal_cancel_total($data)+cal_point_total($data));?></td>
 							</tr>
 						</tbody>
@@ -237,5 +248,19 @@
 	<!-- start:一覧画面共通処理 -->
 	<?php include_once dirname(__FILE__).'/../common/list_common.php';?>
 	<!-- end:一覧画面共通処理 -->
+	<script>
+	$(function(){
+		$('#prefectures_id').change(function() {
+			$('#prefectures_id').changeSearchUpperItem({
+				url:'/admin/bill.php?m=change_search_upper_item',
+				name:'prefectures_id'});
+		});
+		$('#category_large_id').change(function() {
+			$('#category_large_id').changeSearchUpperItem({
+				url:'/admin/bill.php?m=change_search_upper_item',
+				name:'category_large_id'});
+		});
+	});
+	</script>
 </body>
 </html>

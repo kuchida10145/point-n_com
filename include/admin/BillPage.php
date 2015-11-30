@@ -6,7 +6,7 @@
 include_once dirname(__FILE__).'/../common/AdminPage.php';
 
 class BillPage extends AdminPage {
-	
+
 	protected $id = 0;/* ID */
 	protected $use_table   = 'bill';
 	protected $session_key = 'bill';
@@ -14,11 +14,11 @@ class BillPage extends AdminPage {
 	protected $page_title = '請求管理';
 	protected $page_cnt = 100000;//一ページに表示するデータ数
 
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * 一覧画面の共通データを取得
 	 *
@@ -31,9 +31,9 @@ class BillPage extends AdminPage {
 		$data['csv_url'] = http_build_query($get);
 		return $data;
 	}
-	
+
 	protected function csvAction(){
-		
+
 		$res = array();
 		$get = $_GET;
 
@@ -50,11 +50,11 @@ class BillPage extends AdminPage {
 		else{
 			exit();
 		}
-		
+
 		$this->manager->setCore('bill');
 		$this->manager->bill->createCsv($res);
-		
-		
+
+
 	}
 
 
@@ -74,15 +74,15 @@ class BillPage extends AdminPage {
 		$referer = $_SERVER["HTTP_REFERER"];
 		$url = parse_url($referer);
 		$host = $url['host'];
-		
+
 		if($host == $_SERVER['SERVER_NAME']){
 			$this->setFormSession('redirect',$referer);
 		}
-		
+
 		return;
 	}
-	
-	
+
+
 	/**
 	 * 更新処理
 	 *
@@ -101,8 +101,8 @@ class BillPage extends AdminPage {
 		}
 		return $flg;
 	}
-	
-	
+
+
 	/**
 	 * 入力画面の共通データを取得
 	 *
@@ -125,7 +125,7 @@ class BillPage extends AdminPage {
 		$data = $this->getEditConfirmCommon();
 		return $data;
 	}
-	
+
 	/**
 	 * 入力画面と確認画面で共通のデータ
 	 * @param array $data
@@ -143,4 +143,35 @@ class BillPage extends AdminPage {
 		return $data;
 	}
 
+	/**
+	 * 【店舗情報検索】中カテゴリのリスト取得（AJAX）
+	 * - 業種（大カテゴリが1の場合：業種は1、2、大カテゴリが2、3の場合：業種は3）
+	 * - 大カテゴリー(ジャンルマスター)
+	 */
+	protected function change_search_upper_itemAction(){
+		$result['result'] = 'result';
+
+		// 中カテゴリー
+		$result['category_midium'] = array();
+
+		$category_large_id   = $_POST['category_large_id'];
+		$prefectures_id      = $_POST['prefectures_id'];
+		$is_host = false;
+		if ($category_large_id > 1) {
+			// 業種およびジャンルマスターが風俗以外の場合
+			$is_host = true;
+		}
+		if ($is_host) {
+			$is_delivery = 0;
+			// 中カテゴリー
+			$result['category_midium'] = category_midium($category_large_id, $prefectures_id, $is_delivery);
+		} else {
+			// 中カテゴリー
+			$array = category_midium_deli_all($category_large_id, $prefectures_id);
+			$result['category_midium'] = $array;
+		}
+
+		echo json_encode($result);
+		exit();
+	}
 }

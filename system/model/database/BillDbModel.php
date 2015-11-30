@@ -45,12 +45,12 @@ class BillDbModel extends DbModel{
 
 		);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 店舗側の月別請求データ取得
-	 * 
+	 *
 	 */
 	public function getBillForStore($store_id,$year,$month){
 		$bill_month = date('Y-m',strtotime($year.'-'.$month));
@@ -68,19 +68,19 @@ class BillDbModel extends DbModel{
 		$sql = "INSERT INTO bill (store_id,store_name,bill_month,regist_date,update_date) (SELECT store_id,store_name,'{$this_month}','{$regist_date}','{$update_date}' FROM store WHERE delete_flg = 0 )";
 		$this->db->query($sql);
 	}
-	
+
 	/**
 	 * 指定の店舗の請求でーたを生成
-	 * 
+	 *
 	 */
 	public function addThisMonthBillByStoreId($store_id){
 		$regist_date = $update_date = date('Y-m-d H:i:s');
 		$this_month = date('Y-m');
-		
+
 		$sql = "INSERT INTO bill (store_id,store_name,bill_month,regist_date,update_date) (SELECT store_id,store_name,'{$this_month}','{$regist_date}','{$update_date}' FROM store WHERE store_id = '{$store_id}' AND delete_flg = 0 )";
 		$this->db->query($sql);
 	}
-	
+
 	/**
 	 * クーポンが発行された場合
 	 * @param $point ポイント
@@ -104,9 +104,9 @@ class BillDbModel extends DbModel{
 		$sql = "UPDATE bill SET use_point = use_point+{$point},update_date = '{$update_date}' WHERE store_id = '{$store_id}' AND  bill_month = '{$this_month}' ";
 		return $this->db->query($sql);
 	}
-	 * 
+	 *
 	 */
-	
+
 	/**
 	 * 前月以前の予約でキャンセルあった場合
 	 * @param $point ポイント
@@ -118,29 +118,29 @@ class BillDbModel extends DbModel{
 		$sql = "UPDATE bill SET before_cancel = before_cancel+{$point},update_date = '{$update_date}' WHERE store_id = '{$store_id}' AND  bill_month = '{$this_month}' ";
 		return $this->db->query($sql);
 	}
-	
-	 * 
+
+	 *
 	 */
-	
+
 	public function findByMonthStoreId($year_month,$store_id){
 		$field = $this->getFieldText();
-		
+
 		$sql = "SELECT {$field} FROM bill WHERE bill_month = '{$year_month}' AND store_id = '{$store_id}' LIMIT 0,1";
 		return $this->db->getData($sql);
 	}
-	
+
 	/**
 	 * 指定の店舗の指定年月の料金計算
 	 */
 	public function monthTotalBillByStoreId($year_month,$store_id){
-		
+
 		//請求データ取得
 		$bill = $this->findByMonthStoreId($year_month,$store_id);
-		
+
 		$manager = Management::getInstance();
 		$bill_action  = $manager->db_manager->get('bill_action')->getYearMonthPointSumByStoreId($store_id,$year_month);
 		$none_accept  = $manager->db_manager->get('bill_action')->getNoneAcceptYearMonthPointSumByStoreId($store_id,$year_month);
-		
+
 		$bill_action['n_point_n']            = $none_accept['n_point'];
 		$bill_action['n_point_n_commission'] = $none_accept['n_point_commission'];
 		$bill_action['e_point_n']            = $none_accept['e_point'];
@@ -148,32 +148,32 @@ class BillDbModel extends DbModel{
 		$bill_action['use_n_point_n']        = $none_accept['use_n_point'];
 		$bill_action['use_e_point_n']        = $none_accept['use_e_point'];
 		$bill_action['use_point_n']          = $none_accept['use_point'];
-		
+
 		return $this->updateById($bill['bill_id'], $bill_action);
-		
+
 	}
-	
-	
+
+
 	/**
 	 * 指定年月の発行料金計
 	 */
 	public function monthTotalBillByStoreId_dummy($year_month,$store_id){
-		
+
 		$bill = $this->findByMonthStoreId($year_month,$store_id);
-		
+
 		//発行ポイント総数
 		$base_sql = "SELECT IFNULL(SUM(total_price), 0) as total_price,IFNULL(sum(use_point), 0) as use_point FROM bill_action WHERE store_id = '{$store_id}' AND ##replace## regist_date LIKE '{$year_month}%' GROUP BY store_id ";
 		$sql = str_replace('##replace##', '', $base_sql);
 		if(!$total = $this->db->getData($sql)){
 			$total = array('total_price' => 0,'use_point' => 0 );
 		}
-		
+
 		//キャンセル料金
 		$sql = str_replace('##replace##', ' data_type = 1 AND ', $base_sql);
 		if(!$minus = $this->db->getData($sql)){
 			$minus = array('total_price' => 0,'use_point' => 0 );
 		}
-		
+
 		//通常ポイント総数
 		$base_sql ="SELECT IFNULL(SUM(issue_point), 0) as point,IFNULL(SUM(commission), 0) as commission FROM bill_action WHERE store_id = '{$store_id}' AND action_type=##type## AND data_type = 0 AND regist_date LIKE '{$year_month}%' GROUP BY store_id ";
 		$sql = str_replace('##type##', '1', $base_sql);
@@ -181,7 +181,7 @@ class BillDbModel extends DbModel{
 		if(!$normal = $this->db->getData($sql)){
 			$normal = array('point'=>0,'commission'=>0);
 		}
-		
+
 		//イベントポイント総数
 		$sql = str_replace('##type##', '2', $base_sql);
 		if(!$event = $this->db->getData($sql)){
@@ -192,12 +192,12 @@ class BillDbModel extends DbModel{
 		if(!$special = $this->db->getData($sql)){
 			$special = array('point'=>0,'commission'=>0);
 		}
-		
+
 		$normal_point  = $normal['point'];
 		$event_point   = $event['point'];
 		$special_point = $special['point'];
 		$commission    = $normal['commission'] + $event['commission'] + $special['commission'];
-		
+
 		$param = array(
 			'issue_point'        =>$total['total_price']-$minus['total_price'],
 			'use_point'          =>$total['use_point']-$minus['use_point'],
@@ -208,15 +208,15 @@ class BillDbModel extends DbModel{
 			'special_point'      => $special_point,
 			'total_commission'   => $commission,
 		);
-		
-		
+
+
 		return $this->updateById($bill['bill_id'],$param);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * 検索結果最大取得件数（管理者用）
 	 * @param array $get
@@ -244,10 +244,10 @@ class BillDbModel extends DbModel{
 	 */
 	public function adminSearch($get,$limit,$order){
 		$sql = $this->adminSearchSqlBase($get);
-		
+
 		$field = "bill.".implode(',bill.',$this->getField()).",store.store_name";
 		$field = str_replace("bill.store_name,","",$field);
-		
+
 		$sql = str_replace("##field##",$field, $sql);
 		$sql = $sql." {$order} {$limit}";
 
@@ -263,7 +263,7 @@ class BillDbModel extends DbModel{
 
 		return $sql;
 	}
-	
+
 	/**
 	 * WHERE句生成（管理者用）
 	 *
@@ -280,25 +280,31 @@ class BillDbModel extends DbModel{
 			$wheres[] = " bill.pay_status = '{$pay_status}' ";
 		}
 
+		// 都道府県が設定されている場合
+		if (getParam($get, 'prefectures_id') != '' && is_string(getParam($get,'prefectures_id'))) {
+			$prefectures_id = $this->escape_string(getParam($get, 'prefectures_id'));
+			$wheres[] = " prefectures_id = '{$prefectures_id}' ";
+		}
+
 		//業種（大カテゴリ
-		
 		if(getParam($get,'category_large_id') != ''  && is_string(getParam($get,'category_large_id'))){
 			$category_large_id = $this->escape_string(getParam($get,'category_large_id'));
 			$wheres[] = " store.category_large_id = '{$category_large_id}' ";
 		}
-		//業種（中カテゴリ
-		if(getParam($get,'type_of_industry_id') != ''  && is_string(getParam($get,'type_of_industry_id'))){
-			$type_of_industry_id = $this->escape_string(getParam($get,'type_of_industry_id'));
-			$wheres[] = " store.type_of_industry_id = '{$type_of_industry_id}' ";
+
+		// 中ジャンルが設定されている場合
+		if (getParam($get, 'category_midium_id') != '' && is_string(getParam($get,'category_midium_id'))) {
+			$category_midium_id = $this->escape_string(getParam($get, 'category_midium_id'));
+			$wheres[] = " category_midium_id = '{$category_midium_id}' ";
 		}
-		
+
 		//エリア
 		if(getParam($get,'region_id') != ''  && is_string(getParam($get,'region_id'))){
 			$region_id         = getParam($get,'region_id');
 			$category_large_id = getParam($get,'category_large_id');
 			$manager = Management::getInstance();
 			$area_first_ids = $manager->db_manager->get('area_first')->areaFirstForBillSearchByRegionId($region_id,$category_large_id);
-			
+
 			if(!$area_first_ids){
 				$wheres[] = " store.area_fist = '9999' ";
 			}
@@ -312,42 +318,42 @@ class BillDbModel extends DbModel{
 					$wheres[] = " store.area_first_id IN ({$ids_str} ) ";
 				}
 			}
-			
-			
+
+
 		}
-		
+
 		//店舗名
 		if(getParam($get,'store_name') != '' && getParam($get,'store_name')){
 			$store_name = $this->escape_string(getParam($get,'store_name'));
 			$wheres[] = " store.store_name LIKE '%{$store_name}%' ";
 		}
-		
+
 		//期間
 		$date = getParam($get,'year',date('Y'))."-".getParam($get, 'month',date('m'));
-		
+
 		$wheres[] = " bill.bill_month = '$date' ";
-		
+
 		//店舗ID
 		if(getParam($get,'store_hex_id')!=''){
 			$store_hex_id = $this->escape_string(getParam($get,'store_hex_id'));
 			$wheres[] = "store.store_hex_id = '{$store_hex_id}'";
 		}
-		
-		
+
+
 		//検索条件が指定されていない場合
 		if(getParam($get,'store_name') == '' && getParam($get,'region_id') == '' && getParam($get,'pay_status') == '' && getParam($get,'category_large_id') == '' && getParam($get,'type_of_industry_id') == '' && getParam($get,'store_hex_id') == ''){
 			$wheres[] = "bill.bill_id = '-1' ";
 		}
 
-		
+
 
 		$where = " WHERE ".implode(' AND ',$wheres);
 
 		return $where;
 	}
-	
-	
-	
+
+
+
 	/*==========================================================================================
 	 * 店舗用共通処理
 	 *
@@ -363,10 +369,10 @@ class BillDbModel extends DbModel{
 	protected function maintenanceSearchWhere($id,$get){
 		$wheres = array();
 		$wheres[] = " store_id = '{$id}' AND delete_flg = 0 ";
-		
+
 		//期間
 		if(getParam($get,'year') != ''){
-			
+
 			if(getParam($get, 'month') == ''){
 				$date = getParam($get,'year')."-";
 				$wheres[] = " bill_month LIKE '{$date}__' ";
@@ -375,7 +381,7 @@ class BillDbModel extends DbModel{
 				$wheres[] = " bill_month = '$date' ";
 			}
 		}
-		
+
 		$where = " WHERE ".  implode(' AND ', $wheres);
 		return $where;
 	}
