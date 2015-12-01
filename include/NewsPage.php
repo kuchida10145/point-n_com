@@ -50,7 +50,6 @@ class NewsPage extends Page{
 	 */
 	public function nextAjax(){
 		$next = getGet('next') * $this->page_cnt;
-		$next_end = (getGet('next') + 1) * $this->page_cnt;
 		$res['result'] = 'false';
 		$region_id = getGet('region_id');
 		if($pages = $this->manager->db_manager->get('news')->getNewsList($region_id,$next,$this->page_cnt)){
