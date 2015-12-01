@@ -29,7 +29,7 @@
 	<?php else:?>
 	<div class="shoplist">
 		<div class="shoplist_val">
-			<?php foreach($info_list as $info_data):?>
+			<?php foreach($notice_list as $info_data):?>
 				<!--1件-->
 				<dl class="clearfix">
 					<dt><a href="detail.php?id=<?php echo $info_data['notice_id'];?>"><img src="<?php echo $info_data['image1'];?>" alt="<?php echo $info_data['title'];?>" /></a></dt>
