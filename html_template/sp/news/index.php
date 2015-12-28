@@ -46,6 +46,7 @@
 				<!--/1件-->
 			<?php endforeach;?>
 			<input type="hidden" id="pagecount" value="0"></input>
+			<input type="hidden" id="load_flg" value="false"></input>
 		</div>
 		<div id="loading" style="display:none">
 			<dl class="clearfix">
@@ -88,9 +89,8 @@ $(function() {
 			height = $window.height(),
 			scrollTop = $window.scrollTop(),
 			documentHeight = $(document).height() - 50;
-		var loading_style = document.getElementById("loading").style.display;
-		if (documentHeight < height + scrollTop  && loading_style == "none") {
-			document.getElementById("loading").style.display = "inline";
+		if (documentHeight < height + scrollTop  && document.getElementById("load_flg").value == "false") {
+			document.getElementById("load_flg").value = "true";
 			page_cnt = Number(document.getElementById("pagecount").value) + 1;
 			$.ajax({
 				type: "GET",
@@ -98,29 +98,30 @@ $(function() {
 				dataType: "json",
 				success: function(res){
 					if(res.result=='false'){
+						document.getElementById("load_flg").value = "false";
+						return;
+					} else {
+						document.getElementById("loading").style.display = "inline";
 						setTimeout(function() {
 							document.getElementById("loading").style.display = "none";
-						}, 500);
-						return;
+							var html = "";
+							for(var i = 0; i < res.pages.length; i++){
+								var page = res.pages[i];
+								var news_id = page.news_id;
+								var image1  = page.image1;
+								var title  = page.title;
+								var display_date  = page.display_date;
+								html+='<dl class="clearfix">';
+								html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
+								html+='	<dd> '+display_date+'<br />';
+								html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
+								html+='</dl>';
+							}
+							$('.shoplist_val').append(html);
+							document.getElementById("pagecount").value = page_cnt;
+							document.getElementById("load_flg").value = "false";
+						}, 1500);
 					}
-					setTimeout(function() {
-						document.getElementById("loading").style.display = "none";
-						var html = "";
-						for(var i = 0; i < res.pages.length; i++){
-							var page = res.pages[i];
-							var news_id = page.news_id;
-							var image1  = page.image1;
-							var title  = page.title;
-							var display_date  = page.display_date;
-							html+='<dl class="clearfix">';
-							html+='	<dt><a href="detail.php?id='+news_id+'"><img src="'+image1+'" alt="'+title+'" /></a></dt>';
-							html+='	<dd> '+display_date+'<br />';
-							html+='	<a href="detail.php?id='+news_id+'">'+title+'</a></dd>';
-							html+='</dl>';
-						}
-						$('.shoplist_val').append(html);
-					}, 1500);
-					document.getElementById("pagecount").value = page_cnt;
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					page_cnt--;
