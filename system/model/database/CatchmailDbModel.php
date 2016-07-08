@@ -13,7 +13,7 @@ class CatchmailDbModel extends DbModel{
 			'dead_time',
 			'use_persons',
 			'reserved_name',
-			'area_first_id',
+			'area_first_prefectures_id',
 			'area_second_id',
 			'area_third_id',
 			'category_large_id',
@@ -77,7 +77,7 @@ class CatchmailDbModel extends DbModel{
 	 */
 	public function maintenanceRserveSearch($account,$get,$limit,$order){
 		$sql = $this->maintenanceReserveSearchSqlBase($account,$get);
-		$sql = str_replace("##field##","catchmail_id,user_id,reserved_date,dead_time,use_persons,reserved_name,area_first_id,area_second_id,area_third_id,category_large_id,category_midium_id,decision_store,status,regist_date,update_date,delete_flg", $sql);
+		$sql = str_replace("##field##","catchmail_id,user_id,reserved_date,dead_time,use_persons,reserved_name,area_first_prefectures_id,area_second_id,area_third_id,category_large_id,category_midium_id,decision_store,status,regist_date,update_date,delete_flg", $sql);
 		$sql = $sql." {$order} {$limit}";
 
 		return $this->db->getAllData($sql);
@@ -108,7 +108,7 @@ class CatchmailDbModel extends DbModel{
 		$where = "";
 
 		$wheres[] = " delete_flg = 0 ";
-		$wheres[] = " area_first_id = '{$this->escape_string(getParam($account,'prefectures_id'))}' ";
+		$wheres[] = " area_first_prefectures_id = '{$this->escape_string(getParam($account,'prefectures_id'))}' ";
 		$wheres[] = " area_second_id = '{$this->escape_string(getParam($account,'area_second_id'))}' ";
 		$wheres[] = " area_third_id = '{$this->escape_string(getParam($account,'area_third_id'))}' ";
 		$wheres[] = " category_large_id = '{$this->escape_string(getParam($account,'category_large_id'))}' ";
@@ -135,6 +135,7 @@ class CatchmailDbModel extends DbModel{
 				decision_store
 				FROM catchmail WHERE ";
 		$sql.= " user_id = '{$user_id}' AND ";
+		$sql.= " decision_store IS NULL AND ";
 		$sql.= " delete_flg = 0 ";
 		$sql.= " ORDER BY regist_date Desc";
 

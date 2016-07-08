@@ -99,7 +99,7 @@
 							</p>
 							<h3><span class="clrred">※</span> 都道府県</h3>
 							<p>
-								<select id="area_first_id" name="area_first_id">
+								<select id="area_first_prefectures_id" name="area_first_prefectures_id">
 									<option value="">選択してください</option>
 									<?php foreach(prefectures_master() as $val_key => $val_name):?>
 									<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_first_id'));?>><?php echo $val_name;?></option>
@@ -174,7 +174,7 @@
 		$(function(){
 			window.onload = function() {
 				onTime_KindChange();
-				$('#area_first_id').changeUpperItem({
+				$('#area_first_prefectures_id').changeUpperItem({
 					url:'/catch/index.php?m=change_upper_item',
 					name:'area_first_id'});
 			}

@@ -101,7 +101,7 @@ class CatchPage extends Page{
 						'use_time'   			=> $post['use_time'],
 						'use_min'   			=> $post['use_min'],
 						'use_persons'   		=> $post['use_persons'],
-						'area_first_id' 		=> $post['area_first_id'],
+						'area_first_prefectures_id' 		=> $post['area_first_prefectures_id'],
 						'area_second_id'		=> $post['area_second_id'],
 						'area_third_id' 		=> $post['area_third_id'],
 						'category_large_id'     => $post['category_large_id'],
@@ -125,8 +125,8 @@ class CatchPage extends Page{
 			$post['reserved_name'] = $account['nickname'];
 		}
 
-		if(!isset($post['area_first_id']) || $post['area_first_id'] == "") {
-			$post['area_first_id'] = $account['prefectures_id'];
+		if(!isset($post['area_first_prefectures_id']) || $post['area_first_prefectures_id'] == "") {
+			$post['area_first_prefectures_id'] = $account['prefectures_id'];
 		}
 
 		if(!isset($post['time_kind'])) {
@@ -134,7 +134,7 @@ class CatchPage extends Page{
 		}
 		$data['post']        = escapeHtml($post);
 		$data['error']       = $error;
-		$data['area_first_id']   = $account['prefectures_id'];
+		$data['area_first_prefectures_id']   = $account['prefectures_id'];
 		// 利用可能時間リスト
 		// 分が15分刻みなので現在時刻が45分超えたら次の時間にする
 		$min = (int)date('i');
@@ -378,7 +378,7 @@ class CatchPage extends Page{
 		$this->manager->validation->setRule('reserved_name','required');
 		$this->manager->validation->setRule('category_large_id','selected');
 		$this->manager->validation->setRule('category_midium_id','selected');
-		$this->manager->validation->setRule('area_first_id','selected');
+		$this->manager->validation->setRule('area_first_prefectures_id','selected');
 		$this->manager->validation->setRule('area_second_id','selected');
 		$this->manager->validation->setRule('area_third_id','selected');
 

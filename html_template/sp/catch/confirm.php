@@ -83,7 +83,7 @@
 							<p>
 							<?php
 								$area_first_array = prefectures_master();
-								echo $area_first_array[getParam($post, 'area_first_id')];
+								echo $area_first_array[getParam($post, 'area_first_prefectures_id')];
 							?>
 							</p>
 							<h3><span class="clrred">※</span> ジャンル</h3>
@@ -96,14 +96,14 @@
 							<h3><span class="clrred">※</span> カテゴリ</h3>
 							<p>
 							<?php
-								$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), 0);
+								$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), 0);
 								echo $category_midium_array[getParam($post, 'category_midium_id')];
 							?>
 							</p>
 							<h3><span class="clrred">※</span> エリア</h3>
 							<p>
 							<?php
-								$area_second_array = area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), 0);
+								$area_second_array = area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), 0);
 								echo $area_second_array[getParam($post, 'area_second_id')];
 							?>
 							</p>
@@ -118,7 +118,7 @@
 							<div align="center">
 								<p>上記内容を確認して「送信」ボタンを押してください</p>
 							</div>
-							<p class="alncenter"><a href="index_step3.php?m=step3&tkn=<?php echo getGet('tkn');?>" class="linkbtn4 alncenter">戻る</a>
+							<p class="alncenter"><a href="index.php?m=confirm&tkn=<?php echo getGet('tkn');?>" class="linkbtn4 alncenter">戻る</a>
 							<a href="javascript:void(0);" onclick="document.frm.submit();" class="linkbtn alncenter">送信</a></p>
 						</form>
 					</div>
