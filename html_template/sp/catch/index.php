@@ -102,10 +102,10 @@
 								<select id="area_first_prefectures_id" name="area_first_prefectures_id">
 									<option value="">選択してください</option>
 									<?php foreach(prefectures_master() as $val_key => $val_name):?>
-									<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_first_id'));?>><?php echo $val_name;?></option>
+									<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_first_prefectures_id'));?>><?php echo $val_name;?></option>
 									<?php endforeach;?>
 								</select>
-								<?php echo getParam($error, 'area_first_id');?>
+								<?php echo getParam($error, 'area_first_prefectures_id');?>
 							</p>
 							<h3><span class="clrred">※</span> ジャンル</h3>
 							<p>
@@ -121,7 +121,7 @@
 							<p>
 								<select id="category_midium_id" name="category_midium_id">
 									<option value="">選択してください</option>
-									<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
+									<?php foreach(category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
 									<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'category_midium_id'));?>><?php echo $val_name;?></option>
 									<?php endforeach;?>
 								</select>
@@ -131,7 +131,7 @@
 							<p>
 								<select id="area_second_id" name="area_second_id">
 									<option value="">選択してください</option>
-									<?php foreach(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
+									<?php foreach(area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), is_delivery(getParam($post, 'type_of_industry_id'))) as $val_key => $val_name):?>
 									<option value="<?php echo $val_key;?>" <?php echo _check_selected($val_key, getParam($post, 'area_second_id'));?>><?php echo $val_name;?></option>
 									<?php endforeach;?>
 								</select>
