@@ -26,7 +26,15 @@
 </div>
 <!--コンテンツ-->
 <div class="contents">
-	<p>退会についての規約</p>
+	<p>退会規約</p>
+	<p>ポイントについて</p>
+	<ol>
+		<li>アカウントは抹消され、現在の所有ポイント、取得予定ポイントは全て無効になります。</li>
+	</ol>
+	<p>再開したい場合</p>
+	<ol>
+		<li>アカウント情報は削除されますので、所有ポイントは0からになります。</li>
+	</ol>
 	<form method="post" action="?tkn=<?php echo getGet('tkn');?>" name="frm">
 	<input type="hidden" name="m" value="signout" />
 	<p class="alncenter">

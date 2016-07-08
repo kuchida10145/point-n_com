@@ -49,12 +49,11 @@ class Store_newsPage extends Page{
 	 */
 	public function nextAjax(){
 		$next = getGet('next') * $this->page_cnt;
-		$next_end = (getGet('next') + 1) * $this->page_cnt;
 		$store_id =getGet('sid');
 		$res['result'] = 'false';
 
 		if($store_id != 0 && $store_id != ''){
-			if($pages = $this->manager->db_manager->get('notice')->getNoticeList($store_id,$next,$next_end)){
+			if($pages = $this->manager->db_manager->get('notice')->getNoticeList($store_id,$next,$this->page_cnt)){
 				$res['result'] = 'true';
 			}
 		}
