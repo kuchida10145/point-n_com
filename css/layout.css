@@ -990,3 +990,35 @@ text-overflow: ellipsis;
   padding: 0 6px;
   font-size: 10.5px;
 }
+
+.arrow_box {
+	position: relative;
+	background: #ffffff;
+	border: 2.5px solid #a3a3a3;
+	border-radius: 10px;
+    -webkit-border-radius: 10px;	/* Safari,Google Chrome用 */
+    -moz-border-radius: 10px;		/* Firefox用 */
+}
+.arrow_box:after, .arrow_box:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #ffffff;
+	border-width: 7px;
+	margin-top: -7px;
+}
+.arrow_box:before {
+	border-color: rgba(163, 163, 163, 0);
+	border-left-color: #a3a3a3;
+	border-width: 11px;
+	margin-top: -11px;
+}

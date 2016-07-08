@@ -5,7 +5,9 @@
 <!--ヘッドメニュー-->
 <div id="headmenu">
 <ul>
-<?php if($account):?><li id="hm1"><a href="/favorite/" class="accordion_search"><span class="icon-star"></span>お気に入り</a></li>
+<?php if($account):?>
+<li id="hm1"><a href="/catch/index.php" class="accordion_search"><span class="icon-star"></span>キャッチメール</a></li>
+<li id="hm1"><a href="/favorite/" class="accordion_search"><span class="icon-star"></span>お気に入り</a></li>
 <li id="hm2"><a href="/mypage/logout.php" class="accordion_btn"><span class="icon-lock-filled"></span>ログアウト</a></li>
 <?php else:?>
 <li id="hm2"><a href="/login.php" class="accordion_btn"><span class="icon-lock-filled"></span>ログイン</a></li>

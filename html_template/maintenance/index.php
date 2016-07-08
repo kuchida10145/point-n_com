@@ -61,7 +61,6 @@
 						<i class="icon-edit"></i>
 						<p>利用枠管理</p>
 					</a>
-
 					<div class="clearfix"></div>
 				</div>
 
@@ -78,6 +77,10 @@
 					<a class="quick-button span2" href="account.php">
 						<i class="icon-user"></i>
 						<p>アカウント設定</p>
+					</a>
+					<a class="quick-button span2" href="catchmail.php">
+						<i class="icon-edit"></i>
+						<p>キャッチメール管理</p>
 					</a>
 					 <div class="clearfix"></div>
 				</div>

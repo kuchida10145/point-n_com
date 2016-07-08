@@ -11,6 +11,7 @@
 		<li><a href="claim.php"><i class="icon-edit"></i><span class="hidden-tablet">ポイント利用履歴（受理済）</span></a></li>
 		<li><a href="bill.php"><i class="icon-money"></i><span class="hidden-tablet">請求管理</span></a></li>
 		<li><a href="account.php"><i class="icon-user"></i><span class="hidden-tablet">アカウント設定</span></a></li>
+		<li><a href="catchmail.php"><i class="icon-user"></i><span class="hidden-tablet">キャチメール管理</span></a></li>
 	</ul>
 	</div>
 </div>

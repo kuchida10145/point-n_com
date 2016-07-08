@@ -70,6 +70,18 @@ function user_gender() {
 }
 
 /**
+ * キャッチメール時間種別
+ *
+ * @return array
+ */
+function time_kind() {
+	return array(
+			0=>'今から',
+			1=>'時間指定',
+	);
+}
+
+/**
  * 店舗ステータス
  *
  * @return array
@@ -159,11 +171,13 @@ function category_large() {
  */
 function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery = 0) {
 	$list = array();
+
 	if ($delivery === "") {
 		return $list;
 	}
 	$manager = Management::getInstance();
 	$record  = $manager->db_manager->get('prefectures_master')->findById($prefectures_id);
+
 	if ($record == null) {
 		return $list;
 	}
@@ -174,6 +188,7 @@ function category_midium($category_large_id = 0, $prefectures_id = 0, $delivery 
 	foreach ($records as $record) {
 		$list[$record['category_midium_id']] = $record['category_midium_name'];
 	}
+
 	return $list;
 }
 
