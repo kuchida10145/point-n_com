@@ -16,8 +16,7 @@ $(function() {
 		var name = option.name;
 		var category_large_id = $('#category_large_id').val();
 		var type_of_industry_id = $('#type_of_industry_id').val();
-		var prefectures_id = $('#area_first_id').val();
-
+		var prefectures_id = $('#area_first_prefectures_id').val();
 		var data = { category_large_id : category_large_id, type_of_industry_id : type_of_industry_id, prefectures_id : prefectures_id };
 
 		$.ajax({
