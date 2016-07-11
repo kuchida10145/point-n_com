@@ -195,7 +195,7 @@ class CatchMailPage extends MaintenancePage{
 		//メール用データ
 		$mail_data['reserved_name'] = $reserved_name;
 		$mail_data['store_name'] = $store_name;
-		$mail_data['catchnail_url'] = CATCH_MAIL_URL;
+		$mail_data['catchmail_url'] = CATCH_MAIL_URL;
 		$mail = create_mail_data($mail,$mail_data);
 		$mail['to'] = $userData['email'];
 		$this->manager->mailer->setMailData($mail);

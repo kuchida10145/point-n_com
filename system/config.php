@@ -11,7 +11,13 @@
 |--------------------------------------------------------------------------
  */
 
-define('DB_NAME','point');
+if($_SERVER["SERVER_NAME"] == "point.lo") {
+	define('DB_NAME','point');
+} elseif($_SERVER["SERVER_NAME"] == "test.point-n.com") {
+	define('DB_NAME','point_test');
+} else {
+	define('DB_NAME','point');
+}
 define('DB_USER','root');
 define('DB_PASS','1966tsuki6');
 define('DB_HOST','localhost');
