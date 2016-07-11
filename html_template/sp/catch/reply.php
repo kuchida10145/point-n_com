@@ -28,8 +28,48 @@
 				<div class="shoplist">
 				<?php if (isset($reply_shops_data) && !empty($reply_shops_data)) : ?>
 					<?php foreach($reply_shops_data as $data) : ?>
-					<div class="arrow_box" style="padding: 10px 10px 10px 10px;">
-						<dl class="clearfix" style="padding: 10px 10px 10px 10px; border: none;">
+          <style>
+          .chach{
+					padding: 15px;
+					background:#00c402;
+					color:#fff;
+						/* border-radius */
+						border-radius:5px;
+						-moz-border-radius:5px;
+						-webkit-border-radius:5px;
+					}
+					.chach dl{
+						border:none;
+						padding:0;
+						}
+					.chach dd{
+						padding:0 0 0 90px;
+						}
+					.chach_message{
+					border:#00c402 1px solid;
+					background:#fff;
+					padding:10px;
+					color:#00c402;
+					font-weight:bold;
+						/* border-radius */
+						border-radius:5px;
+						-moz-border-radius:5px;
+						-webkit-border-radius:5px;
+					}
+					.chach a{
+					color:#fff;
+						}
+					.chach_contact{
+						margin:12px 0;
+						}
+					.chach_contact a{
+						padding:3px 8px;
+						background:#fff;
+						color:#00c402;
+						}
+          </style>
+					<div class="chach">
+						<dl class="clearfix">
 							<dt>
 								<a href="/stores/detail.php?id=<?php echo getParam($data, 'store_id'); ?>">
 									<img src="/files/images/<?php echo getParam($data, 'image1'); ?>" alt="" />
@@ -46,11 +86,10 @@
 								<br />
 							</dd>
 						</dl>
-						<a class="pointtag" onclick="tellClick(<?php echo getParam($data,'telephone');?>);">TEL</a>
-						<a class="eventtag" href="replyconfirm.php?id=<?php echo getParam($data,'catchmail_return_id');?>&tkn=<?php echo $tkn;?>">決定</a>
-						<div class="box01">
+						<div class="chach_contact"><a class="pointtag" onclick="tellClick(<?php echo getParam($data,'telephone');?>);">TEL</a>
+						<a class="eventtag" href="replyconfirm.php?id=<?php echo getParam($data,'catchmail_return_id');?>&tkn=<?php echo $tkn;?>">決定</a></div>
+						<div class="chach_message">
 								金額：<?php echo number_format(getParam($data, 'money')); ?>円<br>
-								<br>
 								アピール：<?php echo getParam($data, 'appeal'); ?>
 						</div>
 					</div>
