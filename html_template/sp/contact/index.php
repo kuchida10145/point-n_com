@@ -8,6 +8,7 @@
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
@@ -40,7 +41,7 @@
 	</p>
 	<h3>メールアドレス</h3>
 	<p><input type="text" value="<?php echo getParam($post,'email');?>" name="email"><?php echo getParam($error,'email');?></p>
-		
+
 	</p>
 	<h3>お問い合わせ内容</h3>
 	<p><textarea name="detail" style="width:90%" cols="" rows="5"><?php echo getParam($post,'detail');?></textarea>

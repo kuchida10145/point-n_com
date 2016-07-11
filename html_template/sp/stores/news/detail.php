@@ -21,6 +21,7 @@ dots: true,
 </script>
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>

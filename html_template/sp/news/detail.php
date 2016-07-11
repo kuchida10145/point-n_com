@@ -14,14 +14,15 @@
     $('.photoslide').slick({
 dots: true,
   infinite: false,
-  speed: 300 
+  speed: 300
     });
   });
- 
+
 </script>
 
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
@@ -38,7 +39,7 @@ dots: true,
 <div class="contents">
 	<h2>今日のニュース</h2>
 	<h3><?php echo $news_data['title'];?></h3>
-	
+
 	<?php if($images):?>
 	<!-- start:スライド写真-->
 	<div class="photoslide">
@@ -50,7 +51,7 @@ dots: true,
 	</div>
 	<!-- end:スライド写真 -->
 	<?php endif;?>
-	
+
 	<p><?php echo $news_data['body'];?></p>
 	<p><a href="/news/index.php?region_id=<?php echo $news_data['region_id'];?>" class="linkbtn block alncenter">一覧へ戻る</a></p>
 

@@ -8,6 +8,7 @@
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
@@ -50,7 +51,7 @@
 					<input type="password" name="newPwConfirm" style="float:right;width:65%;" value="" />
 				</label>
 				<?php echo getParam($error, 'newPwConfirm'); ?>
-			</p>		
+			</p>
 
 			<p></p>
 

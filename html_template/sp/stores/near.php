@@ -9,6 +9,7 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 </head>
 <body id="gps">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 	<a name="top" id="top"></a>
@@ -19,7 +20,7 @@
 <!--ヘッダ-->
 
 <div id="headsearch">
-	<input name="keyword" placeholder="店舗名で抽出" type="text" id="near-name" value="<?php echo getGet('keyword'); ?>" /> 
+	<input name="keyword" placeholder="店舗名で抽出" type="text" id="near-name" value="<?php echo getGet('keyword'); ?>" />
 	<a id="near-search" href="<?php echo $_SERVER['REQUEST_URI']; ?>">検索</a>
 </div>
 
@@ -79,11 +80,11 @@
 						<h3>検索結果一覧（全<?php echo $storesTotal; ?>件）</h3>
 						<div class="shoplist">
 
-							<?php 
+							<?php
 							$label = 1;
 							foreach($list as $data) : ?>
 
-								<!--1件-->	
+								<!--1件-->
 								<dl class="clearfix">
 									<a href="<?php echo HTTP_HOST; ?>/stores/detail.php?id=<?php echo $data['store_id']; ?>"></a>
 									<dt>
@@ -118,7 +119,7 @@
 
 										<br />
 										<?php echo (NULL != getParam($data,'title')) ? getParam($data,'title') . '<br />' : ''; ?>
-										<?php 
+										<?php
 											echo (is_delivery(getParam($data, 'type_of_industry_id'))) ? '発エリア：' : '店舗住所：';
 											echo getParam($data, 'address1') . getParam($data, 'address2');
 										?>
@@ -127,7 +128,7 @@
 								</dl>
 								<!--/1件-->
 
-							<?php 
+							<?php
 							$label++;
 							endforeach;?>
 						</div><!-- /.shoplist -->

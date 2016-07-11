@@ -8,6 +8,7 @@
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
@@ -41,7 +42,7 @@
 <p>
 <input name="birth-year" type="number" id="birth-year" min="1900" max="2015" placeholder="2015" value="<?php echo getParam($post, 'birth-year');?>" />
 年
-<input name="birth-month" type="number" id="birth-month" min="01" max="12" placeholder="01" value="<?php echo getParam($post, 'birth-month');?>" /> 
+<input name="birth-month" type="number" id="birth-month" min="01" max="12" placeholder="01" value="<?php echo getParam($post, 'birth-month');?>" />
 月
 <input name="birth-day" type="number" id="birth-day" min="01" max="31" placeholder="01" value="<?php echo getParam($post, 'birth-day');?>" />
 日

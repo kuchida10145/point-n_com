@@ -24,6 +24,7 @@
 		<link rel="stylesheet" href="/js/sidr/jquery.sidr.light.css">
 	</head>
 	<body id="register">
+		<?php include_once dirname(__FILE__).'/../../common/analyticstracking.php';?>
 		<?php include_once dirname(__FILE__).'/../../common/header_contents.php';?>
 
 		<!--メイン全体-->

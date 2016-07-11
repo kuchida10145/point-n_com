@@ -42,6 +42,7 @@
 		</script>
 	</head>
 	<body id="register">
+		<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 		<?php include_once dirname(__FILE__).'/../common/header_contents.php';?>
 		<!--メイン全体-->
 		<div id="mainbodywrap">

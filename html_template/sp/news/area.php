@@ -8,6 +8,7 @@
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>
 </head>
 <body id="register">
+<?php include_once dirname(__FILE__).'/../common/analyticstracking.php';?>
 <!--全体-->
 <div id="wrap">
 <a name="top" id="top"></a>
@@ -37,7 +38,7 @@
 <div class="select4btn">
 <div class="selectbtn">
 <ul class="clearfix fixHeight" style="padding-left: 3%;">
-	
+
     <?php foreach (region_master() as $val_key => $val_name) : ?>
     <li>
 		<input type="radio" id="<?php echo "region_id_" . $val_key; ?>" name="region_id" value="<?php echo $val_key; ?>">
@@ -77,7 +78,7 @@ jQuery(document).ready(pointcom.init);
 $(function(){
 	$('._area_link').click(function(){
 		var id = $(this).data('id');
-		
+
 		location.href='/news/index.php?region_id='+id;
 	});
 });
