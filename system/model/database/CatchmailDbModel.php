@@ -136,6 +136,7 @@ class CatchmailDbModel extends DbModel{
 				FROM catchmail WHERE ";
 		$sql.= " user_id = '{$user_id}' AND ";
 		$sql.= " decision_store IS NULL AND ";
+		$sql.= " dead_time > NOW() AND ";
 		$sql.= " delete_flg = 0 ";
 		$sql.= " ORDER BY regist_date Desc";
 

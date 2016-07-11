@@ -96,7 +96,7 @@
 					    					<td>
 					    					<?php
 												$area_first_array = prefectures_master();
-												echo $area_first_array[getParam($post, 'area_first_id')];
+												echo $area_first_array[getParam($post, 'area_first_prefectures_id')];
 											?>
 					    					</td>
 										</tr>
@@ -113,7 +113,7 @@
 											<th>カテゴリ</th>
 						    				<td>
 						    				<?php
-												$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), 0);
+												$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), 0);
 												echo $category_midium_array[getParam($post, 'category_midium_id')];
 											?>
 						    				</td>
@@ -122,7 +122,7 @@
 											<th>エリア</th>
 					    					<td>
 					    						<?php
-													$area_second_array = area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), 0);
+													$area_second_array = area_second_to_extend(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), 0);
 													echo $area_second_array[getParam($post, 'area_second_id')];
 												?>
 					    					</td>
