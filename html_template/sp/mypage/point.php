@@ -50,7 +50,9 @@
 				<!--コンテンツ-->
 				<div class="contents">
 					<h2>ポイント履歴</h2>
-					<strong>（ステータス説明：未=未処理/済=処理済/★=特別PT/キ=キャンセル）</strong>
+					<div style="text-align:right;">
+						<strong>（ポイント状況記号：未=未処理/済=処理済/★=特別PT/キ=キャンセル）</strong>
+					</div>
 					<div class="pointhistory">
 						<?php if(!$list):?>
 						データがありませんでした
@@ -60,7 +62,7 @@
 									<tr>
 										<td class="bg12">来店日</td>
 										<td class="bg12"> 利用店舗名</td>
-										<td align="center" class="bg12">ステータス<br />
+										<td align="center" class="bg12">ポイント状況<br />
 										<td align="center" class="bg08">ポイント<br />
 										利用</td>
 										<td align="center" class="bg18">ポイント<br />
