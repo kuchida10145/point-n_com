@@ -41,6 +41,23 @@ class Catchmail_returnDbModel extends DbModel{
 	}
 
 	/**
+	 * キャッチメール返信データ数を取得
+	 * @param int $catchmail_id キャッチメールID
+	 * @return array
+	 */
+	public function getReplyDataCount($catchmail_id){
+
+		$sql = "SELECT
+				count(catchmail_id) count
+				FROM catchmail_return WHERE ";
+		$sql.= " catchmail_return.catchmail_id = '{$catchmail_id}' AND ";
+		$sql.= " catchmail_return.delete_flg = 0 ";
+		$sql.= " ORDER BY catchmail_return.regist_date Desc";
+
+		return $this->db->getData($sql);
+	}
+
+	/**
 	 * 店舗決定確認画面用データを取得
 	 * @param int $catchmail_reply_id キャッチメール返信ID
 	 * @return array
@@ -62,7 +79,7 @@ class Catchmail_returnDbModel extends DbModel{
 				catchmail.use_persons,
 				catchmail.category_large_id,
 				catchmail.category_midium_id,
-				catchmail.area_first_id
+				catchmail.area_first_prefectures_id
 				FROM store,catchmail_return,catchmail WHERE ";
 		$sql.= " catchmail_return.store_id = store.store_id AND ";
 		$sql.= " catchmail_return.catchmail_id = catchmail.catchmail_id AND ";

@@ -203,8 +203,8 @@ class CatchPage extends Page{
 			}
 
 			//メール送付
-			$this->sendUserMail($this->getAccount(), USER_MAIL_ID);
-			$this->sendStoreMail($form_data['course_id'], STORE_MAIL_ID);
+//			$this->sendUserMail($this->getAccount(), USER_MAIL_ID);
+//			$this->sendStoreMail($form_data['course_id'], STORE_MAIL_ID);
 
 			if($catchmail_id !== false){
 				//フォームセッション削除

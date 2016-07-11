@@ -103,6 +103,18 @@ define('USER_MAIL_ID' ,4);//予約完了時にユーザに送信すメールID
 define('STORE_MAIL_ID' ,5);//予約完了時に店舗に送信すメールID
 
 /*----------------------------
+ * キャッチメール
+ *----------------------------*/
+if($_SERVER["SERVER_NAME"] == "point.lo") {
+	define('CATCH_MAIL_URL' ,'http://point.lo/catch/index.php');
+} elseif($_SERVER["SERVER_NAME"] == "test.point-n.com") {
+	define('CATCH_MAIL_URL' ,'http://test.point-n.com/catch/index.php');
+} else {
+	define('CATCH_MAIL_URL' ,'http://www.point-n.com/catch/index.php');
+}
+define('CATCH_MAIL_ID' ,11);//キャッチメールID
+
+/*----------------------------
  * ポイントコード
 *----------------------------*/
 define('POINT_CODE_FOR_NUM' ,-3);//ポイントコード連番部分

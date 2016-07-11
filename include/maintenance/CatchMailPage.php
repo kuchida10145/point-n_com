@@ -128,11 +128,19 @@ class CatchMailPage extends MaintenancePage{
 
 		//POST送信があった場合
 		if(getPost('m') == 'confirm'){
-
 			$result_flg = $this->reply_inseart_action($post);
 			$this->setSystemMessage($this->manager->message->get('system')->getMessage('insert_comp'));
 
 			if($result_flg !== false){
+				//メール送付(最初の1店舗のみ)
+				$catchmail_return_count = $this->manager->db_manager->get('catchmail_return')->getReplyDataCount(getParam($post,'catchmeil_id'));
+				if($catchmail_return_count['count'] == 0) {
+					$reserved_name = getParam($post,'reserved_name');		//予約名
+					$user = $this->manager->db_manager->get('user')->findById(getParam($post,'user_id'));		//ユーザ情報
+					$account = $this->getAccount();
+					$store_name = getParam($account,'store_name');
+					$this->sendUserMail($user, $reserved_name, $store_name, CATCH_MAIL_ID);
+				}
 				$this->unsetFormSession('form');
 				redirect($this->use_table.'.php');
 			}
@@ -163,104 +171,6 @@ class CatchMailPage extends MaintenancePage{
 	}
 
 	/**
-	 * 予約取消一覧ページ
-	 *
-	 */
-	protected function indexCancellAction(){
-
-		$account = $this->getAccount();
-		$account_id = getParam($account,'store_id');
-		$pager_html = '';
-		$get        = $_GET;
-		$list       = array();
-		$system_message = $this->getSystemMessage();
-		$this->unsetSystemMessage();
-		$dbFlg = true;
-
-		// 予約取消リスト取得
-		//limit句生成
-		$limit = $this->manager->db_manager->get('reserved')->createLimit(getGet('page'),$this->page_cnt);
-
-		//最大件数取得
-		$max_cnt = $this->manager->db_manager->get($this->use_table)->maintenanceReserveSearchMaxCnt($account_id,$get,$cancell_flg = 1);
-
-		//リスト取得
-		if($max_cnt > 0){
-			$list    = $this->manager->db_manager->get($this->use_table)->maintenanceRserveSearch($account_id,$get,$limit,$this->order,$cancell_flg = 1);
-		}
-
-		//リストを出力用のデータに変換
-		$list = $this->dbToListData($list);
-
-		//システムメッセージ
-
-		//ページャ生成
-		$data = $this->getIndexCommon();
-		$pager_param['per_cnt'] = $this->page_cnt;
-		$pager_param['all_cnt'] = $max_cnt;
-		$this->manager->pager->setHtmlType( array() ,'admin');
-		$this->manager->pager->initialize($pager_param);
-		$pager_html = $this->manager->pager->create();
-
-		$data['list']           = $list;
-		$data['pager_html']     = $pager_html;
-		$data['page_title']     =$this->page_title;
-
-		$data['page_type_text'] =$this->page_type_text;
-		$data['system_message'] = $system_message;
-
-		$this->loadView('indexCancell', $data);
-	}
-
-	/**
-	 * 予約受理確認ページ
-	 *
-	 */
-/*
-	protected function confirmAction(){
-		$get        = $_GET;
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
-		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-		$data['page_title'] = $this->page_title;
-		$data['page_type_text'] = $this->page_type_text;
-		$data['reservedInfo'] = $reservedInfo;
-		$data['user'] = $user;
-		$this->loadView('confirm', $data);
-	}
-*/
-
-	/**
-	 * 予約取消確認ページ
-	 *
-	 */
-	protected function confirm_delAction(){
-		$get        = $_GET;
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
-		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-		$data['page_title'] = $this->page_title;
-		$data['page_type_text'] = $this->page_type_text;
-		$data['reservedInfo'] = $reservedInfo;
-		$data['user'] = $user;
-		$this->loadView('confirm_del', $data);
-	}
-
-	/**
-	 * 予約差戻確認ページ
-	 *
-	 */
-	protected function confirm_remandAction(){
-		$get        = $_GET;
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById(getParam($get,'reserved_id'));	//予約情報
-		$user = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-		$data['page_title'] = $this->page_title;
-		$data['page_type_text'] = $this->page_type_text;
-		$data['reservedInfo'] = $reservedInfo;
-		$data['user'] = $user;
-		$this->loadView('confirm_remand', $data);
-	}
-
-
-	/**
 	 * 一覧画面の共通データを取得
 	 *
 	 * @param array $data 格納用変数
@@ -274,103 +184,18 @@ class CatchMailPage extends MaintenancePage{
 	}
 
 	/**
-	 * 更新処理（予約受理）
-	 *
-	 * @param number $reserved_id 予約ID
-	 * @return mixed
-	 */
-	protected function user_update_action($reserved_id){
-		//DBデータ取得
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
-		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-
-		$updateParam = array(
-				'point'=>$res['point'] + $reservedInfo['get_point'],	// 保持ポイント計算
-		);
-
-		//請求アクションを受理に変更
-		if($bill_action = $this->manager->db_manager->get('bill_action')->getNotAcceptByReservedId($reserved_id)){
-			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status_id'=>$reservedInfo['status_id']));
-			$year_mont = date('Y-m',strtotime($bill_action['regist_date']));
-			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_mont,$reservedInfo['store_id']);
-		}
-		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
-	}
-
-	/**
-	 * 更新処理（予約取り消し）
-	 *
-	 * @param number $reserved_id 予約ID
-	 * @return mixed
-	 */
-	protected function user_update_action_cancel($reserved_id){
-		//DBデータ取得
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
-		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-
-		$updateParam = array(
-				'point'=>$res['point'] + $reservedInfo['use_point'],	// 保持ポイント計算
-		);
-		$user_res = $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
-
-		$account = $this->getAccount();
-		$year_month = date('Y-m');
-
-
-		//ポイント関連の増減が発生した場合
-		if($bill_action = $this->manager->db_manager->get('bill_action')->getNotAcceptByReservedId($reserved_id)){
-
-			$action_date = date('Y-m-d',strtotime($bill_action['regist_date']));
-			$today       = date('Y-m-d');
-
-			$bill_action_id = $this->manager->db_manager->get('bill_action')->cancelByReservedId($reserved_id,$reservedInfo['status_id']);
-			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_month,$account['store_id']);
-
-			//年月が同じ場合のみ利用枠を復旧
-			if($today == $action_date){
-				$total_price = $bill_action['n_point'] + $bill_action['n_point_commission']+ $bill_action['e_point'] + $bill_action['e_point_commission'];
-				$this->manager->db_manager->get('store')->addPointLimit($account['store_id'],$total_price);
-				$account = $this->manager->db_manager->get('store')->findById($account['store_id']);
-				$this->setAccount($account);
-			}
-		}
-
-		return $user_res;
-	}
-
-	/**
-	 * 更新処理（予約差戻）
-	 *
-	 * @param number $reserved_id 予約ID
-	 * @return mixed
-	 */
-	protected function user_remand_action($reserved_id){
-		//DBデータ取得
-		$reservedInfo = $this->manager->db_manager->get('reserved')->findById($reserved_id);	//予約情報
-		$res = $this->manager->db_manager->get('user')->findById($reservedInfo['user_id']);		//ユーザ情報
-
-		$updateParam = array(
-				'point'=>$res['point'] - $reservedInfo['get_point'],	// 保持ポイント計算
-		);
-
-		//請求アクションを未受理に変更
-		if($bill_action = $this->manager->db_manager->get('bill_action')->getAcceptByReservedId($reserved_id)){
-			$this->manager->db_manager->get('bill_action')->updateById($bill_action['bill_action_id'],array('reserved_status_id'=>$reservedInfo['status_id']));
-			$year_mont = date('Y-m',strtotime($bill_action['regist_date']));
-			$this->manager->db_manager->get('bill')->monthTotalBillByStoreId($year_mont,$reservedInfo['store_id']);
-		}
-		return $this->manager->db_manager->get('user')->updateById($res['user_id'],$updateParam);
-	}
-
-	/**
 	 * ユーザへメール送信
-	 * @param $userData	ユーザデータ
-	 * @param $mailId	送信するメールID
+	 * @param $userData			ユーザ情報
+	 * @param $reserved_name	予約名
+	 * @param $store_name		店舗名
+	 * @param $mailId			送信するメールID
 	 */
-	private function sendUserMail($userData, $mailId) {
+	private function sendUserMail($userData, $reserved_name, $store_name, $mailId) {
 		$mail = $this->manager->db_manager->get('automail')->findById($mailId);
 		//メール用データ
-		$mail_data['nickname'] = $userData['nickname'];
+		$mail_data['reserved_name'] = $reserved_name;
+		$mail_data['store_name'] = $store_name;
+		$mail_data['catchnail_url'] = CATCH_MAIL_URL;
 		$mail = create_mail_data($mail,$mail_data);
 		$mail['to'] = $userData['email'];
 		$this->manager->mailer->setMailData($mail);

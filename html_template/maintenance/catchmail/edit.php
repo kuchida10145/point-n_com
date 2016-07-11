@@ -105,6 +105,7 @@
 									</div>
 								</div>
 								<input type="hidden" value="<?php echo getParam($post, 'catchmail_id');?>" name="catchmail_id">
+								<input type="hidden" name="user_id" value="<?php echo getParam($post, 'user_id');?>" />
 								<div class="control-group">
 									<div class="form-actions">
 										<button class="btn btn-primary" type="submit">確認画面へ</button>

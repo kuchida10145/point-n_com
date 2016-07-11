@@ -84,7 +84,7 @@
 											<th>カテゴリ</th>
 						    				<td>
 						    				<?php
-												$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_id'), 0);
+												$category_midium_array = category_midium(getParam($post, 'category_large_id'), getParam($post, 'area_first_prefectures_id'), 0);
 												echo $category_midium_array[getParam($post, 'category_midium_id')];
 											?>
 						    				</td>
