@@ -2,7 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ポイント.com</title>
+<title>
+<?php
+	$title = $condition_category_large_name;
+	$title .= " ".$condition_redion_name;
+	foreach ($condition_category_small_names as $small_name) {
+		$title .= " ".$small_name;
+	}
+	echo $title;
+?> 店舗一覧 | ポイント.com
+</title>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <?php include_once dirname(__FILE__).'/../common/header_meta.php';?>

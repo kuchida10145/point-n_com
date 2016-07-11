@@ -2,7 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title><?php echo getParam($store,'store_name');?>｜ポイント.com</title>
+		<title>
+		<?php
+			$area_first = area_first(getParam($store, 'category_large_id'), getParam($store, 'prefectures_id'), is_delivery(getParam($store, 'type_of_industry_id')));
+			$area_third = area_third(getParam($store, 'area_second_id'));
+			$category_midium = category_midium(getParam($store, 'category_large_id'), getParam($store, 'prefectures_id'), is_delivery(getParam($store, 'type_of_industry_id')));
+
+			$title = getParam($area_first, getParam($store, "area_first_id"));
+			$title .= " ".getParam($area_third, getParam($store, 'area_third_id'));
+			$title .= " ".getParam($category_midium, getParam($store, 'category_midium_id'));
+			$title .= " ".getParam($store,'store_name');
+			echo $title;
+		?> | ポイント.com
+		</title>
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 
