@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>キャッチメール登録内容確認　|　point.com</title>
+<meta name="keywords" content="point.com,ポイントドットコム,キャバクラ,風俗,ホスト,ガールズウォーター,ネット予約,全国,店舗一覧" />
+<meta name="description" content="店舗検索結果一覧を表示いたします。" />
+<link href="../css/layout.css" rel="stylesheet" type="text/css" />
+
+<!--<link rel="stylesheet" href="css/jquery.bxslider.css">-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script src="../js/fixHeight.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../css/slick.css" />
+<script src="../js/slick.js" type="text/javascript"></script>
+
+		<script>
+			 $(function() {
+			    $('.photoslide').slick({
+			dots: true,
+			  infinite: false,
+			  speed: 300 ,
+			    slidesToShow: 3,
+			  slidesToScroll: 3
+			    });
+			  });
+ 		</script>
+</head>
+
+<body id="genre" class="top">
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test_tsunekawa/tpl/header.php");?>
+<!--container-->
+<div class="container">
+<div class="mainbodybg01">
+<!--mainbody-->
+
+<div class="mainbody">
+<p class="ID_mane">会員NO.123456</p>
+<div class="contents clearfix">
+
+  <div class="side_menu">
+    <div class="bg_opacity_white_1">
+    <h3>●point.comログイン</h3>
+      <form action="../chtch/submit.php" method="post" name="frm">
+        <input type="hidden" value="contact" name="m">
+        <dl class="login_dl">
+        <dt>ログインID</dt>
+        <dd><input type="text" name="name" class="validate" data-validate="required" /></dd>
+        <dt>パスワード</dt>
+        <dd><input type="text" name="kana" class="validate" data-validate="required|katakana" /></dd>
+        </dl>
+        <p><a href="#" class="btn_next"><img class="switch" src="../img/btn_logn.png" alt="ログイン"/></a></p>
+      </form>
+    <p><a href="#" class="btn_next">※パスワードをお忘れの方</a></p>
+    </div>
+    
+    <div class="bg_opacity_white_2">
+    <h3><img src="../img/btn_entry.png" alt="新規登録"/></h3>
+    </div>
+    
+    <div class="bg_opacity_white_3">
+    <h3><img src="../img/btn_mobile.png" alt="モバイルサイトへ"/></h3>
+    </div>
+  </div>
+  
+  <div class="shiborikomi_page02 form_confirm">
+    <div class="shiborikomi_step">
+      <p class="heartitle">キャッチメール登録内容確認</p>
+    </div>
+    
+    <div class="shiborikomi_genre">
+    	<div class="shiborikomi_genre_02 reservation_use_point">
+        <h3 class="mb30">キャッチメール登録内容確認</h3>
+
+        <form method="post" action="" name="frm">
+        <input type="hidden" name="m" value="confirm" />
+        <div class="mb25">
+          <h4>何時から遊びたいか（希望時刻）<span class="clrred">※</span></h4>
+          <p>17	時 45	分頃〜</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>来客人数<span class="clrred">※</span> </h4>
+          <p>11人</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>予約名<span class="clrred">※</span></h4>
+          <p>11人</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>都道府県<span class="clrred">※</span> </h4>
+          <p>愛知県</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>カテゴリ</h4>
+          <p>選択内容</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>エリア</h4>
+          <p>選択内容</p>
+        </div>
+        
+        <div class="mb25">
+          <h4>詳細エリア</h4>
+          <p>選択内容</p>
+        </div>
+        
+        <p class="stopr_linkbtn">
+        <a href="javascript:void(0);" onclick="document.frm.submit();" class="linkbtn block alncenter">送信</a>
+        </p>
+        <input type="hidden" id="type_of_industry_id" name="type_of_industry_id" value="0">
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div><!--/.contents-->
+</div><!--/mainbody-->
+
+</div><!--/.mainbodybg01-->
+</div><!--/.container-->
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test_tsunekawa/tpl/footer.php");?>
+</body>
+</html>

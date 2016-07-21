@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>ユーザー新規登録　｜　ポイント.com</title>
+<meta name="keywords" content="point.com,ポイントドットコム,キャバクラ,風俗,ホスト,ガールズウォーター,新規,登録" />
+<meta name="description" content="ポイントドットコム本登録をしていただけます。" />
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/head.php");?>
+</head>
+
+<body id="index" class="top">
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/header.php");?>
+<!--container-->
+<div id="" class="container bg_info">
+<div class="mainbodybg01">
+<div class="bg_info_bord">
+<h2>ユーザー新規登録</h2>
+
+<p>すべての内容を入力してください。<br />
+一度入力された情報は変更できません。</p>
+<form method="post" action="" name="frm">
+<h3>ニックネーム(重複不可)</h3>
+<p>
+<input type="text" name="nickname" id="nickname" style="width:97.5%;" value="" />
+</p>
+<h3>メールアドレス(半角)</h3>
+<p>m8409774713@neokidesu.click</p>
+<h3> 生年月日</h3>
+<input type="hidden" name="m" value="regist_confirm" />
+<p>
+<input name="birth-year" type="number" id="birth-year" min="1900" max="2015" placeholder="2015" value="" />
+年
+<input name="birth-month" type="number" id="birth-month" min="01" max="12" placeholder="01" value="" /> 
+月
+<input name="birth-day" type="number" id="birth-day" min="01" max="31" placeholder="01" value="" />
+日
+</p>
+<h3> 性別</h3>
+<p>
+	<input type="radio" value="1" name="gender" id="1"  />
+	<label for="1">男性</label>
+	<input type="radio" value="2" name="gender" id="2"  />
+	<label for="2">女性</label>
+</p>
+<h3>都道府県</h3>
+<p>
+<select name="prefectures_id" id="prefectures_id">
+<option value="">選択してください</option>
+	<option value="1" >北海道</option>
+	<option value="2" >宮城県</option>
+	<option value="3" >福島県</option>
+	<option value="4" >岩手県</option>
+	<option value="5" >秋田県</option>
+	<option value="6" >青森県</option>
+	<option value="7" >山形県</option>
+	<option value="8" >新潟県</option>
+	<option value="9" >山梨県</option>
+	<option value="10" >長野県</option>
+	<option value="11" >石川県</option>
+	<option value="12" >富山県</option>
+	<option value="13" >福井県</option>
+	<option value="14" >茨城県</option>
+	<option value="15" >栃木県</option>
+	<option value="16" >埼玉県</option>
+	<option value="17" >群馬県</option>
+	<option value="18" >千葉県</option>
+	<option value="19" >東京都</option>
+	<option value="20" >神奈川県</option>
+	<option value="21" >静岡県</option>
+	<option value="22" >愛知県</option>
+	<option value="23" >岐阜県</option>
+	<option value="24" >三重県</option>
+	<option value="25" >京都府</option>
+	<option value="26" >滋賀県</option>
+	<option value="27" >和歌山県</option>
+	<option value="28" >奈良県</option>
+	<option value="29" >大阪府</option>
+	<option value="30" >兵庫県</option>
+	<option value="31" >広島県</option>
+	<option value="32" >岡山県</option>
+	<option value="33" >鳥取県</option>
+	<option value="34" >島根県</option>
+	<option value="35" >山口県</option>
+	<option value="36" >愛媛県</option>
+	<option value="37" >香川県</option>
+	<option value="38" >徳島県</option>
+	<option value="39" >高知県</option>
+	<option value="40" >福岡県</option>
+	<option value="41" >佐賀県</option>
+	<option value="42" >大分県</option>
+	<option value="43" >長崎県</option>
+	<option value="44" >熊本県</option>
+	<option value="45" >宮崎県</option>
+	<option value="46" >鹿児島県</option>
+	<option value="47" >沖縄県</option>
+</select>
+</p>
+<h3>パスワード(半角英数4～16文字)</h3>
+<p>
+<input type="password" name="password" id="password" style="width:30%;"  value="" />
+</p>
+<p>パスワードは1ヶ月に一度、定期的に変更されることをお勧めします。<br />
+なお、お客様の過失によるパスワードの漏えいやそれに伴う損害は、当サイトでは一切保障しませんのであらかじめご了承ください。</p>
+
+</form>
+<p class="btn_next"><a href="regist_confirm.html" class="linkbtn alncenter">確認画面へ</a></p>
+
+</div>
+
+</div><!--/.mainbodybg01-->
+</div><!--/.container-->
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/footer.php");?>
+</body>
+</html>

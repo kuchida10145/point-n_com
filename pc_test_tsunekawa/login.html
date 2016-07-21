@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>ログイン　｜　point.com</title>
+<meta name="keywords" content="point.com,ポイントドットコム,キャバクラ,風俗,ホスト,ガールズウォーター,ネット予約,全国,店舗検索,ログイン" />
+<meta name="description" content="ログインページです。IDとパスワードを入力してください。全国の風俗のお店を検索していただけます。ジャンルも細かく指定できますので、お気に入り店舗が見つかります。" />
+<link href="css/layout.css" rel="stylesheet" type="text/css" />
+
+<!--<link rel="stylesheet" href="css/jquery.bxslider.css">-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.bxslider.min.js" type="text/javascript"></script>
+</head>
+
+<body id="index" class="top">
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test_tsunekawa/tpl/header.php");?>
+  <div id="login" class="mainbody">
+  <div class="bg_opacity_white">
+  <h3 class="alncenter"><img src="img/login_logo.png" alt="ポイントドットコム"/></h3>
+    <form action="submit.php" method="post" name="frm">
+      <input type="hidden" value="contact" name="m">
+      <dl>
+      <dt>ログインID</dt>
+      <dd><input type="text" name="name" class="validate" data-validate="required" /></dd>
+      <dt>パスワード</dt>
+      <dd><input type="text" name="kana" class="validate" data-validate="required|katakana" /></dd>
+      </dl>
+      <p class="alncenter"><a href="#" class="btn_next"><img class="switch" src="img/btn_logn.png" alt="ログイン"/></a></p>
+    </form>
+  <p><a href="#" class="btn_next">※パスワードをお忘れの方</a></p>
+  </div>
+  </div>
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test_tsunekawa/tpl/footer.php");?>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>店舗一覧　|　ポイント.com</title>
+<meta name="keywords" content="point.com,ポイントドットコム,キャバクラ,風俗,ホスト,ガールズウォーター,ネット予約,全国,店舗一覧" />
+<meta name="description" content="店舗検索結果一覧を表示いたします。" />
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/head.php");?>
+</head>
+
+<body id="genre" class="top">
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/header.php");?>
+<!--container-->
+<div class="container">
+<div class="mainbodybg01">
+
+<!--mainbody-->
+
+<div class="mainbody">
+<div class="contents clearfix">
+
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/side.php");?>
+
+  
+  <div class="shiborikomi_page02">
+    <div class="shiborikomi_step">
+      <p class="done">ジャンルと地域を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p>ジャンル詳細を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p  class="">地域詳細を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p class="hear">店舗一覧</p>
+    </div>
+    
+    <div class="shiborikomi_genre">
+    	<div class="shiborikomi_genre_01">
+      <h3 class="clearfix">選んだ条件<span class="fltright"><a href="#">条件変更</a></span></h3>
+      <ul class="clearfix">
+      	<li class="page01_select_girl">キャバクラ</li>
+      	<li class="page01_select_area">東海</li>
+        <li class="page01_select_genre">キャバクラ</li>
+        <li class="page01_select_genre">キャバクラ</li>
+      	<li class="page01_select_area">名古屋</li>
+      	<li class="page01_select_area">中区</li>
+      </ul>
+      </div>
+      
+    	<div class="shiborikomi_genre_02">
+      <h3>店舗一覧　（1件）</h3>
+      <form action="submit.php" method="post" name="frm" class="form_box00">
+        <input type="hidden" value="contact" name="m">
+        <div class="narabekae clearfix">
+        <p>◇ 並べかえ</p>
+         <select id="search_sort_id" name="search_sort_id">
+          <option value="0" >選択してください</option>
+          <option value="1" selected="selected">ポイントが高い順</option>
+          <option value="2" >イベントポイントが高い順</option>
+          <option value="3" >ポイント総額料金が高い順</option>
+          <option value="4" >ポイント総額料金が低い順</option>
+          <option value="5" >イベントポイント総額料金が高い順</option>
+          <option value="6" >イベントポイント総額料金が低い順</option>
+          <option value="7" >新着店舗</option>
+        </select>
+        </div>
+        <table class="shiborikomi_shop_01">
+          <tbody>
+            <tr>
+              <th scope="row"><a href="detail.html">店舗名<br>
+                <img src="img/pic_stoar.jpg" alt=""/></a></th>
+              <td>
+              <p class="new_news">NEW</p>
+                <ul>
+                <li>ジャンル</li>
+                <li><span class="pint_list">ポイント：1000pt</span></li>
+                <li class="txt11">住所：名古屋市中区</li>
+
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">店舗名<br>
+                <img src="img/pic_stoar.jpg" alt=""/></a></th>
+              <td>
+                <ul>
+                <li><a href="#">ジャンル</a></li>
+                <li><a href="#"><span class="pint_list">ポイント：1000pt</span></a></li>
+                <li class="txt11"><a href="#">住所：名古屋市中区</a></li>
+
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">店舗名<br>
+                <img src="img/pic_stoar.jpg" alt=""/></a></th>
+              <td>
+                <ul>
+                <li><a href="#">ジャンル</a></li>
+                <li><a href="#"><span class="pint_list">ポイント：1000pt</span></a></li>
+                <li class="txt11"><a href="#">住所：名古屋市中区</a></li>
+
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">店舗名<br>
+                <img src="img/pic_stoar.jpg" alt=""/></a></th>
+              <td>
+                <ul>
+                <li><a href="#">ジャンル</a></li>
+                <li><a href="#"><span class="pint_list">ポイント：1000pt</span></a></li>
+                <li class="txt11"><a href="#">住所：名古屋市中区</a></li>
+
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div><!--/.contents-->
+</div><!--/mainbody-->
+
+</div><!--/.mainbodybg01-->
+</div><!--/.container-->
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/footer.php");?>
+</body>
+</html>

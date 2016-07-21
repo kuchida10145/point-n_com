@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>エリア選択 | ポイント.com</title>
+<meta name="keywords" content="point.com,ポイントドットコム,キャバクラ,風俗,ホスト,ガールズウォーター,ネット予約,全国,店舗検索" />
+<meta name="description" content="細かい地域の選択をしてください。ジャンルも細かく指定できますので、お気に入り店舗が見つかります。" />
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/head.php");?>
+</head>
+
+<body id="genre" class="top">
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/header.php");?>
+
+<!--container-->
+<div class="container">
+<div class="mainbodybg01">
+
+<!--mainbody-->
+
+<div class="mainbody">
+<div class="contents clearfix">
+
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/side.php");?>
+
+  
+  <div class="shiborikomi_page02">
+    <div class="shiborikomi_step">
+      <p class="done">ジャンルと地域を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p>ジャンル詳細を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p  class="hear">地域詳細を選ぶ</p>
+      <p><img src="img/icon_arrow.png" alt=""/></p>
+      <p class="will">店舗一覧</p>
+    </div>
+    
+    <div class="shiborikomi_genre">
+    	<div class="shiborikomi_genre_01">
+      <h3 class="clearfix">選んだ条件<span class="fltright"><a href="#">条件変更</a></span></h3>
+      <ul class="clearfix">
+      	<li class="page01_select_girl">キャバクラ</li>
+      	<li class="page01_select_area">東海</li>
+        <li class="page01_select_genre">キャバクラ</li>
+      </ul>
+      </div>
+      
+    	<div class="shiborikomi_genre_02">
+      <h3>エリアを探す</h3>
+      <form action="submit.php" method="post" name="frm" class="form_box00">
+        <input type="hidden" value="contact" name="m">
+          <table class="shiborikomi_area_02">
+            <tbody>
+              <tr>
+                <th scope="row" colspan="2"><label><input class="" type="checkbox" name="b" value="">地域（県名など）</label></th>
+              </tr>
+              <tr>
+                <th scope="row"><label><input class="" type="checkbox" name="b" value="">詳細地域</label></th>
+                <td>
+                  <ul>
+                  <li><label><input class="" type="checkbox" name="b" value="">より詳細地域(店舗数)</label></li>
+                  <li><label><input class="" type="checkbox" name="b" value="">より詳細地域(店舗数)</label></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><label><input class="" type="checkbox" name="b" value="">詳細地域</label></th>
+                <td>
+                  <ul>
+                  <li><label><input class="" type="checkbox" name="b" value="">より詳細地域(店舗数)</label></li>
+                  <li><label><input class="" type="checkbox" name="b" value="">より詳細地域(店舗数)</label></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <p class="clearfix alncenter">
+        <a href="search.html"><img class="switch" src="img/btn_next_stor.png" alt="次へ進む"/></a>
+        </p>
+      </form>
+      </div>
+    </div>
+  </div>
+
+</div><!--/.contents-->
+</div><!--/mainbody-->
+
+</div><!--/.mainbodybg01-->
+</div><!--/.container-->
+<?PHP include( $_SERVER['DOCUMENT_ROOT']."/pc_test/tpl/footer.php");?>
+
+</body>
+</html>
